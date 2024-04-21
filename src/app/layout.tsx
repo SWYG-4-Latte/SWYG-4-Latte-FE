@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className={`flex items-center justify-center ${pretendard.variable} font-pretendard`} lang="kr">
-      <body className="h-screen w-[360px] bg-gray03 px-5">
+      <body className="w-[360px] bg-gray03">
         {children}
         <BottomNavigation />
       </body>
