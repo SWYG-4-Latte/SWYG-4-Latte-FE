@@ -51,10 +51,7 @@ const config: Config = {
         primaryRed: '#EB5252',
       },
       fontFamily: {
-        pretendard: 'Pretendard',
-        pretendard500: 'Pretendard-medium',
-        pretendard600: 'Pretendard-semiBold',
-        pretendard700: 'Pretendard-bold',
+        pretendard: ['var(--font-pretendard)'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
