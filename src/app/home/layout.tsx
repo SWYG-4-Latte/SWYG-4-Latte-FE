@@ -6,7 +6,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-full pb-20">
+    <div className="min-h-screen pb-20">
       <Header />
       {children}
     </div>
