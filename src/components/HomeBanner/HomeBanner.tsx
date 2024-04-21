@@ -16,7 +16,7 @@ const HomeBanner = () => {
       <BannerText isLoggedIn={isLoggedIn} />
       <Link href={isLoggedIn ? '/category' : '/login'}>
         <Button
-          className={`w-[${buttonWidth}px] whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium leading-[1.2]`}
+          className={`w-[${buttonWidth}px] whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium leading-normal`}
         >
           {buttonText}
         </Button>

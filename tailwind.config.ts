@@ -60,6 +60,9 @@ const config: Config = {
       boxShadow: {
         nav: '0 -4px 20px 0 rgba(0, 0, 0, 0.05)',
       },
+      lineHeight: {
+        normal: '1.2',
+      },
     },
   },
   plugins: [require('daisyui')],
