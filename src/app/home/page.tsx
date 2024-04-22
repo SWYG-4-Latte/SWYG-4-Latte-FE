@@ -3,7 +3,7 @@ import HomeBannerContainer from '@/container/Home/HomeBannerContainer';
 
 export default function HomePage() {
   return (
-    <div>
+    <div className="pt-14">
       <HomeBannerContainer />
       <DrinkHistoryContainer />
     </div>

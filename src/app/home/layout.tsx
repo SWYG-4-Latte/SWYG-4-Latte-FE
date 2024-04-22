@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import HomeHeader from '@/components/Header/HomeHeader';
 
 export default function HomeLayout({
   children,
@@ -7,7 +7,7 @@ export default function HomeLayout({
 }>) {
   return (
     <div className="min-h-screen pb-20">
-      <Header />
+      <HomeHeader />
       {children}
     </div>
   );

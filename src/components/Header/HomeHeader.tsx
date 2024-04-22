@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Header = () => {
+const HomeHeader = () => {
   return (
-    <header className="flex h-14 justify-between space-x-44 bg-primaryIvory pl-5 pr-[22px]">
+    <header className="fixed z-10 flex h-14 justify-between space-x-44 bg-primaryIvory pl-5 pr-[22px]">
       {/* 로고 이미지 변경 예정 */}
       <Image src="/svgs/logo.svg" width={78} height={40} alt="로고" className="my-2" />
       <div className="my-4 flex gap-4">
@@ -18,4 +18,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HomeHeader;
