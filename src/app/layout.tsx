@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../styles/globals.css";
+import type { Metadata } from 'next';
+
+import '../styles/globals.css';
+import BottomNavigation from '@/components/BottomNavigation/BottomNavigation';
+import { pretendard } from '@/styles/fonts';
 
 export const metadata: Metadata = {
-  title: "LatteFit",
-  description: "",
+  title: 'LatteFit',
+  description: '',
 };
 
 export default function RootLayout({
@@ -13,9 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="flex justify-center items-center" lang="kr">
-      <body className="w-[360px] h-screen bg-gray03 px-5">
+    <html className={`flex items-center justify-center ${pretendard.variable} font-pretendard`} lang="kr">
+      <body className="h-screen w-[360px] bg-gray03 px-5">
         {children}
+        <BottomNavigation />
       </body>
     </html>
   );
