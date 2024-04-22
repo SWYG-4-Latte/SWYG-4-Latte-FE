@@ -39,7 +39,7 @@ const BannerText = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
         <span className="text-primaryOrange">총 {todayCaffeineAmount}mg</span>
         <span>이에요</span>
       </p>
-      <p className="text-xs leading-[1.2] text-gray08">{displayText}</p>
+      <p className="text-xs text-gray08">{displayText}</p>
     </div>
   );
 };

@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={`flex items-center justify-center ${pretendard.variable} font-pretendard`} lang="kr">
-      <body className="w-[360px] bg-gray03">
+    <html className="flex items-center justify-center" lang="kr">
+      <body className={`w-[360px] bg-gray03 ${pretendard.variable} font-pretendard leading-normal -tracking-[0.01em]`}>
         {children}
         <BottomNavigation />
       </body>

@@ -15,9 +15,7 @@ const HomeBanner = () => {
     <div className="h-[188px] w-80 rounded-[12px] border border-primaryAmber bg-primaryBeige pl-5 pt-6">
       <BannerText isLoggedIn={isLoggedIn} />
       <Link href={isLoggedIn ? '/category' : '/login'}>
-        <Button
-          className={`w-[${buttonWidth}px] whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium leading-normal`}
-        >
+        <Button className={`w-[${buttonWidth}px] whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium`}>
           {buttonText}
         </Button>
       </Link>
