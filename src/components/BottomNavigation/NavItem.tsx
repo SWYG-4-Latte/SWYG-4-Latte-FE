@@ -35,7 +35,7 @@ const NavItem = ({ path, name }: NavItemProps) => {
     <div className="flex w-[68px] justify-center">
       <Link href={path} className="flex flex-col items-center justify-center">
         <NavIcon className={color} />
-        <span className={`${color} mt-1 text-xs tracking-[-0.12px]`}>{name}</span>
+        <span className={`${color} mt-1 h-[14px] text-xs leading-normal tracking-[-0.12px]`}>{name}</span>
       </Link>
     </div>
   );
