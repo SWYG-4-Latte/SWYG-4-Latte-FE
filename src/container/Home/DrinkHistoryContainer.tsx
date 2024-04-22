@@ -1,9 +1,24 @@
-import DrinkHistoryCard from '@/components/DrinkHistory/DrinkHistoryCard';
-import EmptyCard from '@/components/DrinkHistory/EmptyCard';
 import Image from 'next/image';
 
+import DrinkHistorySwiper from '@/components/DrinkHistory/DrinkHistorySwiper';
+import EmptyCard from '@/components/DrinkHistory/EmptyCard';
+import { DrinkHistoryData } from '@/types/home/drinkHistory';
+
 const DrinkHistoryContainer = () => {
-  const drinkHistory = {};
+  const drinkHistory: DrinkHistoryData[] = [
+    {
+      id: 'a123',
+      name: '아메리카노',
+      brand: '스타벅스',
+      caffeineAmount: 150,
+    },
+    {
+      id: 'temp',
+      name: '아포카토',
+      brand: '스타벅스',
+      caffeineAmount: 150,
+    },
+  ];
 
   return (
     <div className="flex-col items-center bg-gray03 py-4">
@@ -14,9 +29,8 @@ const DrinkHistoryContainer = () => {
           <Image src="/svgs/arrow-orange.svg" alt="카페인 비교하러 가기" width={14} height={14} />
         </div>
       </div>
-      <div className="flex items-center justify-center">
-        {/* {Swiper 추가} */}
-        <DrinkHistoryCard />
+      <div className="mt-2 flex items-center justify-center">
+        {drinkHistory.length === 0 ? <EmptyCard /> : <DrinkHistorySwiper slideData={drinkHistory} />}
       </div>
     </div>
   );
