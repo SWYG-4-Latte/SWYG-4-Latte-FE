@@ -1,6 +1,4 @@
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
-}
+import { ButtonProps } from '@/types/home/button';
 
 const Button = ({ className, children, ...props }: ButtonProps) => {
   return (
