@@ -7,7 +7,7 @@ const RankingContainer = () => {
       img: 'src',
     },
     {
-      name: '투썸',
+      name: '투썸플레이스',
       img: 'src',
     },
     {
@@ -15,7 +15,7 @@ const RankingContainer = () => {
       img: 'src',
     },
     {
-      name: '컴포즈',
+      name: '컴포즈커피',
       img: 'src',
     },
     {

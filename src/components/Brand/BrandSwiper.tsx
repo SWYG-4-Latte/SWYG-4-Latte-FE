@@ -24,7 +24,6 @@ const BrandSwiper = ({ slideData }: { slideData: CafeBrand[] }) => {
       {slideData.map((data, idx) => (
         <SwiperSlide
           key={idx}
-          className="max-w-12"
           onClick={() => {
             setSelectedBrandIdx(idx);
           }}

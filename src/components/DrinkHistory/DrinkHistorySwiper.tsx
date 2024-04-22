@@ -18,12 +18,12 @@ const DrinkHistorySwiper = ({ slideData }: { slideData: DrinkHistoryData[] }) =>
       slidesOffsetAfter={20}
     >
       {slideData.map((data) => (
-        <SwiperSlide key={data.id} className="max-w-[229px]">
+        <SwiperSlide key={data.id}>
           <DrinkHistoryCard drinkHistoryData={data} isEmpty={false} />
         </SwiperSlide>
       ))}
       {slideData.length === 1 && (
-        <SwiperSlide className="max-w-[229px]">
+        <SwiperSlide>
           <DrinkHistoryCard isEmpty={true} />
         </SwiperSlide>
       )}
