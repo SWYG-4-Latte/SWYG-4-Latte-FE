@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { NavItemProps } from '@/types/navigation';
+import { NavItemProps } from '@/types/layout/navigation';
 import { NAV_ICON } from '@/constants/navIcon';
 
 const NavItem = ({ path, name }: NavItemProps) => {
