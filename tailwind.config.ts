@@ -61,7 +61,14 @@ const config: Config = {
         nav: '0 -4px 20px 0 rgba(0, 0, 0, 0.05)',
       },
       lineHeight: {
-        normal: '1.2',
+        normal: 'normal',
+      },
+      fontSize: {
+        xs: ['12px', 'normal'],
+        sm: ['14px', 'normal'],
+        base: ['16px', 'normal'],
+        lg: ['18px', 'normal'],
+        xl: ['20px', 'normal'],
       },
     },
   },
