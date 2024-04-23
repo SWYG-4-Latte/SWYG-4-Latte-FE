@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 
-import BrandSwiper from '@/components/Brand/BrandSwiper';
-import BadgeButton from '@/components/DrinkRanking/BadgeButton';
+import BrandSwiper from '@/components/home/BrandSwiper';
+import BadgeButton from '@/components/home/drinkRanking/BadgeButton';
 import { BADGE_TEXT } from '@/constants/home/filterBadge';
-import RankingList from '@/components/DrinkRanking/RankingList';
+import RankingList from '@/components/home/drinkRanking/RankingList';
 
 const brandList = [
   {

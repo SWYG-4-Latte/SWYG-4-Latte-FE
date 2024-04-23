@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import Button from '../Button/Button';
+import Button from '../../common/button/Button';
 import BannerText from './BannerText';
 
 const HomeBanner = () => {

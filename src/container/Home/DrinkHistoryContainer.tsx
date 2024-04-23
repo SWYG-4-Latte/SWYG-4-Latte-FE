@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
-import DrinkHistorySwiper from '@/components/DrinkHistory/DrinkHistorySwiper';
-import EmptyCard from '@/components/DrinkHistory/EmptyCard';
+import EmptyCard from '@/components/home/drinkHistory/EmptyCard';
 import { DrinkHistoryData } from '@/types/home/drinkHistory';
+import DrinkHistorySwiper from '@/components/home/drinkHistory/DrinkHistorySwiper';
 
 const DrinkHistoryContainer = () => {
   const drinkHistory: DrinkHistoryData[] = [
