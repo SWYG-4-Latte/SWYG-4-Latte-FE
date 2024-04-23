@@ -4,19 +4,18 @@
 
 @layer components {
   .flex-all-center {
-    @apply flex items-center justify-center
+    @apply flex items-center justify-center;
   }
   .flex-i-center {
-    @apply flex items-center
+    @apply flex items-center;
   }
   .flex-j-center {
-    @apply flex justify-normal
+    @apply flex justify-normal;
   }
 }
 
-
-@layer base { 
-  @font-face{
+@layer base {
+  @font-face {
     font-family: Pretendard;
     src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
     font-weight: 400;
@@ -25,7 +24,7 @@
   }
 }
 
-@font-face{
+@font-face {
   font-family: Pretendard;
   src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
   font-weight: 400;
@@ -33,7 +32,7 @@
   font-style: normal;
 }
 
-@font-face{
+@font-face {
   font-family: Pretendard-medium;
   src: url('/fonts/Pretendard-Medium.woff2') format('woff2');
   font-weight: 500;
@@ -41,7 +40,7 @@
   font-style: normal;
 }
 
-@font-face{
+@font-face {
   font-family: Pretendard-semiBold;
   src: url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
   font-weight: 600;
@@ -49,7 +48,7 @@
   font-style: normal;
 }
 
-@font-face{
+@font-face {
   font-family: Pretendard-bold;
   src: url('/fonts/Pretendard-Bold.woff2') format('woff2');
   font-weight: 700;
@@ -57,3 +56,6 @@
   font-style: bold;
 }
 
+.swiper-slide {
+  @apply w-fit !important;
+}
