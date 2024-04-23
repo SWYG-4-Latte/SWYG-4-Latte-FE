@@ -1,4 +1,4 @@
 export interface CafeBrand {
-  name: string;
-  img: string;
+  brandName: string;
+  imageUrl: string;
 }
