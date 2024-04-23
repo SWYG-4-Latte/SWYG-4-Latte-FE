@@ -1,8 +1,9 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export default function LoginPage() {
   return (
-    <div className="w-full h-[504px]">
+    <div className="w-full h-screen px-5">
       <section className="flex-i-center w-full h-[54px]">
         <Image
           src="/svgs/svg_leftArrow.svg"
@@ -31,12 +32,12 @@ export default function LoginPage() {
           <input 
             type="text"
             placeholder="아이디"
-            className="px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] border border-gray05 placeholder:text-gray05"
+            className="px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 border border-gray05 placeholder:text-gray05"
           />
           <input 
             type="password"
             placeholder="비밀번호"
-            className="px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] border border-gray05 placeholder:text-gray05"
+            className="px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 border border-gray05 placeholder:text-gray05"
           />
           <button className="w-[320px] h-[50px] bg-orange02 rounded-md text-gray06">로그인</button>
         </form>
@@ -47,7 +48,11 @@ export default function LoginPage() {
           <div className="mx-4 w-[1px] h-[12px] border-l border-gray06"/>
           <div >비밀번호찾기</div>
           <div className="mx-4 w-[1px] h-[12px] border-l border-gray06"/>
-          <div >회원가입</div>
+          <div >
+            <Link href="/member/signup">
+              회원가입
+            </Link>
+          </div>
         </div>
       </section>
     </div>
