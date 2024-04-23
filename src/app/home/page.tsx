@@ -1,6 +1,6 @@
-import DrinkHistoryContainer from '@/container/Home/DrinkHistoryContainer';
-import HomeBannerContainer from '@/container/Home/HomeBannerContainer';
-import RankingContainer from '@/container/Home/RankingContainer';
+import DrinkHistoryContainer from '@/container/home/DrinkHistoryContainer';
+import HomeBannerContainer from '@/container/home/HomeBannerContainer';
+import RankingContainer from '@/container/home/RankingContainer';
 
 export default function HomePage() {
   return (

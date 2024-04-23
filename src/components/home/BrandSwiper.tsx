@@ -6,7 +6,7 @@ import { FreeMode } from 'swiper/modules';
 import 'swiper/css';
 
 import { CafeBrand } from '@/types/home/brand';
-import Brand from './Brand';
+import Brand from '../common/Brand';
 
 const BrandSwiper = ({ slideData }: { slideData: CafeBrand[] }) => {
   const [selectedBrandIdx, setSelectedBrandIdx] = useState<number>(0);

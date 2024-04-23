@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import '../styles/globals.css';
-import BottomNavigation from '@/components/BottomNavigation/BottomNavigation';
+import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
 import { pretendard } from '@/styles/fonts';
 
 export const metadata: Metadata = {
