@@ -70,6 +70,9 @@ const config: Config = {
         lg: ['18px', 'normal'],
         xl: ['20px', 'normal'],
       },
+      gradientColorStopPositions: {
+        66.15: '66.15%',
+      },
     },
   },
   plugins: [require('daisyui')],
