@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 
 import '../styles/globals.css';
-import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
 import { pretendard } from '@/styles/fonts';
+import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
+import ToastMessageContainer from '@/components/common/ToastMessageContainer';
 
 export const metadata: Metadata = {
   title: 'LatteFit',
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body className={`layout ${pretendard.className}`}>
         {children}
         {/* <BottomNavigation /> */}
+        <ToastMessageContainer />
       </body>
     </html>
   );

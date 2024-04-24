@@ -59,6 +59,7 @@ const config: Config = {
       },
       boxShadow: {
         nav: '0 -4px 20px 0 rgba(0, 0, 0, 0.05)',
+        toast: '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
       },
       lineHeight: {
         normal: 'normal',

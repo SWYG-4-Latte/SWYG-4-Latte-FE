@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import ComparisonItem from '@/components/menuDetail/ComparisonItem';
 import { Menu } from '@/types/home/menu';
@@ -30,7 +31,7 @@ const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
 
     const contains = comparedDrinks.some((drink) => drink?.menuNo === menu.menuNo);
     if (contains) {
-      // 이미 담은 제품이에요 Toast 메시지
+      toast('이미 담은 제품이에요', { toastId: 'already-exists' });
       return;
     }
 
@@ -39,6 +40,7 @@ const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
     setComparedDrinks((prev) => {
       return prev.map((drink, idx) => (idx === addIndex ? menu : drink));
     });
+    toast('비교함에 담았어요', { toastId: 'successfully-added' });
   };
 
   return (

@@ -63,3 +63,11 @@
 .swiper-slide {
   @apply w-fit !important;
 }
+
+:root {
+  --toastify-font-family: Pretendard;
+}
+
+.Toastify__toast {
+  margin-bottom: 0;
+}
