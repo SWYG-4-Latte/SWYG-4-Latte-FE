@@ -12,6 +12,12 @@ export interface MenuDetail extends Menu {
   lowCaffeineMenus: Menu[];
 }
 
+export interface ComparedMenu extends Menu {
+  allergy: string;
+  kcal: string;
+  price: string;
+}
+
 export interface Nutrient {
   kcal: string;
   sugar: string;
