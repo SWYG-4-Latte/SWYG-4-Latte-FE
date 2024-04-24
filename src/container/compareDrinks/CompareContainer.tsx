@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { ComparedMenu } from '@/types/home/menu';
 import DrinkInfo from '@/components/compareDrinks/DrinkInfo';
+import ComparisonTable from '@/components/compareDrinks/ComparisonTable';
 
 const CompareContainer = () => {
   const [comparedDrinks, setComparedDrinks] = useState<(ComparedMenu | null)[]>([
@@ -28,11 +29,12 @@ const CompareContainer = () => {
 
   return (
     <div className="pt-14">
-      <div className="mt-[38px] flex justify-end px-[37px]">
+      <div className="mb-5 mt-[38px] flex justify-evenly pl-[93px] pr-[37px]">
         <DrinkInfo drink={comparedDrinks[0]} onDelete={handleDeleteComparisonItem} />
-        <div className="mx-[30px] mt-2 h-16 w-px bg-gray04" />
+        <div className="mx-5 mt-2 h-16 w-px bg-gray04" />
         <DrinkInfo drink={comparedDrinks[1]} onDelete={handleDeleteComparisonItem} />
       </div>
+      <ComparisonTable drinks={comparedDrinks} />
     </div>
   );
 };
