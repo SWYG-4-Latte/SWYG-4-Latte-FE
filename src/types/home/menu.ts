@@ -6,6 +6,7 @@ export interface Menu {
   caffeine?: string;
   nutrient?: Nutrient;
   allergy?: string;
+  price?: string;
 }
 
 export interface Nutrient {
