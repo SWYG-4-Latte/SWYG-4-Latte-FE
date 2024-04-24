@@ -15,6 +15,10 @@
 }
 
 @layer base {
+  .layout {
+    @apply mx-auto min-h-dvh w-full max-w-[500px] bg-gray03 font-pretendard leading-normal -tracking-[0.01em];
+  }
+
   @font-face {
     font-family: Pretendard;
     src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
