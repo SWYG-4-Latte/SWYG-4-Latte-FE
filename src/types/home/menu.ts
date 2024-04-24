@@ -4,9 +4,12 @@ export interface Menu {
   imageUrl: string;
   brand?: string;
   caffeine?: string;
-  nutrient?: Nutrient;
-  allergy?: string;
-  price?: string;
+}
+
+export interface MenuDetail extends Menu {
+  nutrient: Nutrient;
+  price: string;
+  lowCaffeineMenus: Menu[];
 }
 
 export interface Nutrient {

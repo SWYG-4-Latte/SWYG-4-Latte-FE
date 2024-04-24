@@ -2,73 +2,31 @@ import Image from 'next/image';
 
 import NutrientInfo from '@/components/menuDetail/NutrientInfo';
 import { ellipsisText } from '@/utils/string';
+import { MenuDetail } from '@/types/home/menu';
 
-const SAMPLE_MENU = {
-  menuNo: 312,
-  brand: '빽다방',
-  menuName: '토피넛라떼(ICED)',
-  caffeine: '카페인 51mg',
-  price: '3500원',
-  nutrient: {
-    kcal: '469kcal',
-    sugar: '16g',
-    salt: '197mg',
-    protein: '8g',
-    satFat: '14g',
-  },
-  imageUrl: 'https://paikdabang.com/wp-content/uploads/2018/06/ICED-토피넛라떼-450x588.png',
-  lowCaffeineMenus: [
-    {
-      menuNo: 34,
-      menuName: 'ICE 쿠키초코라떼',
-      imageUrl: 'https://composecoffee.com/files/thumbnails/730/038/384x530.crop.jpg?t=1705464297',
-    },
-    {
-      menuNo: 49,
-      menuName: '팥절미 밀크쉐이크',
-      imageUrl: 'https://composecoffee.com/files/thumbnails/325/384x530.crop.jpg?t=1705466468',
-    },
-    {
-      menuNo: 216,
-      menuName: '골드키위주스',
-      imageUrl: 'https://www.ediya.com/files/menu/IMG_1647324243707.png',
-    },
-    {
-      menuNo: 342,
-      menuName: '레모네이드(ICED)',
-      imageUrl: 'https://paikdabang.com/wp-content/uploads/2018/06/레모네이드-450x588.png',
-    },
-  ],
-};
-
-const MenuInfoContainer = ({ menuNo }: { menuNo: number }) => {
-  // TODO: meunNo으로 상세 정보 조회하기
-  const menuData = SAMPLE_MENU;
-
+const MenuInfoContainer = ({ menu }: { menu: MenuDetail }) => {
   return (
     <div>
       <div className="flex h-[260px] items-center justify-center overflow-hidden">
         <Image
-          src={menuData.imageUrl}
+          src={menu.imageUrl}
           priority
           width={0}
           height={0}
           sizes="100vw"
           className="h-full w-[360px]"
-          alt={menuData.menuName}
+          alt={menu.menuName}
         />
       </div>
       <div className="flex-col bg-primaryIvory px-5 py-4">
-        <div className="text-xs text-primaryOrange">{menuData.brand}</div>
+        <div className="text-xs text-primaryOrange">{menu.brand}</div>
         <div className="my-2">
-          <div className="text-[22px] font-semibold leading-[30px] text-gray10">
-            {ellipsisText(menuData.menuName, 15)}
-          </div>
+          <div className="text-[22px] font-semibold leading-[30px] text-gray10">{ellipsisText(menu.menuName, 15)}</div>
           <div className="my-2">
             <div className="flex items-center font-medium text-gray08">
-              <div>{menuData.caffeine}</div>
+              <div>{menu.caffeine}</div>
               <div className="mx-2 h-3 w-px bg-[#D9D9D9]" />
-              <div>{menuData.price}</div>
+              <div>{menu.price}</div>
             </div>
           </div>
           <div className="flex items-center text-sm text-gray08">
@@ -80,7 +38,7 @@ const MenuInfoContainer = ({ menuNo }: { menuNo: number }) => {
           </div>
         </div>
       </div>
-      <NutrientInfo nutrient={menuData.nutrient} />
+      <NutrientInfo nutrient={menu.nutrient} />
     </div>
   );
 };
