@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import NutrientInfo from '@/components/menuDetail/NutrientInfo';
+import { ellipsisText } from '@/utils/string';
 
 const SAMPLE_MENU = {
   menuNo: 312,
@@ -60,7 +61,9 @@ const MenuInfoContainer = ({ menuNo }: { menuNo: number }) => {
       <div className="flex-col bg-primaryIvory px-5 py-4">
         <div className="text-xs text-primaryOrange">{menuData.brand}</div>
         <div className="my-2">
-          <div className="text-[22px] font-semibold leading-[30px] text-gray10">{menuData.menuName}</div>
+          <div className="text-[22px] font-semibold leading-[30px] text-gray10">
+            {ellipsisText(menuData.menuName, 15)}
+          </div>
           <div className="my-2">
             <div className="flex items-center font-medium text-gray08">
               <div>{menuData.caffeine}</div>
