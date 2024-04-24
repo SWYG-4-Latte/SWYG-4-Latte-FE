@@ -13,7 +13,7 @@ Tailwindcss         # NEXT 설치 시 기본 설정
 Daisyui             # npm i -D daisyui@latest
 Axios               # npm i axios
 
-
+Zustand             # npm i zustand
 ```
 
 ## Projects Folder Explanation
