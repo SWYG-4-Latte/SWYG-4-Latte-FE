@@ -10,13 +10,13 @@ const ComparisonItem = ({ drink, onDelete }: { drink: Menu | null; onDelete: ((m
   };
 
   return (
-    <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden ">
+    <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden">
       <Image
         src={drink ? drink.imageUrl : '/svgs/beverage.svg'}
         width={0}
         height={0}
         sizes="100vw"
-        className="h-full w-20 rounded-full"
+        className="h-full w-20 rounded-full bg-primaryBeige"
         alt="비교함 음료"
       />
       {drink && (

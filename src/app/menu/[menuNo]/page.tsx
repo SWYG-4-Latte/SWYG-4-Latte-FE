@@ -1,5 +1,6 @@
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
 import CaffeineComparisonContainer from '@/container/menuDetail/CaffeineComparisonContainer';
+import LowerCaffeineMenuContainer from '@/container/menuDetail/LowerCaffeineMenuContainer';
 import MenuInfoContainer from '@/container/menuDetail/MenuInfoContainer';
 import { Menu } from '@/types/home/menu';
 
@@ -50,6 +51,7 @@ export default function MenuDetailPage({ params }: { params: { menuNo: string } 
       <MenuInfoContainer menu={menu} />
       <CaffeineComparisonContainer menu={menu} />
       <FooterGradientButton>오늘 마신 카페인으로 기록하기</FooterGradientButton>
+      <LowerCaffeineMenuContainer menus={menu.lowCaffeineMenus} />
     </div>
   );
 }
