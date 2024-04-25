@@ -25,20 +25,18 @@ const recentDrinks = [
 
 const RecentDrinksContainer = () => {
   return (
-    <div>
-      <div className="bg-primaryIvory px-5 pb-[30px] pt-4">
-        <div className="flex items-center justify-between">
-          <div className="font-medium text-gray10">최근 확인한 음료</div>
-          <button className="flex h-[30px] items-center whitespace-nowrap rounded-md border border-gray05 px-4 py-2 text-xs text-gray08">
-            다른 음료 더보기
-          </button>
-        </div>
+    <div className="bg-gray02 px-5 pb-[30px] pt-4">
+      <div className="flex items-center justify-between">
+        <div className="font-medium text-gray10">최근 확인한 음료</div>
+        <button className="flex h-[30px] items-center whitespace-nowrap rounded-md border border-gray05 px-4 py-2 text-xs text-gray08">
+          다른 음료 더보기
+        </button>
+      </div>
 
-        <div className="mt-3 flex justify-between">
-          {recentDrinks.map((menu) => (
-            <DrinkItem key={menu.menuNo} menuName={menu.menuName} imageUrl={menu.imageUrl} />
-          ))}
-        </div>
+      <div className="mt-3 flex justify-between">
+        {recentDrinks.map((menu) => (
+          <DrinkItem key={menu.menuNo} menuName={menu.menuName} imageUrl={menu.imageUrl} />
+        ))}
       </div>
     </div>
   );

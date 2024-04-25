@@ -29,9 +29,9 @@ const CompareContainer = () => {
 
   return (
     <div className="pt-14">
-      <div className="mb-5 mt-[38px] flex justify-evenly pl-[93px] pr-[37px]">
+      <div className="mb-5 mt-[38px] flex pl-[67px] pr-[20px]">
         <DrinkInfo drink={comparedDrinks[0]} onDelete={handleDeleteComparisonItem} />
-        <div className="mx-5 mt-2 h-16 w-px bg-gray04" />
+        <div className="mt-2 h-16 w-px bg-gray04" />
         <DrinkInfo drink={comparedDrinks[1]} onDelete={handleDeleteComparisonItem} />
       </div>
       <ComparisonTable drinks={comparedDrinks} />

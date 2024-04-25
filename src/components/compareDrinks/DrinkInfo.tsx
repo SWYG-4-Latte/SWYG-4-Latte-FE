@@ -21,10 +21,11 @@ const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: 
   if (isHovered) defaultImgSrc = '/svgs/beverage-hover.svg';
 
   return (
-    <div className="relative flex h-[118px] w-[100px] flex-col items-center justify-center gap-2">
-      <div>
+    <div className="flex h-[118px] flex-1 flex-col items-center justify-center gap-2">
+      <div className="relative">
         <Image
           src={drink ? drink.imageUrl : defaultImgSrc}
+          priority
           width={0}
           height={0}
           sizes="100vw"
@@ -37,8 +38,8 @@ const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: 
           }}
         />
         {drink && (
-          <button onClick={handleDelete} className="absolute right-[10px] top-2">
-            <Image src="/svgs/delete-icon.svg" width={16} height={16} alt="비교함에서 삭제" />
+          <button onClick={handleDelete} className="absolute right-0 top-2">
+            <Image priority src="/svgs/delete-icon.svg" width={16} height={16} alt="비교함에서 삭제" />
           </button>
         )}
       </div>
