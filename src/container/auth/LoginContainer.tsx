@@ -49,7 +49,7 @@ export default function LoginContainer() {
           <div >비밀번호찾기</div>
           <div className="mx-4 w-[1px] h-[12px] border-l border-gray06"/>
           <div >
-            <Link href="/member/signup">
+            <Link href="/auth/signup">
               회원가입
             </Link>
           </div>

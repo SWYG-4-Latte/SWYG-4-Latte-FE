@@ -1,7 +1,7 @@
 // Library
 import { create } from "zustand";
 // TypeScript
-import { ISignupState } from '../types/member-signup/i-SignupState';
+import { ISignupState } from '../types/auth-signup/i-SignupState';
 
 const useSignupStore = create<ISignupState>((set)=> ({
   mbrId: undefined,
@@ -21,7 +21,7 @@ const useSignupStore = create<ISignupState>((set)=> ({
   currentStep: 1,
   setField: (field, value) => set((state) => ({ ...state, [field]: value })),
   goToNextStep: () => set((state) => ({ 
-    currentStep: state.currentStep < 4 ? state.currentStep + 1 : 4
+    currentStep: state.currentStep < 5 ? state.currentStep + 1 : 5
   })),
   goToPrevStep: () => set((state) => ({ 
     currentStep: state.currentStep > 1 ? state.currentStep - 1  : 1
