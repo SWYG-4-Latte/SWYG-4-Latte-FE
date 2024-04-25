@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function LoginContainer() {
   return (
-    <div className="w-full h-screen px-5">
+    <div className="w-full h-screen">
       <section className="flex-i-center w-full h-[54px]">
         <Image
           src="/svgs/svg_leftArrow.svg"
