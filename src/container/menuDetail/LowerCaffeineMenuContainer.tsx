@@ -1,7 +1,5 @@
-import Image from 'next/image';
-
 import { Menu } from '@/types/home/menu';
-import { ellipsisText } from '@/utils/string';
+import DrinkItem from '@/components/common/drink/DrinkItem';
 
 const LowerCaffeineMenuContainer = ({ menus }: { menus: Menu[] }) => {
   return (
@@ -9,20 +7,7 @@ const LowerCaffeineMenuContainer = ({ menus }: { menus: Menu[] }) => {
       <div className="font-medium text-gray10">낮은 카페인 함량의 음료를 찾고 있다면?</div>
       <div className="mt-3 flex justify-between">
         {menus.map((menu) => (
-          <div key={menu.menuNo} className="flex flex-col items-center justify-center gap-2">
-            <div className="flex h-[68px] w-[68px] items-center justify-center overflow-hidden rounded-full bg-primaryBeige">
-              <Image
-                src={menu.imageUrl}
-                alt={menu.menuName}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="h-auto w-full"
-              />
-            </div>
-
-            <div className="whitespace-nowrap text-xs text-gray08">{ellipsisText(menu.menuName, 10)}</div>
-          </div>
+          <DrinkItem key={menu.menuNo} menuName={menu.menuName} imageUrl={menu.imageUrl} />
         ))}
       </div>
     </div>

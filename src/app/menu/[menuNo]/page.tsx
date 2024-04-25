@@ -1,4 +1,5 @@
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
+import NavigationHeader from '@/components/common/header/NavigationHeader';
 import CaffeineComparisonContainer from '@/container/menuDetail/CaffeineComparisonContainer';
 import LowerCaffeineMenuContainer from '@/container/menuDetail/LowerCaffeineMenuContainer';
 import MenuInfoContainer from '@/container/menuDetail/MenuInfoContainer';
@@ -47,11 +48,14 @@ export default function MenuDetailPage({ params }: { params: { menuNo: string } 
   const menu = SAMPLE_MENU;
 
   return (
-    <div className="pt-14">
-      <MenuInfoContainer menu={menu} />
-      <CaffeineComparisonContainer menu={menu} />
-      <FooterGradientButton>오늘 마신 카페인으로 기록하기</FooterGradientButton>
-      <LowerCaffeineMenuContainer menus={menu.lowCaffeineMenus} />
-    </div>
+    <main>
+      <NavigationHeader />
+      <div className="pb-24 pt-14">
+        <MenuInfoContainer menu={menu} />
+        <CaffeineComparisonContainer menu={menu} />
+        <FooterGradientButton>오늘 마신 카페인으로 기록하기</FooterGradientButton>
+        <LowerCaffeineMenuContainer menus={menu.lowCaffeineMenus} />
+      </div>
+    </main>
   );
 }
