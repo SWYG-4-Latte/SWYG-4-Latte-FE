@@ -40,7 +40,7 @@ button.react-calendar__navigation__arrow {
 
 /* 날짜(day) 타일 */
 .react-calendar__tile {
-  @apply flex h-11 justify-center text-nowrap bg-primaryIvory p-0;
+  @apply flex h-11 flex-col items-center text-nowrap bg-primaryIvory p-0;
 
   abbr {
     @apply flex h-6 w-6 items-center justify-center text-sm;
@@ -86,5 +86,5 @@ button.react-calendar__navigation__arrow {
 .react-calendar__decade-view__years__year,
 .react-calendar__year-view__months__month,
 .react-calendar__century-view__decades__decade {
-  @apply items-center;
+  @apply flex justify-center;
 }

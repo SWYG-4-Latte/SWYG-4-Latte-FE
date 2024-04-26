@@ -7,7 +7,7 @@ const MonthComparisonMessage = ({ status }: { status: '없음' | '같음' | '감
 
   return (
     <div className="absolute top-8 my-2 flex w-fit items-center rounded bg-gray03 px-2 py-1">
-      <span className="text-xs font-medium text-gray08">
+      <span className="text-xs font-medium text-[#6A737B]">
         {message}
         {(status === '증가' || status === '감소') && (
           <>
