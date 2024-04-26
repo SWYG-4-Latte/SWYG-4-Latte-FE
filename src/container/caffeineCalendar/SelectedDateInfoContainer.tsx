@@ -7,7 +7,7 @@ import { SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
 
 const SelectedDateInfoContainer = ({ selectedDate, data }: { selectedDate: Date; data: SelectedDateInfoType }) => {
   return (
-    <div className="flex flex-col gap-3 border-t border-gray04 px-5 pb-28 pt-5">
+    <div className="flex flex-grow flex-col gap-3 overflow-y-auto border-t border-gray04 px-5 pb-28 pt-5">
       <div className="flex justify-between">
         <span className="text-sm text-gray08">{formatDate(selectedDate)}</span>
         <IntakeStandardInfo />
@@ -24,7 +24,7 @@ const SelectedDateInfoContainer = ({ selectedDate, data }: { selectedDate: Date;
         )}
       </div>
       {data.caffeine && (
-        <div className="flex h-[50px] items-center justify-between rounded-lg border border-gray05 bg-primaryIvory pl-5 pr-4">
+        <div className="flex h-[50px] items-center justify-between rounded-lg border border-gray05 bg-primaryIvory py-4 pl-5 pr-4">
           <div className="text-sm text-gray08">하루 총 카페인 섭취량</div>
           <div className="text-sm text-gray10">{data.caffeine}</div>
         </div>
