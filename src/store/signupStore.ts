@@ -1,4 +1,4 @@
-// Library
+// Zustand
 import { create } from "zustand";
 // TypeScript
 import { ISignupState } from '../types/auth-signup/i-SignupState';
