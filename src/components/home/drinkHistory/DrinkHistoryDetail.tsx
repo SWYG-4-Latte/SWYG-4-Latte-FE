@@ -1,15 +1,14 @@
 import { DrinkHistoryDetailProps } from '@/types/home/drinkHistory';
+import { ellipsisText } from '@/utils/string';
 
 const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHistoryDetailProps) => {
-  const drinkName =
-    drinkHistoryData &&
-    (drinkHistoryData.name.length < 10 ? drinkHistoryData.name : drinkHistoryData.name.slice(0, 10) + '...');
-
   return (
     <div className="flex gap-2 px-4 py-[15px]">
       <div className="h-12 w-12 rounded-full bg-gray04" />
       <div className="flex flex-col justify-center gap-2">
-        <div className="text-sm font-medium text-gray10">{drinkHistoryData ? drinkName : heading}</div>
+        <div className="text-sm font-medium text-gray10">
+          {drinkHistoryData ? ellipsisText(drinkHistoryData.name, 10) : heading}
+        </div>
         <div className="flex items-center text-xs text-gray08">
           {drinkHistoryData ? (
             <>

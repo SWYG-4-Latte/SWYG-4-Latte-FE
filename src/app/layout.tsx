@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 
 import '../styles/globals.css';
-import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
 import { pretendard } from '@/styles/fonts';
+import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
+import ToastMessageContainer from '@/components/common/ToastMessageContainer';
 
 export const metadata: Metadata = {
   title: 'LatteFit',
@@ -15,10 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="flex items-center justify-center" lang="kr">
-      <body className={`w-[360px] bg-gray03 ${pretendard.variable} font-pretendard leading-normal -tracking-[0.01em]`}>
+    <html lang="kr">
+      <body className={`layout ${pretendard.className}`}>
         {children}
-        <BottomNavigation />
+        {/* <BottomNavigation /> */}
+        <ToastMessageContainer />
       </body>
     </html>
   );

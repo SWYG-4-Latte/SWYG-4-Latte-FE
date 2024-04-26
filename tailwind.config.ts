@@ -59,6 +59,7 @@ const config: Config = {
       },
       boxShadow: {
         nav: '0 -4px 20px 0 rgba(0, 0, 0, 0.05)',
+        toast: '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
       },
       lineHeight: {
         normal: 'normal',
@@ -69,6 +70,9 @@ const config: Config = {
         base: ['16px', 'normal'],
         lg: ['18px', 'normal'],
         xl: ['20px', 'normal'],
+      },
+      gradientColorStopPositions: {
+        66.15: '66.15%',
       },
     },
   },
