@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import CaffeineCalendar from '@/components/caffeineCalendar/CaffeineCalendar';
+
 export default function CaffeineCalendarPage() {
   return (
     <main>
@@ -10,6 +12,7 @@ export default function CaffeineCalendarPage() {
           <Image src="/svgs/today-caffeine.svg" width={24} height={24} alt="오늘 마신 카페인 보기" />
         </Link>
       </header>
+      <CaffeineCalendar />
     </main>
   );
 }
