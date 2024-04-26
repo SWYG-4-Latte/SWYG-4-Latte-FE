@@ -1,4 +1,4 @@
-const MonthComparisonMessage = ({ status }: { status: '없음' | '같음' | '감소' | '증가' }) => {
+const MonthComparisonMessage = ({ status }: { status: string }) => {
   let message = '';
 
   if (status === '없음') message = '지난 달의 데이터가 없어요';
