@@ -1,0 +1,90 @@
+.react-calendar {
+  @apply flex w-full flex-col items-center justify-center border-none bg-primaryIvory font-pretendard;
+}
+
+/* 달력 헤더 (년/월 표시)*/
+.react-calendar__navigation {
+  @apply mb-[38px] flex h-[24px] items-center justify-center gap-2;
+}
+
+button.react-calendar__navigation__label {
+  @apply min-w-[120px];
+
+  span {
+    @apply whitespace-nowrap text-lg font-semibold text-gray10;
+  }
+}
+
+button.react-calendar__navigation__arrow {
+  @apply min-w-4;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  @apply bg-transparent;
+}
+
+/* 헤더 아래 view container(달력 부분)*/
+.react-calendar__viewContainer {
+  @apply px-[6px] pb-2;
+}
+
+/* 요일 */
+.react-calendar__month-view__weekdays {
+  @apply flex h-8 items-center border-b border-gray04 p-0 text-xs font-normal text-gray10;
+
+  abbr {
+    @apply no-underline;
+  }
+}
+
+/* 날짜(day) 타일 */
+.react-calendar__tile {
+  @apply flex h-11 flex-col items-center text-nowrap bg-primaryIvory p-0;
+
+  abbr {
+    @apply flex h-6 w-6 items-center justify-center text-sm;
+  }
+}
+
+.react-calendar__month-view__days__day {
+  @apply text-gray10;
+}
+
+/* 모바일에서 볼 때 hover 처리가 되는 문제 해결하기 위함*/
+@media (hover: hover) and (pointer: fine) {
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    @apply rounded border border-solid border-primaryOrange font-normal text-primaryOrange;
+  }
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  @apply bg-primaryIvory;
+}
+
+/* 선택한 날짜 타일 */
+.react-calendar__tile--active,
+.react-calendar__tile--active.react-calendar__tile--now,
+.react-calendar__tile--active:enabled:focus,
+.react-calendar__tile--active:enabled:hover {
+  @apply rounded border-none  bg-primaryAmber font-semibold text-gray00;
+}
+
+/* 오늘 날짜 타일*/
+.react-calendar__tile--now {
+  @apply bg-primaryIvory font-semibold text-primaryOrange;
+}
+
+/* 지난 달, 다음 달 날짜 타일 텍스트*/
+.react-calendar__month-view__days__day--neighboringMonth abbr {
+  @apply text-gray06;
+}
+
+/* 헤더 네비게이션(년/월) 선택 시 나오는 view tile */
+.react-calendar__decade-view__years__year,
+.react-calendar__year-view__months__month,
+.react-calendar__century-view__decades__decade {
+  @apply flex justify-center;
+}
