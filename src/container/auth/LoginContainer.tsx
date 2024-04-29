@@ -14,11 +14,6 @@ export default function LoginContainer() {
   const { usernameError, passwordError, validateUsername, validatePassword, usernameFocused, setUsernameFocused, passwordFocused, setPasswordFocused } = useAuthValidation();
   const isInputValid = username.trim() !== '' && password.trim() !== '';
 
-  console.log('usernameError', usernameError)
-  console.log('usernameFocused', usernameFocused)
-  console.log('isInvalid?', isInputValid)
-
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
     const { value } = e.target;
     if (type === 'username') {
@@ -44,7 +39,7 @@ export default function LoginContainer() {
   };
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen text-gray10">
       <section className="flex-i-center w-full h-[54px]">
         <Image
           src="/svgs/svg_leftArrow.svg"
@@ -80,11 +75,9 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('username', true)}
               onBlur={() => handleFocusChange('username', false)}
               placeholder="아이디"
-              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] text-gray10 bg-gray01 placeholder:text-gray05 outline-none br
-                          border ${usernameError ? 'border-primaryRed' : 'border-gray05'}
-                          focus:${usernameError ? 'border-primaryRed' : 'border-primaryOrange'}
-                          `
-                        }
+              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] text-gray10 bg-gray01 placeholder:text-gray05 outline-none
+                          border ${usernameError ? 'border-primaryRed' : (usernameFocused ? 'border-primaryOrange' : 'border-gray05')}
+                        `}
             />
             { usernameError &&  <p className="mt-2 text-xs text-primaryRed">{usernameError}</p> }
           </div>

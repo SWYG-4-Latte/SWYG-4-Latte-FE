@@ -4,22 +4,29 @@ import { create } from "zustand";
 import { ISignupState } from '../types/auth-signup/i-SignupState';
 
 const useSignupStore = create<ISignupState>((set)=> ({
+  username: '',
+  email: '',
+  nickname: '',
+  usernameValid: false,
+  emailValid: false,
+  nicknameValid: false,
+  currentStep: 1,
+
   mbrId: undefined,
   password: '',
   mbrName: undefined,
   age: 0,
-  nickname: '',
   imageUrl: undefined,
   allergies: [],
   caffeine: '0',
-  gender: 'male',
+  gender: 'M',
   cellPhone: undefined,
-  email: '',
   pregnancy: false,
   pregMonth: undefined,
   symptoms: [],
-  currentStep: 1,
+
   setField: (field, value) => set((state) => ({ ...state, [field]: value })),
+  setValidity: (field, isValid) => set((state) => ({ ...state, [field]: isValid })),
   goToNextStep: () => set((state) => ({ 
     currentStep: state.currentStep < 5 ? state.currentStep + 1 : 5
   })),

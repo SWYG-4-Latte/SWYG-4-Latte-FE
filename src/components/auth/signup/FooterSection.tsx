@@ -2,21 +2,39 @@
 
 // Zustand
 import useSignupStore from '@/store/signupStore'
+import useAuthValidation from '@/hooks/use-authValidation';
 
 export default function FooterSection() {
-  const { currentStep, goToNextStep } = useSignupStore();
+  const { username, email, nickname, usernameValid, emailValid, nicknameValid, goToNextStep, currentStep } = useSignupStore();
 
-
+  const isInputsFilled = username && email && nickname && usernameValid && emailValid && nicknameValid;
+  
   const renderedFooterSection = () => {
     switch(currentStep) {
       case 1:
+        return (
+          <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
+          <button 
+            onClick={goToNextStep}
+            disabled={!isInputsFilled}
+            className={`
+              w-[320px] h-[50px] rounded-md
+              ${isInputsFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}
+            `}>
+            계속하기
+          </button>
+          </section>
+        )
       case 2:
         return(
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
-
           <button 
             onClick={goToNextStep}
-            className="w-[320px] h-[50px] bg-orange02 rounded-md text-gray06">
+            disabled={!isInputsFilled}
+            className={`
+              w-[320px] h-[50px] bg-orange02 rounded-md text-gray06
+              '}
+            `}>
             계속하기
           </button>
           </section>

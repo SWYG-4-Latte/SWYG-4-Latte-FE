@@ -7,7 +7,7 @@ import FooterSection from "@/components/auth/signup/FooterSection";
 
 export default function SignupContainer() {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen text-gray10">
       <div className="w-full h-screen flex flex-col relative">
         <HeaderSection />
         {/* line 들어갈 공간 2px*/}

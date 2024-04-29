@@ -7,14 +7,49 @@ import { ISignupState } from "@/types/auth-signup/i-SignupState";
 import { IGenderState } from "@/types/auth-signup/i-GenderState";
 // Zustand
 import useSignupStore from '@/store/signupStore'
+// Hook
+import useAuthValidation from "@/hooks/use-authValidation";
 
 export default function ContentsSection() {
   const [gender, setGender] = useState<IGenderState['gender']>('')
+
   const { currentStep, setField } = useSignupStore();
+
+  const {
+    username, setUsername, validateUsername, setUsernameFocused, usernameFocused, usernameError,
+    email, setEmail, validateEmail, setEmailFocused, emailError,emailFocused,
+    nickname, setNickname, validateNickname, setNicknameFocused, nicknameError, nicknameFocused
+  } = useAuthValidation(true); // 중복 검사 활성화
   
-  const handleInputChange = <T extends keyof ISignupState>(field: T, value: ISignupState[T]) => {
-    setField(field, value)
+  const handleInputChange = (field: string, value: string) => {
+    if (field === 'username' || field === 'email' || field === 'nickname') {
+      setField(field as keyof ISignupState, value); 
+  
+      if (field === 'username') {
+        setUsername(value);
+        validateUsername(value);
+      } else if (field === 'email') {
+        setEmail(value);
+        validateEmail(value);
+      } else if (field === 'nickname') {
+        setNickname(value);
+        validateNickname(value);
+      }
+    }
   }
+
+  const handleFocusChange = (field: string, focused: boolean) => {
+    if (field === 'username' || field === 'email' || field === 'nickname') {
+      if (field === 'username') {
+        setUsernameFocused(focused);
+      } else if (field === 'email') {
+        setEmailFocused(focused);
+      } else if (field === 'nickname') {
+        setNicknameFocused(focused);
+      }
+    }
+  };
+
 
   const handleGenderSelect = (selectGender: IGenderState['gender']) => {
     setGender(selectGender)
@@ -29,33 +64,57 @@ export default function ContentsSection() {
           <form className="space-y-2">
             <p className="text-xs">아이디 입력</p>
             <div className="space-x-2">
-              <input 
-                type="text"
-                placeholder="아이디(6~ 12자 이내, 숫자/영문조합)"
-                className="px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] placeholder:tracking-tighter bg-gray01 border border-gray05 placeholder:text-gray05"
-              />
-              <button className="bg-gray04 text-gray06 w-[76px] h-[50px] rounded-md">
+            <input 
+                  type="text"
+                  value={username}
+                  onChange={(e) => handleInputChange('username', e.target.value)}
+                  onFocus={() => handleFocusChange('username', true)}
+                  onBlur={() => handleFocusChange('username', false)}
+                  placeholder="아이디(6~12자 이내, 숫자/영문조합)"
+                  className={`px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] placeholder:tracking-tighter bg-gray01 outline-none text-gray10
+                              border ${usernameError ? 'border-primaryRed' : (usernameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                />
+            <button
+                  className={`w-[76px] h-[50px] rounded-md 
+                  ${username ? "bg-gray09 text-gray00" : "bg-gray04 text-gray06"}`}
+            >
                 중복확인
               </button>
+              { usernameError &&  <p className="mt-2 text-xs text-primaryRed">{usernameError}</p> }
             </div>
             <p className="text-xs">이메일</p>
             <div >
-              <input 
-                type="text"
-                placeholder="ex) latte@example.com"
-                className="px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 border border-gray05 placeholder:text-gray05"
-              />
+            <input 
+                  type="email"
+                  value={email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  onFocus={() => handleFocusChange('email', true)}
+                  onBlur={() => handleFocusChange('email', false)}
+                  placeholder="ex) latte@example.com"
+                  className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                              border ${emailError ? 'border-primaryRed' : (emailFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                />
+                { emailError &&  <p className="mt-2 text-xs text-primaryRed">{emailError}</p> }
             </div>
             <p className="text-xs">닉네임</p>
             <div className="space-x-2">
-              <input 
-                type="email"
-                placeholder="한글 3자 이상, 8자 이하"
-                className="px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] bg-gray01 border border-gray05 placeholder:text-gray05"
-              />
-              <button className="bg-gray04 text-gray06 w-[76px] h-[50px] rounded-md">
+            <input 
+                  type="text"
+                  value={nickname}
+                  onChange={(e) => handleInputChange('nickname', e.target.value)}
+                  onFocus={() => handleFocusChange('nickname', true)}
+                  onBlur={() => handleFocusChange('nickname', false)}
+                  placeholder="한글 3자 이상, 8자 이하"
+                  className={`px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                              border ${nicknameError ? 'border-primaryRed' : (nicknameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                />
+            <button
+                  className={`w-[76px] h-[50px] rounded-md 
+                  ${nickname ? "bg-gray09 text-gray00" : "bg-gray04 text-gray06"}`}
+            >
                 중복확인
               </button>
+              { nicknameError &&  <p className="mt-2 text-xs text-primaryRed">{nicknameError}</p> }
             </div>
           </form>
         </section> 
