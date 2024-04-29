@@ -11,7 +11,7 @@ import { Menu } from '@/types/home/menu';
  * 검색에서만 사용: 가격
  */
 const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
-  const { menuNo, menuName, caffeine, brand, imageUrl } = drinkMenu;
+  const { menuNo, menuName, caffeine, brand, imageUrl, price } = drinkMenu;
 
   const router = useRouter();
 
@@ -29,6 +29,12 @@ const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
           <div className="rounded bg-primaryBeige px-2 py-1 text-xs text-orange09">{caffeine}</div>
           <div className="h-3 w-px bg-gray06" />
           <div className="text-sm text-gray08">{brand}</div>
+          {price && (
+            <>
+              <div className="h-3 w-px bg-gray06" />
+              <div className="text-sm text-gray08">{price.toLocaleString('ko-KR')}원</div>
+            </>
+          )}
         </div>
       </div>
     </li>

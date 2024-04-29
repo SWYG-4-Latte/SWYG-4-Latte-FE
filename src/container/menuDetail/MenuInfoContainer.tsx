@@ -26,7 +26,7 @@ const MenuInfoContainer = ({ menu }: { menu: MenuDetail }) => {
             <div className="flex items-center font-medium text-gray08">
               <div>{menu.caffeine}</div>
               <div className="mx-2 h-3 w-px bg-[#D9D9D9]" />
-              <div>{menu.price}</div>
+              <div>{menu.price.toLocaleString('ko-KR')}원</div>
             </div>
           </div>
           <div className="flex items-center text-sm text-gray08">
