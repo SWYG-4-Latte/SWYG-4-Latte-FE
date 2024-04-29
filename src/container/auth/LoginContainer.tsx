@@ -2,7 +2,7 @@
 // NEXT
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { } from "react"
 // Zustand
 import useLoginStore from "@/store/loginStore"
 // Hook
@@ -12,7 +12,12 @@ import useAuthValidation from "@/hooks/use-authValidation"
 export default function LoginContainer() {
   const { username, password, setUsername, setPassword } = useLoginStore();
   const { usernameError, passwordError, validateUsername, validatePassword, usernameFocused, setUsernameFocused, passwordFocused, setPasswordFocused } = useAuthValidation();
-  const isInputValid = !usernameError && !passwordError;
+  const isInputValid = username.trim() !== '' && password.trim() !== '';
+
+  console.log('usernameError', usernameError)
+  console.log('usernameFocused', usernameFocused)
+  console.log('isInvalid?', isInputValid)
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
     const { value } = e.target;
@@ -75,8 +80,11 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('username', true)}
               onBlur={() => handleFocusChange('username', false)}
               placeholder="아이디"
-              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 border ${usernameError ? 'border-primaryRed' : 'border-gray05'} placeholder:text-gray05 focus:${usernameError ? 'outline-primaryRed' : 'outline-primaryOrange'}`}
-              style={usernameError && usernameFocused ? { outline: '0.5px solid #EB5252' } : {}}
+              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] text-gray10 bg-gray01 placeholder:text-gray05 outline-none br
+                          border ${usernameError ? 'border-primaryRed' : 'border-gray05'}
+                          focus:${usernameError ? 'border-primaryRed' : 'border-primaryOrange'}
+                          `
+                        }
             />
             { usernameError &&  <p className="mt-2 text-xs text-primaryRed">{usernameError}</p> }
           </div>
@@ -88,8 +96,11 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('password', true)}
               onBlur={() => handleFocusChange('password', false)}
               placeholder="비밀번호"
-              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 border ${passwordError ? 'border-primaryRed' : 'border-gray05'} placeholder:text-gray05 focus:${passwordError ? 'outline-primaryRed' : 'outline-primaryOrange'}`}
-              style={passwordError ? { outline: '0.5px solid #EB5252' } : {}}
+              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] text-gray10 bg-gray01 placeholder:text-gray05 outline-none br
+                          border ${passwordError ? 'border-primaryRed' : 'border-gray05'}
+                          focus:${passwordError ? 'border-primaryRed' : 'border-primaryOrange'}
+                          `
+                        }
             />
             { passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}
           </div>

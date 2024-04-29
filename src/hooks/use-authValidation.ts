@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 export default function useAuthValidation() {
-  const [usernameError, setUsernameError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [usernameError, setUsernameError] = useState<string | null>('');
+  const [passwordError, setPasswordError] = useState<string | null>('');
   const [usernameFocused, setUsernameFocused] = useState<boolean>(false);
   const [passwordFocused, setPasswordFocused] = useState<boolean>(false);
 
