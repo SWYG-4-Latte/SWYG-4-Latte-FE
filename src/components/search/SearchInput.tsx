@@ -25,11 +25,11 @@ const SearchInput = ({ searchValue, setSearchValue }: SearchInputProps) => {
   };
 
   return (
-    <div className="relative ml-[54px] flex w-full items-center rounded-md border border-gray04 text-sm">
+    <div className="relative ml-[54px] flex w-full items-center overflow-hidden rounded-md border border-gray04 text-sm">
       <input
         type="text"
         value={searchValue}
-        className="w-full bg-gray03 py-2 pl-4 text-gray10 placeholder:text-gray06 focus-visible:outline-none"
+        className="w-full bg-gray03 py-2 pl-4 pr-7 text-gray10 placeholder:text-gray06 focus-visible:outline-none"
         placeholder="음료명 또는 브랜드명을 입력해주세요."
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyDown={handleKeyDown}

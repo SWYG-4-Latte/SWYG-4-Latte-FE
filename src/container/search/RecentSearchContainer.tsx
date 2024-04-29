@@ -6,7 +6,7 @@ const RecentSearchContainer = () => {
   const deleteAllRecentSearch = useRecentSearchStore((state) => state.deleteAllSearchWord);
 
   return (
-    <div className="pb-4 pt-2">
+    <div className="py-4">
       <div className="mb-4 flex items-center justify-between px-5">
         <div className="font-semibold leading-[22px] text-gray10">최근 검색어</div>
         <button className="text-xs text-primaryOrange" onClick={() => deleteAllRecentSearch()}>
