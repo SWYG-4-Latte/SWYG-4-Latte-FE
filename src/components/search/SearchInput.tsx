@@ -1,6 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 
 import { useRecentSearchStore } from '@/store/recentSearchStore';
 
@@ -11,7 +13,7 @@ const SearchInput = () => {
 
   const addSearchWord = useRecentSearchStore((state) => state.addSearchWord);
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(searchParams.get('query') ?? '');
 
   const handleSearch = () => {
     if (searchValue.trim() === '') return;
@@ -35,6 +37,13 @@ const SearchInput = () => {
     setSearchValue('');
     router.replace(pathname, { scroll: false });
   };
+
+  useEffect(() => {
+    const query = searchParams.get('query');
+    if (query) {
+      setSearchValue(query);
+    }
+  }, [searchParams]);
 
   const canDeleteWord = searchParams.get('query') === searchValue;
 
