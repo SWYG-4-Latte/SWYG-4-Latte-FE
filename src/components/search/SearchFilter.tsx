@@ -1,4 +1,5 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import BadgeButton from '../home/drinkRanking/BadgeButton';
 import DownArrowIcon from '../common/icons/DownArrowIcon';
@@ -11,7 +12,16 @@ import DownArrowIcon from '../common/icons/DownArrowIcon';
  */
 type FilterOption = 'DESC' | 'ASC' | 'NONE' | null;
 
+const FILTER_QUERY_KEY = {
+  DESC: 'caffeine-decs',
+  ASC: 'caffeine-asc',
+  NONE: 'caffeine-none',
+};
+
 const SearchFilter = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [filterOption, setFilterOption] = useState<FilterOption>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -30,6 +40,18 @@ const SearchFilter = () => {
     setFilterOption(option);
     setIsDropdownOpen(false);
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
+    if (!filterOption) {
+      params.delete('filter');
+    } else {
+      params.set('filter', FILTER_QUERY_KEY[filterOption]);
+    }
+
+    router.replace(`/search?${params.toString()}`, { scroll: false });
+  }, [filterOption]);
 
   const isDropdownSelected = isDropdownOpen || (filterOption !== null && filterOption !== 'NONE');
 

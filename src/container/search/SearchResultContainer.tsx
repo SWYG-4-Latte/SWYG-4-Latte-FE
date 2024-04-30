@@ -1,3 +1,5 @@
+'use client';
+
 import SearchFilter from '@/components/search/SearchFilter';
 
 const SearchResultContainer = () => {
