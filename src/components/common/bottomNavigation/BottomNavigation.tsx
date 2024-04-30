@@ -7,7 +7,7 @@ const BottomNavigation = () => {
       <div className="flex justify-between px-5 pb-[30px] pt-2">
         <NavItem path="/home" name="홈" />
         <NavItem path="/category" name="카테고리" />
-        <NavItem path="/calendar" name="카페인 달력" />
+        <NavItem path="/caffeine-calendar" name="카페인 달력" />
         <NavItem path="/article" name="아티클" />
       </div>
     </nav>
