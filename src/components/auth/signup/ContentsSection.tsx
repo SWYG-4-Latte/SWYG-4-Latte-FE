@@ -8,45 +8,45 @@ import { IGenderState } from "@/types/auth-signup/i-GenderState";
 // Zustand
 import useSignupStore from '@/store/signupStore'
 // Hook
-import useAuthValidation from "@/hooks/use-authValidation";
 
 export default function ContentsSection() {
   const [gender, setGender] = useState<IGenderState['gender']>('')
 
-  const { currentStep, setField } = useSignupStore();
-
   const {
-    username, setUsername, validateUsername, setUsernameFocused, usernameFocused, usernameError,
-    email, setEmail, validateEmail, setEmailFocused, emailError,emailFocused,
-    nickname, setNickname, validateNickname, setNicknameFocused, nicknameError, nicknameFocused
-  } = useAuthValidation(true); // 중복 검사 활성화
-  
+    username, setUsername, validateUsername, usernameError, usernameFocused, setUsernameFocused,
+    email, setEmail, validateEmail, emailError, emailFocused, setEmailFocused,
+    nickname, setNickname, validateNickname, nicknameError, nicknameFocused, setNicknameFocused,
+    currentStep 
+  } = useSignupStore()
+
   const handleInputChange = (field: string, value: string) => {
-    if (field === 'username' || field === 'email' || field === 'nickname') {
-      setField(field as keyof ISignupState, value); 
-  
-      if (field === 'username') {
+    switch (field) {
+      case 'username':
         setUsername(value);
         validateUsername(value);
-      } else if (field === 'email') {
+        break;
+      case 'email':
         setEmail(value);
         validateEmail(value);
-      } else if (field === 'nickname') {
+        break;
+      case 'nickname':
         setNickname(value);
         validateNickname(value);
-      }
+        break;
     }
-  }
+  };
 
   const handleFocusChange = (field: string, focused: boolean) => {
-    if (field === 'username' || field === 'email' || field === 'nickname') {
-      if (field === 'username') {
+    switch (field) {
+      case 'username':
         setUsernameFocused(focused);
-      } else if (field === 'email') {
+        break;
+      case 'email':
         setEmailFocused(focused);
-      } else if (field === 'nickname') {
+        break;
+      case 'nickname':
         setNicknameFocused(focused);
-      }
+        break;
     }
   };
 

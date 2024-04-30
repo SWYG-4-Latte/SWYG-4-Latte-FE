@@ -2,12 +2,11 @@
 
 // Zustand
 import useSignupStore from '@/store/signupStore'
-import useAuthValidation from '@/hooks/use-authValidation';
 
 export default function FooterSection() {
-  const { username, email, nickname, usernameValid, emailValid, nicknameValid, goToNextStep, currentStep } = useSignupStore();
+  const { username, email, nickname, goToNextStep, currentStep } = useSignupStore();
 
-  const isInputsFilled = username && email && nickname && usernameValid && emailValid && nicknameValid;
+  const stepOneFilled = username && email && nickname
   
   const renderedFooterSection = () => {
     switch(currentStep) {
@@ -16,10 +15,10 @@ export default function FooterSection() {
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
             onClick={goToNextStep}
-            disabled={!isInputsFilled}
+            disabled={!stepOneFilled}
             className={`
               w-[320px] h-[50px] rounded-md
-              ${isInputsFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}
+              ${stepOneFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}
             `}>
             계속하기
           </button>
@@ -30,7 +29,6 @@ export default function FooterSection() {
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
             onClick={goToNextStep}
-            disabled={!isInputsFilled}
             className={`
               w-[320px] h-[50px] bg-orange02 rounded-md text-gray06
               '}
@@ -42,7 +40,6 @@ export default function FooterSection() {
       case 3:
         return(
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
-
           <div className="flex items-center space-x-2">
             <button 
               onClick={goToNextStep}

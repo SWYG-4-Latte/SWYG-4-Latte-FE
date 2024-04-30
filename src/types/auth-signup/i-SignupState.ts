@@ -2,29 +2,23 @@ export interface ISignupState {
   username: string;
   email: string;
   nickname: string;
-  usernameValid: boolean;  // Validation state for username
-  emailValid: boolean;     // Validation state for email
-  nicknameValid: boolean;  // Validation state for nickname
+  usernameError: string | null;
+  emailError: string | null;
+  nicknameError: string | null;
+  usernameFocused: boolean;
+  emailFocused: boolean;
+  nicknameFocused: boolean;
   currentStep: number;
 
-  password: string;
-  age: number;
-  cellPhone?: string;
-  gender: 'M' | 'F';
-  pregnancy: boolean;
-  pregMonth?: number;
-  allergy?: string;
-  symptom?: string;
-  imgUrl?: string;
-  role?: 'USER' | 'ADMIN';
-  deleteYn?: 'Y' | 'N';
-  cupDay?: number;
-  regDate?: Date;
-  updateDate?: Date;
-
-
-  setField: <T extends keyof ISignupState>(field: T, value: ISignupState[T]) => void;
-  setValidity: (field: keyof ISignupState, isValid: boolean) => void;
+  setUsername: (username: string) => void;
+  setEmail: (email: string) => void;
+  setNickname: (nickname: string) => void;
+  setUsernameFocused: (focused: boolean) => void;
+  setEmailFocused: (focused: boolean) => void;
+  setNicknameFocused: (focused: boolean) => void;
+  validateUsername: (username: string) => void;
+  validateEmail: (email: string) => void;
+  validateNickname: (nickname: string) => void;
   goToNextStep: () => void;
   goToPrevStep: () => void;
 }

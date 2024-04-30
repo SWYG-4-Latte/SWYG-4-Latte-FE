@@ -6,12 +6,16 @@ import React, { } from "react"
 // Zustand
 import useLoginStore from "@/store/loginStore"
 // Hook
-import useAuthValidation from "@/hooks/use-authValidation"
 
 
 export default function LoginContainer() {
-  const { username, password, setUsername, setPassword } = useLoginStore();
-  const { usernameError, passwordError, validateUsername, validatePassword, usernameFocused, setUsernameFocused, passwordFocused, setPasswordFocused } = useAuthValidation();
+  const {
+    username, password, setUsername, setPassword,
+    usernameError, passwordError, usernameFocused, passwordFocused,
+    setUsernameFocused, setPasswordFocused, validateUsername, validatePassword
+  } = useLoginStore();
+
+  
   const isInputValid = username.trim() !== '' && password.trim() !== '';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
