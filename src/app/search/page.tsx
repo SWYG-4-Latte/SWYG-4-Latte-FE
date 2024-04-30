@@ -8,16 +8,19 @@ import PopularSearchContainer from '@/container/search/PopularSearchContainer';
 import RecentSearchContainer from '@/container/search/RecentSearchContainer';
 import SearchResultContainer from '@/container/search/SearchResultContainer';
 
-export default function SearchPage() {
-  const [searchValue, setSearchValue] = useState('');
+interface SearchPageSearchParams {
+  query?: string;
+  filter?: string;
+}
 
+export default function SearchPage({ searchParams }: { searchParams: SearchPageSearchParams }) {
   return (
     <>
       <NavigationHeader>
-        <SearchInput searchValue={searchValue} setSearchValue={setSearchValue} />
+        <SearchInput />
       </NavigationHeader>
       <div className="pt-14">
-        {!searchValue ? (
+        {!searchParams.query ? (
           <>
             <RecentSearchContainer />
             <div className="h-2 bg-gray03 " />
