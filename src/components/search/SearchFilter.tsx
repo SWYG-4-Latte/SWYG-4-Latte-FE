@@ -13,7 +13,7 @@ import DownArrowIcon from '../common/icons/DownArrowIcon';
 type FilterOption = 'DESC' | 'ASC' | 'NONE' | null;
 
 const FILTER_QUERY_KEY = {
-  DESC: 'caffeine-decs',
+  DESC: 'caffeine-desc',
   ASC: 'caffeine-asc',
   NONE: 'caffeine-none',
 };
