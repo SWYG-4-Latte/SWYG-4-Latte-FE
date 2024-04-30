@@ -1,4 +1,6 @@
-const PopularSearchItem = ({ rank, word }: { rank: number; word: string }) => {
+import { PopularSearchWord } from '@/container/search/PopularSearchContainer';
+
+const PopularSearchItem = ({ rank, word }: PopularSearchWord) => {
   return (
     <div className="flex h-[50px] items-center gap-4 border-b border-gray04 px-5 py-4 last:border-none">
       <div className="font-semibold text-gray10">{rank}</div>

@@ -1,44 +1,32 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import PopularSearchItem from '@/components/search/PopularSearchItem';
 import { formatPopularSearchStandardDate } from '@/utils/date';
 
+export interface PopularSearchWord {
+  rank: number;
+  word: string;
+}
+
 const PopularSearchContainer = () => {
   const today = new Date();
-  const [popularSearchList, setPopularSearchList] = useState([
-    {
-      rank: 1,
-      word: '아메리카노',
-    },
-    {
-      rank: 2,
-      word: '바나나',
-    },
-    {
-      rank: 3,
-      word: '녹차',
-    },
-    {
-      rank: 4,
-      word: '커피',
-    },
-    {
-      rank: 5,
-      word: '라떼',
-    },
-  ]);
+  const [popularSearchList, setPopularSearchList] = useState<PopularSearchWord[]>([]);
 
   useEffect(() => {
     const getPopularSearchList = async () => {
       try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/menu/ranking/word');
-        console.log(response);
+        const response = await fetch('/api/menu/ranking/word');
+        const data = await response.json();
+
+        setPopularSearchList(data.data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    // getPopularSearchList();
+    getPopularSearchList();
   }, []);
 
   return (
