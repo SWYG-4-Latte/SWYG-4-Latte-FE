@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('query');
+  const searchFilter = searchParams.get('filter');
 
   const addSearchWord = useRecentSearchStore((state) => state.addSearchWord);
 
@@ -32,7 +33,7 @@ export default function SearchPage() {
             <PopularSearchContainer />
           </>
         ) : (
-          <SearchResultContainer />
+          <SearchResultContainer query={searchQuery} filter={searchFilter} />
         )}
       </div>
     </>

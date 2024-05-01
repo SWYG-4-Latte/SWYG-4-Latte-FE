@@ -7,32 +7,26 @@ import DownArrowIcon from '../common/icons/DownArrowIcon';
 /**
  * 선택한 필터
  * 선택안함: null
- * 카페인 포함(함량 많은 순: DESC, 적은 순: ASC)
- * 카페인 미포함: NONE
+ * 카페인 포함(함량 많은 순: desc, 적은 순: asc)
+ * 카페인 미포함: none
  */
-type FilterOption = 'DESC' | 'ASC' | 'NONE' | null;
-
-const FILTER_QUERY_KEY = {
-  DESC: 'caffeine-desc',
-  ASC: 'caffeine-asc',
-  NONE: 'caffeine-none',
-};
+type FilterOption = 'desc' | 'asc' | 'none' | null;
 
 const SearchFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [filterOption, setFilterOption] = useState<FilterOption>(null);
+  const [filterOption, setFilterOption] = useState<FilterOption>(searchParams.get('filter') as FilterOption);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleClickDropdownFilter = () => {
     setIsDropdownOpen((prev) => !prev);
-    setFilterOption(null);
+    // setFilterOption(null);
   };
 
   const handleClickNonCaffeineFilter = () => {
     setIsDropdownOpen(false);
-    setFilterOption((prev) => (prev === 'NONE' ? null : 'NONE'));
+    setFilterOption((prev) => (prev === 'none' ? null : 'none'));
   };
 
   const handleClickDropdownOption = (event: MouseEvent, option: FilterOption) => {
@@ -47,13 +41,13 @@ const SearchFilter = () => {
     if (!filterOption) {
       params.delete('filter');
     } else {
-      params.set('filter', FILTER_QUERY_KEY[filterOption]);
+      params.set('filter', filterOption);
     }
 
     router.replace(`/search?${params.toString()}`, { scroll: false });
   }, [filterOption]);
 
-  const isDropdownSelected = isDropdownOpen || (filterOption !== null && filterOption !== 'NONE');
+  const isDropdownSelected = isDropdownOpen || (filterOption !== null && filterOption !== 'none');
 
   return (
     <div className="flex gap-2">
@@ -63,9 +57,9 @@ const SearchFilter = () => {
         onClick={handleClickDropdownFilter}
       >
         <div className="flex items-center gap-1">
-          {!filterOption || filterOption === 'NONE'
+          {!filterOption || filterOption === 'none'
             ? '카페인 포함'
-            : filterOption === 'DESC'
+            : filterOption === 'desc'
               ? '함량 많은 순'
               : '함량 적은 순'}
           <DownArrowIcon
@@ -77,13 +71,13 @@ const SearchFilter = () => {
             <div className="animate-dropdown w-full rounded-b-md border-x border-b border-primaryOrange bg-primaryIvory">
               <div
                 className="flex h-[30px] items-center justify-center border-t border-primaryBeige px-4 py-2"
-                onClick={(e) => handleClickDropdownOption(e, 'DESC')}
+                onClick={(e) => handleClickDropdownOption(e, 'desc')}
               >
                 함량 많은 순
               </div>
               <div
                 className="flex h-[30px] items-center justify-center rounded-b-md border-t border-primaryBeige px-4 py-2"
-                onClick={(e) => handleClickDropdownOption(e, 'ASC')}
+                onClick={(e) => handleClickDropdownOption(e, 'asc')}
               >
                 함량 적은 순
               </div>
@@ -91,7 +85,7 @@ const SearchFilter = () => {
           </div>
         )}
       </BadgeButton>
-      <BadgeButton selected={filterOption === 'NONE'} onClick={handleClickNonCaffeineFilter}>
+      <BadgeButton selected={filterOption === 'none'} onClick={handleClickNonCaffeineFilter}>
         카페인 미포함
       </BadgeButton>
     </div>
