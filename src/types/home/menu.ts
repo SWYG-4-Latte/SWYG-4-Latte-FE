@@ -4,18 +4,19 @@ export interface Menu {
   imageUrl: string;
   brand?: string;
   caffeine?: string;
+  price?: number;
 }
 
 export interface MenuDetail extends Menu {
+  price: number;
   nutrient: Nutrient;
-  price: string;
   lowCaffeineMenus: Menu[];
 }
 
 export interface ComparedMenu extends Menu {
+  price: number;
   allergy: string;
   kcal: string;
-  price: string;
 }
 
 export interface Nutrient {

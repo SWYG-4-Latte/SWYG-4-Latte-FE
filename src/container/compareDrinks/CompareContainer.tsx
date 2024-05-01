@@ -13,7 +13,7 @@ const CompareContainer = () => {
       brand: '이디야',
       menuName: '초코쿠키 쉐이크',
       caffeine: '0mg',
-      price: '4900원',
+      price: 4900,
       allergy: '우유, 대두, 밀',
       kcal: '449kcal',
       imageUrl: 'https://www.ediya.com/files/menu/IMG_1647322366389.png',

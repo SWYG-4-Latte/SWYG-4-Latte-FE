@@ -3,7 +3,7 @@ import ComparisonTableRow from './ComparisonTableRow';
 
 const ComparisonTable = ({ drinks }: { drinks: (ComparedMenu | null)[] }) => {
   const caffeineData = drinks.map((drink) => drink?.caffeine ?? '-');
-  const priceData = drinks.map((drink) => drink?.price ?? '-');
+  const priceData = drinks.map((drink) => (drink ? `${drink.price.toLocaleString('ko-KR')}원` : '-'));
   const allergyData = drinks.map((drink) => drink?.allergy ?? '-');
   const kcalData = drinks.map((drink) => drink?.kcal ?? '-');
 
