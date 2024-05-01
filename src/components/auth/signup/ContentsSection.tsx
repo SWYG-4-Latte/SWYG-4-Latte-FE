@@ -10,13 +10,17 @@ import useSignupStore from '@/store/signupStore'
 // Hook
 
 export default function ContentsSection() {
-  const [gender, setGender] = useState<IGenderState['gender']>('')
 
   const {
     username, setUsername, validateUsername, usernameError, usernameFocused, setUsernameFocused,
     email, setEmail, validateEmail, emailError, emailFocused, setEmailFocused,
     nickname, setNickname, validateNickname, nicknameError, nicknameFocused, setNicknameFocused,
-    currentStep 
+    password, setPassword, passwordError, passwordFocused, setPasswordFocused, validatePassword,
+    confirmPassword, setConfirmPassword, confirmPasswordError, confirmPasswordFocused, setConfirmPasswordFocused, validateConfirmPassword,
+    currentStep, termsAgreed, term1Agreed, term2Agreed, termsError, toggleTermsAgreed, toggleTerm1Agreed, toggleTerm2Agreed,
+    age, setAge, gender, setGender, pregnancy, togglePregnancy, pregMonth, setPregMonth, setAgeFocused, setPregMonthFocused,
+    validateAge, validatePregMonth, ageError, pregMonthError, ageFocused, pregMonthFocused,
+    cupDay, setCupDay, symptoms, toggleSymptom, allergies, toggleAllergy
   } = useSignupStore()
 
   const handleInputChange = (field: string, value: string) => {
@@ -33,6 +37,21 @@ export default function ContentsSection() {
         setNickname(value);
         validateNickname(value);
         break;
+      case 'password':
+        setPassword(value);
+        validatePassword(value)
+        break;
+      case 'confirmPassword':
+        setConfirmPassword(value);
+        validateConfirmPassword(value);
+      case 'age':
+        setAge(value)
+        validateAge(value)
+        break;
+      case 'pregMonth':
+        setPregMonth(value)
+        validatePregMonth(value)
+        break;
     }
   };
 
@@ -47,14 +66,21 @@ export default function ContentsSection() {
       case 'nickname':
         setNicknameFocused(focused);
         break;
+      case 'age':
+        setAgeFocused(focused)
+        break;
+      case 'pregMonth':
+        setPregMonthFocused(focused)
+        break;
     }
   };
 
+  const toggleTermsAgreement = () => {
+    toggleTermsAgreed();
+  };
+  
 
-  const handleGenderSelect = (selectGender: IGenderState['gender']) => {
-    setGender(selectGender)
-  }
-
+  console.log(passwordError)
 
   const renderedContentsSection = () => {
     switch(currentStep) {
@@ -125,51 +151,71 @@ export default function ContentsSection() {
             <form className="space-y-2 mb-[61px]">
               <p className="text-xs">비밀번호 입력</p>
               <input 
-                  type="password"
-                  placeholder="비밀번호(10자 이상, 영어 소문자/숫자/특문)조합"
-                  className="px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 border border-gray05 placeholder:text-gray05"
+                type="password"
+                value={password}
+                onChange={(e) => handleInputChange('password',e.target.value)}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
+                placeholder="비밀번호(10자 이상, 영어 소문자/숫자/특수문자)조합"
+                className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                            border ${passwordError ? 'border-primaryRed' : (passwordFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
               />
+              {passwordError && <span className="text-xs text-primaryRed">{passwordError}</span>}
               <p className="mt-2 text-xs">비밀번호 확인</p>
               <input 
                   type="password"
+                  value={confirmPassword}
+                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                  onFocus={() => setConfirmPasswordFocused(true)}
+                  onBlur={() => setConfirmPasswordFocused(false)}
                   placeholder="다시 한번 입력해주세요."
-                  className="px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 border border-gray05 placeholder:text-gray05"
+                  className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                              border ${confirmPasswordError ? 'border-primaryRed' : (confirmPasswordFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
               />
+              {confirmPasswordError && <span className="text-xs text-primaryRed">{confirmPasswordError}</span>}
             </form>
-            <div className="flex items-center text-md w-[320px] h-[50px] border border-gray05 border-b-0 rounded-t-lg">
+            <div className={`flex items-center text-md w-[320px] h-[50px] ${termsError ? 'border-primaryRed' : 'border-gray05'} border border-b-0 border-b-gray05 rounded-t-lg`}>
               <div className="w-full flex px-5 py-4 space-x-2">
-                <Image 
-                  src="/svgs/svg_checkbox-off.svg"
-                  alt="checkbox-off"
-                  width={16}
-                  height={16}
-                  priority
-                  />
+              <Image 
+                src={termsAgreed ? "/svgs/svg_checkbox-on.svg" : "/svgs/svg_checkbox-off.svg"}
+                alt={termsAgreed ? "checkbox-on" : "checkbox-off"}
+                onClick={toggleTermsAgreement}
+                width={16}
+                height={16}
+                priority
+              />
                 <p>약관 전체 동의</p>
               </div>
             </div>
-            <div className="flex flex-col justify-center text-sm w-[320px] h-[91px] border border-gray05 rounded-b-lg">
+            <div className={`flex flex-col justify-center text-sm w-[320px] h-[91px] ${termsError ? 'border-primaryRed' : 'border-gray05'} border border-t-gray05 rounded-b-lg`}>
               <div className="w-full flex px-5 py-2.5 mt-2 space-x-2">
-                <Image 
-                  src="/svgs/svg_checkbox-off.svg"
-                  alt="checkbox-off"
-                  width={16}
-                  height={16}
-                  priority
-                  />
+              <Image 
+                src={term1Agreed ? "/svgs/svg_checkbox-on.svg" : "/svgs/svg_checkbox-off.svg"}
+                alt={term1Agreed ? "checkbox-on" : "checkbox-off"}
+                onClick={toggleTerm1Agreed}
+                width={16}
+                height={16}
+                priority
+              />
                 <p>이용약관 동의 (필수)</p>
               </div>
               <div className="w-full flex px-5 py-2.5 mb-2 space-x-2">
-                <Image 
-                  src="/svgs/svg_checkbox-on.svg"
-                  alt="checkbox-on"
-                  width={16}
-                  height={16}
-                  priority
-                  />
+              <Image 
+                src={term2Agreed ? "/svgs/svg_checkbox-on.svg" : "/svgs/svg_checkbox-off.svg"}
+                alt={term2Agreed ? "checkbox-on" : "checkbox-off"}
+                onClick={toggleTerm2Agreed}
+                width={16}
+                height={16}
+                priority
+              />
                 <p>개인정보 수집 및 이용동의(필수)</p>
               </div>
             </div>
+            {termsError && (
+        <p className="text-xs text-red-500 mt-2">
+          약관 동의 후 가입할 수 있습니다.
+        </p>
+      )}
           </section>
         )
       case 3:
@@ -179,35 +225,77 @@ export default function ContentsSection() {
               <p className="text-xs">만 나이</p>
               <div className="flex items-center space-x-2 mb-4">
                 <input 
-                    type="password"
-                    placeholder="만 나이를 입력해주세요."
-                    className="px-5 py-4 w-[296px] h-[50px] rounded-md text-[14px] bg-gray01 border border-gray05 placeholder:text-gray05"
-                    />
+                  type="text"
+                  value={age}
+                  onChange={(e) => handleInputChange('age', e.target.value)}
+                  onFocus={() => setAgeFocused(true)}
+                  onBlur={() => setAgeFocused(false)}
+                  placeholder="만 나이를 입력해주세요."
+                  className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                              border ${ageError ? 'border-primaryRed' : (ageFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+              />
                 <span className="text-sm">세</span>
               </div>
+              {ageError && <span className="text-xs text-primaryRed">{ageError}</span>}
               <p className="text-xs">성별</p>
               <div className="flex items-center space-x-2">
                 <button 
                   type="button"
-                  className="flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md text-gray08"
-                  onClick={()=> handleGenderSelect('male')}>
+                  className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md 
+                  ${gender === 'M' ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08'}`}
+                  onClick={() => setGender(gender === 'M' ? '' : 'M')}
+                  >
                   남성
                 </button>
                 <button 
                   type="button"
-                  className="flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md text-gray08"
-                  onClick={()=>handleGenderSelect('female')}>
+                  className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md 
+                  ${gender === 'F' ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08'}`}
+                  onClick={() => setGender(gender === 'F' ? '' : 'F')}
+                  >
                 여성
                 </button>
               </div>
               {
-                gender === 'female' && (
+                gender === 'F' && (
                   <>
                     <p className="text-xs">임신여부</p>
                     <div className="flex items-center space-x-2">
-                      <button className="flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md text-gray08">예</button>
-                      <button className="flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md text-gray08">아니요</button>
+                    <button 
+                      type="button"
+                      className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border rounded-md 
+                                ${pregnancy ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08 border-gray05'}`}
+                      onClick={() => togglePregnancy(!pregnancy)} 
+                      >
+                      예</button>
+                      <button 
+                        type="button"
+                        className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border rounded-md 
+                                  ${!pregnancy ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08 border-gray05'}`}
+                        onClick={() => togglePregnancy(false)}
+                      >아니요</button>
                     </div>
+                  </>
+                )
+              }
+              {
+                pregnancy && (
+                  <>
+                    <p className="text-xs">임신 개월 수</p>
+                      <div className="flex items-center space-x-2 mb-4">
+                      <input 
+                        type="text"
+                        value={pregMonth}
+                        onChange={(e) => handleInputChange('pregMonth', e.target.value)}
+                        onFocus={() => setPregMonthFocused(true)}
+                        onBlur={() => setPregMonthFocused(false)}
+                        placeholder="만 나이를 입력해주세요."
+                        className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                                    border ${pregMonthError ? 'border-primaryRed' : (pregMonthFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                      />
+                        <span className="text-sm">개월</span>
+                      </div>
+                      {pregMonthError && <span className="text-xs text-primaryRed">{pregMonthError}</span>}
                   </>
                 )
               }
@@ -221,37 +309,82 @@ export default function ContentsSection() {
               <div className="flex flex-col space-y-4 justify-center">
                 <p className="text-md font-pretendard600">하루에 커피를 몇 잔 정도 마시나요?</p>
                 <div className="flex items-center space-x-2">
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">안 마심</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">1잔</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">2잔</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">3잔이상</button>
+                {['안마심', '1잔', '2잔', '3잔 이상'].map(option => (
+                  <button
+                    type="button"
+                    key={option}
+                    onClick={() => setCupDay(option)}
+                    className={`px-4 py-2 border rounded-md text-sm ${cupDay === option ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                  >
+                  {option}
+                  </button>
+                ))}
                 </div>
               </div>
               <div className="flex flex-col space-y-4 justify-center">
                 <p className="text-md font-pretendard600">커피를 마실 때 나타나는 증상을 모두 선택해주세요.</p>
                 <div className="flex items-center space-x-2">
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">잠이 안와요</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">심장이빨리뛰어요</button>
+                {['잠이 안와요', '심장이 빨리 뛰어요'].map(symptom => (
+                  <button
+                    type="button"
+                    key={symptom}
+                    onClick={() => toggleSymptom(symptom)}
+                    className={`px-4 py-2 border rounded-md text-sm ${symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                  >
+                    {symptom}
+                  </button>
+                ))}
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">속이 메스꺼워요</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">예민해져요</button>
+                {['속이 메스꺼워요', '예민해져요'].map(symptom => (
+                  <button
+                    type="button"
+                    key={symptom}
+                    onClick={() => toggleSymptom(symptom)}
+                    className={`px-4 py-2 border rounded-md text-sm ${symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                  >
+                    {symptom}
+                  </button>
+                ))}
                 </div>
                 <div className="flex items-center space-x-2">
-                <button className="px-4 py-2 border border-gray05 rounded-md text-sm">별다른 증상이 없어요</button>
+                {['별다른 증상이 없어요'].map(symptom => (
+                  <button
+                    type="button"
+                    key={symptom}
+                    onClick={() => toggleSymptom(symptom)}
+                    className={`px-4 py-2 border rounded-md text-sm ${symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                  >
+                    {symptom}
+                  </button>
+                ))}
                 </div>
               </div>
               <div className="flex flex-col space-y-4 justify-center">
                 <p className="text-md font-pretendard600">음식 알레르기가 있다면 모두 선택해주세요.</p>
                 <div className="flex items-center space-x-2">
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">없어요</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">우유</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">대두</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">밀</button>
+                {['없어요','우유','대두','밀'].map(allergy => (
+                  <button
+                    type="button"
+                    key={allergy}
+                    onClick={() => toggleAllergy(allergy)}
+                    className={`px-4 py-2 border rounded-md text-sm ${allergies.includes(allergy) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                  >
+                    {allergy}
+                  </button>
+                ))}
                 </div> 
                 <div className="flex items-center space-x-2">
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">땅콩</button>
-                  <button className="px-4 py-2 border border-gray05 rounded-md text-sm">복숭아</button>
+                {['땅콩','복숭아'].map(allergy => (
+                  <button
+                    type="button"
+                    key={allergy}
+                    onClick={() => toggleAllergy(allergy)}
+                    className={`px-4 py-2 border rounded-md text-sm ${allergies.includes(allergy) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                  >
+                    {allergy}
+                  </button>
+                ))}
                 </div>
               </div>
             </form>
