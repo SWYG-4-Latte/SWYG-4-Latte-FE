@@ -17,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body className={pretendard.className}>
+        <div id="modal-root"></div>
         <main className="layout">{children}</main>
         <ToastMessageContainer />
       </body>
