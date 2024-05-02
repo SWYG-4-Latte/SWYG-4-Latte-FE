@@ -1,7 +1,8 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import Portal from './Portal';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -18,7 +19,7 @@ const modalVariants = {
     opacity: 1,
     transition: {
       type: 'tween',
-      duration: 0.2,
+      duration: 0.15,
     },
   },
   exit: {
@@ -26,7 +27,7 @@ const modalVariants = {
   },
 };
 
-const Backdrop = ({ children, onClose }: PropsWithChildren<{ onClose: () => void }>) => {
+const Backdrop = ({ children }: PropsWithChildren) => {
   return (
     <motion.div
       className="fixed z-50 flex h-dvh w-full flex-col items-center justify-center bg-gray09 bg-opacity-70"
@@ -34,7 +35,6 @@ const Backdrop = ({ children, onClose }: PropsWithChildren<{ onClose: () => void
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      onClick={onClose}
     >
       {children}
     </motion.div>
@@ -42,13 +42,18 @@ const Backdrop = ({ children, onClose }: PropsWithChildren<{ onClose: () => void
 };
 
 const Modal = ({ isOpen, onClose, children }: PropsWithChildren<ModalProps>) => {
+  const modalRef = useRef(null);
+
+  useOutsideClick(modalRef, onClose);
+
   return (
     <Portal>
       <AnimatePresence>
         {isOpen && (
           <>
-            <Backdrop onClose={onClose}>
+            <Backdrop>
               <motion.div
+                ref={modalRef}
                 key="modal"
                 role="dialog"
                 className="fixed z-[999] flex w-[304px] flex-col items-center rounded-2xl bg-gray02 px-5 py-6"
