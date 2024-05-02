@@ -16,6 +16,7 @@ const DrinkHistorySwiper = ({ slideData }: { slideData: Menu[] }) => {
       modules={[FreeMode]}
       slidesOffsetBefore={20}
       slidesOffsetAfter={20}
+      className="!pb-8"
     >
       {slideData.map((data) => (
         <SwiperSlide key={data.menuNo}>

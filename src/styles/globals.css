@@ -62,7 +62,7 @@
 
 /* Swiper 라이브러리 관련 */
 .swiper {
-  @apply m-0 w-full pb-8 !important;
+  @apply m-0 w-full !important;
 }
 
 .swiper-slide {
