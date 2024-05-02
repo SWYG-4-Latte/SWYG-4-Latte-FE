@@ -1,3 +1,5 @@
+'use client';
+
 import { PropsWithChildren, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -56,7 +58,7 @@ const Modal = ({ isOpen, onClose, children }: PropsWithChildren<ModalProps>) => 
                 ref={modalRef}
                 key="modal"
                 role="dialog"
-                className="fixed z-[999] flex w-[304px] flex-col items-center rounded-2xl bg-gray02 px-5 py-6"
+                className="shadow-modal fixed z-[999] flex w-[304px] flex-col items-center gap-4 rounded-2xl bg-gray02 px-5 py-6"
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
