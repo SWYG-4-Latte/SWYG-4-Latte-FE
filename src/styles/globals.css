@@ -60,6 +60,11 @@
   font-style: bold;
 }
 
+/* Swiper 라이브러리 관련 */
+.swiper {
+  @apply m-0 w-full pb-8 !important;
+}
+
 .swiper-slide {
   @apply w-fit !important;
 }

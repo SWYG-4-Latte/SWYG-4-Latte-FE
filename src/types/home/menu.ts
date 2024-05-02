@@ -4,6 +4,7 @@ export interface Menu {
   imageUrl: string;
   brand?: string;
   caffeine?: string;
+  menuSize?: string;
   price?: number;
 }
 

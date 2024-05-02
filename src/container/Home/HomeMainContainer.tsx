@@ -1,4 +1,5 @@
 import HomeBanner from '@/components/home/banner/HomeBanner';
+import DrinkHistoryContainer from './DrinkHistoryContainer';
 
 const DATA = {
   status: '적정',
@@ -23,6 +24,7 @@ const HomeMainContainer = () => {
   return (
     <>
       <HomeBanner caffeineData={isLoggedIn ? data : null} />
+      <DrinkHistoryContainer drinkHistory={isLoggedIn ? recent : []} />
     </>
   );
 };

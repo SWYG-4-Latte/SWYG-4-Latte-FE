@@ -4,10 +4,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
 import 'swiper/css';
 
-import { DrinkHistoryData } from '@/types/home/drinkHistory';
 import DrinkHistoryCard from './DrinkHistoryCard';
+import { Menu } from '@/types/home/menu';
 
-const DrinkHistorySwiper = ({ slideData }: { slideData: DrinkHistoryData[] }) => {
+const DrinkHistorySwiper = ({ slideData }: { slideData: Menu[] }) => {
   return (
     <Swiper
       slidesPerView="auto"
@@ -18,7 +18,7 @@ const DrinkHistorySwiper = ({ slideData }: { slideData: DrinkHistoryData[] }) =>
       slidesOffsetAfter={20}
     >
       {slideData.map((data) => (
-        <SwiperSlide key={data.id}>
+        <SwiperSlide key={data.menuNo}>
           <DrinkHistoryCard drinkHistoryData={data} isEmpty={false} />
         </SwiperSlide>
       ))}
