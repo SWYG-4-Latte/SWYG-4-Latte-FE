@@ -16,7 +16,7 @@
 
 @layer base {
   .layout {
-    @apply mx-auto min-h-dvh w-full min-w-[360px] max-w-[500px] bg-gray02 font-pretendard leading-normal -tracking-[0.01em];
+    @apply mx-auto min-h-dvh w-full min-w-[360px] max-w-[500px] bg-gray02 font-pretendard leading-normal -tracking-[0.01em] antialiased;
   }
 
   @font-face {

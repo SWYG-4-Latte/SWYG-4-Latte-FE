@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 
 import '../styles/globals.css';
 import { pretendard } from '@/styles/fonts';
-import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
 import ToastMessageContainer from '@/components/common/ToastMessageContainer';
 
 export const metadata: Metadata = {
@@ -17,9 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="kr">
-      <body className={`layout ${pretendard.className}`}>
-        {children}
-        {/* <BottomNavigation /> */}
+      <body className={pretendard.className}>
+        <main className="layout">{children}</main>
         <ToastMessageContainer />
       </body>
     </html>
