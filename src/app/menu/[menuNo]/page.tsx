@@ -10,7 +10,7 @@ const SAMPLE_MENU = {
   brand: '빽다방',
   menuName: '토피넛라떼(ICED)',
   caffeine: '카페인 51mg',
-  price: '3500원',
+  price: 3500,
   nutrient: {
     kcal: '469kcal',
     sugar: '16g',

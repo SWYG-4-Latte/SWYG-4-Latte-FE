@@ -74,6 +74,15 @@ const config: Config = {
       gradientColorStopPositions: {
         66.15: '66.15%',
       },
+      keyframes: {
+        dropdown: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        dropdown: 'dropdown 0.15s ease',
+      },
     },
   },
   plugins: [require('daisyui')],
