@@ -30,7 +30,7 @@ const modalVariants = {
 const Backdrop = ({ children }: PropsWithChildren) => {
   return (
     <motion.div
-      className="fixed z-50 flex h-dvh w-full flex-col items-center justify-center bg-gray09 bg-opacity-70"
+      className="fixed z-50 flex h-screen w-full flex-col items-center justify-center bg-gray09 bg-opacity-70"
       key="backdrop"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
