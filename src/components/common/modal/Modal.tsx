@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import Portal from './Portal';
 
-interface ModalProps {
-  isOpen?: boolean;
+export interface ModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
@@ -26,7 +26,7 @@ const modalVariants = {
   },
 };
 
-const Backdrop = ({ children, onClose }: PropsWithChildren<ModalProps>) => {
+const Backdrop = ({ children, onClose }: PropsWithChildren<{ onClose: () => void }>) => {
   return (
     <motion.div
       className="fixed z-50 flex h-dvh w-full flex-col items-center justify-center bg-gray09 bg-opacity-70"
