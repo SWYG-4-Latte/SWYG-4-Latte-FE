@@ -1,7 +1,11 @@
-import { Menu } from '@/types/home/menu';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { MouseEvent } from 'react';
+
+import { Menu } from '@/types/home/menu';
 
 const RankingListItem = ({
+  menuNo,
   menuName,
   brand,
   caffeine,
@@ -11,8 +15,18 @@ const RankingListItem = ({
 }: Menu & {
   ranking: number;
 }) => {
+  const router = useRouter();
+
+  const handleRecordCaffeine = (e: MouseEvent) => {
+    e.stopPropagation();
+    // 오늘 마신 카페인으로 추가, 모달 띄우기
+  };
+
   return (
-    <li className="flex items-center border-b border-gray04 bg-gray02 px-5 py-6 last:border-none even:bg-gray01">
+    <li
+      className="flex cursor-pointer items-center border-b border-gray04 bg-gray02 px-5 py-6 last:border-none even:bg-gray01"
+      onClick={() => router.push(`/menu/${menuNo}`)}
+    >
       <span className="text-base font-semibold text-primaryOrange">{ranking}</span>
       <div className="mx-4 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray04">
         <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" />
@@ -28,7 +42,7 @@ const RankingListItem = ({
         </div>
       </div>
       <div className="ml-auto">
-        <button>
+        <button onClick={handleRecordCaffeine}>
           <img src="/svgs/plus.svg" width={32} height={32} alt="카페인 기록하기 버튼" />
         </button>
       </div>
