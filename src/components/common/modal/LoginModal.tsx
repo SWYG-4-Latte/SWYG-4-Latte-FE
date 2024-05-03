@@ -22,7 +22,7 @@ const LoginModal = ({ isOpen, onClose }: ModalProps) => {
         </button>
         <Button
           className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
-          onClick={() => router.push('/today-caffeine')}
+          onClick={() => router.push('/login')}
         >
           지금 시작하기
         </Button>
