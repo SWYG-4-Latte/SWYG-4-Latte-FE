@@ -1,10 +1,7 @@
 'use client'
 // NEXT && React
 import Image from "next/image"
-import React, { useState } from "react";
-// TS
-import { ISignupState } from "@/types/auth-signup/i-SignupState";
-import { IGenderState } from "@/types/auth-signup/i-GenderState";
+import React from "react";
 // Zustand
 import useSignupStore from '@/store/signupStore'
 // Hook
@@ -20,7 +17,8 @@ export default function ContentsSection() {
     currentStep, termsAgreed, term1Agreed, term2Agreed, termsError, toggleTermsAgreed, toggleTerm1Agreed, toggleTerm2Agreed,
     age, setAge, gender, setGender, pregnancy, togglePregnancy, pregMonth, setPregMonth, setAgeFocused, setPregMonthFocused,
     validateAge, validatePregMonth, ageError, pregMonthError, ageFocused, pregMonthFocused,
-    cupDay, setCupDay, symptoms, toggleSymptom, allergies, toggleAllergy
+    cupDay, setCupDay, symptoms, toggleSymptom, allergies, toggleAllergy,
+    checkEmailDuplication,checkNicknameDuplication, checkUsernameDuplication, 
   } = useSignupStore()
 
   const handleInputChange = (field: string, value: string) => {
@@ -44,6 +42,7 @@ export default function ContentsSection() {
       case 'confirmPassword':
         setConfirmPassword(value);
         validateConfirmPassword(value);
+        break;
       case 'age':
         setAge(value)
         validateAge(value)
@@ -54,6 +53,7 @@ export default function ContentsSection() {
         break;
     }
   };
+
 
   const handleFocusChange = (field: string, focused: boolean) => {
     switch (field) {
@@ -79,14 +79,11 @@ export default function ContentsSection() {
     toggleTermsAgreed();
   };
   
-
-  console.log(passwordError)
-
   const renderedContentsSection = () => {
     switch(currentStep) {
       case 1:
         return(
-        <section className="flex items-between justify-center w-full h-[252px] mb-[126px]"> 
+        <section className="flex items-between justify-center w-full h-[252px] mb-[126px] px-5"> 
           <form className="space-y-2">
             <p className="text-xs">아이디 입력</p>
             <div className="space-x-2">
@@ -101,6 +98,8 @@ export default function ContentsSection() {
                               border ${usernameError ? 'border-primaryRed' : (usernameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
                 />
             <button
+                  type="button"
+                  onClick={() => checkUsernameDuplication('username')}
                   className={`w-[76px] h-[50px] rounded-md 
                   ${username ? "bg-gray09 text-gray00" : "bg-gray04 text-gray06"}`}
             >
@@ -135,6 +134,8 @@ export default function ContentsSection() {
                               border ${nicknameError ? 'border-primaryRed' : (nicknameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
                 />
             <button
+                  type="button"
+                  onClick={() => checkNicknameDuplication('nickname')}
                   className={`w-[76px] h-[50px] rounded-md 
                   ${nickname ? "bg-gray09 text-gray00" : "bg-gray04 text-gray06"}`}
             >
@@ -147,7 +148,7 @@ export default function ContentsSection() {
       )
       case 2:
         return(
-          <section className="flex flex-col justify-center items-center  ">
+          <section className="flex flex-col justify-center items-center px-5 ">
             <form className="space-y-2 mb-[61px]">
               <p className="text-xs">비밀번호 입력</p>
               <input 
@@ -184,7 +185,7 @@ export default function ContentsSection() {
                 height={16}
                 priority
               />
-                <p>약관 전체 동의</p>
+                <p className="font-pretendard text-gray10 text-[12px]">약관 전체 동의</p>
               </div>
             </div>
             <div className={`flex flex-col justify-center text-sm w-[320px] h-[91px] ${termsError ? 'border-primaryRed' : 'border-gray05'} border border-t-gray05 rounded-b-lg`}>
@@ -197,7 +198,7 @@ export default function ContentsSection() {
                 height={16}
                 priority
               />
-                <p>이용약관 동의 (필수)</p>
+                <p className="font-pretendard text-[10px] text-gray08">이용약관 동의 (필수)</p>
               </div>
               <div className="w-full flex px-5 py-2.5 mb-2 space-x-2">
               <Image 
@@ -208,19 +209,21 @@ export default function ContentsSection() {
                 height={16}
                 priority
               />
-                <p>개인정보 수집 및 이용동의(필수)</p>
+                <p className="font-pretendard  text-[10px] text-gray08">개인정보 수집 및 이용동의(필수)</p>
               </div>
             </div>
             {termsError && (
-        <p className="text-xs text-red-500 mt-2">
-          약관 동의 후 가입할 수 있습니다.
-        </p>
-      )}
+              <div className="w-full flex justify-start items-start">
+                <p className="text-xs text-primaryRed mt-2">
+                  약관 동의 후 가입할 수 있습니다.
+                </p>
+              </div>
+            )}
           </section>
         )
       case 3:
         return(
-          <section className="flex flex-col items-center justify-center">
+          <section className="flex flex-col items-center justify-center px-5">
             <form className="space-y-2">
               <p className="text-xs">만 나이</p>
               <div className="flex items-center space-x-2 mb-4">
@@ -231,7 +234,7 @@ export default function ContentsSection() {
                   onFocus={() => setAgeFocused(true)}
                   onBlur={() => setAgeFocused(false)}
                   placeholder="만 나이를 입력해주세요."
-                  className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                  className={`px-5 py-4 w-[296px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
                               border ${ageError ? 'border-primaryRed' : (ageFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
               />
                 <span className="text-sm">세</span>
@@ -279,7 +282,7 @@ export default function ContentsSection() {
                 )
               }
               {
-                pregnancy && (
+                gender === 'F' && pregnancy && (
                   <>
                     <p className="text-xs">임신 개월 수</p>
                       <div className="flex items-center space-x-2 mb-4">
@@ -289,11 +292,11 @@ export default function ContentsSection() {
                         onChange={(e) => handleInputChange('pregMonth', e.target.value)}
                         onFocus={() => setPregMonthFocused(true)}
                         onBlur={() => setPregMonthFocused(false)}
-                        placeholder="만 나이를 입력해주세요."
-                        className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                        placeholder="임신 개월 수를 입력해주세요."
+                        className={`px-5 py-4 w-[288px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
                                     border ${pregMonthError ? 'border-primaryRed' : (pregMonthFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
                       />
-                        <span className="text-sm">개월</span>
+                        <span className="text-sm whitespace-nowrap">개월</span>
                       </div>
                       {pregMonthError && <span className="text-xs text-primaryRed">{pregMonthError}</span>}
                   </>
@@ -304,7 +307,7 @@ export default function ContentsSection() {
         )
       case 4:
         return(
-          <section className="flex flex-col items-center">
+          <section className="flex flex-col items-center px-5">
             <form className="space-y-8">
               <div className="flex flex-col space-y-4 justify-center">
                 <p className="text-md font-pretendard600">하루에 커피를 몇 잔 정도 마시나요?</p>

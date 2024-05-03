@@ -7,11 +7,19 @@ import React from 'react'
 import useSignupStore from "@/store/signupStore"
 
 export default function HeaderSection() {
-  const { currentStep } = useSignupStore()
+  const { currentStep, goToPrevStep } = useSignupStore()
+
+  const handleBackClick = (event: any) => {
+    if(currentStep > 1) {
+      event.preventDefault();
+      goToPrevStep()
+    }
+  }
+
 
   return (
-    <section className={`flex items-center ${currentStep === 5 ? 'justify-end' : 'justify-between'} w-full h-[54px]`}>
-      <Link href="/auth/login">
+    <section className={`px-5 flex items-center ${currentStep === 5 ? 'justify-end' : 'justify-between'} w-full h-[54px]`}>
+      <Link href={currentStep === 1 ? "/auth/login" : "#"} onClick={handleBackClick}>
         <Image
           src={currentStep === 5 ? "/svgs/svg_close.svg" : "/svgs/svg_leftArrow.svg"}
           alt={currentStep === 5 ? "Close" : "Back"}
@@ -22,7 +30,7 @@ export default function HeaderSection() {
         />
       </Link>
       {currentStep < 5 && <div className="font-pretendard text-md">회원가입</div>}
-      {currentStep < 5 && <div />} 
+      {currentStep < 5 && <div className="w-6 h-6"/>} 
     </section>
   )
 }

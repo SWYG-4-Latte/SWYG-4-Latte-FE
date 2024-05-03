@@ -1,23 +1,40 @@
 'use client'
-
+// NEXT
+import { useRouter } from 'next/navigation';
 // Zustand
 import useSignupStore from '@/store/signupStore'
+import Link from 'next/link';
 
 export default function FooterSection() {
+  const router = useRouter()
+
   const { 
     username, email, nickname, 
     password, confirmPassword, termsAgreed, 
-    age, pregMonth,
+    age, gender,
     cupDay, symptoms, allergies,
-    goToNextStep, currentStep,
+    goToNextStep, currentStep, submitSignupForm, resetSignupForm
   } = useSignupStore();
 
   const stepOneFilled = username && email && nickname
   const stepTwoFilled = password && confirmPassword;
-  const stepThreeFilled = age && pregMonth
+  const stepThreeFilled = age && gender
   const stepFourFilled = cupDay && symptoms.length > 0 && allergies.length > 0
-  const isTermsAgreed = termsAgreed;
-  
+
+  const handleFormSubmit = async () => {
+    try {
+      await submitSignupForm(); // 회원가입 API 호출
+      alert('회원가입이 성공적으로 완료되었습니다!');
+      resetSignupForm(); // 상태초기화
+      router.push('/auth/login'); 
+    } catch (error) {
+      alert('회원가입에 실패했습니다.');
+      console.error('Signup failed:', error);
+      resetSignupForm()
+      router.push('/auth/login');
+    }
+  };
+
   const renderedFooterSection = () => {
     switch(currentStep) {
       case 1:
@@ -69,7 +86,7 @@ export default function FooterSection() {
           <div className="flex items-center space-x-2">
             <button 
               onClick={goToNextStep}
-              className="w-[118px] h-[50px] bg-gray01 border border-gray05 rounded-md text-gray06">
+              className="w-[118px] h-[50px] bg-gray01 border border-gray05 rounded-md text-gray08">
               나중에 입력
             </button>
             <button 
@@ -84,11 +101,13 @@ export default function FooterSection() {
       case 5:
         return(
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
-          <button 
-            onClick={goToNextStep}
-            className="w-[320px] h-[50px] bg-orange06 text-gray00 rounded-md">
-            라떼핏 바로가기
-          </button>
+          <Link href="/auth/login">
+            <button 
+              onClick={handleFormSubmit}
+              className="w-[320px] h-[50px] bg-orange06 text-gray00 rounded-md">
+              라떼핏 바로가기
+            </button>
+          </Link>
           </section>
         )
       default:

@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className="flex justify-center items-center" lang="kr">
-      <body className="w-[360px] h-screen bg-gray02 px-5">
+      <body className="w-[360px] h-screen bg-gray02">
         {children}
       </body>
     </html>

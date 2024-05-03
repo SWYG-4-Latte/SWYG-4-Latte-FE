@@ -10,11 +10,22 @@ const useLoginStore = create<ILoginState>((set) => ({
   passwordError: null,
   usernameFocused: false,
   passwordFocused: false,
+  accessToken: '',
+  refreshToken: '',
+  isLoggedIn: false,
+  loginError: null,
 
   setUsername: (username) => set({ username }),
   setPassword: (password) => set({ password }),
   setUsernameFocused: (focused) => set({ usernameFocused: focused }),
   setPasswordFocused: (focused) => set({ passwordFocused: focused }),
+
+  setToken: (accessToken: string, refreshToken?: string) => {
+    set({ accessToken, refreshToken, isLoggedIn: true });
+  },
+  clearToken: () => {
+    set({ accessToken: '', refreshToken: '', isLoggedIn: false });
+  },
 
   validateUsername: (username) => {
     const usernameRegex = /^[A-Za-z0-9]{6,12}$/;

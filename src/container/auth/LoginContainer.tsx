@@ -2,17 +2,21 @@
 // NEXT
 import Image from "next/image"
 import Link from "next/link"
+//Libary
 import React, { } from "react"
+import axios from "axios"
 // Zustand
 import useLoginStore from "@/store/loginStore"
 // Hook
+import { login } from "@/utils/auth-signup/isLogin"
 
 
 export default function LoginContainer() {
   const {
     username, password, setUsername, setPassword,
     usernameError, passwordError, usernameFocused, passwordFocused,
-    setUsernameFocused, setPasswordFocused, validateUsername, validatePassword
+    setUsernameFocused, setPasswordFocused, validateUsername, validatePassword,
+    setToken
   } = useLoginStore();
 
   
@@ -37,13 +41,29 @@ export default function LoginContainer() {
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(isInputValid ? 'Login Success' : 'Invalid username or password');
+    try {
+      const response = await login(username, password);
+      console.log(response.data.jwtToken)
+      console.log(response.data.jwtToken.accessToken)
+
+      if (response.data.jwtToken && response.data.jwtToken.accessToken) {
+        setToken(response.data.jwtToken.accessToken);
+        console.log("Login Success");
+        alert("로그인에 성공하였습니다.")
+      } else {
+        console.error("Login Failed: ", response.data.message);
+        alert("로그인에 실패하였습니다.")
+      }
+    } catch (error) {
+      console.error("Login Error", error);
+    }
   };
 
   return (
-    <div className="w-full h-screen text-gray10">
+    <div className="w-full h-screen text-gray10 px-5">
       <section className="flex-i-center w-full h-[54px]">
         <Image
           src="/svgs/svg_leftArrow.svg"
@@ -93,11 +113,9 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('password', true)}
               onBlur={() => handleFocusChange('password', false)}
               placeholder="비밀번호"
-              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] text-gray10 bg-gray01 placeholder:text-gray05 outline-none br
-                          border ${passwordError ? 'border-primaryRed' : 'border-gray05'}
-                          focus:${passwordError ? 'border-primaryRed' : 'border-primaryOrange'}
-                          `
-                        }
+              className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] text-gray10 bg-gray01 placeholder:text-gray05 outline-none
+                          border ${passwordError ? 'border-primaryRed' : (passwordFocused ? 'border-primaryOrange' : 'border-gray05')}
+            `}
             />
             { passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}
           </div>
