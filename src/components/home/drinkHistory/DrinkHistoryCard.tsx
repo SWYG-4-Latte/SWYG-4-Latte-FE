@@ -38,7 +38,7 @@ const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: Me
       return;
     }
 
-    addDrink(drinkHistoryData.menuNo);
+    addDrink(drinkHistoryData);
     if (isFull()) {
       router.push('compare-drinks');
     } else {
