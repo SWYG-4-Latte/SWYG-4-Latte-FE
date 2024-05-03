@@ -21,7 +21,7 @@ const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: 
   if (isHovered) defaultImgSrc = '/svgs/beverage-hover.svg';
 
   return (
-    <div className="flex h-[118px] flex-1 flex-col items-center justify-center gap-2">
+    <div className="flex h-[134px] flex-1 flex-col items-center justify-center gap-2">
       <div className="relative">
         <Image
           src={drink ? drink.imageUrl : defaultImgSrc}
@@ -43,11 +43,12 @@ const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: 
           </button>
         )}
       </div>
-      <div className="flex flex-col items-center justify-center gap-2">
+      <div className="flex flex-col items-center justify-center gap-1">
         <div className="text-[10px] text-primaryOrange">{drink ? drink.brand : '-'}</div>
         <div className="whitespace-nowrap text-xs text-gray10">
           {drink ? ellipsisText(drink.menuName, 10) : '음료를 추가해주세요'}
         </div>
+        <div className="text-[10px] text-gray08">{drink ? drink.menuSize : '-'}</div>
       </div>
     </div>
   );

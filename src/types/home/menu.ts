@@ -18,6 +18,7 @@ export interface ComparedMenu extends Menu {
   price: number;
   allergy: string;
   kcal: string;
+  volume: string;
 }
 
 export interface Nutrient {
