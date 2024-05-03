@@ -6,11 +6,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Portal from './Portal';
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-export interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
+/**
+ * 일반 모달: 아래에서 위로 올라오는 효과
+ * 음료 추천 모달: fade in, fade out 효과만
+ */
 const modalVariants = {
   hidden: {
     y: '100vh',
@@ -27,7 +26,19 @@ const modalVariants = {
   exit: {
     opacity: 0,
   },
+  recommendationHidden: {
+    opacity: 0,
+  },
+  recommendationVisible: {
+    opacity: 1,
+  },
 };
+
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  isRecommendationModal?: boolean;
+}
 
 const Backdrop = ({ children }: PropsWithChildren) => {
   return (
@@ -43,7 +54,7 @@ const Backdrop = ({ children }: PropsWithChildren) => {
   );
 };
 
-const Modal = ({ isOpen, onClose, children }: PropsWithChildren<ModalProps>) => {
+const Modal = ({ isOpen, onClose, children, isRecommendationModal = false }: PropsWithChildren<ModalProps>) => {
   const modalRef = useRef(null);
 
   useOutsideClick(modalRef, onClose);
@@ -60,8 +71,8 @@ const Modal = ({ isOpen, onClose, children }: PropsWithChildren<ModalProps>) => 
                 role="dialog"
                 className="shadow-modal fixed z-[999] flex w-[304px] flex-col items-center gap-4 rounded-2xl bg-gray02 px-5 py-6"
                 variants={modalVariants}
-                initial="hidden"
-                animate="visible"
+                initial={isRecommendationModal ? 'recommendationHidden' : 'hidden'}
+                animate={isRecommendationModal ? 'recommendationVisible' : 'visible'}
                 exit="exit"
                 onClick={(e) => e.stopPropagation()}
               >
