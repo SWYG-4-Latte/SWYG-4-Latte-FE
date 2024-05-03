@@ -16,7 +16,7 @@
 
 @layer base {
   .layout {
-    @apply mx-auto min-h-dvh w-full min-w-[360px] max-w-[500px] bg-gray02 font-pretendard leading-normal -tracking-[0.01em];
+    @apply mx-auto min-h-dvh w-full min-w-[360px] max-w-[500px] bg-gray02 font-pretendard leading-normal -tracking-[0.01em] antialiased;
   }
 
   @font-face {
@@ -58,6 +58,11 @@
   font-weight: 700;
   font-display: swap;
   font-style: bold;
+}
+
+/* Swiper 라이브러리 관련 */
+.swiper {
+  @apply m-0 w-full !important;
 }
 
 .swiper-slide {

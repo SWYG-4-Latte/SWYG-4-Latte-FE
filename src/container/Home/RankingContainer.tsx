@@ -2,10 +2,8 @@
 
 import { useState } from 'react';
 
-import BrandSwiper from '@/components/home/BrandSwiper';
-import BadgeButton from '@/components/home/drinkRanking/BadgeButton';
-import { BADGE_TEXT } from '@/constants/home/filterBadge';
 import RankingList from '@/components/home/drinkRanking/RankingList';
+import Brand from '@/components/common/Brand';
 
 const brandList = [
   {
@@ -39,6 +37,7 @@ const rankingData = [
     brand: '스타벅스',
     caffeine: '65mg',
     imageUrl: 'https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000003285]_20210416154437069.jpg',
+    menuSize: 'Tall',
   },
   {
     menuNo: 400,
@@ -46,6 +45,7 @@ const rankingData = [
     brand: '스타벅스',
     caffeine: '75mg',
     imageUrl: 'https://image.istarbucks.co.kr/upload/store/skuimg/2024/03/[9200000000418]_20240327144723352.jpg',
+    menuSize: 'Tall',
   },
   {
     menuNo: 399,
@@ -53,26 +53,26 @@ const rankingData = [
     brand: '스타벅스',
     caffeine: '75mg',
     imageUrl: 'https://image.istarbucks.co.kr/upload/store/skuimg/2024/03/[9200000000415]_20240327144033044.jpg',
+    menuSize: 'Tall',
   },
 ];
 
 const RankingContainer = () => {
-  const [selectedButtonIdx, setSelectedButtonIdx] = useState<number>(0);
-
-  const handleClick = (idx: number) => {
-    /** 필터링 기능 추가 */
-    setSelectedButtonIdx(idx);
-  };
+  const [selectedBrandIdx, setSelectedBrandIdx] = useState<number>(0);
 
   return (
-    <div className="flex flex-col">
-      <div className="my-4 pl-5 font-semibold text-gray10">카페 브랜드별 랭킹</div>
-      <BrandSwiper slideData={brandList} />
-      <div className="my-4 inline-flex gap-2 pl-5">
-        {BADGE_TEXT.map((filterName, idx) => (
-          <BadgeButton key={filterName} selected={selectedButtonIdx === idx} onClick={() => handleClick(idx)}>
-            {filterName}
-          </BadgeButton>
+    <div className="flex flex-col bg-primaryIvory">
+      <div className="my-[25px] pl-5 font-semibold text-gray10">오늘의 카페인 인기 랭킹</div>
+      <div className="mb-[31px] flex justify-between px-5">
+        {brandList.map((data, idx) => (
+          <div
+            key={data.brandName}
+            onClick={() => {
+              setSelectedBrandIdx(idx);
+            }}
+          >
+            <Brand brandData={data} selected={selectedBrandIdx === idx} />
+          </div>
         ))}
       </div>
       <RankingList rankingData={rankingData} />

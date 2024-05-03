@@ -1,10 +1,10 @@
 import DrinkHistoryDetail from './DrinkHistoryDetail';
 import DrinkHistoryCardFooter from './DrinkHistoryCardFooter';
-import { DrinkHistoryData } from '@/types/home/drinkHistory';
+import { Menu } from '@/types/home/menu';
 
-const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: DrinkHistoryData; isEmpty: boolean }) => {
+const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: Menu; isEmpty: boolean }) => {
   return (
-    <div className="h-[118px] w-[229px] overflow-hidden rounded-lg border border-gray04 bg-primaryIvory">
+    <div className="h-[118px] w-[229px] overflow-hidden rounded-lg border border-gray04 bg-primaryIvory shadow-toast">
       {isEmpty ? (
         <DrinkHistoryDetail heading="마신 음료를 추가해봐요" description="빠르게 기록할 수 있어요" />
       ) : (
