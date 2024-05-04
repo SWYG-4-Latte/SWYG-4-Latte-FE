@@ -6,9 +6,9 @@ const ComparisonTableRow = ({ header, data }: { header: string; data: string[] }
       <div className="flex h-full w-[67px] items-center justify-start bg-gray03 pl-5 text-[10px] text-gray08">
         <span className="w-[39px]">{header}</span>
       </div>
-      <div className="flex flex-1 justify-center text-xs text-gray10">{drink1Data}</div>
+      <div className="flex flex-1 justify-center whitespace-pre-wrap text-center text-xs text-gray10">{drink1Data}</div>
       <div className="h-[37px] w-px bg-gray04" />
-      <div className="flex flex-1 justify-center text-xs text-gray10">{drink2Data}</div>
+      <div className="flex flex-1 justify-center whitespace-pre-wrap text-center text-xs text-gray10">{drink2Data}</div>
     </div>
   );
 };

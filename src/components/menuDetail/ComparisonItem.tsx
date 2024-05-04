@@ -1,10 +1,15 @@
 import Image from 'next/image';
 
-import { Menu } from '@/types/home/menu';
+import { DrinkType } from '@/store/drinkComparisonStore';
 
-const ComparisonItem = ({ drink, onDelete }: { drink: Menu | null; onDelete: ((menuNo: number) => void) | null }) => {
+interface ComparisonItemProps {
+  drink: DrinkType | null;
+  onDelete: (menuNo: number) => void;
+}
+
+const ComparisonItem = ({ drink, onDelete }: ComparisonItemProps) => {
   const handleDelete = () => {
-    if (drink && onDelete) {
+    if (drink) {
       onDelete(drink.menuNo);
     }
   };

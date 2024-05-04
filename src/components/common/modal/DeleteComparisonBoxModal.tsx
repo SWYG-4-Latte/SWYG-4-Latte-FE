@@ -2,10 +2,13 @@ import { toast } from 'react-toastify';
 
 import Button from '../button/Button';
 import Modal, { ModalProps } from './Modal';
+import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
 
 const DeleteComparisonBoxModal = ({ isOpen, onClose }: ModalProps) => {
-  const handleClearComparisonBox = () => {
-    // 비교함 로직 구현 후 추가하기
+  const { deleteAllDrinks } = useDrinkComparisonStore();
+
+  const handleClearComparisonBoxItems = () => {
+    deleteAllDrinks();
     onClose();
     toast('삭제되었습니다');
   };
@@ -22,7 +25,10 @@ const DeleteComparisonBoxModal = ({ isOpen, onClose }: ModalProps) => {
         >
           그만두기
         </button>
-        <Button className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]" onClick={handleClearComparisonBox}>
+        <Button
+          onClick={handleClearComparisonBoxItems}
+          className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
+        >
           삭제하기
         </Button>
       </div>
