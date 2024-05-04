@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -47,13 +49,7 @@ const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: Me
   };
 
   const handleRecord = () => {
-    if (isEmpty) {
-      router.push('/category');
-      return;
-    }
-
     // 기록하기 기능 추가하기
-
     openRecordCompleteModal();
   };
 
