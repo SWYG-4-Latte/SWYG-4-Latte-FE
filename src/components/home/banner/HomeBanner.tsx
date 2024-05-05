@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -11,15 +9,15 @@ const HomeBanner = ({ caffeineData }: { caffeineData: CaffeineData | null }) => 
   const emptyHistory = caffeineData && caffeineData.today !== '0mg';
 
   const buttonText = caffeineData ? '오늘의 카페인 기록하기' : '지금 시작하기';
-  let bannerImgUrl = '/svgs/img-banner-none.svg';
+  let bannerImgUrl = '/images/img-banner-none.png';
 
   if (emptyHistory) {
-    if (caffeineData.status === '적정') bannerImgUrl = '/svgs/img-banner-appropriate.svg';
-    else bannerImgUrl = '/svgs/img-banner-excess.svg';
+    if (caffeineData.status === '적정') bannerImgUrl = '/images/img-banner-appropriate.png';
+    else bannerImgUrl = '/images/img-banner-excess.png';
   }
 
   return (
-    <div className="relative">
+    <div className="relative min-h-[220px] bg-primaryBeige">
       <Image
         priority
         src={bannerImgUrl}
