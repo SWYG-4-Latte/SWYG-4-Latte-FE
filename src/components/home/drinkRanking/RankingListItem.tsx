@@ -35,7 +35,7 @@ const RankingListItem = ({
           router.push(`/menu/${menuNo}`);
         }}
       >
-        <span className="text-base font-semibold text-primaryOrange">{ranking}</span>
+        <span className="w-[11px] text-base font-semibold text-primaryOrange">{ranking}</span>
         <div className="mx-4 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray04">
           <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" />
         </div>
