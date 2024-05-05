@@ -22,7 +22,7 @@ const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: 
 
   return (
     <div className="flex h-[134px] flex-1 flex-col items-center justify-center gap-2">
-      <div className="relative">
+      <div className="relative h-20 w-20">
         <Image
           src={drink ? drink.imageUrl : defaultImgSrc}
           priority

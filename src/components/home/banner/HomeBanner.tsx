@@ -3,9 +3,9 @@ import Image from 'next/image';
 
 import Button from '../../common/button/Button';
 import BannerText from './BannerText';
-import { CaffeineData } from '@/types/home/drinkHistory';
+import { UserCaffeineData } from '@/types/home/user';
 
-const HomeBanner = ({ caffeineData }: { caffeineData: CaffeineData | null }) => {
+const HomeBanner = ({ caffeineData }: { caffeineData: UserCaffeineData | null }) => {
   const emptyHistory = caffeineData && caffeineData.today !== '0mg';
 
   const buttonText = caffeineData ? '오늘의 카페인 기록하기' : '지금 시작하기';

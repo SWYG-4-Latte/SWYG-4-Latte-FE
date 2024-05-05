@@ -1,6 +1,6 @@
-import { CaffeineData } from '@/types/home/drinkHistory';
+import { UserCaffeineData } from '@/types/home/user';
 
-const BannerText = ({ caffeineData }: { caffeineData: CaffeineData | null }) => {
+const BannerText = ({ caffeineData }: { caffeineData: UserCaffeineData | null }) => {
   if (!caffeineData) {
     return (
       <p className="mb-6 text-base font-semibold leading-snug text-gray10">
@@ -18,9 +18,7 @@ const BannerText = ({ caffeineData }: { caffeineData: CaffeineData | null }) => 
     );
   }
 
-  // 닉네임, 오늘의 카페인 섭취량, 오늘의 적정량 -> API 나온 후 수정
-  const nickname = '닉네임';
-  const { status, today, interval } = caffeineData;
+  const { status, today, interval, nickname } = caffeineData;
 
   let displayText = '오늘의 적정량';
   if (status === '적정') {
