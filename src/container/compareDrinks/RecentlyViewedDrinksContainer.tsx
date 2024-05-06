@@ -4,10 +4,12 @@ import axios from 'axios';
 import DrinkItem from '@/components/common/drink/DrinkItem';
 import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore';
 import { Menu } from '@/types/home/menu';
+import DrinkItemSkeleton from '@/components/common/skeleton/DrinkItemSkeleton';
 
 const RecentlyViewedDrinksContainer = () => {
   const { drinks: recentDrinkMenuNoList } = useRecentlyViewedDrinksStore();
   const [recentDrinks, setRecentDrinks] = useState<Menu[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getDrinksData = async () => {
@@ -18,6 +20,7 @@ const RecentlyViewedDrinksContainer = () => {
       });
 
       setRecentDrinks(response.data.data);
+      setIsLoading(false);
     };
 
     getDrinksData();
@@ -31,14 +34,18 @@ const RecentlyViewedDrinksContainer = () => {
           다른 음료 더보기
         </button>
       </div>
-
       <div className="mt-3 flex justify-between">
-        {recentDrinks.map(({ menuNo, menuName, imageUrl }) => (
-          <DrinkItem key={menuNo} menuNo={menuNo} menuName={menuName} imageUrl={imageUrl} />
-        ))}
-        {Array.from({ length: 4 - recentDrinks.length }).map((_, index) => (
-          <div key={index} className="w-[68px]"></div>
-        ))}
+        {isLoading && <DrinkItemSkeleton length={4} />}
+        {!isLoading && (
+          <>
+            {recentDrinks.map(({ menuNo, menuName, imageUrl }) => (
+              <DrinkItem key={menuNo} menuNo={menuNo} menuName={menuName} imageUrl={imageUrl} />
+            ))}
+            {Array.from({ length: 4 - recentDrinks.length }).map((_, index) => (
+              <div key={index} className="w-[68px]"></div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
