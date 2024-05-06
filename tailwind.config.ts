@@ -1,12 +1,10 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: [
-    './src/**/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./src/**/**/*.{js,ts,jsx,tsx}'],
   daisyui: {
     themes: ['light', 'dark', 'cupcake'],
-  }, 
+  },
   theme: {
     screens: {
       xs: '460px',
@@ -18,7 +16,7 @@ const config: Config = {
     },
     extend: {
       colors: {
-        gray00: '#fff',
+        gray00: '#FFFFFF',
         gray01: '#FCFAF8',
         gray02: '#F7F5F3',
         gray03: '#F1EFED',
@@ -28,7 +26,7 @@ const config: Config = {
         gray07: '#787775',
         gray08: '#646361',
         gray09: '#454342',
-        gray10: '#242221', 
+        gray10: '#242221',
         gray11: '#000000',
 
         // gray10 , gray08, gray06 === text01, text02, text03
@@ -47,24 +45,46 @@ const config: Config = {
 
         primaryAmber: '#F6B66E',
         primaryOrange: '#F39945',
-        primaryBeige: '#FCFAF8',
+        primaryBeige: '#F5E6C5',
         primaryIvory: '#FCFAF8',
         primaryDark: '#242221',
         primaryRed: '#EB5252',
       },
       fontFamily: {
-        pretendard: 'Pretendard',
-        pretendard500: 'Pretendard-medium',
-        pretendard600: 'Pretendard-semiBold',
-        pretendard700: 'Pretendard-bold',
+        pretendard: ['var(--font-pretendard)'],
       },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      boxShadow: {
+        nav: '0 -4px 20px 0 rgba(0, 0, 0, 0.05)',
+        toast: '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
+      },
+      lineHeight: {
+        normal: 'normal',
+      },
+      fontSize: {
+        xs: ['12px', 'normal'],
+        sm: ['14px', 'normal'],
+        base: ['16px', 'normal'],
+        lg: ['18px', 'normal'],
+        xl: ['20px', 'normal'],
+      },
+      gradientColorStopPositions: {
+        66.15: '66.15%',
+      },
+      keyframes: {
+        dropdown: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        dropdown: 'dropdown 0.15s ease',
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require('daisyui')],
 };
 export default config;

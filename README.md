@@ -1,25 +1,29 @@
 ## Getting Started
+
 ```bash
-npm run dev 
+npm run dev
 # or
 yarn dev
 ```
 
 ## Installed Library & Command
+
 ```bash
 Eslint              # NEXT 설치 시 기본 설정
 Prettier            # npm install -D prettier eslint-plugin-prettier eslint-config-prettier
 Tailwindcss         # NEXT 설치 시 기본 설정
 Daisyui             # npm i -D daisyui@latest
 Axios               # npm i axios
+Swiper              # npm i Swiper
 
 Zustand             # npm i zustand
 ```
 
 ## Projects Folder Explanation
+
 ```bash
 Root
-├──public            # 폰트 or 이미지와 같은 리소스 파일을 저장하는 폴더 
+├──public            # 폰트 or 이미지와 같은 리소스 파일을 저장하는 폴더
   ├── fonts          # 폰트
   ├── images         # 이미지
   └── svgs           # svgs
@@ -40,6 +44,7 @@ Root
 ```
 
 ## Commit Convention
+
 ```bash
 - chore: 빌드 스크립트, 패키지 매니저 설정 등의 변경
 - docs: 문서 변경
