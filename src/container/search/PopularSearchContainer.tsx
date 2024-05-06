@@ -17,7 +17,7 @@ const PopularSearchContainer = () => {
   useEffect(() => {
     const getPopularSearchList = async () => {
       try {
-        const response = await fetch('/api/menu/ranking/word');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu/ranking/word`);
         const data = await response.json();
 
         setPopularSearchList(data.data);
