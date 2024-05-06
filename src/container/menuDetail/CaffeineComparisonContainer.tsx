@@ -18,7 +18,7 @@ const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
 
   const handleAddComparisonItem = () => {
     if (comparedDrinks[0] && comparedDrinks[1]) {
-      router.push('/compare-drinks');
+      router.push('/menu/compare-drinks');
       return;
     }
 

@@ -8,7 +8,7 @@ const PopularSearchItem = ({ rank, word }: PopularSearchWord) => {
   const handleSearch = () => {
     const params = new URLSearchParams();
     params.set('query', word);
-    router.replace(`/search?${params.toString()}`, { scroll: false });
+    router.replace(`/menu/search?${params.toString()}`, { scroll: false });
   };
 
   return (

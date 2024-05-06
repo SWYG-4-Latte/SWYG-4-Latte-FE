@@ -43,7 +43,7 @@ const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: Me
 
     addDrink(drinkHistoryData);
     if (isFull()) {
-      router.push('compare-drinks');
+      router.push('/menu/compare-drinks');
     } else {
       toast('한 개 더 담아주세요', { toastId: 'successfully-added' });
     }

@@ -44,7 +44,7 @@ const SearchFilter = () => {
       params.set('filter', filterOption);
     }
 
-    router.replace(`/search?${params.toString()}`, { scroll: false });
+    router.replace(`/menu/search?${params.toString()}`, { scroll: false });
   }, [filterOption]);
 
   const isDropdownSelected = isDropdownOpen || (filterOption !== null && filterOption !== 'none');
@@ -68,7 +68,7 @@ const SearchFilter = () => {
         </div>
         {isDropdownOpen && (
           <div className="absolute left-[-1px] right-[-1px] top-full overflow-hidden text-xs text-gray08">
-            <div className="animate-dropdown w-full rounded-b-md border-x border-b border-primaryOrange bg-primaryIvory">
+            <div className="w-full animate-dropdown rounded-b-md border-x border-b border-primaryOrange bg-primaryIvory">
               <div
                 className="flex h-[30px] items-center justify-center border-t border-primaryBeige px-4 py-2"
                 onClick={(e) => handleClickDropdownOption(e, 'desc')}

@@ -13,7 +13,7 @@ const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCa
 
   const handleRecord = () => {
     if (isEmpty) {
-      router.push('/category');
+      router.push('/menu');
       return;
     }
     if (onRecord) onRecord();
