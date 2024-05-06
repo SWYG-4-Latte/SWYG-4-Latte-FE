@@ -63,8 +63,8 @@ export default function LoginContainer() {
   };
 
   return (
-    <div className="w-full h-screen text-gray10 px-5">
-      <section className="flex-i-center w-full h-[54px]">
+    <div className="flex flex-col items-center w-full h-screen text-gray10 px-5">
+      <section className="max-w-[360px] flex-i-center w-full h-[54px]">
         <Image
           src="/svgs/svg_leftArrow.svg"
           alt="letfArrow"
