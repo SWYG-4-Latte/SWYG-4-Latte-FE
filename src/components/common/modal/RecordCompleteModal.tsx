@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import Modal, { ModalProps } from './Modal';
 import Button from '../button/Button';
@@ -11,6 +11,7 @@ interface RecordCompleteModalProps extends ModalProps {
 
 const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompleteModalProps) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -29,7 +30,12 @@ const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompl
       <div className="flex gap-2">
         <button
           className="h-[50px] w-32 rounded-lg border border-gray05 bg-primaryIvory px-4 py-3 font-semibold leading-[25px] text-gray08 hover:border-0 hover:bg-gray06 hover:text-gray00"
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            if (pathname === '/home') {
+              window.location.reload();
+            }
+          }}
         >
           닫기
         </button>

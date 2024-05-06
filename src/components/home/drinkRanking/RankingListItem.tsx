@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import { Menu } from '@/types/home/menu';
 import useModal from '@/hooks/useModal';
-import Modal from '@/components/common/modal/Modal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 
 const RankingListItem = ({
@@ -21,10 +22,16 @@ const RankingListItem = ({
   const router = useRouter();
   const { isOpen, openModal, closeModal } = useModal();
 
-  const handleRecordCaffeine = (e: MouseEvent) => {
+  const handleRecordCaffeine = async (e: MouseEvent) => {
     e.stopPropagation();
-    // 오늘 마신 카페인으로 추가, 모달 띄우기
-    openModal();
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/drink/date/menu`, {
+        menuNo,
+      });
+      openModal();
+    } catch (error) {
+      toast('마신 메뉴 등록에 실패했습니다.');
+    }
   };
 
   return (
@@ -35,7 +42,7 @@ const RankingListItem = ({
           router.push(`/menu/${menuNo}`);
         }}
       >
-        <span className="text-base font-semibold text-primaryOrange">{ranking}</span>
+        <span className="w-[11px] text-base font-semibold text-primaryOrange">{ranking}</span>
         <div className="mx-4 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray04">
           <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" />
         </div>

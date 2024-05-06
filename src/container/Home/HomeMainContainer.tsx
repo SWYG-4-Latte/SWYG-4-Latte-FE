@@ -1,30 +1,30 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import HomeBanner from '@/components/home/banner/HomeBanner';
 import DrinkHistoryContainer from './DrinkHistoryContainer';
-
-const DATA = {
-  status: '적정',
-  today: '10mg',
-  interval: '238mg',
-  recent: [
-    {
-      menuNo: 345,
-      menuName: '유자에이드(ICED)',
-      brand: '빽다방',
-      caffeine: '0mg',
-      menuSize: '기본(24oz)',
-      imageUrl: 'https://paikdabang.com/wp-content/uploads/2018/06/유자에이드-1-450x588.png',
-    },
-  ],
-};
+import { UserCaffeineData } from '@/types/home/user';
 
 const HomeMainContainer = () => {
-  const { recent, ...data } = DATA;
+  const [userData, setUserData] = useState<UserCaffeineData | null>(null);
   const isLoggedIn = true;
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink`);
+
+      setUserData(response.data.data);
+    };
+
+    getUserData();
+  }, []);
 
   return (
     <>
-      <HomeBanner caffeineData={isLoggedIn ? data : null} />
-      <DrinkHistoryContainer drinkHistory={isLoggedIn ? recent : []} />
+      <HomeBanner caffeineData={isLoggedIn ? userData : null} />
+      <DrinkHistoryContainer drinkHistory={isLoggedIn && userData ? userData.recent : []} />
     </>
   );
 };
