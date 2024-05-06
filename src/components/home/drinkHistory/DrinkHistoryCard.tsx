@@ -12,7 +12,7 @@ import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 import DeleteComparisonBoxModal from '@/components/common/modal/DeleteComparisonBoxModal';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
 
-const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: Menu; isEmpty: boolean }) => {
+const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => {
   const router = useRouter();
 
   const { addDrink, isDrinkExist, isFull } = useDrinkComparisonStore();
@@ -62,13 +62,17 @@ const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: Me
 
   return (
     <div className="h-[118px] w-[229px] overflow-hidden rounded-lg border border-gray04 bg-primaryIvory shadow-toast">
-      {isEmpty ? (
+      {!drinkHistoryData ? (
         <DrinkHistoryDetail heading="마신 음료를 추가해봐요" description="빠르게 기록할 수 있어요" />
       ) : (
         <DrinkHistoryDetail drinkHistoryData={drinkHistoryData} />
       )}
       <div className="mx-auto h-px w-[213px] bg-gray04" />
-      <DrinkHistoryCardFooter isEmpty={isEmpty} onRecord={handleRecord} onCompare={handleCompare} />
+      <DrinkHistoryCardFooter
+        isEmpty={drinkHistoryData ? false : true}
+        onRecord={handleRecord}
+        onCompare={handleCompare}
+      />
       {drinkHistoryData && (
         <>
           <RecordCompleteModal
