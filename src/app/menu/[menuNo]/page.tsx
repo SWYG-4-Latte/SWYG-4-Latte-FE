@@ -1,9 +1,15 @@
+'use client';
+
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
 import NavigationHeader from '@/components/common/header/NavigationHeader';
+import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 import CaffeineComparisonContainer from '@/container/menuDetail/CaffeineComparisonContainer';
 import LowerCaffeineMenuContainer from '@/container/menuDetail/LowerCaffeineMenuContainer';
 import MenuInfoContainer from '@/container/menuDetail/MenuInfoContainer';
-import { Menu } from '@/types/home/menu';
+import useModal from '@/hooks/useModal';
 
 const SAMPLE_MENU = {
   menuNo: 312,
@@ -47,14 +53,28 @@ export default function MenuDetailPage({ params }: { params: { menuNo: string } 
   const menuNo = params.menuNo;
   const menu = SAMPLE_MENU;
 
+  const { isOpen, openModal, closeModal } = useModal();
+
+  const handleRecord = async () => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/drink/date/menu`, {
+        menuNo,
+      });
+      openModal();
+    } catch (error) {
+      toast('마신 메뉴 등록에 실패했습니다.');
+    }
+  };
+
   return (
     <main>
       <NavigationHeader />
+      <RecordCompleteModal isOpen={isOpen} onClose={closeModal} menuImg={menu.imageUrl} menuName={menu.menuName} />
       <div className="pb-24 pt-14">
         <MenuInfoContainer menu={menu} />
         <CaffeineComparisonContainer menu={menu} />
-        <FooterGradientButton>오늘 마신 카페인으로 기록하기</FooterGradientButton>
         <LowerCaffeineMenuContainer menus={menu.lowCaffeineMenus} />
+        <FooterGradientButton onClick={handleRecord}>오늘 마신 카페인으로 기록하기</FooterGradientButton>
       </div>
     </main>
   );

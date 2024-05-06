@@ -6,12 +6,12 @@ import BannerText from './BannerText';
 import { UserCaffeineData } from '@/types/home/user';
 
 const HomeBanner = ({ caffeineData }: { caffeineData: UserCaffeineData | null }) => {
-  const emptyHistory = caffeineData && caffeineData.today !== '0mg';
+  const hasTodayData = caffeineData && caffeineData.today !== '0mg';
 
   const buttonText = caffeineData ? '오늘의 카페인 기록하기' : '지금 시작하기';
   let bannerImgUrl = '/images/img-banner-none.png';
 
-  if (emptyHistory) {
+  if (hasTodayData) {
     if (caffeineData.status === '적정') bannerImgUrl = '/images/img-banner-appropriate.png';
     else bannerImgUrl = '/images/img-banner-excess.png';
   }

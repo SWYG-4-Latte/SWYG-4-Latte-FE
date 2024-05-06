@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 import DrinkHistoryDetail from './DrinkHistoryDetail';
 import DrinkHistoryCardFooter from './DrinkHistoryCardFooter';
@@ -48,9 +49,15 @@ const DrinkHistoryCard = ({ drinkHistoryData, isEmpty }: { drinkHistoryData?: Me
     }
   };
 
-  const handleRecord = () => {
-    // 기록하기 기능 추가하기
-    openRecordCompleteModal();
+  const handleRecord = async () => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/drink/date/menu`, {
+        menuNo: drinkHistoryData?.menuNo,
+      });
+      openRecordCompleteModal();
+    } catch (error) {
+      toast('마신 메뉴 등록에 실패했습니다.');
+    }
   };
 
   return (
