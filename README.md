@@ -16,7 +16,7 @@ Daisyui             # npm i -D daisyui@latest
 Axios               # npm i axios
 Swiper              # npm i Swiper
 
-
+Zustand             # npm i zustand
 ```
 
 ## Projects Folder Explanation
