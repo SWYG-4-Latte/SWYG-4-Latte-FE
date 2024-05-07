@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import NutrientInfo from '@/components/menuDetail/NutrientInfo';
+import NutrientInfo from '@/components/menuDetail/NutrientInfoList';
 import { ellipsisText } from '@/utils/string';
 import { MenuDetail } from '@/types/home/menu';
 
@@ -26,27 +26,27 @@ const MenuInfoContainer = ({ menu }: { menu: MenuDetail }) => {
           <div className="text-[22px] font-semibold leading-[30px] text-gray10">{ellipsisText(menu.menuName, 15)}</div>
           <div className="my-2">
             <div className="flex items-center font-medium text-gray08">
-              <div>{menu.caffeine}</div>
+              <div>카페인 {menu.caffeine}</div>
               <div className="mx-2 h-3 w-px bg-[#D9D9D9]" />
               <div>{menu.price.toLocaleString('ko-KR')}원</div>
             </div>
           </div>
-          <p className="flex items-center text-sm leading-6 text-gray08">
+          <div className="flex items-center text-sm leading-6 text-gray08">
             {isLoggedIn ? (
               <>
                 하루 적정 카페인 섭취량의
                 <div className="mx-[5px] flex h-[22px] w-fit items-center justify-center rounded bg-primaryBeige px-2 py-1 leading-normal text-orange09">
-                  20%
+                  {menu.percent}
                 </div>
                 를 차지해요
               </>
             ) : (
               <>로그인하고 하루 적정 카페인 섭취량을 확인해보세요.</>
             )}
-          </p>
+          </div>
         </div>
       </div>
-      <NutrientInfo nutrient={menu.nutrient} />
+      <NutrientInfo nutrientDetail={menu.nutrient} nutrientLevel={menu.level} />
     </div>
   );
 };

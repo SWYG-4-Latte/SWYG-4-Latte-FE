@@ -1,7 +1,4 @@
-type BrandNameType = {
-  [key: string]: string;
-};
-export const BRAND_NAME: BrandNameType = {
+export const BRAND_NAME: { [key: string]: string } = {
   스타벅스: 'starbucks',
   이디야: 'ediya',
   컴포즈: 'compose',
