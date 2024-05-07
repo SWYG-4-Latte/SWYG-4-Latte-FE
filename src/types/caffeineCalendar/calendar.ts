@@ -5,7 +5,8 @@ export type SelectedDate = SelectedDatePiece | [SelectedDatePiece, SelectedDateP
 export type SelectDateHandler = (date: SelectedDate) => void;
 
 export interface ThisMonthData {
-  [key: string]: string;
+  status: string;
+  date: { [key: string]: string };
 }
 
 export interface SelectedDateInfoType {

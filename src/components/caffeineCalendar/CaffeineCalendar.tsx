@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
+import axios from 'axios';
 
 import 'react-calendar/dist/Calendar.css';
 import './calendar.css';
@@ -10,32 +11,46 @@ import './calendar.css';
 import MonthComparisonMessage from './MonthComparisonMessage';
 import { SelectDateHandler, SelectedDate, ThisMonthData } from '@/types/caffeineCalendar/calendar';
 import CaffeineStatus from './CaffeineStatus';
+import { formatCalendarMonth } from '@/utils/date';
 
-const SAMPLE = {
-  '22': '높음',
-  '20': '보통',
-  '26': '낮음',
-};
+interface CaffeineCalendarProps {
+  selectedDate: SelectedDate;
+  onSelect: SelectDateHandler;
+}
 
-const CaffeineCalendar = ({ selectedDate, onSelect }: { selectedDate: SelectedDate; onSelect: SelectDateHandler }) => {
-  const [thisMonthData, setThisMonthData] = useState<ThisMonthData>(SAMPLE);
-  const [curMonth, setCurMonth] = useState<number>(new Date().getMonth() + 1);
+const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => {
+  const [thisMonthData, setThisMonthData] = useState<ThisMonthData | null>(null);
+  const [activeDate, setActiveDate] = useState<Date>(new Date()); // 현재 보여지는 달의 1일
+
+  // const isVisibleMonthComparisonMessage = activeDate
 
   const addTitleContent = ({ date }: { date: Date }) => {
+    if (!thisMonthData) return;
+
     const curDate = date.getDate().toString();
-    const status = thisMonthData[curDate];
+    const status = thisMonthData.date[curDate];
 
     if (!status) return null;
 
     return <CaffeineStatus status={status} locatedInCalendar />;
   };
 
-  // TODO: 현재 달력을 보고 있는 달이 바뀔 때 날짜별 상태 가져오기
-  useEffect(() => {}, [curMonth]);
+  useEffect(() => {
+    const getThisMonthData = async () => {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/calendar`, {
+        params: {
+          datetime: formatCalendarMonth(activeDate),
+        },
+      });
+      setThisMonthData(response.data.data);
+    };
+
+    getThisMonthData();
+  }, [activeDate]);
 
   return (
     <div className="relative flex items-center justify-center bg-primaryIvory px-5 pt-2">
-      <MonthComparisonMessage status={'감소'} />
+      {thisMonthData && <MonthComparisonMessage status={thisMonthData.status} />}
       <Calendar
         locale="ko"
         calendarType="gregory"
@@ -49,7 +64,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: { selectedDate: SelectedDa
         tileContent={addTitleContent}
         onActiveStartDateChange={({ activeStartDate }: { activeStartDate: Date | null }) => {
           if (!activeStartDate) return;
-          setCurMonth(activeStartDate.getMonth() + 1);
+          setActiveDate(activeStartDate);
         }}
       />
     </div>
