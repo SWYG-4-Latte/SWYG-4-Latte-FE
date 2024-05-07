@@ -5,6 +5,8 @@ import { ellipsisText } from '@/utils/string';
 import { MenuDetail } from '@/types/home/menu';
 
 const MenuInfoContainer = ({ menu }: { menu: MenuDetail }) => {
+  const isLoggedIn = true; // 로그인 여부
+
   return (
     <div>
       <div className="flex h-[260px] items-center justify-center overflow-hidden">
@@ -29,13 +31,19 @@ const MenuInfoContainer = ({ menu }: { menu: MenuDetail }) => {
               <div>{menu.price.toLocaleString('ko-KR')}원</div>
             </div>
           </div>
-          <div className="flex items-center text-sm text-gray08">
-            하루 적정 카페인 섭취량의
-            <div className="mx-[5px] flex w-fit items-center justify-center rounded bg-primaryBeige px-2 py-1 text-orange09">
-              20%
-            </div>
-            를 차지해요
-          </div>
+          <p className="flex items-center text-sm leading-6 text-gray08">
+            {isLoggedIn ? (
+              <>
+                하루 적정 카페인 섭취량의
+                <div className="mx-[5px] flex h-[22px] w-fit items-center justify-center rounded bg-primaryBeige px-2 py-1 leading-normal text-orange09">
+                  20%
+                </div>
+                를 차지해요
+              </>
+            ) : (
+              <>로그인하고 하루 적정 카페인 섭취량을 확인해보세요.</>
+            )}
+          </p>
         </div>
       </div>
       <NutrientInfo nutrient={menu.nutrient} />
