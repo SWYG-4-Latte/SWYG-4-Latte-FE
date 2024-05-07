@@ -15,7 +15,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
     const getDateInfo = async () => {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
         params: {
-          datetime: dayjs(selectedDate).format('YYYY-MM-DDTHH:mm:ss'),
+          datetime: dayjs(selectedDate).format('YYYY-MM-DDT00:00:00'),
         },
       });
       setSelectedDateInfo(response.data.data);
