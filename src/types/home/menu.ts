@@ -9,11 +9,15 @@ export interface Menu {
 }
 
 export interface MenuDetail extends Menu {
+  brand: string;
+  caffeine: string;
+  menuSize: string;
   price: number;
   nutrient: Nutrient;
   lowCaffeineMenus: Menu[];
   level: NutrientLevel;
   percent: string | null; // 비로그인 또는 부가정보 미입력 시 null
+  otherSizes: string[];
 }
 
 export interface ComparedMenu extends Menu {

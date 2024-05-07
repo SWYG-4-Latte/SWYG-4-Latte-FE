@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -14,10 +15,14 @@ import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore'
 import { MenuDetail } from '@/types/home/menu';
 
 const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
-  const { menuNo, lowCaffeineMenus } = menuDetail;
-
   const { addDrinkToRecentlyViewedStore } = useRecentlyViewedDrinksStore();
   const { isOpen, openModal, closeModal } = useModal();
+
+  const searchParams = useSearchParams();
+  const size = searchParams.get('size');
+  const [activeMenuDetail, setActiveMenuDetail] = useState(menuDetail);
+
+  const { menuNo, lowCaffeineMenus } = activeMenuDetail;
 
   const handleRecord = async () => {
     try {
@@ -31,6 +36,20 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   };
 
   useEffect(() => {
+    const getMenuDetailBySize = async () => {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/detail/${menuNo}`, {
+        params: {
+          menu_size: size,
+        },
+      });
+      setActiveMenuDetail(response.data.data);
+    };
+    if (size) {
+      getMenuDetailBySize();
+    }
+  }, [size]);
+
+  useEffect(() => {
     addDrinkToRecentlyViewedStore(menuNo);
   }, []);
 
@@ -39,12 +58,12 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
       <RecordCompleteModal
         isOpen={isOpen}
         onClose={closeModal}
-        menuImg={menuDetail.imageUrl}
-        menuName={menuDetail.menuName}
+        menuImg={activeMenuDetail.imageUrl}
+        menuName={activeMenuDetail.menuName}
       />
       <div className="pb-24 pt-14">
-        <MenuInfoContainer menu={menuDetail} />
-        <CaffeineComparisonContainer menu={menuDetail} />
+        <MenuInfoContainer menu={activeMenuDetail} />
+        <CaffeineComparisonContainer menu={activeMenuDetail} />
         <LowerCaffeineMenuContainer menus={lowCaffeineMenus} />
         <FooterGradientButton onClick={handleRecord}>오늘 마신 카페인으로 기록하기</FooterGradientButton>
       </div>
