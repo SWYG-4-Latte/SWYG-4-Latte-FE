@@ -34,16 +34,25 @@ const RecentlyViewedDrinksContainer = () => {
           다른 음료 더보기
         </button>
       </div>
+
       <div className="mt-3 flex justify-between">
         {isLoading && <DrinkItemSkeleton length={4} />}
         {!isLoading && (
           <>
-            {recentDrinks.map(({ menuNo, menuName, imageUrl }) => (
-              <DrinkItem key={menuNo} menuNo={menuNo} menuName={menuName} imageUrl={imageUrl} />
-            ))}
-            {Array.from({ length: 4 - recentDrinks.length }).map((_, index) => (
-              <div key={index} className="w-[68px]"></div>
-            ))}
+            {recentDrinks.length !== 0 ? (
+              <>
+                {recentDrinks.map(({ menuNo, menuName, imageUrl }) => (
+                  <DrinkItem key={menuNo} menuNo={menuNo} menuName={menuName} imageUrl={imageUrl} />
+                ))}
+                {Array.from({ length: 4 - recentDrinks.length }).map((_, index) => (
+                  <div key={index} className="w-[68px]"></div>
+                ))}
+              </>
+            ) : (
+              <div className="mx-auto mt-7 flex h-9 items-center text-sm leading-6 text-gray06">
+                최근 확인한 음료가 없어요.
+              </div>
+            )}
           </>
         )}
       </div>
