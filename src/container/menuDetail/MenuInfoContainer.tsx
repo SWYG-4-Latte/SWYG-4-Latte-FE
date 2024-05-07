@@ -12,14 +12,14 @@ interface MenuInfoContainerProps {
 const MenuInfoContainer = ({ menu }: MenuInfoContainerProps) => {
   return (
     <div>
-      <div className="flex h-[260px] items-center justify-center overflow-hidden">
+      <div className="flex h-[360px] items-center justify-center overflow-hidden bg-primaryBeige">
         <Image
           src={menu.imageUrl}
           priority
           width={0}
           height={0}
           sizes="100vw"
-          className="h-full w-[360px]"
+          className="h-auto w-full"
           alt={menu.menuName}
         />
       </div>
