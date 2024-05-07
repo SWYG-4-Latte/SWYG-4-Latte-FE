@@ -21,7 +21,7 @@ const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCa
 
   if (isEmpty) {
     return (
-      <div className=" flex h-[37px] w-full items-center justify-center">
+      <div className="flex h-9 w-full items-center justify-center">
         <button
           onClick={handleRecord}
           className="h-full w-full text-xs text-gray10 hover:bg-orange01 hover:text-primaryOrange"
@@ -33,12 +33,18 @@ const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCa
   }
 
   return (
-    <div className="flex h-[37px] items-center text-xs">
-      <button onClick={onCompare} className="h-[37px] w-[114px] text-gray10 hover:bg-orange01 hover:text-primaryOrange">
-        비교하기
+    <div className="flex h-9 items-center justify-center text-xs">
+      <button
+        onClick={onCompare}
+        className="flex h-full w-[124px] items-center justify-center px-6 py-[10px] text-gray10 hover:bg-orange01 hover:text-primaryOrange"
+      >
+        비교함에 담기
       </button>
       <div className="h-[21px] w-px bg-gray04" />
-      <button onClick={handleRecord} className="h-[37px] w-[114px] text-orange09 hover:bg-orange01">
+      <button
+        onClick={handleRecord}
+        className="flex h-full w-[124px] items-center justify-center px-6 py-[10px] text-orange09 hover:bg-orange01"
+      >
         기록하기
       </button>
     </div>

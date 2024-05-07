@@ -9,7 +9,7 @@ const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHis
 
   return (
     <div
-      className={`flex gap-2 px-4 py-[15px]  ${drinkHistoryData ? 'cursor-pointer' : ''}`}
+      className={`flex gap-2 p-4 ${drinkHistoryData ? 'cursor-pointer' : ''}`}
       onClick={() => {
         if (drinkHistoryData) {
           router.push(`/menu/${drinkHistoryData?.menuNo}`);
