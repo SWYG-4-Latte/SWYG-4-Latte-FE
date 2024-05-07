@@ -67,6 +67,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
           if (!activeStartDate) return;
           setActiveDate(activeStartDate);
         }}
+        tileDisabled={({ activeStartDate, date }) => dayjs(date).isAfter(dayjs())}
       />
     </div>
   );
