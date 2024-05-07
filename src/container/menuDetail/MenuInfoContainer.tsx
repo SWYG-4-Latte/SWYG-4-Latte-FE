@@ -20,6 +20,7 @@ const MenuInfoContainer = ({ menu }: MenuInfoContainerProps) => {
           height={0}
           sizes="100vw"
           className="h-auto w-full"
+          quality={100}
           alt={menu.menuName}
         />
       </div>
