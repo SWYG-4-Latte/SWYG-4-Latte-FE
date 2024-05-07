@@ -1,11 +1,7 @@
-'use client';
-
-import { useState } from 'react';
-
 import { ComparedMenu } from '@/types/home/menu';
 import DrinkInfo from '@/components/compareDrinks/DrinkInfo';
 import ComparisonTable from '@/components/compareDrinks/ComparisonTable';
-import { DrinkComparisonState, useDrinkComparisonStore } from '@/store/drinkComparisonStore';
+import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
 
 const CompareContainer = ({ comparedDrinkData }: { comparedDrinkData: (ComparedMenu | null)[] }) => {
   const { deleteDrinkFromComparisonBox } = useDrinkComparisonStore();

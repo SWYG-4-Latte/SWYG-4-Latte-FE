@@ -2,7 +2,9 @@ import axios from 'axios';
 
 import { DrinkType } from '@/store/drinkComparisonStore';
 
-export const getCompareInfo = async (menu1: DrinkType | null, menu2: DrinkType | null) => {
+type MenuParamsType = DrinkType | null;
+
+export const getCompareInfo = async (menu1: MenuParamsType, menu2: MenuParamsType) => {
   const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/compare`, {
     params: {
       menu1: menu1 ? menu1.menuNo : null,
@@ -10,7 +12,7 @@ export const getCompareInfo = async (menu1: DrinkType | null, menu2: DrinkType |
     },
   });
 
-  const comparedDrinks = response.data.data.compare;
+  const comparedDrinks = response.data.data;
   if (!comparedDrinks) return [null, null];
   else return comparedDrinks.length < 2 ? [comparedDrinks[0], null] : comparedDrinks;
 };

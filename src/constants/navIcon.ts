@@ -6,7 +6,7 @@ import { Icon } from '@/types/layout/navigation';
 
 export const NAV_ICON: Icon = {
   home: HomeIcon,
-  category: CategoryIcon,
+  menu: CategoryIcon,
   'caffeine-calendar': CalendarIcon,
   article: ArticleIcon,
 };

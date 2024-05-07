@@ -1,11 +1,21 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { DrinkHistoryDetailProps } from '@/types/home/drinkHistory';
 import { ellipsisText } from '@/utils/string';
 
 const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHistoryDetailProps) => {
+  const router = useRouter();
+
   return (
-    <div className="flex gap-2 px-4 py-[15px]">
+    <div
+      className={`flex gap-2 p-4 ${drinkHistoryData ? 'cursor-pointer' : ''}`}
+      onClick={() => {
+        if (drinkHistoryData) {
+          router.push(`/menu/${drinkHistoryData?.menuNo}`);
+        }
+      }}
+    >
       <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-primaryBeige">
         <Image
           src={drinkHistoryData?.imageUrl || '/svgs/beverage-small.svg'}

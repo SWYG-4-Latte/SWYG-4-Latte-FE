@@ -34,7 +34,7 @@ const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: 
           onMouseOver={() => setIsHovered(true)}
           onMouseOut={() => setIsHovered(false)}
           onClick={() => {
-            if (!drink) router.push('/category');
+            if (!drink) router.push('/menu');
           }}
         />
         {drink && (

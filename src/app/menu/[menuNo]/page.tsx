@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -10,6 +11,7 @@ import CaffeineComparisonContainer from '@/container/menuDetail/CaffeineComparis
 import LowerCaffeineMenuContainer from '@/container/menuDetail/LowerCaffeineMenuContainer';
 import MenuInfoContainer from '@/container/menuDetail/MenuInfoContainer';
 import useModal from '@/hooks/useModal';
+import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore';
 
 const SAMPLE_MENU = {
   menuNo: 312,
@@ -50,9 +52,10 @@ const SAMPLE_MENU = {
 };
 
 export default function MenuDetailPage({ params }: { params: { menuNo: string } }) {
-  const menuNo = params.menuNo;
+  const menuNo = Number(params.menuNo);
   const menu = SAMPLE_MENU;
 
+  const { addDrinkToRecentlyViewedStore } = useRecentlyViewedDrinksStore();
   const { isOpen, openModal, closeModal } = useModal();
 
   const handleRecord = async () => {
@@ -65,6 +68,10 @@ export default function MenuDetailPage({ params }: { params: { menuNo: string } 
       toast('마신 메뉴 등록에 실패했습니다.');
     }
   };
+
+  useEffect(() => {
+    addDrinkToRecentlyViewedStore(menuNo);
+  }, []);
 
   return (
     <main>

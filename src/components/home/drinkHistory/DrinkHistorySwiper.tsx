@@ -18,12 +18,12 @@ const DrinkHistorySwiper = ({ slideData }: { slideData: Menu[] }) => {
     >
       {slideData.map((data) => (
         <SwiperSlide key={data.menuNo} className="mr-2 !w-fit first:ml-5 last:mr-0">
-          <DrinkHistoryCard drinkHistoryData={data} isEmpty={false} />
+          <DrinkHistoryCard drinkHistoryData={data} />
         </SwiperSlide>
       ))}
       {slideData.length === 1 && (
         <SwiperSlide className="!w-fit">
-          <DrinkHistoryCard isEmpty={true} />
+          <DrinkHistoryCard />
         </SwiperSlide>
       )}
     </Swiper>
