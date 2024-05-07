@@ -23,6 +23,7 @@ const HomeBanner = ({ caffeineData }: { caffeineData: UserCaffeineData | null })
         src={bannerImgUrl}
         width={0}
         height={0}
+        quality={100}
         sizes="100vw"
         className="h-auto w-full"
         alt="배너 이미지"

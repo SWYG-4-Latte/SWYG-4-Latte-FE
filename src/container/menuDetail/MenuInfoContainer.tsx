@@ -1,44 +1,32 @@
 import Image from 'next/image';
 
-import NutrientInfo from '@/components/menuDetail/NutrientInfo';
-import { ellipsisText } from '@/utils/string';
+import NutrientInfo from '@/components/menuDetail/NutrientInfoList';
 import { MenuDetail } from '@/types/home/menu';
+import MenuSizeTab from '@/components/menuDetail/MenuSizeTab';
+import MenuDetails from '@/components/menuDetail/MenuDetails';
 
-const MenuInfoContainer = ({ menu }: { menu: MenuDetail }) => {
+interface MenuInfoContainerProps {
+  menu: MenuDetail;
+}
+
+const MenuInfoContainer = ({ menu }: MenuInfoContainerProps) => {
   return (
     <div>
-      <div className="flex h-[260px] items-center justify-center overflow-hidden">
+      <div className="flex h-[360px] items-center justify-center overflow-hidden bg-primaryBeige">
         <Image
           src={menu.imageUrl}
           priority
           width={0}
           height={0}
           sizes="100vw"
-          className="h-full w-[360px]"
+          className="h-auto w-full"
+          quality={100}
           alt={menu.menuName}
         />
       </div>
-      <div className="flex-col bg-primaryIvory px-5 py-4">
-        <div className="text-xs text-primaryOrange">{menu.brand}</div>
-        <div className="my-2">
-          <div className="text-[22px] font-semibold leading-[30px] text-gray10">{ellipsisText(menu.menuName, 15)}</div>
-          <div className="my-2">
-            <div className="flex items-center font-medium text-gray08">
-              <div>{menu.caffeine}</div>
-              <div className="mx-2 h-3 w-px bg-[#D9D9D9]" />
-              <div>{menu.price.toLocaleString('ko-KR')}원</div>
-            </div>
-          </div>
-          <div className="flex items-center text-sm text-gray08">
-            하루 적정 카페인 섭취량의
-            <div className="mx-[5px] flex w-fit items-center justify-center rounded bg-primaryBeige px-2 py-1 text-orange09">
-              20%
-            </div>
-            를 차지해요
-          </div>
-        </div>
-      </div>
-      <NutrientInfo nutrient={menu.nutrient} />
+      <MenuDetails menu={menu} />
+      <MenuSizeTab sizes={menu.otherSizes} active={menu.menuSize} />
+      <NutrientInfo nutrientDetail={menu.nutrient} nutrientLevel={menu.level} />
     </div>
   );
 };

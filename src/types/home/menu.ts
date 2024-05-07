@@ -9,9 +9,15 @@ export interface Menu {
 }
 
 export interface MenuDetail extends Menu {
+  brand: string;
+  caffeine: string;
+  menuSize: string;
   price: number;
   nutrient: Nutrient;
   lowCaffeineMenus: Menu[];
+  level: NutrientLevel;
+  percent: string | null; // 비로그인 또는 부가정보 미입력 시 null
+  otherSizes: string[];
 }
 
 export interface ComparedMenu extends Menu {
@@ -29,6 +35,15 @@ export interface Nutrient {
   satFat: string;
 }
 
-export interface NutrientNameType {
-  [key: string]: string;
+export type NutrientLevelType = '높음' | '보통' | '낮음';
+export interface NutrientLevel {
+  kcalLevel: NutrientLevelType;
+  sugarLevel: NutrientLevelType;
+  saltLevel: NutrientLevelType;
+  proteinLevel: NutrientLevelType;
+  satFatLevel: NutrientLevelType;
 }
+
+export type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
