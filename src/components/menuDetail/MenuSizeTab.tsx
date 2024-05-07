@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { Dispatch, SetStateAction } from 'react';
+import { motion } from 'framer-motion';
 
 interface MenuSizeTabProps {
   sizes: string[];
@@ -12,15 +12,22 @@ const MenuSizeTab = ({ sizes, active }: MenuSizeTabProps) => {
   return (
     <div className="flex h-[41px] border-collapse border-b-2 border-gray04 bg-primaryIvory  px-5">
       {sizes.map((size) => (
-        <div
+        <button
           key={size}
-          className={`flex h-[41px] w-20 border-collapse cursor-pointer items-center justify-center border-b-2 ${active === size ? 'border-primaryOrange font-semibold text-primaryOrange' : 'border-gray04 text-gray08'}`}
+          className={`relative flex h-[41px] w-20 items-center justify-center ${active === size ? 'font-semibold text-primaryOrange' : 'text-gray08'}`}
           onClick={() => {
-            router.replace(`?size=${size}`);
+            router.replace(`?size=${size}`, { scroll: false });
           }}
         >
-          <span className={`text-nowrap text-xs `}>{size}</span>
-        </div>
+          <span className="text-nowrap text-xs">{size}</span>
+          {active === size && (
+            <motion.div
+              layoutId="underline"
+              transition={{ duration: 0.2 }}
+              className="absolute bottom-0 h-[2px] w-20 bg-primaryOrange"
+            />
+          )}
+        </button>
       ))}
     </div>
   );
