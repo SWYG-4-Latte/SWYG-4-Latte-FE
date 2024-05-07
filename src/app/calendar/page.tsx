@@ -7,6 +7,7 @@ import { useState } from 'react';
 import CaffeineCalendar from '@/components/caffeineCalendar/CaffeineCalendar';
 import SelectedDateInfoContainer from '@/container/caffeineCalendar/SelectedDateInfoContainer';
 import { SelectedDate } from '@/types/caffeineCalendar/calendar';
+import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
 
 const DATA = {
   status: '보통',
@@ -32,6 +33,7 @@ export default function CaffeineCalendarPage() {
       </header>
       <CaffeineCalendar selectedDate={selectedDate} onSelect={handleSelectDate} />
       <SelectedDateInfoContainer selectedDate={selectedDate} data={DATA} />
+      <BottomNavigation />
     </main>
   );
 }
