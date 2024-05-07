@@ -12,7 +12,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
   const [selectedDateInfo, setSelectedDateInfo] = useState<SelectedDateInfoType | null>(null);
 
   // TODO: 사용자의 부가정보 입력 여부 추가하기
-  const hasUserAdditionalInfo = false;
+  const hasUserAdditionalInfo = true;
 
   useEffect(() => {
     const getDateInfo = async () => {

@@ -5,35 +5,12 @@ import dayjs from 'dayjs';
 import EmptyHistory from '@/components/todayCaffeine/EmptyHistory';
 import HistoryList from '@/components/todayCaffeine/HistoryList';
 import { formatDate } from '@/utils/date';
+import { Menu } from '@/types/home/menu';
 
-const DATA = [
-  {
-    menuNo: 1,
-    menuName: '망고패션스무디',
-    caffeine: '카페인 0mg',
-    brand: '빽다방',
-    imageUrl: 'https://paikdabang.com/wp-content/uploads/2023/06/망고패션스무디_thumb-450x588.png',
-  },
-  {
-    menuNo: 2,
-    menuName: '피스타치오빽스치노(SOFT)',
-    caffeine: '카페인 10mg',
-    brand: '빽다방',
-    imageUrl: 'https://paikdabang.com/wp-content/uploads/2018/05/피스타치오빽스치노-SOFT-450x588.png',
-  },
-  {
-    menuNo: 3,
-    menuName: '아이스크림카페모카(ICED)',
-    caffeine: '카페인 237mg',
-    brand: '빽다방',
-    imageUrl: 'https://paikdabang.com/wp-content/uploads/2022/05/아이스크림카페모카-450x588.png',
-  },
-];
-
-const TodayCaffeineContainer = () => {
+const TodayCaffeineContainer = ({ data }: { data: Menu[] }) => {
   return (
     <div className="pt-14">
-      {DATA.length === 0 ? (
+      {data.length === 0 ? (
         <EmptyHistory />
       ) : (
         <div>
@@ -55,7 +32,7 @@ const TodayCaffeineContainer = () => {
               </Link>
             </div>
           </div>
-          <HistoryList drinkList={DATA} />
+          <HistoryList drinkList={data} />
         </div>
       )}
     </div>
