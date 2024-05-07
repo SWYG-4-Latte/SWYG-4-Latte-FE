@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
-import { formatDate, formatLocalDateTime } from '@/utils/date';
+import { formatDate } from '@/utils/date';
 import IntakeStandardInfo from '@/components/caffeineCalendar/IntakeStandardInfo';
 import CaffeineStatus from '@/components/caffeineCalendar/CaffeineStatus';
 import { SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
@@ -14,7 +15,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
     const getDateInfo = async () => {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
         params: {
-          datetime: formatLocalDateTime(selectedDate),
+          datetime: dayjs(selectedDate).format('YYYY-MM-DDTHH:mm:ss'),
         },
       });
       setSelectedDateInfo(response.data.data);

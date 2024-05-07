@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 import 'react-calendar/dist/Calendar.css';
 import './calendar.css';
@@ -11,7 +12,6 @@ import './calendar.css';
 import MonthComparisonMessage from './MonthComparisonMessage';
 import { SelectDateHandler, SelectedDate, ThisMonthData } from '@/types/caffeineCalendar/calendar';
 import CaffeineStatus from './CaffeineStatus';
-import { formatCalendarMonth } from '@/utils/date';
 
 interface CaffeineCalendarProps {
   selectedDate: SelectedDate;
@@ -20,9 +20,10 @@ interface CaffeineCalendarProps {
 
 const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => {
   const [thisMonthData, setThisMonthData] = useState<ThisMonthData | null>(null);
-  const [activeDate, setActiveDate] = useState<Date>(new Date()); // 현재 보여지는 달의 1일
+  const [activeDate, setActiveDate] = useState(new Date()); // 현재 보여지는 달의 1일
 
-  // const isVisibleMonthComparisonMessage = activeDate
+  // 이번 달 이전에서만 MonthComparisonMessage 컴포넌트 보이도록 설정 필요
+  const isVisibleMonthComparisonMessage = dayjs(activeDate).isBefore(new Date());
 
   const addTitleContent = ({ date }: { date: Date }) => {
     if (!thisMonthData) return;
@@ -39,7 +40,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
     const getThisMonthData = async () => {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/calendar`, {
         params: {
-          datetime: formatCalendarMonth(activeDate),
+          datetime: dayjs(activeDate).format('YYYY-MM'),
         },
       });
       setThisMonthData(response.data.data);
@@ -50,7 +51,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
 
   return (
     <div className="relative flex items-center justify-center bg-primaryIvory px-5 pt-2">
-      {thisMonthData && <MonthComparisonMessage status={thisMonthData.status} />}
+      {thisMonthData && isVisibleMonthComparisonMessage && <MonthComparisonMessage status={thisMonthData.status} />}
       <Calendar
         locale="ko"
         calendarType="gregory"
