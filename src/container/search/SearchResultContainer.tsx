@@ -1,46 +1,45 @@
-import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
-import SearchFilter from '@/components/search/SearchFilter';
 import { Menu } from '@/types/home/menu';
 import NoSearchResults from '@/components/search/NoSearchResults';
 import SearchResultHeader from '@/components/search/SearchResultHeader';
+import SearchListSkeleton from '@/components/common/skeleton/SearchListSkeleton';
 
 interface SearchResultContainerProps {
   query: string;
   filter: string | null;
 }
 
-const DATA_SIZE = 13;
+const PAGE_SIZE = 12;
 
 const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) => {
+  const observeTargetRef = useRef<HTMLDivElement>(null);
+
   const [searchResults, setSearchResults] = useState<Menu[]>([]);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const getSearchResults = async (pageNumber: number) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/list`, {
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/list`, {
         params: {
           word: query,
           page: pageNumber,
-          size: DATA_SIZE,
+          size: PAGE_SIZE,
           sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
           cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
         },
       });
 
-      const data = response.data.data;
+      setSearchResults((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
 
-      setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
-
-      setTotalResults(data.totalElements);
-      setPage(data.number + 1);
+      setTotalResults(data.data.totalElements);
+      setPage(data.data.number + 1);
     } catch (error) {
       setIsError(true);
     }
@@ -48,11 +47,17 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
     setIsLoading(false);
   };
 
-  const handleScroll = useCallback(async () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50 && !isLoading && !isError) {
-      if (page * DATA_SIZE < totalResults) getSearchResults(page);
-    }
-  }, [page, isLoading, isError]);
+  const hasNextPage = page * PAGE_SIZE < totalResults;
+
+  // 관찰 대상(target)이 등록되거나 가시성에 변화가 생기면 실행되는 callback 함수
+  const onIntersect: IntersectionObserverCallback = useCallback(
+    ([entry], observer) => {
+      if (entry.isIntersecting && hasNextPage) {
+        getSearchResults(page);
+      }
+    },
+    [page, totalResults],
+  );
 
   useEffect(() => {
     setPage(0);
@@ -60,29 +65,32 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
   }, [query, filter]);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+    if (!observeTargetRef.current) return;
+
+    const observer = new IntersectionObserver(onIntersect, { threshold: 0.3 });
+    observer.observe(observeTargetRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [observeTargetRef, onIntersect]);
+
+  if (!isLoading && searchResults.length === 0 && !filter) {
+    return <NoSearchResults />;
+  }
 
   return (
     <>
-      {searchResults.length === 0 && !filter ? (
-        <NoSearchResults />
-      ) : (
-        <>
-          <SearchResultHeader totalResults={totalResults} />
-
-          {searchResults.length === 0 ? (
-            <NoSearchResults />
-          ) : (
-            <ul>
-              {searchResults.map((result) => (
-                <DrinkListItem key={result.menuNo} drinkMenu={result} />
-              ))}
-            </ul>
-          )}
-        </>
-      )}
+      <SearchResultHeader totalResults={totalResults} />
+      {searchResults.length === 0 && <>{isLoading ? <SearchListSkeleton /> : <NoSearchResults />}</>}
+      <ul>
+        {searchResults.map((result) => (
+          <DrinkListItem key={result.menuNo} drinkMenu={result} />
+        ))}
+      </ul>
+      <div ref={observeTargetRef} className="flex justify-center">
+        {hasNextPage && 'Loading...'}
+      </div>
     </>
   );
 };

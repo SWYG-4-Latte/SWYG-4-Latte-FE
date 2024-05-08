@@ -17,9 +17,9 @@ const PopularSearchContainer = () => {
   useEffect(() => {
     const getPopularSearchList = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/ranking/word`);
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/ranking/word`);
 
-        setPopularSearchList(response.data.data);
+        setPopularSearchList(data.data);
       } catch (error) {
         console.error(error);
       }
