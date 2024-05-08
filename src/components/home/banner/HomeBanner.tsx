@@ -31,7 +31,9 @@ const HomeBanner = ({ caffeineData }: { caffeineData: UserCaffeineData | null })
       <div className="absolute left-5 top-1/2 flex -translate-y-2/4 flex-col">
         <BannerText caffeineData={caffeineData} />
         {/* 하루 카페인 권장량 계산하는 정보 미등록인지 확인하는 api나오면 추가 */}
-        <Link href={caffeineData ? (caffeineData.today === '0mg' ? '/menu' : '/today-caffeine') : '/login'}>
+        <Link
+          href={caffeineData ? (caffeineData.today === '0mg' ? '/menu' : '/calendar/today-caffeine') : '/auth/login'}
+        >
           <Button className={`whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium`}>{buttonText}</Button>
         </Link>
       </div>

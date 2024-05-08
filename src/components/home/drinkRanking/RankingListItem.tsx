@@ -58,7 +58,7 @@ const RankingListItem = ({
         </div>
         <div className="ml-auto">
           <button onClick={handleRecordCaffeine}>
-            <img src="/svgs/plus.svg" width={32} height={32} alt="카페인 기록하기 버튼" />
+            <Image src="/svgs/plus.svg" width={32} height={32} alt="카페인 기록하기 버튼" />
           </button>
         </div>
       </li>
