@@ -14,51 +14,15 @@
   }
 }
 
-
-@layer base { 
+@layer base {
   .layout {
-    @apply mx-auto min-h-dvh w-full min-w-[360px] max-w-[500px] bg-gray03 font-pretendard leading-normal -tracking-[0.01em];
-  }
-
-  @font-face{
-    font-family: Pretendard;
-    src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-display: swap;
-    font-style: normal;
+    @apply mx-auto min-h-dvh w-full min-w-[360px] max-w-[500px] bg-gray02 font-pretendard leading-normal -tracking-[0.01em] antialiased;
   }
 }
 
-@font-face {
-  font-family: Pretendard;
-  src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Pretendard-medium;
-  src: url('/fonts/Pretendard-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Pretendard-semiBold;
-  src: url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Pretendard-bold;
-  src: url('/fonts/Pretendard-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-display: swap;
-  font-style: bold;
+/* Swiper 라이브러리 관련 */
+.swiper {
+  @apply m-0 w-full !important;
 }
 
 .swiper-slide {

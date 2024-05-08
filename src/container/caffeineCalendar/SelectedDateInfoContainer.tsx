@@ -43,7 +43,7 @@ const SelectedDateInfoContainer = ({ selectedDate, data }: { selectedDate: Date;
       </div>
       {!data.caffeine && (
         <Link
-          href="/category"
+          href="/menu"
           className="mt-3 w-fit rounded-md border border-gray06 bg-primaryIvory px-4 py-2 text-sm font-medium text-gray08"
         >
           내가 마신 카페인 기록하기

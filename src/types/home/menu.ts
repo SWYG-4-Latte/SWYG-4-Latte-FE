@@ -4,6 +4,7 @@ export interface Menu {
   imageUrl: string;
   brand?: string;
   caffeine?: string;
+  menuSize?: string;
   price?: number;
 }
 
@@ -17,6 +18,7 @@ export interface ComparedMenu extends Menu {
   price: number;
   allergy: string;
   kcal: string;
+  volume: string;
 }
 
 export interface Nutrient {

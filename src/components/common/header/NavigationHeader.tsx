@@ -8,7 +8,7 @@ const NavigationHeader = ({ title, children }: PropsWithChildren<{ title?: strin
   const router = useRouter();
 
   return (
-    <header className="fixed z-10 flex h-14 w-full max-w-[500px] items-center justify-center bg-primaryIvory pr-5">
+    <header className="fixed z-10 flex h-14 w-full max-w-[500px] items-center justify-center bg-primaryIvory px-5">
       <button className="absolute left-4">
         <Image src="/svgs/arrow-left.svg" width={24} height={24} alt="뒤로 가기" onClick={() => router.back()} />
       </button>

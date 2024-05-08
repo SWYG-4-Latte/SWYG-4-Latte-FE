@@ -42,7 +42,7 @@ const TodayCaffeineContainer = () => {
             <div className="text-lg font-semibold text-gray10">{formatDate(todayDate)}</div>
             <div className="mt-3 flex items-center justify-between">
               <span className="text-sm text-gray08">오늘 더 마신 음료가 있다면 기록해보세요!</span>
-              <Link href="/category">
+              <Link href="/menu">
                 <div className="flex py-1 text-xs text-primaryOrange">
                   기록하기
                   <Image src="/svgs/arrow-orange.svg" width={14} height={14} alt="기록하기" />

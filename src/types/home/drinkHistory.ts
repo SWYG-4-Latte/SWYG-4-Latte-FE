@@ -1,13 +1,7 @@
-// API 나오면 수정 예정
-export interface DrinkHistoryData {
-  id: string;
-  name: string;
-  brand: string;
-  caffeineAmount: number;
-}
+import { Menu } from './menu';
 
 export interface DrinkHistoryDetailProps {
-  drinkHistoryData?: DrinkHistoryData;
+  drinkHistoryData?: Menu;
   heading?: string;
   description?: string;
 }

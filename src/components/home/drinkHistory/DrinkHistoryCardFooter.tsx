@@ -1,8 +1,31 @@
-const DrinkHistoryCardFooter = ({ isEmpty }: { isEmpty: boolean }) => {
+'use client';
+
+import { useRouter } from 'next/navigation';
+
+interface DrinkHistoryCardFooterProps {
+  isEmpty: boolean;
+  onRecord?: () => void;
+  onCompare?: () => void;
+}
+
+const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCardFooterProps) => {
+  const router = useRouter();
+
+  const handleRecord = () => {
+    if (isEmpty) {
+      router.push('/menu');
+      return;
+    }
+    if (onRecord) onRecord();
+  };
+
   if (isEmpty) {
     return (
-      <div className=" flex h-[37px] w-full items-center justify-center">
-        <button className="h-full w-full text-xs text-gray10 hover:bg-orange01 hover:text-primaryOrange">
+      <div className="flex h-9 w-full items-center justify-center">
+        <button
+          onClick={handleRecord}
+          className="h-full w-full text-xs text-gray10 hover:bg-orange01 hover:text-primaryOrange"
+        >
           카페인 기록하러 가기
         </button>
       </div>
@@ -10,10 +33,20 @@ const DrinkHistoryCardFooter = ({ isEmpty }: { isEmpty: boolean }) => {
   }
 
   return (
-    <div className="flex h-[37px] items-center text-xs">
-      <button className="h-[37px] w-[114px] text-gray10 hover:bg-orange01 hover:text-primaryOrange">비교하기</button>
+    <div className="flex h-9 items-center justify-center text-xs">
+      <button
+        onClick={onCompare}
+        className="flex h-full w-[124px] items-center justify-center px-6 py-[10px] text-gray10 hover:bg-orange01 hover:text-primaryOrange"
+      >
+        비교함에 담기
+      </button>
       <div className="h-[21px] w-px bg-gray04" />
-      <button className="h-[37px] w-[114px] text-orange09 hover:bg-orange01">기록하기</button>
+      <button
+        onClick={handleRecord}
+        className="flex h-full w-[124px] items-center justify-center px-6 py-[10px] text-orange09 hover:bg-orange01"
+      >
+        기록하기
+      </button>
     </div>
   );
 };
