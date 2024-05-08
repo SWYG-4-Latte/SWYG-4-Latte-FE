@@ -5,6 +5,7 @@ import axios from 'axios';
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
 import SearchFilter from '@/components/search/SearchFilter';
 import { Menu } from '@/types/home/menu';
+import NoSearchResults from '@/components/search/NoSearchResults';
 
 interface SearchResultContainerProps {
   query: string;
@@ -63,25 +64,9 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
   }, [handleScroll]);
 
   return (
-    <div>
-      {searchResults.length === 0 ? (
-        <>
-          <div className="flex h-[calc(100dvh-56px)] flex-col items-center justify-center overflow-hidden">
-            <Image
-              src="/svgs/no-search-results.svg"
-              alt="검색 결과 없음"
-              priority
-              sizes="100vw"
-              width={0}
-              height={0}
-              className="h-auto w-auto"
-            />
-            <div className="my-6 flex flex-col items-center justify-center gap-2 text-gray08">
-              <p>검색 결과가 없습니다.</p>
-              <p className="text-sm leading-6">다른 키워드로 검색해보세요.</p>
-            </div>
-          </div>
-        </>
+    <>
+      {searchResults.length === 0 && !filter ? (
+        <NoSearchResults />
       ) : (
         <>
           <div className="flex flex-col gap-3 pb-3 pl-5 pt-4">
@@ -92,12 +77,18 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
             <SearchFilter />
           </div>
 
-          {searchResults.map((result) => (
-            <DrinkListItem key={result.menuNo} drinkMenu={result} />
-          ))}
+          {searchResults.length === 0 ? (
+            <NoSearchResults />
+          ) : (
+            <ul>
+              {searchResults.map((result) => (
+                <DrinkListItem key={result.menuNo} drinkMenu={result} />
+              ))}
+            </ul>
+          )}
         </>
       )}
-    </div>
+    </>
   );
 };
 
