@@ -8,8 +8,8 @@ import { SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
 const SelectedDateInfoContainer = ({ selectedDate, data }: { selectedDate: Date; data: SelectedDateInfoType }) => {
   return (
     <div className="flex flex-grow flex-col gap-3 overflow-y-auto border-t border-gray04 px-5 pb-28 pt-5">
-      <div className="flex justify-between">
-        <span className="text-sm text-gray08">{formatDate(selectedDate)}</span>
+      <div className="flex items-center justify-between">
+        <span className="text-sm leading-6 text-gray08">{formatDate(selectedDate)}</span>
         <IntakeStandardInfo />
       </div>
       <div className="flex items-center gap-1 text-lg font-semibold text-gray11">

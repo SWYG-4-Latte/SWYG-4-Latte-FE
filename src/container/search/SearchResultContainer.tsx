@@ -6,6 +6,7 @@ import DrinkListItem from '@/components/common/drink/DrinkListItem';
 import SearchFilter from '@/components/search/SearchFilter';
 import { Menu } from '@/types/home/menu';
 import NoSearchResults from '@/components/search/NoSearchResults';
+import SearchResultHeader from '@/components/search/SearchResultHeader';
 
 interface SearchResultContainerProps {
   query: string;
@@ -69,13 +70,7 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
         <NoSearchResults />
       ) : (
         <>
-          <div className="flex flex-col gap-3 pb-3 pl-5 pt-4">
-            <div className="flex items-end gap-2">
-              <div className="font-semibold leading-[22px] text-gray10">검색 결과</div>
-              <div className="text-xs text-primaryOrange">{totalResults}건</div>
-            </div>
-            <SearchFilter />
-          </div>
+          <SearchResultHeader totalResults={totalResults} />
 
           {searchResults.length === 0 ? (
             <NoSearchResults />
