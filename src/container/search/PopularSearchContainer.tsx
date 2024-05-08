@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import PopularSearchItem from '@/components/search/PopularSearchItem';
 import { formatPopularSearchStandardDate } from '@/utils/date';
@@ -17,10 +18,9 @@ const PopularSearchContainer = () => {
   useEffect(() => {
     const getPopularSearchList = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu/ranking/word`);
-        const data = await response.json();
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/ranking/word`);
 
-        setPopularSearchList(data.data);
+        setPopularSearchList(response.data.data);
       } catch (error) {
         console.error(error);
       }

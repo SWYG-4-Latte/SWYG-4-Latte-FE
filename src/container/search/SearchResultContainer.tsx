@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
 import SearchFilter from '@/components/search/SearchFilter';
@@ -19,32 +20,25 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const createSearchParamsString = (pageNumber: number) => {
-    const params = new URLSearchParams();
-
-    if (query) params.set('word', query);
-    if (filter) {
-      if (filter === 'none') params.set('cond', 'caffeine-' + filter);
-      else params.set('sortBy', 'caffeine-' + filter);
-    }
-    params.set('page', pageNumber.toString());
-    params.set('size', DATA_SIZE.toString());
-
-    return params.toString();
-  };
-
   const getSearchResults = async (pageNumber: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/menu/list?${createSearchParamsString(pageNumber)}`,
-      );
-      const data = await response.json();
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/list`, {
+        params: {
+          word: query,
+          page: pageNumber,
+          size: DATA_SIZE,
+          sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
+          cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
+        },
+      });
 
-      setSearchResults((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
+      const data = response.data.data;
 
-      setTotalResults(data.data.totalElements);
-      setPage(data.data.number + 1);
+      setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
+
+      setTotalResults(data.totalElements);
+      setPage(data.number + 1);
     } catch (error) {
       setIsError(true);
     }
