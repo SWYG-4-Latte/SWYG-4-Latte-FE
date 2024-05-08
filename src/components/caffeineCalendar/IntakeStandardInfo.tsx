@@ -1,9 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 const IntakeStandardInfo = () => {
+  const tooltipRef = useRef(null);
+
+  useOutsideClick(tooltipRef, () => setIsPopoverOpen(false));
+
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   return (
@@ -15,7 +21,10 @@ const IntakeStandardInfo = () => {
         섭취량 기준 안내
       </button>
       {isPopoverOpen && (
-        <div className="absolute right-0 mt-2 flex gap-3 rounded-lg border border-gray04 bg-primaryIvory px-4 py-2 text-xs leading-[18px] text-gray10 shadow-toast">
+        <div
+          ref={tooltipRef}
+          className="absolute right-0 mt-2 flex gap-3 rounded-lg border border-gray04 bg-primaryIvory px-4 py-2 text-xs leading-[18px] text-gray10 shadow-toast"
+        >
           <p className="whitespace-nowrap">
             하루 권장 카페인 섭취량은
             <br />

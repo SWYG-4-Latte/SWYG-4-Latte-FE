@@ -1,4 +1,6 @@
-const NutrientLevel = ({ level }: { level: string }) => {
+import { NutrientLevelType } from '@/types/home/menu';
+
+const NutrientLevelBadge = ({ level }: { level: NutrientLevelType }) => {
   let textColor = 'text-primaryOrange';
   let bgColor = 'bg-primaryOrange';
 
@@ -13,4 +15,4 @@ const NutrientLevel = ({ level }: { level: string }) => {
   return <div className={`w-fit rounded bg-opacity-20 px-2 py-1 text-[10px] ${textColor} ${bgColor}`}>{level}</div>;
 };
 
-export default NutrientLevel;
+export default NutrientLevelBadge;
