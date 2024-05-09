@@ -1,3 +1,5 @@
+import { IUserInfo } from './../types/auth-signup/i-UserInfo';
+import { IUserInfoTwo } from '@/types/auth-signup/i-UserInfoTwo';
 // Zustand
 import { create } from "zustand";
 // TypeScript
@@ -5,9 +7,11 @@ import { ISignupState } from '../types/auth-signup/i-SignupState';
 // API
 import { signup } from "@/utils/auth-signup/isSignup";
 import  checkDuplicate from '@/utils/auth-signup/isDuplicate';
+import axios from 'axios';
 
 const useSignupStore = create<ISignupState>((set, get)=> ({
-  // Step1 - State
+  // 상태
+  mbrNo: null,
   username: '',
   email: '',
   nickname: '',
@@ -39,13 +43,27 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
 
   currentStep: 1,
 
-  //Step2 - State
   termsAgreed: false,
   term1Agreed: false,
   term2Agreed: false,
   termsError: false,
 
-  //Step3 - State
+  // 사용자 정보 로드
+  loadUserInfo: (userInfo: IUserInfo) => {
+    set({
+      mbrNo: userInfo.mbrNo,
+      username: userInfo.nickname, 
+      email: userInfo.email,
+      nickname: userInfo.nickname,
+      age: userInfo.age,
+      gender: userInfo.gender,
+      pregnancy: userInfo.pregnancy,
+      pregMonth: userInfo.pregMonth,
+      cupDay: userInfo.cupDay,
+      symptoms: userInfo.symptoms ? userInfo.symptoms : [],
+      allergies: userInfo.allergies ? userInfo.allergies : []
+    });
+  },
 
 
   // 상태 업데이트 메소드
@@ -67,6 +85,67 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   setConfirmPasswordFocused: (focused: boolean) => set({ confirmPasswordFocused: focused }),
   setAgeFocused: (focused: boolean) => set({ ageFocused: focused}),
   setPregMonthFocused: (focused: boolean) => set({ pregMonthFocused: focused }),
+
+  // 사용자 정보 업데이트 - MemberProfileCotent
+  updateUserInfo: async (userInfo: IUserInfo) => {
+    const { mbrNo, email, nickname, gender, pregnancy, pregMonth } = userInfo;
+    if (!mbrNo) {
+      console.error('회원 번호가 필요합니다.');
+      return;
+    }
+    try {
+      const response = await axios.post(`https://latte-server.site/auth/update/${mbrNo}`, {
+        email, nickname, gender, pregnancy, pregMonth
+    });
+        if (response.data.message === "회원 수정에 성공했습니다.") {
+          set({
+            email,
+            nickname,
+            gender,
+            pregnancy,
+            pregMonth
+          });
+        } else {
+          console.error('업데이트 실패:', response.data.message);
+        }
+      } catch (error) {
+        console.error('업데이트 에러:', error);
+    }
+  },
+
+  // 사용자 정보 업데이트 - MemberInfoCotent
+  updateUserInfoTwo: async (userInfo: IUserInfoTwo) => {
+    const { mbrNo, cupDay, symptoms, allergies } = userInfo;
+    if (!mbrNo) {
+      console.error('회원 번호가 필요합니다.');
+      return;
+    }
+  
+    try {
+      // 서버로 전송 전에 symptoms와 allergies를 문자열로 변환
+      const postData = {
+        cupDay,
+        symptoms: symptoms?.join(', '), // 배열을 문자열로 변환
+        allergies: allergies?.join(', ') // 배열을 문자열로 변환
+      };
+  
+      const response = await axios.post(`https://latte-server.site/auth/update/${mbrNo}`, postData);
+  
+      if (response.data.message === "회원 수정에 성공했습니다.") {
+        // 상태 업데이트 시에는 다시 배열로 변환
+        set({
+          cupDay,
+          symptoms: symptoms, // 이미 배열이므로 그대로 저장
+          allergies: allergies // 이미 배열이므로 그대로 저장
+        });
+      } else {
+        console.error('업데이트 실패:', response.data.message);
+      }
+    } catch (error) {
+      console.error('업데이트 에러:', error);
+    }
+  },
+
 
   // 토글 메소드
   toggleTermsAgreed: () => {
