@@ -1,5 +1,9 @@
+import { IUserInfo } from "./i-UserInfo";
+import { IUserInfoTwo } from "./i-UserInfoTwo";
+
 export interface ISignupState {
   // 사용자 정보
+  mbrNo: number | null ;
   username: string;
   email: string;
   nickname: string;
@@ -64,6 +68,10 @@ export interface ISignupState {
   setConfirmPasswordFocused: (focused: boolean) => void;
   setAgeFocused:(focused: boolean) => void;
   setPregMonthFocused:(focused: boolean) => void;
+  
+  // 사용자 정보 업데이트
+  updateUserInfo: (userInfo: IUserInfo) => void;
+  updateUserInfoTwo: (userInfo: IUserInfoTwo) => void;
 
 
   // 유효성 검사 및 중복 검사 함수

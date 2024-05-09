@@ -46,11 +46,17 @@ export default function LoginContainer() {
     e.preventDefault();
     try {
       const response = await login(username, password);
-      console.log(response.data.jwtToken)
-      console.log(response.data.jwtToken.accessToken)
 
       if (response.data.jwtToken && response.data.jwtToken.accessToken) {
-        setToken(response.data.jwtToken.accessToken);
+        const { accessToken, refreshToken, user } = response.data.jwtToken;
+        setToken(accessToken, refreshToken, {
+          nickname: user.nickname,
+          gender: user.gender,
+          pregnancy: user.pregnancy,
+          pregMonth: user.pregMonth || 'None',
+          caffeineIntake: user.caffeineIntake,
+          allergies: user.allergies
+        });
         console.log("Login Success");
         alert("로그인에 성공하였습니다.")
       } else {
