@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
@@ -9,12 +11,13 @@ import SearchListSkeleton from '@/components/common/skeleton/SearchListSkeleton'
 interface MenuListContainerProps {
   brand: string;
   filter: string | null;
+  initialData: Menu[];
 }
 
-const MenuListContainer = ({ brand, filter }: MenuListContainerProps) => {
+const MenuListContainer = ({ brand, filter, initialData }: MenuListContainerProps) => {
   const observeTargetRef = useRef<HTMLDivElement>(null);
 
-  const [menuList, setMenuList] = useState<Menu[]>([]);
+  const [menuList, setMenuList] = useState<Menu[]>(initialData);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);

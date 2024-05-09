@@ -1,35 +1,23 @@
-'use client';
+import axios from 'axios';
 
-import { useEffect, useState } from 'react';
-
-import BrandList from '@/components/home/drinkRanking/BrandList';
-import SearchFilter from '@/components/search/SearchFilter';
-import { BRAND_NAME } from '@/constants/home/brandName';
-import { useRouter, useSearchParams } from 'next/navigation';
 import MenuListContainer from './MenuListContainer';
 
-const CategoryMainContainer = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+interface CategoryMainContainerProps {
+  brand: string;
+  filter: string;
+}
 
-  const [selectedBrand, setSelectedBrand] = useState('스타벅스');
+const CategoryMainContainer = async ({ brand, filter }: CategoryMainContainerProps) => {
+  // const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/${brand}`, {
+  //   params: {
+  //     page: 0,
+  //     size: 12,
+  //     sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
+  //     cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
+  //   },
+  // });
 
-  const brandName = searchParams.get('brand') as string;
-  const filter = searchParams.get('filter');
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    params.set('brand', BRAND_NAME[selectedBrand]);
-    router.replace(`/menu/?${params.toString()}`, { scroll: false });
-  }, [selectedBrand]);
-
-  return (
-    <div className="pt-14">
-      <BrandList selectedBrand={selectedBrand} setSelectedBrand={setSelectedBrand} />
-      <SearchFilter />
-      <MenuListContainer brand={brandName} filter={filter} />
-    </div>
-  );
+  return <div>{/* <MenuListContainer brand={brand} filter={filter} initialData={data.data} /> */}</div>;
 };
 
 export default CategoryMainContainer;
