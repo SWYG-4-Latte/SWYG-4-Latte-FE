@@ -61,5 +61,9 @@ export default function ProgressbarSection() {
     }
   }
 
-  return renderedProgressbarSection()
+  return (
+    <div className="max-w-[360px]">
+      {renderedProgressbarSection()}
+    </div>
+  )
 }

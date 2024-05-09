@@ -9,7 +9,7 @@ import FooterSection from "@/components/auth/signup/FooterSection";
 export default function SignupContainer() {
   return (
     <div className="w-full h-screen text-gray10">
-      <div className="w-full h-screen flex flex-col relative">
+      <div className="w-full h-screen flex flex-col items-center relative">
         <HeaderSection />
         <ProgressbarSection/>
         <TitleSection />

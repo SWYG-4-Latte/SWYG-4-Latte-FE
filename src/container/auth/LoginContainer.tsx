@@ -46,11 +46,17 @@ export default function LoginContainer() {
     e.preventDefault();
     try {
       const response = await login(username, password);
-      console.log(response.data.jwtToken)
-      console.log(response.data.jwtToken.accessToken)
 
       if (response.data.jwtToken && response.data.jwtToken.accessToken) {
-        setToken(response.data.jwtToken.accessToken);
+        const { accessToken, refreshToken, user } = response.data.jwtToken;
+        setToken(accessToken, refreshToken, {
+          nickname: user.nickname,
+          gender: user.gender,
+          pregnancy: user.pregnancy,
+          pregMonth: user.pregMonth || 'None',
+          caffeineIntake: user.caffeineIntake,
+          allergies: user.allergies
+        });
         console.log("Login Success");
         alert("로그인에 성공하였습니다.")
       } else {
@@ -63,8 +69,8 @@ export default function LoginContainer() {
   };
 
   return (
-    <div className="w-full h-screen text-gray10 px-5">
-      <section className="flex-i-center w-full h-[54px]">
+    <div className="flex flex-col items-center w-full h-screen text-gray10 px-5">
+      <section className="max-w-[360px] flex-i-center w-full h-[54px]">
         <Image
           src="/svgs/svg_leftArrow.svg"
           alt="letfArrow"

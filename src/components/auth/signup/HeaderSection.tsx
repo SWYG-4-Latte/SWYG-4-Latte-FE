@@ -18,7 +18,7 @@ export default function HeaderSection() {
 
 
   return (
-    <section className={`px-5 flex items-center ${currentStep === 5 ? 'justify-end' : 'justify-between'} w-full h-[54px]`}>
+    <section className={`max-w-[360px] px-5 flex items-center ${currentStep === 5 ? 'justify-end' : 'justify-between'} w-full h-[54px]`}>
       <Link href={currentStep === 1 ? "/auth/login" : "#"} onClick={handleBackClick}>
         <Image
           src={currentStep === 5 ? "/svgs/svg_close.svg" : "/svgs/svg_leftArrow.svg"}

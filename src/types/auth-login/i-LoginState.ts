@@ -10,6 +10,13 @@ export interface ILoginState {
   isLoggedIn: boolean;
   loginError: string | null;
 
+  nickname: string;
+  gender: string;
+  pregnancy: boolean;
+  pregMonth: string;
+  allergies: string[];
+  caffeineIntake: number; // Backend지정값
+
 
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
@@ -17,6 +24,13 @@ export interface ILoginState {
   setPasswordFocused: (focused: boolean) => void;
   validateUsername: (username: string) => void;
   validatePassword: (password: string) => void;
-  setToken: (accessToken: string, refreshToken?: string) => void;
+  setToken: (accessToken: string, refreshToken?: string, userInfo?: {
+    nickname: string;
+    gender: string;
+    pregnancy: boolean;
+    caffeineIntake: number;
+    pregMonth: string;
+    allergies: string[];
+  }) => void;
   clearToken: () => void;
 }
