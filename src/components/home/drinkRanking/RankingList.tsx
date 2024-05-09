@@ -22,7 +22,7 @@ const RankingList = ({ selectedBrand }: { selectedBrand: string }) => {
   }, [selectedBrand]);
 
   return (
-    <ul>
+    <ul className="mt-2">
       {isLoading && <RankingListSkeleton />}
       {!isLoading && rankingData.map((menu, idx) => <RankingListItem key={menu.menuNo} ranking={idx + 1} {...menu} />)}
     </ul>

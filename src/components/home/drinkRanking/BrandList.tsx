@@ -26,7 +26,7 @@ const BrandList = ({ selectedBrand, setSelectedBrand }: BrandListProps) => {
   }, []);
 
   return (
-    <div className="mb-[31px] flex justify-between px-5">
+    <div className="flex justify-between bg-primaryIvory px-5 py-4">
       {isLoading && <BrandListSkeleton />}
       {!isLoading && (
         <>

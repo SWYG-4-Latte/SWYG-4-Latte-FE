@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import BadgeButton from '../home/drinkRanking/BadgeButton';
 import DownArrowIcon from '../common/icons/DownArrowIcon';
@@ -12,9 +12,11 @@ import DownArrowIcon from '../common/icons/DownArrowIcon';
  */
 type FilterOption = 'desc' | 'asc' | 'none' | null;
 
+// 검색 결과 화면과 카테고리(menu) 페이지에서 사용
 const SearchFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const [filterOption, setFilterOption] = useState<FilterOption>(searchParams.get('filter') as FilterOption);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -44,13 +46,18 @@ const SearchFilter = () => {
       params.set('filter', filterOption);
     }
 
-    router.replace(`/menu/search?${params.toString()}`, { scroll: false });
+    if (pathname.includes('search')) {
+      router.replace(`/menu/search?${params.toString()}`, { scroll: false });
+    } else {
+      // 카테고리 탭
+      router.replace(`/menu/?${params.toString()}`, { scroll: false });
+    }
   }, [filterOption]);
 
   const isDropdownSelected = isDropdownOpen || (filterOption !== null && filterOption !== 'none');
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 px-5 py-3">
       <BadgeButton
         className={isDropdownOpen ? 'relative rounded-b-none border-b-0' : ''}
         selected={isDropdownSelected}
