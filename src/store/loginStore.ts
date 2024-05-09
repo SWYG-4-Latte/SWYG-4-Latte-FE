@@ -15,16 +15,36 @@ const useLoginStore = create<ILoginState>((set) => ({
   isLoggedIn: false,
   loginError: null,
 
+  nickname: '',
+  gender: '',
+  pregnancy: false,
+  pregMonth: '', // 임신 개월 수 추가
+  caffeineIntake: 0, // 적정 카페인량 추가
+  allergies: [],
+
   setUsername: (username) => set({ username }),
   setPassword: (password) => set({ password }),
   setUsernameFocused: (focused) => set({ usernameFocused: focused }),
   setPasswordFocused: (focused) => set({ passwordFocused: focused }),
 
-  setToken: (accessToken: string, refreshToken?: string) => {
-    set({ accessToken, refreshToken, isLoggedIn: true });
+  setToken: (accessToken, refreshToken, userInfo) => {
+     // 먼저 로컬 스토리지에 토큰 저장
+    localStorage.setItem('accessToken', accessToken);
+    if (refreshToken) {
+      localStorage.setItem('refreshToken', refreshToken);
+    }
+
+    set({
+      accessToken,
+      refreshToken,
+      isLoggedIn: true,
+      ...userInfo
+    })
   },
   clearToken: () => {
-    set({ accessToken: '', refreshToken: '', isLoggedIn: false });
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    set({ accessToken: '', refreshToken: '', isLoggedIn: false, nickname: '' });
   },
 
   validateUsername: (username) => {
