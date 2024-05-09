@@ -3,32 +3,28 @@ import axios from 'axios';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
 import { Menu } from '@/types/home/menu';
-import NoSearchResults from '@/components/search/NoSearchResults';
-import SearchResultHeader from '@/components/search/SearchResultHeader';
+import { PAGE_SIZE } from '../search/SearchResultContainer';
 import SearchListSkeleton from '@/components/common/skeleton/SearchListSkeleton';
 
-interface SearchResultContainerProps {
-  query: string;
+interface MenuListContainerProps {
+  brand: string;
   filter: string | null;
 }
 
-export const PAGE_SIZE = 12;
-
-const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) => {
+const MenuListContainer = ({ brand, filter }: MenuListContainerProps) => {
   const observeTargetRef = useRef<HTMLDivElement>(null);
 
-  const [searchResults, setSearchResults] = useState<Menu[]>([]);
+  const [menuList, setMenuList] = useState<Menu[]>([]);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  const getSearchResults = async (pageNumber: number) => {
+  const getMenuList = async (pageNumber: number) => {
     setIsLoading(true);
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/list`, {
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/${brand}`, {
         params: {
-          word: query,
           page: pageNumber,
           size: PAGE_SIZE,
           sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
@@ -36,7 +32,7 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
         },
       });
 
-      setSearchResults((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
+      setMenuList((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
 
       setTotalResults(data.data.totalElements);
       setPage(data.data.number + 1);
@@ -53,7 +49,7 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
   const onIntersect: IntersectionObserverCallback = useCallback(
     ([entry], observer) => {
       if (entry.isIntersecting && hasNextPage) {
-        getSearchResults(page);
+        // getMenuList(page);
       }
     },
     [page, totalResults],
@@ -61,8 +57,8 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
 
   useEffect(() => {
     setPage(0);
-    getSearchResults(0);
-  }, [query, filter]);
+    // getMenuList(0);
+  }, [brand, filter]);
 
   useEffect(() => {
     if (!observeTargetRef.current) return;
@@ -75,24 +71,19 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
     };
   }, [observeTargetRef, onIntersect]);
 
-  if (!isLoading && searchResults.length === 0 && !filter) {
-    return <NoSearchResults />;
-  }
-
   return (
-    <>
-      <SearchResultHeader totalResults={totalResults} />
-      {searchResults.length === 0 && <>{isLoading ? <SearchListSkeleton /> : <NoSearchResults />}</>}
+    <div>
+      {menuList.length === 0 && isLoading && <SearchListSkeleton />}
       <ul>
-        {searchResults.map((result) => (
+        {menuList.map((result) => (
           <DrinkListItem key={result.menuNo} drinkMenu={result} />
         ))}
       </ul>
       <div ref={observeTargetRef} className="flex justify-center">
         {hasNextPage && 'Loading...'}
       </div>
-    </>
+    </div>
   );
 };
 
-export default SearchResultContainer;
+export default MenuListContainer;

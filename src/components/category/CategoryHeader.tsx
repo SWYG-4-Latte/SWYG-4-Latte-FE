@@ -10,7 +10,7 @@ const CategoryHeader = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   return (
-    <header className="fixed left-0 right-0 z-10 mx-auto flex h-14 max-w-[500px] items-center justify-between bg-primaryIvory px-5">
+    <header className="fixed left-0 right-0 z-20 mx-auto flex h-14 max-w-[500px] items-center justify-between bg-primaryIvory px-5">
       <div className="relative flex items-center gap-1">
         <span className="text-lg font-semibold text-gray10">카테고리</span>
         <div className="relative">

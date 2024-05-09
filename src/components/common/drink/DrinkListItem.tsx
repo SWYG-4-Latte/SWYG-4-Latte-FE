@@ -6,9 +6,10 @@ import { useRouter } from 'next/navigation';
 import { Menu } from '@/types/home/menu';
 
 /**
- * 검색 페이지와 오늘 마신 카페인 기록 페이지 음료 목록 아이템
- * 필수: 사진, 음료명, 카페인 함량, 브랜드명
- * 검색에서만 사용: 가격
+ * 검색 페이지,오늘 마신 카페인 기록 페이지, 카테고리 음료 목록 아이템
+ * 필수: 사진, 음료명, 카페인 함량
+ * 가격 -> 검색, 카테고리
+ * 브랜드명 -> 검색, 오늘 마신 카페인 기록
  */
 const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
   const { menuNo, menuName, caffeine, brand, imageUrl, price } = drinkMenu;
@@ -27,8 +28,12 @@ const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
         <div className="font-medium text-gray10">{menuName}</div>
         <div className="flex items-center gap-[10px]">
           <div className="rounded bg-primaryBeige px-2 py-1 text-xs text-orange09">카페인 {caffeine}</div>
-          <div className="h-3 w-px bg-gray06" />
-          <div className="text-sm text-gray08">{brand}</div>
+          {brand && (
+            <>
+              <div className="h-3 w-px bg-gray06" />
+              <div className="text-sm text-gray08">{brand}</div>
+            </>
+          )}
           {price && (
             <>
               <div className="h-3 w-px bg-gray06" />
