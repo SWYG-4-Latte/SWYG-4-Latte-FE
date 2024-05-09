@@ -7,6 +7,6 @@ export interface IUserInfo {
   pregnancy: boolean;
   pregMonth: string;
   cupDay?: string;
-  symptoms?:string[];
+  symptoms?: string[];
   allergies?: string[];
 }
