@@ -16,13 +16,13 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
 
   useEffect(() => {
     const getDateInfo = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
         params: {
           datetime: dayjs(selectedDate).format('YYYY-MM-DDT00:00:00'),
         },
       });
 
-      setSelectedDateInfo(response.data.data);
+      setSelectedDateInfo(data.data);
     };
 
     getDateInfo();
@@ -65,11 +65,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
         {hasUserAdditionalInfo ? (
           <>
             {selectedDateInfo.caffeine ? (
-              <>
-                카페인 음료를 잘 조절해서 마시고 계시네요. 적정량의 카페인은 편두통이 나아져 원활한 활동이 가능해요.
-                그래도 커피가 필요하다면 디카페인 바닐라 라떼 한 잔 추천드려요. <br />
-                디카페인에는 약 1~5mg의 카페인이 함유되어 있어요
-              </>
+              <>{selectedDateInfo.sentence}</>
             ) : (
               '마신 카페인을 기록하고 맞춤 카페인 정보를 받아보세요.'
             )}

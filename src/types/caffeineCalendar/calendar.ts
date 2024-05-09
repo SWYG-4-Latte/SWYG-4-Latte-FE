@@ -12,4 +12,5 @@ export interface ThisMonthData {
 export interface SelectedDateInfoType {
   status: string;
   caffeine: string | null;
+  sentence: string;
 }
