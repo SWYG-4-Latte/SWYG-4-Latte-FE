@@ -25,8 +25,8 @@ const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHis
           className="h-auto w-full"
         />
       </div>
-      <div className="flex flex-col justify-center gap-2">
-        <div className="line-clamp-1 text-sm font-medium text-gray10">
+      <div className="flex w-[162px] flex-col justify-center gap-2">
+        <div className="line-clamp-1 text-ellipsis text-sm font-medium text-gray10">
           {drinkHistoryData ? drinkHistoryData.menuName : heading}
         </div>
         <div className="flex items-center text-ellipsis text-nowrap text-xs text-gray08">

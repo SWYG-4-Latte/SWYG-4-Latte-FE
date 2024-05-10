@@ -61,7 +61,7 @@ const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => 
   };
 
   return (
-    <div className="h-[118px] w-[250px] overflow-hidden rounded-lg border border-gray04 bg-primaryIvory shadow-toast">
+    <div className="box-content h-[118px] w-[250px] overflow-hidden rounded-lg border border-gray04 bg-primaryIvory shadow-toast">
       {!drinkHistoryData ? (
         <DrinkHistoryDetail heading="마신 음료를 추가해봐요" description="빠르게 기록할 수 있어요" />
       ) : (
