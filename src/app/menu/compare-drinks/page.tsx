@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { getCompareInfo } from '@/api/drinks/compareDrinks';
+import { getCompareInfo } from '@/api/drinks';
 import NavigationHeader from '@/components/common/header/NavigationHeader';
 import CompareContainer from '@/container/compareDrinks/CompareContainer';
 import RecentlyViewedDrinksContainer from '@/container/compareDrinks/RecentlyViewedDrinksContainer';

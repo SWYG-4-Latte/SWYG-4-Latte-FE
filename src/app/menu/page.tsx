@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 
-import CategoryHeader from '@/components/category/CategoryHeader';
+import CategoryHeader from '@/components/menu/CategoryHeader';
 import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
 import SearchListSkeleton from '@/components/common/skeleton/SearchListSkeleton';
-import CategoryMainContainer from '@/container/category/CategoryMainContainer';
-import MenuFilterContainer from '@/container/category/MenuFilterContainer';
+import CategoryMainContainer from '@/container/menu/CategoryMainContainer';
+import MenuFilterContainer from '@/container/menu/MenuFilterContainer';
 
 export default async function MenuListPage({
   searchParams,
@@ -14,7 +14,7 @@ export default async function MenuListPage({
     filter?: string;
   };
 }) {
-  const brand = searchParams.brand;
+  const brand = searchParams.brand ?? 'starbucks';
   const filter = searchParams.filter || '';
 
   return (
@@ -24,7 +24,6 @@ export default async function MenuListPage({
       <Suspense fallback={<SearchListSkeleton />}>
         <CategoryMainContainer brand={brand} filter={filter} />
       </Suspense>
-
       <BottomNavigation />
     </>
   );

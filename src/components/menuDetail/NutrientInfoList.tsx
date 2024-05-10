@@ -1,5 +1,5 @@
 import NutrientLevelBadge from './NutrientLevelBadge';
-import { Entries, Nutrient, NutrientLevel } from '@/types/menu/menu';
+import { Entries, Nutrient, NutrientLevel } from '@/types/menu/nutrient';
 import { NUTRIENT_NAME } from '@/constants/menuDetail/nutrient';
 
 interface NutrientInfoListProps {

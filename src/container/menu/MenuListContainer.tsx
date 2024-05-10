@@ -1,44 +1,37 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
-import { Menu } from '@/types/home/menu';
-import { PAGE_SIZE } from '../search/SearchResultContainer';
-import SearchListSkeleton from '@/components/common/skeleton/SearchListSkeleton';
+import { Menu } from '@/types/menu/menu';
+import SearchListSkeleton, { SearchListItemSkeleton } from '@/components/common/skeleton/SearchListSkeleton';
+import { MENU_PER_PAGE } from '@/constants/menu/menuList';
+import { MenuListData, getMenuList } from '@/api/drinks';
 
 interface MenuListContainerProps {
   brand: string;
-  filter: string | null;
-  initialData: Menu[];
+  filter: string;
+  initialData: MenuListData;
 }
 
 const MenuListContainer = ({ brand, filter, initialData }: MenuListContainerProps) => {
   const observeTargetRef = useRef<HTMLDivElement>(null);
 
-  const [menuList, setMenuList] = useState<Menu[]>(initialData);
-  const [totalResults, setTotalResults] = useState(0);
-  const [page, setPage] = useState(0);
+  const [menuList, setMenuList] = useState<Menu[]>(initialData.content);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  const getMenuList = async (pageNumber: number) => {
+  const totalResults = initialData.totalElements;
+  const hasNextPage = page * MENU_PER_PAGE < totalResults;
+
+  const getMoreMenu = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/${brand}`, {
-        params: {
-          page: pageNumber,
-          size: PAGE_SIZE,
-          sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
-          cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
-        },
-      });
+      const data = await getMenuList(brand, filter, page);
 
-      setMenuList((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
-
-      setTotalResults(data.data.totalElements);
-      setPage(data.data.number + 1);
+      setMenuList((prev) => [...prev, ...data.content]);
+      setPage((prev) => prev + 1);
     } catch (error) {
       setIsError(true);
     }
@@ -46,27 +39,25 @@ const MenuListContainer = ({ brand, filter, initialData }: MenuListContainerProp
     setIsLoading(false);
   };
 
-  const hasNextPage = page * PAGE_SIZE < totalResults;
-
   // 관찰 대상(target)이 등록되거나 가시성에 변화가 생기면 실행되는 callback 함수
   const onIntersect: IntersectionObserverCallback = useCallback(
     ([entry], observer) => {
       if (entry.isIntersecting && hasNextPage) {
-        // getMenuList(page);
+        getMoreMenu();
       }
     },
     [page, totalResults],
   );
 
   useEffect(() => {
-    setPage(0);
-    // getMenuList(0);
-  }, [brand, filter]);
+    setMenuList(initialData.content);
+    setPage(1);
+  }, [initialData.content]);
 
   useEffect(() => {
     if (!observeTargetRef.current) return;
 
-    const observer = new IntersectionObserver(onIntersect, { threshold: 0.3 });
+    const observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
     observer.observe(observeTargetRef.current);
 
     return () => {
@@ -82,8 +73,8 @@ const MenuListContainer = ({ brand, filter, initialData }: MenuListContainerProp
           <DrinkListItem key={result.menuNo} drinkMenu={result} />
         ))}
       </ul>
-      <div ref={observeTargetRef} className="flex justify-center">
-        {hasNextPage && 'Loading...'}
+      <div ref={observeTargetRef} className="flex w-full">
+        {hasNextPage && <SearchListItemSkeleton />}
       </div>
     </div>
   );
