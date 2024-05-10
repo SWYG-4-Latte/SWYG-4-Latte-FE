@@ -40,9 +40,7 @@ const SearchInput = () => {
 
   useEffect(() => {
     const query = searchParams.get('query');
-    if (query) {
-      setSearchValue(query);
-    }
+    setSearchValue(query ?? '');
   }, [searchParams]);
 
   const canDeleteWord = searchParams.get('query') === searchValue;
@@ -58,7 +56,12 @@ const SearchInput = () => {
         onKeyDown={handleKeyDown}
       />
       <button className="absolute right-2" onClick={!canDeleteWord ? handleSearch : handleClear}>
-        <Image src={`/svgs/${!canDeleteWord ? 'search' : 'delete-search'}.svg`} alt="검색" width={20} height={20} />
+        <Image
+          src={`/svgs/${!canDeleteWord ? 'search' : 'delete-search'}.svg`}
+          alt={canDeleteWord ? '검색어 지우기' : '검색 버튼'}
+          width={20}
+          height={20}
+        />
       </button>
     </div>
   );

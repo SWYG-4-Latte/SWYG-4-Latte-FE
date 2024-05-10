@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
@@ -12,9 +12,10 @@ import { useIntersect } from '@/hooks/useIntersect';
 interface SearchResultContainerProps {
   query: string;
   filter: string | null;
+  setHasResult: Dispatch<SetStateAction<boolean>>;
 }
 
-const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) => {
+const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultContainerProps) => {
   const [searchResults, setSearchResults] = useState<Menu[]>([]);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
@@ -43,6 +44,7 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
       setSearchResults((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
 
       setTotalResults(data.data.totalElements);
+      setHasResult(data.data.totalElements !== 0);
       setPage(data.data.number + 1);
     } catch (error) {
       setIsError(true);
@@ -69,7 +71,7 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
           <DrinkListItem key={result.menuNo} drinkMenu={result} />
         ))}
       </ul>
-      <div ref={targetRef} className="flex justify-center">
+      <div ref={targetRef} className="flex">
         {hasNextPage && <SearchListItemSkeleton />}
       </div>
     </>
