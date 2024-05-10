@@ -4,7 +4,7 @@ import { FreeMode } from 'swiper/modules';
 import 'swiper/css/bundle';
 
 import DrinkHistoryCard from './DrinkHistoryCard';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 
 const DrinkHistorySwiper = ({ slideData }: { slideData: Menu[] }) => {
   return (

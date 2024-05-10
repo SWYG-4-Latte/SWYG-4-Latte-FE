@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import DrinkItem from '@/components/common/drink/DrinkItem';
 import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import DrinkItemSkeleton from '@/components/common/skeleton/DrinkItemSkeleton';
 
 const RecentlyViewedDrinksContainer = () => {

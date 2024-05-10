@@ -1,5 +1,7 @@
+'use client';
+
 import { MouseEvent, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import BadgeButton from '../home/drinkRanking/BadgeButton';
 import DownArrowIcon from '../common/icons/DownArrowIcon';
@@ -12,9 +14,11 @@ import DownArrowIcon from '../common/icons/DownArrowIcon';
  */
 type FilterOption = 'desc' | 'asc' | 'none' | null;
 
+// 검색 결과 화면과 카테고리(menu) 페이지에서 사용
 const SearchFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const [filterOption, setFilterOption] = useState<FilterOption>(searchParams.get('filter') as FilterOption);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -44,13 +48,13 @@ const SearchFilter = () => {
       params.set('filter', filterOption);
     }
 
-    router.replace(`/menu/search?${params.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }, [filterOption]);
 
   const isDropdownSelected = isDropdownOpen || (filterOption !== null && filterOption !== 'none');
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 px-5 py-3">
       <BadgeButton
         className={isDropdownOpen ? 'relative rounded-b-none border-b-0' : ''}
         selected={isDropdownSelected}
@@ -67,7 +71,7 @@ const SearchFilter = () => {
           />
         </div>
         {isDropdownOpen && (
-          <div className="absolute left-[-1px] right-[-1px] top-full overflow-hidden text-xs text-gray08">
+          <div className="absolute left-[-1px] right-[-1px] top-full z-10 overflow-hidden text-xs text-gray08">
             <div className="w-full animate-dropdown rounded-b-md border-x border-b border-primaryOrange bg-primaryIvory">
               <div
                 className="flex h-[30px] items-center justify-center border-t border-primaryBeige px-4 py-2"

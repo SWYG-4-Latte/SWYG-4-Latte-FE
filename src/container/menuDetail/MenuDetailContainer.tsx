@@ -12,7 +12,7 @@ import LowerCaffeineMenuContainer from './LowerCaffeineMenuContainer';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
 import useModal from '@/hooks/useModal';
 import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore';
-import { MenuDetail } from '@/types/home/menu';
+import { MenuDetail } from '@/types/menu/menu';
 
 const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const { addDrinkToRecentlyViewedStore } = useRecentlyViewedDrinksStore();

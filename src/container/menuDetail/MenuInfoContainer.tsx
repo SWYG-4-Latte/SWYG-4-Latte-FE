@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import NutrientInfo from '@/components/menuDetail/NutrientInfoList';
-import { MenuDetail } from '@/types/home/menu';
+import { MenuDetail } from '@/types/menu/menu';
 import MenuSizeTab from '@/components/menuDetail/MenuSizeTab';
 import MenuDetails from '@/components/menuDetail/MenuDetails';
 

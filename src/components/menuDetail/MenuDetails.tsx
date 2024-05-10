@@ -1,4 +1,4 @@
-import { MenuDetail } from '@/types/home/menu';
+import { MenuDetail } from '@/types/menu/menu';
 import { ellipsisText } from '@/utils/string';
 
 const MenuDetails = ({ menu }: { menu: MenuDetail }) => {
