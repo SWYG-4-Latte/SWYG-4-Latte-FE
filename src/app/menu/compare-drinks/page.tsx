@@ -7,7 +7,7 @@ import NavigationHeader from '@/components/common/header/NavigationHeader';
 import CompareContainer from '@/container/compareDrinks/CompareContainer';
 import RecentlyViewedDrinksContainer from '@/container/compareDrinks/RecentlyViewedDrinksContainer';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
-import { ComparedMenu } from '@/types/home/menu';
+import { ComparedMenu } from '@/types/menu/menu';
 
 export default function CompareDrinksPage() {
   const { drinks } = useDrinkComparisonStore();

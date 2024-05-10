@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import EmptyCard from '@/components/home/drinkHistory/EmptyCard';
 import DrinkHistorySwiper from '@/components/home/drinkHistory/DrinkHistorySwiper';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 
 const DrinkHistoryContainer = ({ drinkHistory }: { drinkHistory: Menu[] }) => {
   return (

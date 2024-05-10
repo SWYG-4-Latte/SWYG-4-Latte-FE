@@ -1,4 +1,4 @@
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import DrinkItem from '@/components/common/drink/DrinkItem';
 
 const LowerCaffeineMenuContainer = ({ menus }: { menus: Menu[] }) => {

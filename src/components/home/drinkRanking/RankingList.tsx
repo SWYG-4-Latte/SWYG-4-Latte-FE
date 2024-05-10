@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import RankingListItem from './RankingListItem';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import RankingListSkeleton from '@/components/common/skeleton/RankingListSkeleton';
 
 const RankingList = ({ selectedBrand }: { selectedBrand: string }) => {

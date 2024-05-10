@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 
 /**
  * 검색 페이지,오늘 마신 카페인 기록 페이지, 카테고리 음료 목록 아이템

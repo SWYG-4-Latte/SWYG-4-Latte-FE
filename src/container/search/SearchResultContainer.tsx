@@ -2,17 +2,16 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import NoSearchResults from '@/components/search/NoSearchResults';
 import SearchResultHeader from '@/components/search/SearchResultHeader';
 import SearchListSkeleton from '@/components/common/skeleton/SearchListSkeleton';
+import { MENU_PER_PAGE } from '@/constants/menu/menuList';
 
 interface SearchResultContainerProps {
   query: string;
   filter: string | null;
 }
-
-export const PAGE_SIZE = 12;
 
 const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) => {
   const observeTargetRef = useRef<HTMLDivElement>(null);
@@ -30,7 +29,7 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
         params: {
           word: query,
           page: pageNumber,
-          size: PAGE_SIZE,
+          size: MENU_PER_PAGE,
           sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
           cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
         },
@@ -47,7 +46,7 @@ const SearchResultContainer = ({ query, filter }: SearchResultContainerProps) =>
     setIsLoading(false);
   };
 
-  const hasNextPage = page * PAGE_SIZE < totalResults;
+  const hasNextPage = page * MENU_PER_PAGE < totalResults;
 
   // 관찰 대상(target)이 등록되거나 가시성에 변화가 생기면 실행되는 callback 함수
   const onIntersect: IntersectionObserverCallback = useCallback(

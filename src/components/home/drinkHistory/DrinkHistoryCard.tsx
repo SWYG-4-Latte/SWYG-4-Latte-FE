@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import DrinkHistoryDetail from './DrinkHistoryDetail';
 import DrinkHistoryCardFooter from './DrinkHistoryCardFooter';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 import DeleteComparisonBoxModal from '@/components/common/modal/DeleteComparisonBoxModal';

@@ -1,4 +1,4 @@
-import { NutrientLevelType } from '@/types/home/menu';
+import { NutrientLevelType } from '@/types/menu/nutrient';
 
 const NutrientLevelBadge = ({ level }: { level: NutrientLevelType }) => {
   let textColor = 'text-primaryOrange';
