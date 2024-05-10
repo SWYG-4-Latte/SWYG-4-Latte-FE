@@ -57,7 +57,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
       {selectedDateInfo.caffeine && hasUserAdditionalInfo && (
         <div className="flex h-[50px] items-center justify-between rounded-lg border border-gray05 bg-primaryIvory py-4 pl-5 pr-4">
           <div className="text-sm text-gray08">하루 총 카페인 섭취량</div>
-          <div className="text-sm text-gray10">{selectedDateInfo.caffeine}</div>
+          <div className="text-sm text-gray10">{selectedDateInfo.caffeine}mg</div>
         </div>
       )}
 

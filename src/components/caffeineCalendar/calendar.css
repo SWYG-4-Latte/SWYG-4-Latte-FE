@@ -31,7 +31,7 @@ button.react-calendar__navigation__arrow {
 
 /* 요일 */
 .react-calendar__month-view__weekdays {
-  @apply flex h-8 items-center border-b border-gray04 p-0 text-xs font-normal text-gray10;
+  @apply mb-2 flex h-8 items-center border-b border-gray04 p-0 text-xs font-normal text-gray10;
 
   abbr {
     @apply no-underline;
