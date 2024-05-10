@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 //Libary
 import React, { } from "react"
+import { useRouter } from "next/navigation"
 import axios from "axios"
 // Zustand
 import useLoginStore from "@/store/loginStore"
@@ -12,6 +13,8 @@ import { login } from "@/utils/auth-signup/isLogin"
 
 
 export default function LoginContainer() {
+  const router = useRouter();
+
   const {
     username, password, setUsername, setPassword,
     usernameError, passwordError, usernameFocused, passwordFocused,
@@ -44,27 +47,26 @@ export default function LoginContainer() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!username.trim() || !password.trim()) {
+      alert('아이디와 비밀번호를 모두 입력해주세요.');
+      return;
+    }
+  
     try {
       const response = await login(username, password);
-
-      if (response.data.jwtToken && response.data.jwtToken.accessToken) {
-        const { accessToken, refreshToken, user } = response.data.jwtToken;
-        setToken(accessToken, refreshToken, {
-          nickname: user.nickname,
-          gender: user.gender,
-          pregnancy: user.pregnancy,
-          pregMonth: user.pregMonth || 'None',
-          caffeineIntake: user.caffeineIntake,
-          allergies: user.allergies
-        });
+  
+      if (response.jwtToken && response.jwtToken.accessToken) {
+        // JWT 토큰을 로컬 스토리지에 저장
+        localStorage.setItem('accessToken', response.jwtToken.accessToken);
+        localStorage.setItem('refreshToken', response.jwtToken.refreshToken);
+        
         console.log("Login Success");
-        alert("로그인에 성공하였습니다.")
-      } else {
-        console.error("Login Failed: ", response.data.message);
-        alert("로그인에 실패하였습니다.")
+        alert("로그인에 성공하였습니다.");
+        router.push('/home');
       }
     } catch (error) {
       console.error("Login Error", error);
+      alert(`로그인 오류: ${error instanceof Error ? error.message : '알 수 없는 에러가 발생했습니다.'}`);
     }
   };
 
@@ -97,7 +99,7 @@ export default function LoginContainer() {
         <form
           onSubmit={handleLogin} 
           className="space-y-4">
-          <div>
+          <div className="flex flex-col justify-center">
             <input 
               type="text"
               value={username}
@@ -111,7 +113,7 @@ export default function LoginContainer() {
             />
             { usernameError &&  <p className="mt-2 text-xs text-primaryRed">{usernameError}</p> }
           </div>
-          <div>
+          <div className="flex flex-col justify-center">
             <input 
               type="password"
               value={password}

@@ -1,12 +1,22 @@
 'use client'
 //NEXT
 import Image from "next/image"
+import { useRouter } from "next/navigation";
+//Library
 //Zustand
 import useSignupStore from "@/store/signupStore"
 import Link from "next/link";
+//Modal
+import Modal, { ModalProps } from "@/components/common/modal/Modal";
+import Button from "@/components/common/button/Button";
+import useModal from "@/hooks/useModal";
 
 
 export default function MyProfileContent() {
+  const router = useRouter();
+  const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal();
+  const { isOpen: isConfirmOpen, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal();
+
   const {
     email, emailError, emailFocused, setEmail, validateEmail, setEmailFocused,
     age, ageError, ageFocused, setAge, validateAge, setAgeFocused,
@@ -60,6 +70,55 @@ export default function MyProfileContent() {
         break;
     }
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken')
+    router.push('/home')
+  }
+
+  const handleExit = () => {
+    openExitModal();
+  };
+
+  const handleConfirmExit = () => {
+    closeExitModal();
+    openConfirmModal();
+  };
+
+  const renderExitConfirmModal = (
+    <Modal isOpen={isConfirmOpen} onClose={closeConfirmModal}>
+      <div className="text-lg font-semibold text-primaryOrange">탈퇴가 완료되었습니다</div>
+        <p className="w-[182px] text-center text-sm leading-[20px] text-gray10">언제든 돌아오시길 기다릴게요! <br/> 더 좋은 서비스로 보답하겠습니다.</p>
+        <Button
+          onClick={closeConfirmModal}
+          className="w-full rounded-lg px-4 py-3 font-semibold leading-[25px]"
+        >
+          홈으로 돌아가기
+        </Button>
+    </Modal>
+  )
+
+  const renderExitModal = (
+    <Modal isOpen={isExitOpen} onClose={closeExitModal}>
+      <div className="text-lg font-semibold text-primaryOrange">정말 탈퇴하시겠어요?</div>
+        <p className="w-[161px] text-center text-sm leading-[20px] text-gray10">지금 탈퇴하면 그동안 기록한 카페인 섭취량을 볼 수 없어요.</p>
+        <div className="flex gap-2">
+          <button
+            className="h-[50px] w-32 rounded-lg border border-gray05 bg-primaryIvory px-4 py-3 font-semibold leading-[25px] text-gray08 hover:border-0 hover:bg-gray06 hover:text-gray00"
+            onClick={closeExitModal}
+          >
+            아니요
+          </button>
+          <Button
+            onClick={handleConfirmExit}
+            className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
+          >
+            탈퇴하기
+          </Button>
+      </div>
+    </Modal>
+  )
+
 
 
   return (
@@ -183,7 +242,7 @@ export default function MyProfileContent() {
         }
       </form>
       
-      <div className="px-5 max-w-[340px] w-full h-2 mt-6 bg-gray04" />
+      <div className="px-5 max-w-[340px] w-full h-2 mt-6 bg-gray03" />
       {/* 나의 추가 설정 */}
       <div className="px-5 max-w-[360px] w-full h-[200px] text-gray10">
         <Link href="/mypage/memberinfo">
@@ -203,18 +262,24 @@ export default function MyProfileContent() {
           </div>
         </Link>
         <div className="w-full flex items-center justify-center text-xs">
-          <p className="hover:text-primaryOrange">로그아웃</p>
+          <p
+            onClick={handleLogout}
+            className="hover:text-primaryOrange">로그아웃</p>
           <div className="border w-[1px] h-4 border-gray05 mx-4"/>
-          <p className="hover:text-primaryOrange">회원탈퇴</p>
+          <p
+            onClick={handleExit}
+            className="hover:text-primaryOrange">회원탈퇴</p>
         </div>
       </div>
-      <div className="fixed bottom-0 px-5 pb-[30px] bg-gray03">
+      <div className="fixed bottom-0 px-5 pb-[30px] bg-gray02">
         <button 
           onClick={handleUpdateProfile}
           className='z-10 w-[320px] h-[50px] rounded-md bg-orange02 text-gray06 '>
             저장하기
         </button>
       </div>
+      {renderExitModal}
+      {renderExitConfirmModal}
     </section>
     </>
   )

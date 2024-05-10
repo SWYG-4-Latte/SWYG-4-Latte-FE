@@ -3,27 +3,40 @@
 // NEXT && React
 import Image from "next/image"
 import Link from "next/link"
-import React from 'react'
+import React, { useState,useMemo, useEffect } from 'react'
+import { fetchMemberInfo } from "@/utils/mypage/isMember"
 //Zustand
 import useLoginStore from "@/store/loginStore"
 
 
 export default function MypageUserInfo() {
-  const { isLoggedIn, nickname, gender, pregnancy, caffeineIntake, allergies } = useLoginStore();
+  const [memberInfo, setMemberInfo] = useState(null)
+  const accessToken = useMemo(() => localStorage.getItem('accessToken'),[])
+
+  useEffect(()=> {
+    const loadMemberInfo = async () => {
+      const info = await fetchMemberInfo()
+      setMemberInfo(info)
+    }
+
+    loadMemberInfo()
+  },[])
 
   const renderBeforeLogin = (
     <div className="flex flex-col space-y-2 justify-center">
+      <Link href='/auth/login'>
       <div className="flex">
-        <div>로그인해주세요</div>
-        <Image 
-          src="/svgs/svg_rightArrow.svg"
-          alt="right-Arrow"
-          width={16}
-          height={16}
-          priority
-          unoptimized
-        />
+          <div>로그인해주세요</div>
+          <Image 
+            src="/svgs/svg_rightArrow.svg"
+            alt="right-Arrow"
+            width={16}
+            height={16}
+            priority
+            unoptimized
+            />
       </div>
+      </Link>
       <div className="px-4 py-2 w-[186px] h-[28px] bg-orange01 text-primaryOrange rounded-md text-[10px] whitespace-nowrap">
         나에게 적절한 카페인 양을 알 수 있어요!
       </div>
@@ -57,8 +70,7 @@ export default function MypageUserInfo() {
             />
           </Link>
           {/* 조건부렌더링 */}
-          {/* { isLoggedIn ? renderAfterLogin : renderBeforeLogin } */}
-          {renderAfterLogin}
+          { accessToken ? renderAfterLogin : renderBeforeLogin }
         </div>
       </section>
       <section className="flex items-center justify-center px-5 max-w-[360px] w-full h-[156px]">

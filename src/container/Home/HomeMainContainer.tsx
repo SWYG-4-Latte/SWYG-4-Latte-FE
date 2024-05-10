@@ -11,6 +11,7 @@ const HomeMainContainer = () => {
   const [userData, setUserData] = useState<UserCaffeineData | null>(null);
   const isLoggedIn = true;
 
+
   useEffect(() => {
     const getUserData = async () => {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink`);
@@ -19,7 +20,7 @@ const HomeMainContainer = () => {
     };
 
     getUserData();
-  }, []);
+  }, []);  
 
   return (
     <>
