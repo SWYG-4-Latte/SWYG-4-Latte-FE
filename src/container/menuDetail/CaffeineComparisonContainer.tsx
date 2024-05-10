@@ -32,7 +32,7 @@ const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
   };
 
   return (
-    <div className="bg-primaryIvory px-5 pb-6 pt-4 ">
+    <div className="bg-primaryIvory px-5 pb-[30px] pt-6 ">
       <div className="mb-3 flex items-center justify-between">
         <div className="font-medium text-gray10">카페인 함량 비교하기</div>
         <button

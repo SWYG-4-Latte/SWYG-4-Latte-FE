@@ -25,7 +25,7 @@ const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
         <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" />
       </div>
       <div className="flex flex-col justify-center gap-2">
-        <div className="font-medium text-gray10">{menuName}</div>
+        <div className="line-clamp-1 font-medium text-gray10">{menuName}</div>
         <div className="flex items-center gap-[10px]">
           <div className="rounded bg-primaryBeige px-2 py-1 text-xs text-orange09">카페인 {caffeine}</div>
           {brand && (
