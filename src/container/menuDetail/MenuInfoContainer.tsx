@@ -12,7 +12,7 @@ interface MenuInfoContainerProps {
 const MenuInfoContainer = ({ menu }: MenuInfoContainerProps) => {
   return (
     <div>
-      <div className="flex h-[360px] items-center justify-center overflow-hidden bg-primaryBeige">
+      <div className="flex h-[360px] items-center justify-center overflow-hidden bg-primaryIvory">
         <Image
           src={menu.imageUrl}
           priority
