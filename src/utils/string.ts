@@ -6,12 +6,12 @@ export const ellipsisText = (text: string, maxLength: number) => {
   let len = 0;
 
   for (const ch of text) {
-    if (len >= maxLength) break;
+    if (len === maxLength) break;
     if (ch != ' ') {
       len += 1;
     }
     slicedText += ch;
   }
 
-  return slicedText + '...';
+  return len < 10 ? slicedText : slicedText + '...';
 };
