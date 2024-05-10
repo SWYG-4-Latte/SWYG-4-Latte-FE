@@ -1,9 +1,30 @@
-import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
+import { Suspense } from 'react';
 
-export default function MenuPage() {
+import CategoryHeader from '@/components/menu/CategoryHeader';
+import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
+import SearchListSkeleton from '@/components/common/skeleton/SearchListSkeleton';
+import CategoryMainContainer from '@/container/menu/CategoryMainContainer';
+import MenuFilterContainer from '@/container/menu/MenuFilterContainer';
+
+export default async function MenuListPage({
+  searchParams,
+}: {
+  searchParams: {
+    brand: string;
+    filter?: string;
+  };
+}) {
+  const brand = searchParams.brand ?? 'starbucks';
+  const filter = searchParams.filter || '';
+
   return (
-    <div>
+    <>
+      <CategoryHeader />
+      <MenuFilterContainer />
+      <Suspense fallback={<SearchListSkeleton />}>
+        <CategoryMainContainer brand={brand} filter={filter} />
+      </Suspense>
       <BottomNavigation />
-    </div>
+    </>
   );
 }

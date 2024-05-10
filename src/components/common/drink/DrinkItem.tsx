@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 
 // 음료 이미지와 음료명을 함께 보여주는 컴포넌트(상세 페이지, 비교 페이지 사용)
 const DrinkItem = ({ imageUrl, menuName, menuNo }: Menu) => {

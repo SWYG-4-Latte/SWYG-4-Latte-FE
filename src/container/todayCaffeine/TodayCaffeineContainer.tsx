@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import EmptyHistory from '@/components/todayCaffeine/EmptyHistory';
 import HistoryList from '@/components/todayCaffeine/HistoryList';
 import { formatDate } from '@/utils/date';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 
 const TodayCaffeineContainer = ({ data }: { data: Menu[] }) => {
   return (

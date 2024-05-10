@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 export interface DrinkType {
   menuNo: number;
   imageUrl: string; // 메뉴 상세에서 음료 이미지 보여줘야 함

@@ -4,7 +4,7 @@ import { MouseEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 

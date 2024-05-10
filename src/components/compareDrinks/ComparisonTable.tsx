@@ -1,4 +1,4 @@
-import { ComparedMenu } from '@/types/home/menu';
+import { ComparedMenu } from '@/types/menu/menu';
 import ComparisonTableRow from './ComparisonTableRow';
 
 const ComparisonTable = ({ drinks }: { drinks: (ComparedMenu | null)[] }) => {

@@ -1,4 +1,4 @@
-import { ComparedMenu } from '@/types/home/menu';
+import { ComparedMenu } from '@/types/menu/menu';
 import DrinkInfo from '@/components/compareDrinks/DrinkInfo';
 import ComparisonTable from '@/components/compareDrinks/ComparisonTable';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';

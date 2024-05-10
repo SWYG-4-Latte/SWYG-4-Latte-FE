@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import ComparisonItem from '@/components/menuDetail/ComparisonItem';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
 
 const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
