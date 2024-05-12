@@ -6,7 +6,7 @@ export const deleteUser = async(mbrNo: any) => {
     const response = await axios.delete(endpoint)
     return response.data
   } catch (error) {
-    console.error('API - Delte 에러', error)
+    console.error('API - delete 에러', error)
     throw error
   }
 }

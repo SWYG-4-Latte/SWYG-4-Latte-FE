@@ -3,19 +3,10 @@
 import React, {useState, useEffect} from "react";
 //Zustand
 import useMemberStore from "@/store/memberStore";
-import useSignupStore from "@/store/signupStore"
 //utils
 import { fetchMemberInfo } from "@/utils/mypage/isMember";
 
 export default function MemberInfoContent() {
-  
-  // const { 
-  //   setCupDay, cupDay,
-  //   toggleSymptom, symptoms,
-  //   toggleAllergy, allergies, 
-  //   mbrNo, updateUserInfoTwo
-  // } = useSignupStore();
-
   const {memberInfo, setMemberInfo, updateMemberInfoTwo } = useMemberStore()
 
   const [localMemberInfo, setLocalMemberInfo] = useState({

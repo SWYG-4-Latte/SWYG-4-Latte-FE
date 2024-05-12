@@ -14,6 +14,7 @@ import Button from "@/components/common/button/Button";
 import useModal from "@/hooks/useModal";
 //utils
 import { fetchMemberInfo } from "@/utils/mypage/isMember";
+import { deleteUser } from "@/utils/auth-signup/isDelete";
 
 
 
@@ -95,10 +96,18 @@ export default function MyProfileContent() {
     openExitModal();
   };
 
-  const handleConfirmExit = () => {
-    closeExitModal();
-    openConfirmModal();
+  const handleConfirmExit = async () => {
+    try {
+      console.log('memberInfo.mbrNo in 탈퇴하기', memberInfo.mbrNo )
+      await deleteUser(memberInfo.mbrNo);
+      closeExitModal()
+      localStorage.removeItem('accessToken'); // 로컬 스토리지에서 인증 토큰을 제거
+      router.push('/home'); // 홈 페이지로 리다이렉트
+    } catch (error) {
+      console.error('회원 탈퇴 처리 중 오류 발생:', error);
+    }
   };
+
 
   const renderExitConfirmModal = (
     <Modal isOpen={isConfirmOpen} onClose={closeConfirmModal}>
