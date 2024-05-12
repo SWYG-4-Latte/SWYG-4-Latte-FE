@@ -65,10 +65,14 @@ export default function MypageUserInfo() {
 
   const formatAllergyText = (allergies: string) => {
     const allergyList = allergies.split(', ').filter(Boolean)
+
+    if (allergyList[0] === '없어요') {
+      return '-';
+    }
+
     switch(allergies.length) {
       case 0:
-        case 0:
-      return '-';
+        return '-';
       case 1:
         return allergyList[0];
       case 2:

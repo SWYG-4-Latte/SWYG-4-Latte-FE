@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 //Library
 import React, {useState, useEffect} from "react";
+import { toast } from "react-toastify";
 //Zustand
 import useSignupStore from "@/store/signupStore"
 import useMemberStore from "@/store/memberStore";
@@ -68,6 +69,9 @@ export default function MyProfileContent() {
 
   const handleUpdateProfile = async () => {
     await updateMemberInfo();
+    toast('내 프로필을 저장했어요', {
+      toastId: 'profile-update'
+    })
   }
 
   const handleFocusChange = (field: string, focused: boolean) => {

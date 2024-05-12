@@ -1,6 +1,7 @@
 'use client'
 //NEXT
 import React, {useState, useEffect} from "react";
+import { toast } from "react-toastify";
 //Zustand
 import useMemberStore from "@/store/memberStore";
 //utils
@@ -58,6 +59,10 @@ export default function MemberInfoContent() {
       symptoms: localMemberInfo.symptoms,
       allergies: localMemberInfo.allergies
     });
+
+    toast('내 프로필을 저장했어요', {
+      toastId: 'profile-update2'
+    })
   };
 
   return (
