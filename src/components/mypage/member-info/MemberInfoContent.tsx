@@ -1,22 +1,73 @@
 'use client'
 //NEXT
+import React, {useState, useEffect} from "react";
 //Zustand
+import useMemberStore from "@/store/memberStore";
 import useSignupStore from "@/store/signupStore"
+//utils
+import { fetchMemberInfo } from "@/utils/mypage/isMember";
 
 export default function MemberInfoContent() {
   
-  const { 
-    setCupDay, cupDay,
-    toggleSymptom, symptoms,
-    toggleAllergy, allergies, 
-    mbrNo, updateUserInfoTwo
-  } = useSignupStore();
+  // const { 
+  //   setCupDay, cupDay,
+  //   toggleSymptom, symptoms,
+  //   toggleAllergy, allergies, 
+  //   mbrNo, updateUserInfoTwo
+  // } = useSignupStore();
+
+  const {memberInfo, setMemberInfo, updateMemberInfoTwo } = useMemberStore()
+
+  const [localMemberInfo, setLocalMemberInfo] = useState({
+    cupDay: memberInfo.cupDay || '안 마심',
+    symptoms: memberInfo.symptoms || [],
+    allergies: memberInfo.allergies || []
+  });
+
+  useEffect(()=>{
+    console.log('fetch memberInfo useEffect working in 나의 카페인 추가설정')
+    const loadMemberInfo = async () => {
+      const info = await fetchMemberInfo()
+      setMemberInfo(info.member)
+      setLocalMemberInfo({
+        cupDay: info.member.cupDay || '안 마심',
+        symptoms: info.member.symptom ? info.member.symptom.split(', ') : [],
+        allergies: info.member.allergy ? info.member.allergy.split(', ') : []
+      });
+    }
+
+    loadMemberInfo()
+  },[setMemberInfo])
+
+  const handleCupDayChange = (cupDay: any) => {
+    setLocalMemberInfo(prev => ({ ...prev, cupDay }));
+  };
+
+  const toggleSymptom = (symptom: any) => {
+    setLocalMemberInfo(prev => ({
+      ...prev,
+      symptoms: prev.symptoms.includes(symptom)
+        ? prev.symptoms.filter(s => s !== symptom)
+        : [...prev.symptoms, symptom]
+    }));
+  };
+
+  const toggleAllergy = (allergy: any) => {
+    setLocalMemberInfo(prev => ({
+      ...prev,
+      allergies: prev.allergies.includes(allergy)
+        ? prev.allergies.filter(a => a !== allergy)
+        : [...prev.allergies, allergy]
+    }));
+  };
 
   const handleUpdateProfileTwo = async () => {
-    await (updateUserInfoTwo({
-      mbrNo, cupDay, symptoms, allergies
-    }))
-  }
+    await updateMemberInfoTwo({
+      cupDay: localMemberInfo.cupDay,
+      symptoms: localMemberInfo.symptoms,
+      allergies: localMemberInfo.allergies
+    });
+  };
 
   return (
     <section className="px-5">
@@ -30,8 +81,8 @@ export default function MemberInfoContent() {
               <button
                 type="button"
                 key={option}
-                onClick={() => setCupDay(option)}
-                className={`px-4 py-2 border rounded-md text-sm ${cupDay === option ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                onClick={() => handleCupDayChange(option)}
+                className={`px-4 py-2 border rounded-md text-sm ${localMemberInfo.cupDay === option ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
               >
               {option}
               </button>
@@ -46,7 +97,7 @@ export default function MemberInfoContent() {
                 type="button"
                 key={symptom}
                 onClick={() => toggleSymptom(symptom)}
-                className={`px-4 py-2 border rounded-md text-sm ${symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                className={`px-4 py-2 border rounded-md text-sm ${localMemberInfo.symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
               >
                 {symptom}
               </button>
@@ -58,7 +109,7 @@ export default function MemberInfoContent() {
                 type="button"
                 key={symptom}
                 onClick={() => toggleSymptom(symptom)}
-                className={`px-4 py-2 border rounded-md text-sm ${symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                className={`px-4 py-2 border rounded-md text-sm ${localMemberInfo.symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
               >
                 {symptom}
               </button>
@@ -70,7 +121,7 @@ export default function MemberInfoContent() {
                 type="button"
                 key={symptom}
                 onClick={() => toggleSymptom(symptom)}
-                className={`px-4 py-2 border rounded-md text-sm ${symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                className={`px-4 py-2 border rounded-md text-sm ${localMemberInfo.symptoms.includes(symptom) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
               >
                 {symptom}
               </button>
@@ -85,7 +136,7 @@ export default function MemberInfoContent() {
                 type="button"
                 key={allergy}
                 onClick={() => toggleAllergy(allergy)}
-                className={`px-4 py-2 border rounded-md text-sm ${allergies.includes(allergy) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                className={`px-4 py-2 border rounded-md text-sm ${localMemberInfo.allergies.includes(allergy) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
               >
                 {allergy}
               </button>
@@ -97,7 +148,7 @@ export default function MemberInfoContent() {
                 type="button"
                 key={allergy}
                 onClick={() => toggleAllergy(allergy)}
-                className={`px-4 py-2 border rounded-md text-sm ${allergies.includes(allergy) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
+                className={`px-4 py-2 border rounded-md text-sm ${localMemberInfo.allergies.includes(allergy) ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'border-gray05'}`}
               >
                 {allergy}
               </button>

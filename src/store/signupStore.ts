@@ -6,7 +6,7 @@ import { create } from "zustand";
 import { ISignupState } from '../types/auth-signup/i-SignupState';
 // API
 import { signup } from "@/utils/auth-signup/isSignup";
-import  checkDuplicate from '@/utils/auth-signup/isDuplicate';
+import checkDuplicate from '@/utils/auth-signup/isDuplicate';
 import axios from 'axios';
 
 const useSignupStore = create<ISignupState>((set, get)=> ({

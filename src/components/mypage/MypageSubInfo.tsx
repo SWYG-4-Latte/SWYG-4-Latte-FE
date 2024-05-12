@@ -36,12 +36,14 @@ export default function MypageSubInfo() {
         >
           나중에 할게요
         </button>
-        <Button
-          onClick={closeModal}
-          className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
-        >
-          지금 시작하기
-        </Button>
+        <Link href='/auth/login'>
+          <Button
+            onClick={closeModal}
+            className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
+            >
+            지금 시작하기
+          </Button>
+        </Link>
       </div>
     </Modal>
   )

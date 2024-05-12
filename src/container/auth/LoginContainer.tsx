@@ -22,6 +22,9 @@ export default function LoginContainer() {
     setToken
   } = useLoginStore();
 
+  const handleBackMove = () => {
+    router.back()
+  }
   
   const isInputValid = username.trim() !== '' && password.trim() !== '';
 
@@ -64,6 +67,10 @@ export default function LoginContainer() {
         alert("로그인에 성공하였습니다.");
         router.push('/home');
       }
+      else {
+        console.error("Login Failed: ", response.message);
+        alert(`로그인 실패: ${response.message}`);
+      }
     } catch (error) {
       console.error("Login Error", error);
       alert(`로그인 오류: ${error instanceof Error ? error.message : '알 수 없는 에러가 발생했습니다.'}`);
@@ -74,6 +81,7 @@ export default function LoginContainer() {
     <div className="flex flex-col items-center w-full h-screen text-gray10 px-5">
       <section className="max-w-[360px] flex-i-center w-full h-[54px]">
         <Image
+          onClick={handleBackMove}
           src="/svgs/svg_leftArrow.svg"
           alt="letfArrow"
           width={24}

@@ -1,15 +1,20 @@
 'use client'
 //NEXT
 import Image from "next/image"
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 //Library
+import React, {useState, useEffect} from "react";
 //Zustand
 import useSignupStore from "@/store/signupStore"
-import Link from "next/link";
+import useMemberStore from "@/store/memberStore";
 //Modal
 import Modal, { ModalProps } from "@/components/common/modal/Modal";
 import Button from "@/components/common/button/Button";
 import useModal from "@/hooks/useModal";
+//utils
+import { fetchMemberInfo } from "@/utils/mypage/isMember";
+
 
 
 export default function MyProfileContent() {
@@ -18,40 +23,50 @@ export default function MyProfileContent() {
   const { isOpen: isConfirmOpen, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal();
 
   const {
-    email, emailError, emailFocused, setEmail, validateEmail, setEmailFocused,
-    age, ageError, ageFocused, setAge, validateAge, setAgeFocused,
-    nickname, nicknameError, nicknameFocused, setNickname, validateNickname, setNicknameFocused,
-    gender,setGender,
-    pregnancy, togglePregnancy,
-    pregMonth, setPregMonthFocused, pregMonthError, pregMonthFocused,
-    mbrNo, updateUserInfo
+    emailError, emailFocused, validateEmail, setEmailFocused,
+    ageError, ageFocused, validateAge, setAgeFocused,
+    nicknameError, nicknameFocused, validateNickname, setNicknameFocused,
+    setPregMonthFocused, pregMonthError, pregMonthFocused, validatePregMonth,
   } = useSignupStore();
 
-  const handleInputChange = (field: string, value: string) => {
+  const {memberInfo, setMemberInfo, updateMemberInfo } = useMemberStore()
+
+  useEffect(()=>{
+    console.log('fetch memberInfo useEffect working in 내 프로필')
+    const loadMemberInfo = async () => {
+      const info = await fetchMemberInfo()
+      setMemberInfo(info.member)
+    }
+
+    loadMemberInfo()
+  },[])
+
+  console.log(memberInfo)
+
+  const handleInputChange = (field: any, value: string) => {
+    
     switch (field) {
       case 'email':
-        setEmail(value);
+        setMemberInfo({ ...memberInfo, [field] : value })
         validateEmail(value);
         break;
       case 'nickname':
-        setNickname(value);
+        setMemberInfo({ ...memberInfo, [field] : value })
         validateNickname(value);
         break;
       case 'age':
-        setAge(value)
+        setMemberInfo({ ...memberInfo, [field] : value })
         validateAge(value)
         break;
-      // case 'pregMonth':
-      //   setPregMonth(value)
-      //   validatePregMonth(value)
-      // break;
+      case 'pregMonth':
+        setMemberInfo({ ...memberInfo, [field] : value })
+        validatePregMonth(value)
+      break;
     }
   };
 
   const handleUpdateProfile = async () => {
-    await(updateUserInfo({
-      mbrNo, email, nickname, gender, pregnancy, pregMonth, age
-    }))
+    await updateMemberInfo();
   }
 
   const handleFocusChange = (field: string, focused: boolean) => {
@@ -142,7 +157,7 @@ export default function MyProfileContent() {
         <label className="text-xs">닉네임 <span className="text-primaryOrange">*</span></label>
         <input 
           type="text"
-          value={nickname}
+          value={memberInfo.nickname}
           onChange={(e) => handleInputChange('nickname', e.target.value)}
           onFocus={() => handleFocusChange('nickname', true)}
           onBlur={() => handleFocusChange('nickname', false)}
@@ -154,7 +169,7 @@ export default function MyProfileContent() {
         <label className="text-xs">이메일 <span className="text-primaryOrange">*</span></label>
         <input 
           type="text"
-          value={email}
+          value={memberInfo.email}
           onChange={(e) => handleInputChange('email', e.target.value)}
           onFocus={() => handleFocusChange('email', true)}
           onBlur={() => handleFocusChange('email', false)}
@@ -167,7 +182,7 @@ export default function MyProfileContent() {
         <div className="flex items-center">
           <input 
             type="text"
-            value={age}
+            value={memberInfo.age}
             onChange={(e) => handleInputChange('age', e.target.value)}
             onFocus={() => handleFocusChange('age', true)}
             onBlur={() => handleFocusChange('age', false)}
@@ -182,51 +197,51 @@ export default function MyProfileContent() {
           <button 
             type="button"
             className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md 
-            ${gender === 'M' ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08'}`}
-            onClick={() => setGender(gender === 'M' ? '' : 'M')}
+            ${memberInfo.gender === 'M' ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08'}`}
+            onClick={() => setMemberInfo({ ...memberInfo, gender: 'M' })}
             >
             남성
           </button>
           <button 
             type="button"
             className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border border-gray05 rounded-md 
-            ${gender === 'F' ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08'}`}
-            onClick={() => setGender(gender === 'F' ? '' : 'F')}
+            ${memberInfo.gender === 'F' ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08'}`}
+            onClick={() => setMemberInfo({ ...memberInfo, gender: 'F' })}
             >
             여성
           </button>
         </div>
 
         {
-          gender === 'F' && (
+          memberInfo.gender === 'F' && (
             <>
               <p className="text-xs">임신여부</p>
               <div className="flex items-center space-x-2">
               <button 
                 type="button"
                 className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border rounded-md 
-                          ${pregnancy ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08 border-gray05'}`}
-                onClick={() => togglePregnancy(!pregnancy)} 
+                          ${memberInfo.pregnancy ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08 border-gray05'}`}
+                onClick={() => setMemberInfo({ ...memberInfo, pregnancy: !memberInfo.pregnancy })}
                 >
                 예</button>
                 <button 
                   type="button"
                   className={`flex-all-center w-[96px] h-[34px] py-2 px-4 border rounded-md 
-                            ${!pregnancy ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08 border-gray05'}`}
-                  onClick={() => togglePregnancy(false)}
+                            ${!memberInfo.pregnancy ? 'bg-orange01 text-primaryOrange border-primaryOrange' : 'text-gray08 border-gray05'}`}
+                onClick={() => setMemberInfo({ ...memberInfo, pregnancy: false })}
                 >아니요</button>
               </div>
             </>
           )
         }
         {
-          gender === 'F' && pregnancy && (
+          memberInfo.gender === 'F' && memberInfo.pregnancy && (
             <>
               <p className="text-xs">임신 개월 수</p>
                 <div className="flex items-center space-x-2 mb-4">
                 <input 
                   type="text"
-                  value={pregMonth}
+                  value={memberInfo.pregMonth}
                   onChange={(e) => handleInputChange('pregMonth', e.target.value)}
                   onFocus={() => setPregMonthFocused(true)}
                   onBlur={() => setPregMonthFocused(false)}
@@ -274,7 +289,8 @@ export default function MyProfileContent() {
       <div className="fixed bottom-0 px-5 pb-[30px] bg-gray02">
         <button 
           onClick={handleUpdateProfile}
-          className='z-10 w-[320px] h-[50px] rounded-md bg-orange02 text-gray06 '>
+          className={`z-10 w-[320px] h-[50px] rounded-md
+            ${memberInfo.email && memberInfo.nickname ? 'bg-primaryOrange text-gray00' : 'bg-orange02 text-gray06'}`}>
             저장하기
         </button>
       </div>
