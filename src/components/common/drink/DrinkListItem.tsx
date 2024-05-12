@@ -22,10 +22,10 @@ const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
       className={`flex min-h-24 cursor-pointer items-center gap-4 border-b border-gray04 px-4 py-4 last:border-none ${price ? 'even:bg-gray03' : 'bg-gray02'}`}
     >
       <div className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full bg-primaryBeige">
-        <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" />
+        <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" priority />
       </div>
       <div className="flex flex-col justify-center gap-2">
-        <div className="font-medium text-gray10">{menuName}</div>
+        <div className="line-clamp-1 font-medium text-gray10">{menuName}</div>
         <div className="flex items-center gap-[10px]">
           <div className="rounded bg-primaryBeige px-2 py-1 text-xs text-orange09">카페인 {caffeine}</div>
           {brand && (

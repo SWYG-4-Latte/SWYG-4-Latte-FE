@@ -41,7 +41,10 @@ const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompl
         </button>
         <Button
           className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
-          onClick={() => router.push('/calendar/today-caffeine')}
+          onClick={() => {
+            router.push('/calendar/today-caffeine');
+            router.refresh();
+          }}
         >
           확인하기
         </Button>

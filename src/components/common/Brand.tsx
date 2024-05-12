@@ -9,6 +9,7 @@ const Brand = ({ selected, brandData }: { selected: boolean; brandData: CafeBran
         className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white ${selected ? 'border-[3px] border-primaryOrange' : ''}`}
       >
         <Image
+          priority
           src={brandData.imageUrl}
           alt={brandData.brandName}
           width={0}

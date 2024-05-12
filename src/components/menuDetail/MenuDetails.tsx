@@ -1,5 +1,4 @@
 import { MenuDetail } from '@/types/menu/menu';
-import { ellipsisText } from '@/utils/string';
 
 const MenuDetails = ({ menu }: { menu: MenuDetail }) => {
   const isLoggedIn = true; // 로그인 여부
@@ -7,7 +6,7 @@ const MenuDetails = ({ menu }: { menu: MenuDetail }) => {
   return (
     <div className="flex flex-col gap-2 bg-primaryIvory px-5 py-4">
       <span className="text-xs text-primaryOrange">{menu.brand}</span>
-      <span className="text-[22px] font-semibold leading-[30px] text-gray10">{ellipsisText(menu.menuName, 15)}</span>
+      <span className="line-clamp-1 text-[22px] font-semibold leading-[30px] text-gray10">{menu.menuName}</span>
       <div className="flex items-center font-medium text-gray08">
         <span>카페인 {menu.caffeine}</span>
         <span className="mx-2 h-3 w-px bg-[#D9D9D9]" />

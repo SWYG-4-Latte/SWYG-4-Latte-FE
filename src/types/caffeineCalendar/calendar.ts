@@ -1,4 +1,4 @@
-type SelectedDatePiece = Date | null;
+export type SelectedDatePiece = Date | null;
 
 export type SelectedDate = SelectedDatePiece | [SelectedDatePiece, SelectedDatePiece];
 

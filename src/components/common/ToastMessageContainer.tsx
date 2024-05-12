@@ -8,7 +8,7 @@ const ToastMessageContainer = () => {
     <ToastContainer
       hideProgressBar
       newestOnTop
-      autoClose={300}
+      autoClose={1000}
       closeButton={false}
       position="bottom-center"
       className="bottom-[92px] flex flex-col items-center justify-center"
