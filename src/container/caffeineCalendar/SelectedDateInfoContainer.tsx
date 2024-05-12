@@ -6,15 +6,17 @@ import dayjs from 'dayjs';
 import { formatDate } from '@/utils/date';
 import IntakeStandardInfo from '@/components/caffeineCalendar/IntakeStandardInfo';
 import CaffeineStatus from '@/components/caffeineCalendar/CaffeineStatus';
-import { SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
+import { SelectedDatePiece, SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
 
-const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => {
+const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: SelectedDatePiece }) => {
   const [selectedDateInfo, setSelectedDateInfo] = useState<SelectedDateInfoType | null>(null);
 
   // TODO: 사용자의 부가정보 입력 여부 추가하기
   const hasUserAdditionalInfo = true;
 
   useEffect(() => {
+    if (!selectedDate) return;
+
     const getDateInfo = async () => {
       const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
         params: {

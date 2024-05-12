@@ -2,21 +2,25 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CaffeineCalendar from '@/components/caffeineCalendar/CaffeineCalendar';
 import SelectedDateInfoContainer from '@/container/caffeineCalendar/SelectedDateInfoContainer';
-import { SelectedDate } from '@/types/caffeineCalendar/calendar';
+import { SelectedDatePiece, SelectedDate } from '@/types/caffeineCalendar/calendar';
 import BottomNavigation from '@/components/common/bottomNavigation/BottomNavigation';
 
 export default function CaffeineCalendarPage() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<SelectedDatePiece>(null);
 
   const handleSelectDate = (date: SelectedDate) => {
     if (date instanceof Date) {
       setSelectedDate(date);
     }
   };
+
+  useEffect(() => {
+    setSelectedDate(new Date());
+  }, []);
 
   return (
     <div className="flex h-[calc(100vh-80px)] touch-none flex-col overflow-hidden">
