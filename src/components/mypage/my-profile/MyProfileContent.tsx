@@ -68,6 +68,8 @@ export default function MyProfileContent() {
   };
 
   const handleUpdateProfile = async () => {
+    console.log('업데이트 전 memberInfo:', memberInfo);
+    
     await updateMemberInfo();
     toast('내 프로필을 저장했어요', {
       toastId: 'profile-update'
