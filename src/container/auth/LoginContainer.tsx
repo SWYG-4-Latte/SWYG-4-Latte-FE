@@ -19,7 +19,7 @@ export default function LoginContainer() {
     username, password, setUsername, setPassword,
     usernameError, passwordError, usernameFocused, passwordFocused,
     setUsernameFocused, setPasswordFocused, validateUsername, validatePassword,
-    setToken
+    setLogin, isLoggedIn
   } = useLoginStore();
 
   const handleBackMove = () => {
@@ -60,9 +60,9 @@ export default function LoginContainer() {
   
       if (response.jwtToken && response.jwtToken.accessToken) {
         // JWT 토큰을 로컬 스토리지에 저장
-        localStorage.setItem('accessToken', response.jwtToken.accessToken);
-        localStorage.setItem('refreshToken', response.jwtToken.refreshToken);
-        
+        // localStorage.setItem('accessToken', response.jwtToken.accessToken);
+        // localStorage.setItem('refreshToken', response.jwtToken.refreshToken);
+        setLogin(response.jwtToken.accessToken, response.jwtToken.refreshToken)
         console.log("Login Success");
         alert("로그인에 성공하였습니다.");
         router.push('/home');

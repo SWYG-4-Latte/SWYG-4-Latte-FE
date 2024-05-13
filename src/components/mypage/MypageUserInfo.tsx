@@ -37,6 +37,7 @@ interface IMemberData {
 }
 
 export default function MypageUserInfo() {
+
   const [memberData, setMemberData] = useState<IMemberData| null>(null)
   const [memberInfo, setMemberInfo] = useState<IMemberInfo | null>(null)
   const accessToken = useMemo(() => localStorage.getItem('accessToken'),[])
@@ -61,7 +62,7 @@ export default function MypageUserInfo() {
       ? `예${memberInfo.pregMonth ? ' / ' + memberInfo.pregMonth + '개월' : ''}`
       : '아니요'
   ) : '-';
-  const caffeineText = memberData?.caffeinIntake + 'mg'
+  const caffeineText = memberData?.caffeinIntake ? memberData.caffeinIntake + 'mg' : '-';
 
   const formatAllergyText = (allergies: string) => {
     const allergyList = allergies.split(', ').filter(Boolean)
