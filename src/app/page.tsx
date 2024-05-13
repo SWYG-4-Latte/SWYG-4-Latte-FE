@@ -1,5 +1,5 @@
 import Splash from '@/components/common/Splash';
 
-export default function Home() {
+export default function Page() {
   return <Splash />;
 }
