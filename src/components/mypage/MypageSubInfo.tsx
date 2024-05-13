@@ -4,18 +4,27 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import React, { useEffect } from "react"
 // Modal
 import Modal, { ModalProps} from "../common/modal/Modal"
 import Button from "../common/button/Button"
 import useModal from "@/hooks/useModal"
 //Constants
 import { subInfos }  from '@/constants/mypage/subInfos'
+import { useState } from "react"
 
 
 export default function MypageSubInfo() {
-  const accessToken = localStorage.getItem('accessToken')
+  const [accessToken, setAccessToken] = useState<string | null>(null)
+  
   const router = useRouter();
   const { isOpen, openModal, closeModal } = useModal();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAccessToken(localStorage.getItem('accessToken'));
+    }
+  }, []);
 
   const handleCheckToken = (link: string) => {
     if(!accessToken && link === '/mypage/my-reply') {
