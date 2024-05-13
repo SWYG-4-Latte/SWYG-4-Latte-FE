@@ -1,6 +1,5 @@
-export default function Home() {
-  return (
-    <main>
-    </main>
-      );
+import Splash from '@/components/common/Splash';
+
+export default function Page() {
+  return <Splash />;
 }
