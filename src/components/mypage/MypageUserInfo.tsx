@@ -40,7 +40,7 @@ export default function MypageUserInfo() {
 
   const [memberData, setMemberData] = useState<IMemberData| null>(null)
   const [memberInfo, setMemberInfo] = useState<IMemberInfo | null>(null)
-  const accessToken = useMemo(() => localStorage.getItem('accessToken'),[])
+  const [accessToken, setAccessToken] = useState<string | null>(null)
 
   useEffect(()=> {
     console.log('fetch memberInfo useEffect working in MY')
@@ -52,6 +52,10 @@ export default function MypageUserInfo() {
 
     loadMemberInfo()
   },[])
+
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('accessToken'));
+  }, []);
 
   console.log(memberData)
   console.log(memberInfo)
