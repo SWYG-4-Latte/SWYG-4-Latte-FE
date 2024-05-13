@@ -19,6 +19,10 @@ const useModal = () => {
     } else {
       document.body.style.overflowY = 'auto';
     }
+
+    return () => {
+      document.body.style.overflowY = 'auto';
+    };
   }, [isOpen]);
 
   return { isOpen, closeModal, openModal };

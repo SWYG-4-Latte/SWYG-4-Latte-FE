@@ -6,23 +6,25 @@ import dayjs from 'dayjs';
 import { formatDate } from '@/utils/date';
 import IntakeStandardInfo from '@/components/caffeineCalendar/IntakeStandardInfo';
 import CaffeineStatus from '@/components/caffeineCalendar/CaffeineStatus';
-import { SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
+import { SelectedDatePiece, SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
 
-const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => {
+const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: SelectedDatePiece }) => {
   const [selectedDateInfo, setSelectedDateInfo] = useState<SelectedDateInfoType | null>(null);
 
   // TODO: 사용자의 부가정보 입력 여부 추가하기
   const hasUserAdditionalInfo = true;
 
   useEffect(() => {
+    if (!selectedDate) return;
+
     const getDateInfo = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
         params: {
           datetime: dayjs(selectedDate).format('YYYY-MM-DDT00:00:00'),
         },
       });
 
-      setSelectedDateInfo(response.data.data);
+      setSelectedDateInfo(data.data);
     };
 
     getDateInfo();
@@ -57,7 +59,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
       {selectedDateInfo.caffeine && hasUserAdditionalInfo && (
         <div className="flex h-[50px] items-center justify-between rounded-lg border border-gray05 bg-primaryIvory py-4 pl-5 pr-4">
           <div className="text-sm text-gray08">하루 총 카페인 섭취량</div>
-          <div className="text-sm text-gray10">{selectedDateInfo.caffeine}</div>
+          <div className="text-sm text-gray10">{selectedDateInfo.caffeine}mg</div>
         </div>
       )}
 
@@ -65,11 +67,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: Date }) => 
         {hasUserAdditionalInfo ? (
           <>
             {selectedDateInfo.caffeine ? (
-              <>
-                카페인 음료를 잘 조절해서 마시고 계시네요. 적정량의 카페인은 편두통이 나아져 원활한 활동이 가능해요.
-                그래도 커피가 필요하다면 디카페인 바닐라 라떼 한 잔 추천드려요. <br />
-                디카페인에는 약 1~5mg의 카페인이 함유되어 있어요
-              </>
+              <>{selectedDateInfo.sentence}</>
             ) : (
               '마신 카페인을 기록하고 맞춤 카페인 정보를 받아보세요.'
             )}

@@ -1,4 +1,4 @@
-import { Menu } from './menu';
+import { Menu } from '../menu/menu';
 
 export interface DrinkHistoryDetailProps {
   drinkHistoryData?: Menu;

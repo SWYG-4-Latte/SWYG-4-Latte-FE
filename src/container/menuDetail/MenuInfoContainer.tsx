@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import NutrientInfo from '@/components/menuDetail/NutrientInfoList';
-import { MenuDetail } from '@/types/home/menu';
+import { MenuDetail } from '@/types/menu/menu';
 import MenuSizeTab from '@/components/menuDetail/MenuSizeTab';
 import MenuDetails from '@/components/menuDetail/MenuDetails';
 
@@ -12,7 +12,7 @@ interface MenuInfoContainerProps {
 const MenuInfoContainer = ({ menu }: MenuInfoContainerProps) => {
   return (
     <div>
-      <div className="flex h-[360px] items-center justify-center overflow-hidden bg-primaryBeige">
+      <div className="flex h-[360px] items-center justify-center overflow-hidden bg-primaryIvory">
         <Image
           src={menu.imageUrl}
           priority

@@ -3,14 +3,14 @@ import { PropsWithChildren, useRef } from 'react';
 
 import useOutsideClick from '@/hooks/useOutsideClick';
 
-const Tooltip = ({ children, onClose }: PropsWithChildren<{ onClose: () => void }>) => {
+const Tooltip = ({ children, onClose, className }: PropsWithChildren<{ onClose: () => void; className?: string }>) => {
   const tooltipRef = useRef(null);
   useOutsideClick(tooltipRef, () => onClose());
 
   return (
     <div
       ref={tooltipRef}
-      className="absolute right-0 flex gap-3 rounded-lg border border-gray04 bg-primaryIvory px-4 py-2 shadow-toast"
+      className={`absolute ${className ? className : 'right-0'} flex gap-3 rounded-lg border border-gray04 bg-primaryIvory px-4 py-2 shadow-toast`}
     >
       <p className="whitespace-nowrap text-xs leading-[18px] text-gray10 ">{children}</p>
       <button className="h-4 w-4" onClick={onClose}>

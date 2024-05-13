@@ -23,7 +23,7 @@ const MenuSizeTab = ({ sizes, active }: MenuSizeTabProps) => {
           {active === size && (
             <motion.div
               layoutId="underline"
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.1 }}
               className="absolute bottom-0 h-[2px] w-20 bg-primaryOrange"
             />
           )}

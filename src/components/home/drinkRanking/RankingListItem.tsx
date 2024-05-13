@@ -4,7 +4,7 @@ import { MouseEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 
@@ -43,11 +43,11 @@ const RankingListItem = ({
         }}
       >
         <span className="w-[11px] text-base font-semibold text-primaryOrange">{ranking}</span>
-        <div className="mx-4 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray04">
+        <div className="mx-4 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
           <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" />
         </div>
-        <div className="flex flex-col justify-center gap-2">
-          <div className="text-sm font-medium text-gray10">{menuName}</div>
+        <div className="flex flex-col justify-center gap-2 pr-4">
+          <div className="line-clamp-1 text-sm font-medium text-gray10">{menuName}</div>
           <div className="flex items-center text-xs text-gray08">
             <div>{brand}</div>
             <div className="mx-2 h-3 w-px bg-gray06" />

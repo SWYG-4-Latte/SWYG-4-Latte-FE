@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import ComparisonItem from '@/components/menuDetail/ComparisonItem';
-import { Menu } from '@/types/home/menu';
+import { Menu } from '@/types/menu/menu';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
 
 const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
@@ -32,7 +32,7 @@ const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
   };
 
   return (
-    <div className="bg-primaryIvory px-5 pb-6 pt-4 ">
+    <div className="bg-primaryIvory px-5 pb-[30px] pt-6 ">
       <div className="mb-3 flex items-center justify-between">
         <div className="font-medium text-gray10">카페인 함량 비교하기</div>
         <button

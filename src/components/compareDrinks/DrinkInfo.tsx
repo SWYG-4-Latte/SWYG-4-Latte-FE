@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-import { ComparedMenu } from '@/types/home/menu';
+import { ComparedMenu } from '@/types/menu/menu';
 import { ellipsisText } from '@/utils/string';
 
 const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: (menuNo: number) => void }) => {

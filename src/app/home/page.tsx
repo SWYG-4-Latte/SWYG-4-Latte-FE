@@ -1,4 +1,5 @@
 'use client'
+import axios from 'axios';
 
 import HomeMainContainer from '@/container/home/HomeMainContainer';
 import RankingContainer from '@/container/home/RankingContainer';
@@ -8,11 +9,11 @@ import { toast } from 'react-toastify';
 
 import useLoginStore from '@/store/loginStore';
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
   const { isLoggedIn }= useLoginStore()
-
   console.log(isLoggedIn)
-
   const accessToken = localStorage.getItem('accessToken')
 
   useEffect(()=>{
@@ -29,10 +30,13 @@ export default function HomePage() {
     }
   },[accessToken])
 
+  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/brand`);
+  const brandList = data.data;
+
   return (
     <div className="pt-14">
       <HomeMainContainer />
-      <RankingContainer />
+      <RankingContainer brandList={brandList} />
     </div>
   );
 }
