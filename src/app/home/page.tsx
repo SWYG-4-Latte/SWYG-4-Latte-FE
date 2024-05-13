@@ -2,6 +2,7 @@
 
 import HomeMainContainer from '@/container/home/HomeMainContainer';
 import RankingContainer from '@/container/home/RankingContainer';
+
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
