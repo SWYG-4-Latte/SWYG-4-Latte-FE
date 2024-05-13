@@ -151,29 +151,33 @@ export default function ContentsSection() {
           <section className="flex flex-col justify-center items-center px-5 ">
             <form className="space-y-2 mb-[61px]">
               <p className="text-xs">비밀번호 입력</p>
-              <input 
-                type="password"
-                value={password}
-                onChange={(e) => handleInputChange('password',e.target.value)}
-                onFocus={() => setPasswordFocused(true)}
-                onBlur={() => setPasswordFocused(false)}
-                placeholder="비밀번호(10자 이상, 영어 소문자/숫자/특수문자)조합"
-                className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
-                            border ${passwordError ? 'border-primaryRed' : (passwordFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
-              />
-              {passwordError && <span className="text-xs text-primaryRed">{passwordError}</span>}
-              <p className="mt-2 text-xs">비밀번호 확인</p>
-              <input 
+              <div className="flex flex-col justify-center space-y-2">
+                <input 
                   type="password"
-                  value={confirmPassword}
-                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                  onFocus={() => setConfirmPasswordFocused(true)}
-                  onBlur={() => setConfirmPasswordFocused(false)}
-                  placeholder="다시 한번 입력해주세요."
+                  value={password}
+                  onChange={(e) => handleInputChange('password',e.target.value)}
+                  onFocus={() => setPasswordFocused(true)}
+                  onBlur={() => setPasswordFocused(false)}
+                  placeholder="비밀번호(10자 이상, 영어 소문자/숫자/특수문자)조합"
                   className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
-                              border ${confirmPasswordError ? 'border-primaryRed' : (confirmPasswordFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
-              />
-              {confirmPasswordError && <span className="text-xs text-primaryRed">{confirmPasswordError}</span>}
+                  border ${passwordError ? 'border-primaryRed' : (passwordFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                  />
+                {passwordError && <span className="text-xs text-primaryRed">{passwordError}</span>}
+                </div>
+              <p className="mt-2 text-xs">비밀번호 확인</p>
+              <div className="flex flex-col justify-center space-y-2">
+                <input 
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                    onFocus={() => setConfirmPasswordFocused(true)}
+                    onBlur={() => setConfirmPasswordFocused(false)}
+                    placeholder="다시 한번 입력해주세요."
+                    className={`px-5 py-4 w-[320px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                    border ${confirmPasswordError ? 'border-primaryRed' : (confirmPasswordFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                    />
+                {confirmPasswordError && <span className="text-xs text-primaryRed">{confirmPasswordError}</span>}
+              </div>
             </form>
             <div className={`flex items-center text-md w-[320px] h-[50px] ${termsError ? 'border-primaryRed' : 'border-gray05'} border border-b-0 border-b-gray05 rounded-t-lg`}>
               <div className="w-full flex px-5 py-4 space-x-2">

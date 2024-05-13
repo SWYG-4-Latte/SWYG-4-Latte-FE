@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import '../styles/globals.css';
 import { pretendard } from '@/styles/fonts';
@@ -7,6 +7,10 @@ import ToastMessageContainer from '@/components/common/ToastMessageContainer';
 export const metadata: Metadata = {
   title: 'LatteFit',
   description: '',
+};
+
+export const viewport: Viewport = {
+  themeColor: '#FCFAF8',
 };
 
 export default function RootLayout({

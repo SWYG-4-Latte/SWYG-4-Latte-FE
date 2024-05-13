@@ -7,7 +7,8 @@ export const login = async(username: string, password: string) => {
       mbrId: username,
       password
     })
-    return response.data;
+    console.log(response.data)
+    return response.data.data;
   } catch (error) {
     console.log("Login API Error", error)
     throw error;

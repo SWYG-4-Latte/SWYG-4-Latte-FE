@@ -2,6 +2,7 @@
 import { create } from "zustand";
 // TS
 import { ILoginState } from './../types/auth-login/i-LoginState';
+import { toast } from "react-toastify";
 
 const useLoginStore = create<ILoginState>((set) => ({
   username: '',
@@ -27,26 +28,24 @@ const useLoginStore = create<ILoginState>((set) => ({
   setUsernameFocused: (focused) => set({ usernameFocused: focused }),
   setPasswordFocused: (focused) => set({ passwordFocused: focused }),
 
-  setToken: (accessToken, refreshToken, userInfo) => {
-     // 먼저 로컬 스토리지에 토큰 저장
-    localStorage.setItem('accessToken', accessToken);
-    if (refreshToken) {
-      localStorage.setItem('refreshToken', refreshToken);
-    }
-
-    set({
-      accessToken,
-      refreshToken,
-      isLoggedIn: true,
-      ...userInfo
+  setLogin: (accessToken: any, refreshToken: any) => {
+    localStorage.setItem('accessToken', accessToken)
+    localStorage.setItem('refreshToken', refreshToken)
+    set({ accessToken, refreshToken, isLoggedIn: true});
+    toast('로그인 되었습니다', {
+      toastId: 'login-success'
     })
   },
-  clearToken: () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    set({ accessToken: '', refreshToken: '', isLoggedIn: false, nickname: '' });
+  setLogout: () => {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    set({ accessToken: '', refreshToken: '', isLoggedIn: false})
+    toast('로그아웃 되었습니다', {
+      toastId: 'logout-success'
+    })
   },
 
+  
   validateUsername: (username) => {
     const usernameRegex = /^[A-Za-z0-9]{6,12}$/;
     let error = null;

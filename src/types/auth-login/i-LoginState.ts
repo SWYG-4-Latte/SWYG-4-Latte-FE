@@ -24,13 +24,6 @@ export interface ILoginState {
   setPasswordFocused: (focused: boolean) => void;
   validateUsername: (username: string) => void;
   validatePassword: (password: string) => void;
-  setToken: (accessToken: string, refreshToken?: string, userInfo?: {
-    nickname: string;
-    gender: string;
-    pregnancy: boolean;
-    caffeineIntake: number;
-    pregMonth: string;
-    allergies: string[];
-  }) => void;
-  clearToken: () => void;
+  setLogin: (accessToken: any, refreshToken: any) => void;
+  setLogout: () => void;
 }
