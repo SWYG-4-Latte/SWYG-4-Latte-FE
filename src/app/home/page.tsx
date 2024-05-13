@@ -5,7 +5,13 @@ import RankingContainer from '@/container/home/RankingContainer';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
+import useLoginStore from '@/store/loginStore';
+
 export default function HomePage() {
+  const { isLoggedIn }= useLoginStore()
+
+  console.log(isLoggedIn)
+
   const accessToken = localStorage.getItem('accessToken')
 
   useEffect(()=>{
