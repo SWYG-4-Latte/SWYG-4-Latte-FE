@@ -1,9 +1,9 @@
 const RankingListSkeleton = () => {
   return (
     <>
-      <RankingItemSkeleton rank={1} />
-      <RankingItemSkeleton rank={2} />
-      <RankingItemSkeleton rank={3} />
+      {Array.from({ length: 10 }).map((_, idx) => (
+        <RankingItemSkeleton key={idx} rank={idx + 1} />
+      ))}
     </>
   );
 };
