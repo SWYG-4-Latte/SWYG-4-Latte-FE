@@ -6,14 +6,26 @@ import BannerText from './BannerText';
 import { UserCaffeineData } from '@/types/home/user';
 
 const HomeBanner = ({ caffeineData }: { caffeineData: UserCaffeineData | null }) => {
-  const hasTodayData = caffeineData && caffeineData.today !== '0mg';
+  const hasTodayData = caffeineData && caffeineData.status && caffeineData.today !== '0mg';
 
-  const buttonText = caffeineData ? '오늘의 카페인 기록하기' : '지금 시작하기';
+  const buttonText = caffeineData && caffeineData.status ? '오늘의 카페인 기록하기' : '지금 시작하기';
   let bannerImgUrl = '/images/img-banner-none.png';
 
   if (hasTodayData) {
     if (caffeineData.status === '적정') bannerImgUrl = '/images/img-banner-appropriate.png';
     else bannerImgUrl = '/images/img-banner-excess.png';
+  }
+
+  let navigatePath = '/auth/login';
+  if (caffeineData) {
+    if (!caffeineData.status) {
+      // 로그인했지만 부가정보 입력하지 않은 사용자
+      navigatePath = '/mypage/memberinfo';
+    } else if (caffeineData.today === '0mg') {
+      navigatePath = '/menu';
+    } else {
+      navigatePath = '/calendar/today-caffeine';
+    }
   }
 
   return (
@@ -30,10 +42,7 @@ const HomeBanner = ({ caffeineData }: { caffeineData: UserCaffeineData | null })
       />
       <div className="absolute left-5 top-1/2 flex -translate-y-2/4 flex-col">
         <BannerText caffeineData={caffeineData} />
-        {/* 하루 카페인 권장량 계산하는 정보 미등록인지 확인하는 api나오면 추가 */}
-        <Link
-          href={caffeineData ? (caffeineData.today === '0mg' ? '/menu' : '/calendar/today-caffeine') : '/auth/login'}
-        >
+        <Link href={navigatePath}>
           <Button className={`whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium`}>{buttonText}</Button>
         </Link>
       </div>
