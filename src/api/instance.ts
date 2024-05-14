@@ -20,4 +20,13 @@ apiInstance.interceptors.request.use(
   },
 );
 
+apiInstance.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    return Promise.reject(error.response);
+  },
+);
+
 export default apiInstance;

@@ -26,7 +26,7 @@ const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
   const getRecommendationDrinkInfo = async () => {
     const { data } = await apiInstance.get('/menu/popup');
 
-    setMenuInfo(data.data);
+    setMenuInfo(data);
   };
 
   const handleHideModal = () => {

@@ -5,8 +5,7 @@ import apiInstance from '@/api/instance';
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  const { data } = await apiInstance.get('/menu/brand');
-  const brandList = data.data;
+  const { data: brandList } = await apiInstance.get('/menu/brand');
 
   return (
     <div className="pt-14">

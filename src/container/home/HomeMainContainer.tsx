@@ -21,9 +21,9 @@ const HomeMainContainer = () => {
   const isLoggedIn = !!useLocalStorage('accessToken');
 
   const getUserData = async () => {
-    const response = await apiInstance.get('/drink');
+    const { data } = await apiInstance.get('/drink');
 
-    setUserData(response.data.data);
+    setUserData(data);
   };
 
   useEffect(() => {

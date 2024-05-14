@@ -7,6 +7,7 @@ import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 import apiInstance from '@/api/instance';
+import RankingListSkeleton from '@/components/common/skeleton/RankingListSkeleton';
 
 const RankingListItem = ({
   menuNo,

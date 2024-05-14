@@ -41,11 +41,11 @@ const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultCont
         },
       });
 
-      setSearchResults((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
+      setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
 
-      setTotalResults(data.data.totalElements);
-      setHasResult(data.data.totalElements !== 0);
-      setPage(data.data.number + 1);
+      setTotalResults(data.totalElements);
+      setHasResult(data.totalElements !== 0);
+      setPage(data.number + 1);
     } catch (error) {
       setIsError(true);
     }

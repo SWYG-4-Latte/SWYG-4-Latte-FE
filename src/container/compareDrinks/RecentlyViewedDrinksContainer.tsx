@@ -14,13 +14,13 @@ const RecentlyViewedDrinksContainer = () => {
 
   useEffect(() => {
     const getDrinksData = async () => {
-      const response = await apiInstance.get('/menu/recent', {
+      const { data } = await apiInstance.get('/menu/recent', {
         params: {
           menus: recentDrinkMenuNoList.join(','),
         },
       });
 
-      setRecentDrinks(response.data.data);
+      setRecentDrinks(data);
       setIsLoading(false);
     };
 

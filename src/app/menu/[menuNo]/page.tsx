@@ -4,8 +4,7 @@ import apiInstance from '@/api/instance';
 
 export default async function MenuDetailPage({ params }: { params: { menuNo: string } }) {
   const menuNo = Number(params.menuNo);
-  const response = await apiInstance.get(`/menu/detail/${menuNo}`);
-  const menuDetail = response.data.data;
+  const { data: menuDetail } = await apiInstance.get(`/menu/detail/${menuNo}`);
 
   return (
     <main>

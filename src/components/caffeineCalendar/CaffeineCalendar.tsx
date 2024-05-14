@@ -49,12 +49,12 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
     if (!isLoggedIn) return;
 
     const getThisMonthData = async () => {
-      const response = await apiInstance.get('/drink/calendar', {
+      const { data } = await apiInstance.get('/drink/calendar', {
         params: {
           datetime: dayjs(activeDate).format('YYYY-MM'),
         },
       });
-      setThisMonthData(response.data.data);
+      setThisMonthData(data);
     };
 
     getThisMonthData();

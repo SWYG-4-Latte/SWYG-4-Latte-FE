@@ -11,9 +11,9 @@ const RankingList = ({ selectedBrand }: { selectedBrand: string }) => {
 
   useEffect(() => {
     const getRankingData = async () => {
-      const response = await apiInstance.get(`/menu/ranking/${selectedBrand}`);
+      const { data } = await apiInstance.get(`/menu/ranking/${selectedBrand}`);
 
-      setRankingData(response.data.data);
+      setRankingData(data);
       setIsLoading(false);
     };
 

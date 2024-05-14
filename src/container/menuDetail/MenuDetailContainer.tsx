@@ -48,12 +48,12 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
 
   useEffect(() => {
     const getMenuDetailBySize = async (menuSize: string) => {
-      const response = await apiInstance.get(`/menu/detail/${menuNo}`, {
+      const { data } = await apiInstance.get(`/menu/detail/${menuNo}`, {
         params: {
           menu_size: menuSize,
         },
       });
-      setActiveMenuDetail(response.data.data);
+      setActiveMenuDetail(data);
     };
 
     getMenuDetailBySize(size ?? menuDetail.menuSize);
