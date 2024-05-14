@@ -20,7 +20,7 @@ const HomeBanner = ({ caffeineData }: { caffeineData: UserCaffeineData | null })
   if (caffeineData) {
     if (!caffeineData.status) {
       // 로그인했지만 부가정보 입력하지 않은 사용자
-      navigatePath = '/mypage/memberinfo';
+      navigatePath = '/mypage/my-profile';
     } else if (caffeineData.today === '0mg') {
       navigatePath = '/menu';
     } else {

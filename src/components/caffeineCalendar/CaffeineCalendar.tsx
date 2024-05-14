@@ -61,7 +61,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
   }, [activeDate]);
 
   return (
-    <div className="relative flex items-center justify-center bg-primaryIvory px-5 pt-2">
+    <div className="relative flex items-center justify-center border-b border-gray04 bg-primaryIvory px-5 pt-2">
       {thisMonthData && isVisibleMonthComparisonMessage && <MonthComparisonMessage status={thisMonthData.status} />}
       <Calendar
         locale="ko"

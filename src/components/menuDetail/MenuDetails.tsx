@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { MenuDetail } from '@/types/menu/menu';
 
@@ -23,7 +25,7 @@ const MenuDetails = ({ menu }: { menu: MenuDetail }) => {
             를 차지해요.
           </>
         ) : (
-          <>로그인하고 하루 적정 카페인 섭취량을 확인해보세요.</>
+          <Link href="/auth/login">로그인하고 하루 적정 카페인 섭취량을 확인해보세요.</Link>
         )}
       </div>
     </div>
