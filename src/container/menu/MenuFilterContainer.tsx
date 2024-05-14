@@ -1,10 +1,9 @@
-import axios from 'axios';
-
 import BrandListContainer from './BrandListContainer';
 import SearchFilter from '@/components/search/SearchFilter';
+import apiInstance from '@/api/instance';
 
 const MenuFilterContainer = async () => {
-  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/brand`);
+  const { data } = await apiInstance.get('/menu/brand');
   const brandList = data.data;
 
   return (

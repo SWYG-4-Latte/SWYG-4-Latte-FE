@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import DrinkItem from '@/components/common/drink/DrinkItem';
 import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore';
 import { Menu } from '@/types/menu/menu';
 import DrinkItemSkeleton from '@/components/common/skeleton/DrinkItemSkeleton';
+import apiInstance from '@/api/instance';
 
 const RecentlyViewedDrinksContainer = () => {
   const { drinks: recentDrinkMenuNoList } = useRecentlyViewedDrinksStore();
@@ -14,7 +14,7 @@ const RecentlyViewedDrinksContainer = () => {
 
   useEffect(() => {
     const getDrinksData = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/recent`, {
+      const response = await apiInstance.get('/menu/recent', {
         params: {
           menus: recentDrinkMenuNoList.join(','),
         },

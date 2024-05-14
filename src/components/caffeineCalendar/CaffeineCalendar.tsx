@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import axios from 'axios';
 import dayjs from 'dayjs';
 
 import 'react-calendar/dist/Calendar.css';
@@ -12,6 +11,7 @@ import './calendar.css';
 import MonthComparisonMessage from './MonthComparisonMessage';
 import { SelectDateHandler, SelectedDatePiece, ThisMonthData } from '@/types/caffeineCalendar/calendar';
 import CaffeineStatus from './CaffeineStatus';
+import apiInstance from '@/api/instance';
 
 interface CaffeineCalendarProps {
   selectedDate: SelectedDatePiece;
@@ -44,7 +44,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
 
   useEffect(() => {
     const getThisMonthData = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/calendar`, {
+      const response = await apiInstance.get('/drink/calendar', {
         params: {
           datetime: dayjs(activeDate).format('YYYY-MM'),
         },

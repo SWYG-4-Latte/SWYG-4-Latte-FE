@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 
 import PopularSearchItem from '@/components/search/PopularSearchItem';
+import apiInstance from '@/api/instance';
 
 export interface PopularSearchWord {
   rank: number;
@@ -19,7 +19,7 @@ const PopularSearchContainer = () => {
   useEffect(() => {
     const getPopularSearchList = async () => {
       try {
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/ranking/word`);
+        const { data } = await apiInstance.get('/menu/ranking/word');
 
         setPopularSearchList(data.data);
       } catch (error) {

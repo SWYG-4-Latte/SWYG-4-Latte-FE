@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
@@ -13,6 +12,7 @@ import FooterGradientButton from '@/components/common/button/FooterGradientButto
 import useModal from '@/hooks/useModal';
 import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore';
 import { MenuDetail } from '@/types/menu/menu';
+import apiInstance from '@/api/instance';
 
 const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const { addDrinkToRecentlyViewedStore } = useRecentlyViewedDrinksStore();
@@ -26,7 +26,7 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
 
   const handleRecord = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/drink/date/menu`, {
+      await apiInstance.post('/drink/date/menu', {
         menuNo,
       });
       openModal();
@@ -37,7 +37,7 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
 
   useEffect(() => {
     const getMenuDetailBySize = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/detail/${menuNo}`, {
+      const response = await apiInstance.get(`/menu/detail/${menuNo}`, {
         params: {
           menu_size: size,
         },

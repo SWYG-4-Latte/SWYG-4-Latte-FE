@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
+import apiInstance from '@/api/instance';
 
 const RankingListItem = ({
   menuNo,
@@ -25,7 +25,7 @@ const RankingListItem = ({
   const handleRecordCaffeine = async (e: MouseEvent) => {
     e.stopPropagation();
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/drink/date/menu`, {
+      await apiInstance.post('/drink/date/menu', {
         menuNo,
       });
       openModal();

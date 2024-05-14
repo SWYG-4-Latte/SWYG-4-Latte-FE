@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 
 import { formatDate } from '@/utils/date';
 import IntakeStandardInfo from '@/components/caffeineCalendar/IntakeStandardInfo';
 import CaffeineStatus from '@/components/caffeineCalendar/CaffeineStatus';
 import { SelectedDatePiece, SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
+import apiInstance from '@/api/instance';
 
 const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: SelectedDatePiece }) => {
   const [selectedDateInfo, setSelectedDateInfo] = useState<SelectedDateInfoType | null>(null);
@@ -18,7 +18,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: SelectedDat
     if (!selectedDate) return;
 
     const getDateInfo = async () => {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/date`, {
+      const { data } = await apiInstance.get('/drink/date', {
         params: {
           datetime: dayjs(selectedDate).format('YYYY-MM-DDT00:00:00'),
         },
