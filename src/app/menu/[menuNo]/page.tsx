@@ -7,9 +7,9 @@ export default async function MenuDetailPage({ params }: { params: { menuNo: str
   const { data: menuDetail } = await apiInstance.get(`/menu/detail/${menuNo}`);
 
   return (
-    <main>
+    <>
       <NavigationHeader />
       <MenuDetailContainer {...menuDetail} />
-    </main>
+    </>
   );
 }
