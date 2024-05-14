@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
@@ -11,18 +10,20 @@ import DrinkHistoryContainer from './DrinkHistoryContainer';
 import { UserCaffeineData } from '@/types/home/user';
 import DrinkRecommendationModal from '@/components/common/modal/DrinkRecommendationModal';
 import useModal from '@/hooks/useModal';
+import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 const HomeMainContainer = () => {
   const { isOpen, openModal, closeModal } = useModal();
 
   const [userData, setUserData] = useState<UserCaffeineData | null>(null);
 
-  const isLoggedIn = true;
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   const getUserData = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink`);
+    const { data } = await apiInstance.get('/drink');
 
-    setUserData(response.data.data);
+    setUserData(data);
   };
 
   useEffect(() => {

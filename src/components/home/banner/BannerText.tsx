@@ -1,11 +1,11 @@
 import { UserCaffeineData } from '@/types/home/user';
 
 const BannerText = ({ caffeineData }: { caffeineData: UserCaffeineData | null }) => {
-  if (!caffeineData) {
+  if (!caffeineData || !caffeineData.status) {
     return (
       <p className="mb-6 text-base font-semibold leading-snug text-gray10">
         <span>
-          아직 사용자님의
+          아직 {caffeineData?.nickname ?? '사용자'}님의
           <br />
         </span>
         <span className="text-primaryOrange">하루 카페인 권장량</span>

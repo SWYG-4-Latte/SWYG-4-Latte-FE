@@ -1,8 +1,7 @@
-import axios from 'axios';
-
 import { DrinkType } from '@/store/drinkComparisonStore';
 import { MENU_PER_PAGE } from '@/constants/menu/menuList';
 import { Menu } from '@/types/menu/menu';
+import apiInstance from '../instance';
 
 type MenuParamsType = DrinkType | null;
 
@@ -13,20 +12,20 @@ export interface MenuListData {
 }
 
 export const getCompareInfo = async (menu1: MenuParamsType, menu2: MenuParamsType) => {
-  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/compare`, {
+  const { data } = await apiInstance.get('/menu/compare', {
     params: {
       menu1: menu1 ? menu1.menuNo : null,
       menu2: menu2 ? menu2.menuNo : null,
     },
   });
 
-  const comparedDrinks = response.data.data;
+  const comparedDrinks = data;
   if (!comparedDrinks) return [null, null];
   else return comparedDrinks.length < 2 ? [comparedDrinks[0], null] : comparedDrinks;
 };
 
 export const getMenuList = async (brand: string, filter: string, page: number) => {
-  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/${brand}`, {
+  const { data } = await apiInstance.get(`/menu/${brand}`, {
     params: {
       page: page,
       size: MENU_PER_PAGE,
@@ -35,5 +34,5 @@ export const getMenuList = async (brand: string, filter: string, page: number) =
     },
   });
 
-  return data.data as MenuListData;
+  return data as MenuListData;
 };

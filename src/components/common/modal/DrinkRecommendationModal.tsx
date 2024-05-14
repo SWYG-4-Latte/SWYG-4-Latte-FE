@@ -2,12 +2,13 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 import Modal, { ModalProps } from './Modal';
 import Button from '../button/Button';
+import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 interface MenuInfo {
   menuNo: number;
@@ -18,15 +19,14 @@ interface MenuInfo {
 const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
   const router = useRouter();
 
-  // 로그인 여부 확인 추가
-  const isLoggedIn = true;
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   const [menuInfo, setMenuInfo] = useState<MenuInfo | null>(null);
 
   const getRecommendationDrinkInfo = async () => {
-    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/popup`);
+    const { data } = await apiInstance.get('/menu/popup');
 
-    setMenuInfo(data.data);
+    setMenuInfo(data);
   };
 
   const handleHideModal = () => {
@@ -45,7 +45,7 @@ const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
   return (
     <Modal isRecommendationModal isOpen={isOpen} onClose={onClose}>
       <button className="absolute -top-14 right-0" onClick={onClose}>
-        <Image src="/svgs/icon-modal-close.svg" width={32} height={32} alt="닫기" />
+        <Image priority src="/svgs/icon-modal-close.svg" width={32} height={32} alt="닫기" />
       </button>
       <button
         onClick={handleHideModal}
