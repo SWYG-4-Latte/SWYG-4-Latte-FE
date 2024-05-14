@@ -16,7 +16,7 @@ const MenuDetails = ({ menu }: { menu: MenuDetail }) => {
         <span>{menu.price.toLocaleString('ko-KR')}원</span>
       </div>
       <div className="flex items-center text-sm leading-6 text-gray08">
-        {isLoggedIn ? (
+        {menu.percent ? (
           <>
             하루 적정 카페인 섭취량의
             <div className="mx-[5px] flex h-[22px] w-fit items-center justify-center rounded bg-primaryBeige px-2 py-1 leading-normal text-orange09">
@@ -25,7 +25,9 @@ const MenuDetails = ({ menu }: { menu: MenuDetail }) => {
             를 차지해요.
           </>
         ) : (
-          <Link href="/auth/login">로그인하고 하루 적정 카페인 섭취량을 확인해보세요.</Link>
+          <Link href={isLoggedIn ? '/mypage/my-profile' : '/auth/login'}>
+            {isLoggedIn ? '맞춤 정보를 입력' : '로그인'}하고 하루 적정 카페인 섭취량을 확인해보세요.
+          </Link>
         )}
       </div>
     </div>
