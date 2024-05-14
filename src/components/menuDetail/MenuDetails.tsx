@@ -1,7 +1,8 @@
+import useLocalStorage from '@/hooks/useLocalStorage';
 import { MenuDetail } from '@/types/menu/menu';
 
 const MenuDetails = ({ menu }: { menu: MenuDetail }) => {
-  const isLoggedIn = true; // 로그인 여부
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   return (
     <div className="flex flex-col gap-2 bg-primaryIvory px-5 py-4">

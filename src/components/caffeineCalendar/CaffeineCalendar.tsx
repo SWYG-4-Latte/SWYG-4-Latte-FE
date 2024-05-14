@@ -12,6 +12,7 @@ import MonthComparisonMessage from './MonthComparisonMessage';
 import { SelectDateHandler, SelectedDatePiece, ThisMonthData } from '@/types/caffeineCalendar/calendar';
 import CaffeineStatus from './CaffeineStatus';
 import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 interface CaffeineCalendarProps {
   selectedDate: SelectedDatePiece;
@@ -19,6 +20,8 @@ interface CaffeineCalendarProps {
 }
 
 const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => {
+  const isLoggedIn = !!useLocalStorage('accessToken');
+
   const [thisMonthData, setThisMonthData] = useState<ThisMonthData | null>(null);
   const [activeDate, setActiveDate] = useState(new Date()); // 현재 보여지는 달의 1일
   const [today, setToday] = useState<SelectedDatePiece>(null);
@@ -43,6 +46,8 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
   }, []);
 
   useEffect(() => {
+    if (!isLoggedIn) return;
+
     const getThisMonthData = async () => {
       const response = await apiInstance.get('/drink/calendar', {
         params: {

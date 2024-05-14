@@ -11,13 +11,14 @@ import { UserCaffeineData } from '@/types/home/user';
 import DrinkRecommendationModal from '@/components/common/modal/DrinkRecommendationModal';
 import useModal from '@/hooks/useModal';
 import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 const HomeMainContainer = () => {
   const { isOpen, openModal, closeModal } = useModal();
 
   const [userData, setUserData] = useState<UserCaffeineData | null>(null);
 
-  const isLoggedIn = true;
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   const getUserData = async () => {
     const response = await apiInstance.get('/drink');

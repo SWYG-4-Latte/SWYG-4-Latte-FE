@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import Modal, { ModalProps } from './Modal';
 import Button from '../button/Button';
 import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 interface MenuInfo {
   menuNo: number;
@@ -18,8 +19,7 @@ interface MenuInfo {
 const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
   const router = useRouter();
 
-  // 로그인 여부 확인 추가
-  const isLoggedIn = true;
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   const [menuInfo, setMenuInfo] = useState<MenuInfo | null>(null);
 

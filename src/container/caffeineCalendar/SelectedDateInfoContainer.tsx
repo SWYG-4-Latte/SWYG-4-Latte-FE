@@ -7,15 +7,17 @@ import IntakeStandardInfo from '@/components/caffeineCalendar/IntakeStandardInfo
 import CaffeineStatus from '@/components/caffeineCalendar/CaffeineStatus';
 import { SelectedDatePiece, SelectedDateInfoType } from '@/types/caffeineCalendar/calendar';
 import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: SelectedDatePiece }) => {
   const [selectedDateInfo, setSelectedDateInfo] = useState<SelectedDateInfoType | null>(null);
 
+  const isLoggedIn = !!useLocalStorage('accessToken');
   // TODO: 사용자의 부가정보 입력 여부 추가하기
   const hasUserAdditionalInfo = true;
 
   useEffect(() => {
-    if (!selectedDate) return;
+    if (!selectedDate || !isLoggedIn) return;
 
     const getDateInfo = async () => {
       const { data } = await apiInstance.get('/drink/date', {
@@ -41,7 +43,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: SelectedDat
       <div className="flex items-center gap-1 text-lg font-semibold text-gray11">
         {hasUserAdditionalInfo ? (
           <>
-            {selectedDateInfo.caffeine ? (
+            {selectedDateInfo.caffeine && isLoggedIn ? (
               <>
                 오늘은
                 <CaffeineStatus status={selectedDateInfo.status} locatedInCalendar={false} />

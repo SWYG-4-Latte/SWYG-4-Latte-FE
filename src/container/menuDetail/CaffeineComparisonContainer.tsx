@@ -6,9 +6,17 @@ import { toast } from 'react-toastify';
 import ComparisonItem from '@/components/menuDetail/ComparisonItem';
 import { Menu } from '@/types/menu/menu';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
-const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
+interface CaffeineComparisonContainerProps {
+  menu: Menu;
+  onOpenLoginModal: () => void;
+}
+
+const CaffeineComparisonContainer = ({ menu, onOpenLoginModal }: CaffeineComparisonContainerProps) => {
   const router = useRouter();
+
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   const { drinks: comparedDrinks, addDrink, isDrinkExist, deleteDrinkFromComparisonBox } = useDrinkComparisonStore();
 
@@ -17,6 +25,11 @@ const CaffeineComparisonContainer = ({ menu }: { menu: Menu }) => {
   };
 
   const handleAddComparisonItem = () => {
+    if (!isLoggedIn) {
+      onOpenLoginModal();
+      return;
+    }
+
     if (comparedDrinks[0] && comparedDrinks[1]) {
       router.push('/menu/compare-drinks');
       return;

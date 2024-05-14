@@ -13,10 +13,16 @@ import useModal from '@/hooks/useModal';
 import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore';
 import { MenuDetail } from '@/types/menu/menu';
 import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import LoginModal from '@/components/common/modal/LoginModal';
 
 const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const { addDrinkToRecentlyViewedStore } = useRecentlyViewedDrinksStore();
-  const { isOpen, openModal, closeModal } = useModal();
+
+  const { isOpen: isCompleteModalOpen, openModal: openCompleteModal, closeModal: closeCompleteModal } = useModal();
+  const { isOpen: isLoginModalOpen, openModal: openLoginModal, closeModal: closeLoginModal } = useModal();
+
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   const searchParams = useSearchParams();
   const size = searchParams.get('size');
@@ -25,28 +31,32 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const { menuNo, lowCaffeineMenus } = activeMenuDetail;
 
   const handleRecord = async () => {
+    if (!isLoggedIn) {
+      openLoginModal();
+      return;
+    }
+
     try {
       await apiInstance.post('/drink/date/menu', {
         menuNo,
       });
-      openModal();
+      openCompleteModal();
     } catch (error) {
       toast('마신 메뉴 등록에 실패했습니다.');
     }
   };
 
   useEffect(() => {
-    const getMenuDetailBySize = async () => {
+    const getMenuDetailBySize = async (menuSize: string) => {
       const response = await apiInstance.get(`/menu/detail/${menuNo}`, {
         params: {
-          menu_size: size,
+          menu_size: menuSize,
         },
       });
       setActiveMenuDetail(response.data.data);
     };
-    if (size) {
-      getMenuDetailBySize();
-    }
+
+    getMenuDetailBySize(size ?? menuDetail.menuSize);
   }, [size]);
 
   useEffect(() => {
@@ -55,18 +65,19 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
 
   return (
     <div>
-      <RecordCompleteModal
-        isOpen={isOpen}
-        onClose={closeModal}
-        menuImg={activeMenuDetail.imageUrl}
-        menuName={activeMenuDetail.menuName}
-      />
       <div className="pb-24 pt-14">
         <MenuInfoContainer menu={activeMenuDetail} />
-        <CaffeineComparisonContainer menu={activeMenuDetail} />
+        <CaffeineComparisonContainer menu={activeMenuDetail} onOpenLoginModal={openLoginModal} />
         <LowerCaffeineMenuContainer menus={lowCaffeineMenus} />
         <FooterGradientButton onClick={handleRecord}>오늘 마신 카페인으로 기록하기</FooterGradientButton>
       </div>
+      <RecordCompleteModal
+        isOpen={isCompleteModalOpen}
+        onClose={closeCompleteModal}
+        menuImg={activeMenuDetail.imageUrl}
+        menuName={activeMenuDetail.menuName}
+      />
+      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </div>
   );
 };
