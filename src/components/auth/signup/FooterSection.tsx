@@ -17,7 +17,7 @@ export default function FooterSection() {
   } = useSignupStore();
 
   const stepOneFilled = username && email && nickname
-  const stepTwoFilled = password && confirmPassword;
+  const stepTwoFilled = password && confirmPassword && termsAgreed
   const stepThreeFilled = age && gender
   const stepFourFilled = cupDay && symptoms.length > 0 && allergies.length > 0
 
@@ -46,7 +46,7 @@ export default function FooterSection() {
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
             onClick={handleNextStep}
-            // disabled={!stepOneFilled}
+            disabled={!stepOneFilled}
             className={`
               w-[320px] h-[50px] rounded-md
               ${stepOneFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}
@@ -60,6 +60,7 @@ export default function FooterSection() {
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
             onClick={goToNextStep}
+            disabled={!stepTwoFilled}
             className={`w-[320px] h-[50px] rounded-md
             ${stepTwoFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}>
             계속하기
