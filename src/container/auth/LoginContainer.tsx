@@ -90,18 +90,18 @@ export default function LoginContainer() {
           unoptimized
         />
       </section>
-      <section className="mt-8 mb-6 flex-all-center">
+      <section className="flex-all-center mt-8 mb-4">
+        <h1 className="font-medium text-center leading-6">나에게 핏한 카페인 관리 <br />라떼핏의 조건 한 잔으로 시작해요</h1>
+      </section>
+      <section className="flex-all-center mb-10">
         <Image 
           src="/svgs/svg_logo.svg"
           alt="logo"
-          width={155}
-          height={64}
+          width={360}
+          height={80}
           priority
           unoptimized
         />
-      </section>
-      <section className="mb-8 flex-all-center">
-        <h1 className="font-pretendard">카페인 관리를 위한 조언 한 잔</h1>
       </section>
       <section className="mb-6">
         <form

@@ -78,7 +78,10 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   setConfirmPassword: (confirmPassword: string) => set({ confirmPassword }),
   setAge: (age: string) => set({ age }),
   setGender: (gender: 'M' | 'F' | '' ) => set({ gender }),
-  setPregMonth: (month: string) => set({ pregMonth: month}),
+  setPregMonth: (month: string) => {
+    const pregMonthError = month ? (parseInt(month, 10) >= 1 && parseInt(month, 10) <= 10 ? null : '1-10 사이의 숫자를 입력해주세요.') : '임신 개월 수를 입력해주세요';
+    set({ pregMonth: month, pregMonthError });
+  },
   togglePregnancy: (pregnancy: boolean) => set({ pregnancy }),
   setCupDay: (cupDay) => set({ cupDay }),
 
@@ -304,7 +307,7 @@ validatePregMonth: (month: string) => {
   if (!month) {
     set({ pregMonthError: '임신 개월 수를 입력해주세요' });
   } else if (!/^\d+$/.test(month)) {
-    set({ pregMonthError: '1-10자의 숫자를 입력해주세요' });
+    set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요' });
   } else if (parseInt(month) < 1 || parseInt(month) > 10) {
     set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요' });
   } else {
@@ -313,7 +316,7 @@ validatePregMonth: (month: string) => {
 },
 
 goToNextStep: async () => {
-  const { currentStep, termsAgreed, email, usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, nicknameChecked, checkEmailDuplication, emailError } = get();
+  const { currentStep, termsAgreed, email, usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, age, ageError, gender, pregnancy, pregMonth, pregMonthError, nicknameChecked, checkEmailDuplication, emailError } = get();
 
   // Step 1에서 이메일 중복 검사를 추가
   if (currentStep === 1) {
@@ -337,6 +340,20 @@ goToNextStep: async () => {
     }
     if (passwordError || confirmPasswordError) {
       return;
+    }
+  }
+  // Step 3에서 나이를 입력했는지 확인
+  if (currentStep === 3) {
+    if (!age || ageError) {
+      set({ ageError: '만 나이를 입력해주세요.' });
+      return;
+    }
+
+    if (gender === 'F' && pregnancy) {
+      if (!pregMonth || pregMonthError || parseInt(pregMonth) < 1 || parseInt(pregMonth) > 10) {
+        set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요.' });
+        return;
+      }
     }
   }
 

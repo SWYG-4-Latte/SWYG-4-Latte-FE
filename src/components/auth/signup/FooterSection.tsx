@@ -45,7 +45,7 @@ export default function FooterSection() {
         return (
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
-            onClick={handleNextStep}
+            onClick={goToNextStep}
             disabled={!stepOneFilled}
             className={`
               w-[320px] h-[50px] rounded-md font-semibold
@@ -78,6 +78,7 @@ export default function FooterSection() {
             </button>
             <button 
                 onClick={goToNextStep}
+                disabled={!stepThreeFilled}
                 className={`w-[194px] h-[50px] rounded-md font-semibold
                 ${stepThreeFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}>
               마지막페이지로
