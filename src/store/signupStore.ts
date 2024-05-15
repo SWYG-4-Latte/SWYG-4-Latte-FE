@@ -231,7 +231,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       return;
     }
     const isNotDuplicate = await checkDuplicate('nickname', nickname);
-    set({ nicknameError: isNotDuplicate ? '사용 가능한 아이디 입니다.' : '이미 사용중인 닉네임입니다.', nicknameChecked: true });
+    set({ nicknameError: isNotDuplicate ? '사용 가능한 닉네임 입니다.' : '이미 사용중인 닉네임입니다.', nicknameChecked: true });
   },
 
   // 유효성 검사 메소드
@@ -313,7 +313,7 @@ validatePregMonth: (month: string) => {
 },
 
 goToNextStep: async () => {
-  const { currentStep, termsAgreed, email, usernameChecked, emailChecked, nicknameChecked, checkEmailDuplication, emailError } = get();
+  const { currentStep, termsAgreed, email, usernameChecked, password, confirmPassword, emailChecked, nicknameChecked, checkEmailDuplication, emailError } = get();
 
   // Step 1에서 이메일 중복 검사를 추가
   if (currentStep === 1) {
@@ -325,11 +325,19 @@ goToNextStep: async () => {
     }
   }
 
-  if (currentStep === 2 && !termsAgreed) {
-    set({ termsError: true });
-  } else {
-    set({ currentStep: currentStep >= 5 ? 1 : currentStep + 1, termsError: false });
+  // Step 2에서 비밀번호와 비밀번호 확인이 일치하는지 확인
+  if (currentStep === 2) {
+    if (!termsAgreed) {
+      set({ termsError: true });
+      return;
+    }
+    if (password !== confirmPassword) {
+      set({ confirmPasswordError: '비밀번호가 일치하지 않습니다.' });
+      return;
+    }
   }
+
+  set({ currentStep: currentStep >= 5 ? 1 : currentStep + 1, termsError: false });
 },
 
   goToPrevStep: () => set((state: any) => ({ 
