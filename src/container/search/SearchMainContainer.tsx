@@ -12,8 +12,6 @@ import ArticleRecommendationContainer from './ArticleRecommendationContainer';
 import DrinkSearchResultContainer from './DrinkSearchResultContainer';
 import ArticleSearchResultContainer from './ArticleSearchResultContainer';
 
-export type SearchTargetType = 'drink' | 'article';
-
 const SearchMainContainer = () => {
   const searchParams = useSearchParams();
   const router = useRouter();

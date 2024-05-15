@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { SearchTargetType } from '@/container/search/SearchMainContainer';
+export type SearchTargetType = 'drink' | 'article';
 
 interface RecentSearchState {
   drink: string[];
