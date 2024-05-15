@@ -31,7 +31,7 @@ const DrinkSearchResultContainer = ({ query, filter, setHasResult }: SearchResul
   const getSearchResults = async (pageNumber: number) => {
     setIsLoading(true);
     try {
-      const data = await getDrinkSearchResult(query, filter, page);
+      const data = await getDrinkSearchResult(query, filter, pageNumber);
 
       setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
       setTotalResults(data.totalElements);
