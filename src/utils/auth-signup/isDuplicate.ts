@@ -9,9 +9,30 @@ import axios from "axios";
 
 async function checkDuplicate(fieldType: string, value: string): Promise<boolean> {
   try {
-    const endpoint = "https://latte-server.site/auth/signup";
-    const response = await axios.post(endpoint, { type: fieldType, value: value });
-    return response.data.confirmId === true
+    let endpoint = '';
+    let requestData = {};
+    if (fieldType === 'username') {
+      endpoint = `https://latte-server.site/auth/existsId/${value}`;
+    } else if (fieldType === 'nickname') {
+      endpoint = `https://latte-server.site/auth/existsNickname/${value}`;
+    } else if (fieldType === 'email') {
+      endpoint = `https://latte-server.site/auth/existsEmail/${value}`;
+    } else {
+      throw new Error(`Unsupported field type: ${fieldType}`);
+    }
+
+    console.log(`Sending request to: ${endpoint}`);
+
+    const response = await axios.post(endpoint);
+    const { data } = response.data;
+
+    console.log(`Response from ${endpoint}:`, response.data);
+
+    if (fieldType === 'username') return data.confirmIdYn === "true";
+    if (fieldType === 'nickname') return data.confirmNicknameYn === "true";
+    if (fieldType === 'email') return data.confirmEmailYn === "true";
+
+    return false;
   } catch (error) {
     console.error(`Duplicate check failed for ${fieldType}:`, error);
     return false; 

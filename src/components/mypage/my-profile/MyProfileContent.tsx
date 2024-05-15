@@ -16,6 +16,7 @@ import useModal from "@/hooks/useModal";
 //utils
 import { fetchMemberInfo } from "@/utils/mypage/isMember";
 import { deleteUser } from "@/utils/auth-signup/isDelete";
+import useLoginStore from "@/store/loginStore";
 
 
 
@@ -30,6 +31,8 @@ export default function MyProfileContent() {
     nicknameError, nicknameFocused, validateNickname, setNicknameFocused,
     setPregMonthFocused, pregMonthError, pregMonthFocused, validatePregMonth,
   } = useSignupStore();
+
+  const { setLogout }  = useLoginStore()
 
   const {memberInfo, setMemberInfo, updateMemberInfo } = useMemberStore()
 
@@ -94,7 +97,7 @@ export default function MyProfileContent() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken')
+    setLogout()
     router.push('/home')
   }
 

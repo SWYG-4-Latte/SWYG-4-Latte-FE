@@ -86,7 +86,7 @@ export default function ContentsSection() {
         <section className="flex items-between justify-center w-full h-[252px] mb-[126px] px-5"> 
           <form className="space-y-2">
             <p className="text-xs">아이디 입력</p>
-            <div className="space-x-2">
+            <div className="">
             <input 
                   type="text"
                   value={username}
@@ -94,8 +94,8 @@ export default function ContentsSection() {
                   onFocus={() => handleFocusChange('username', true)}
                   onBlur={() => handleFocusChange('username', false)}
                   placeholder="아이디(6~12자 이내, 숫자/영문조합)"
-                  className={`px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] placeholder:tracking-tighter bg-gray01 outline-none text-gray10
-                              border ${usernameError ? 'border-primaryRed' : (usernameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                  className={`mr-2 px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] placeholder:tracking-tighter bg-gray01 outline-none text-gray10
+                              border ${usernameError ? (usernameError === '사용 가능한 아이디 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : (usernameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
                 />
             <button
                   type="button"
@@ -105,7 +105,11 @@ export default function ContentsSection() {
             >
                 중복확인
               </button>
-              { usernameError &&  <p className="mt-2 text-xs text-primaryRed">{usernameError}</p> }
+              { usernameError && (
+                <p className={`mt-2 text-xs ${usernameError === '사용 가능한 아이디 입니다.' ? 'text-primaryOrange' : 'text-primaryRed'}`}>
+                  {usernameError}
+                </p>
+              )}
             </div>
             <p className="text-xs">이메일</p>
             <div >
@@ -122,7 +126,7 @@ export default function ContentsSection() {
                 { emailError &&  <p className="mt-2 text-xs text-primaryRed">{emailError}</p> }
             </div>
             <p className="text-xs">닉네임</p>
-            <div className="space-x-2">
+            <div className="">
             <input 
                   type="text"
                   value={nickname}
@@ -130,8 +134,8 @@ export default function ContentsSection() {
                   onFocus={() => handleFocusChange('nickname', true)}
                   onBlur={() => handleFocusChange('nickname', false)}
                   placeholder="한글 3자 이상, 8자 이하"
-                  className={`px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
-                              border ${nicknameError ? 'border-primaryRed' : (nicknameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                  className={`mr-2 px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
+                              border ${nicknameError ? (nicknameError === '사용 가능한 아이디 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : (nicknameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
                 />
             <button
                   type="button"
@@ -141,7 +145,11 @@ export default function ContentsSection() {
             >
                 중복확인
               </button>
-              { nicknameError &&  <p className="mt-2 text-xs text-primaryRed">{nicknameError}</p> }
+              { nicknameError && (
+                <p className={`mt-2 text-xs ${nicknameError === '사용 가능한 아이디 입니다.' ? 'text-primaryOrange' : 'text-primaryRed'}`}>
+                  {nicknameError}
+                </p>
+              )}
             </div>
           </form>
         </section> 
