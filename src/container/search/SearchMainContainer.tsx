@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react';
 
 import { useRecentSearchStore } from '@/store/recentSearchStore';
 import RecentSearchContainer from './RecentSearchContainer';
-import SearchResultContainer from './SearchResultContainer';
 import PopularSearchContainer from './PopularSearchContainer';
 import NavigationHeader from '@/components/common/header/NavigationHeader';
 import SearchInput from '@/components/search/SearchInput';
+import ArticleRecommendationContainer from './ArticleRecommendationContainer';
+import DrinkSearchResultContainer from './DrinkSearchResultContainer';
+import ArticleSearchResultContainer from './ArticleSearchResultContainer';
 
 export type SearchTargetType = 'drink' | 'article';
 
@@ -48,10 +50,16 @@ const SearchMainContainer = () => {
           <>
             <RecentSearchContainer />
             <div className="h-2 bg-gray03 " />
-            {searchTarget === 'drink' && <PopularSearchContainer />}
+            {searchTarget === 'drink' ? <PopularSearchContainer /> : <ArticleRecommendationContainer />}
           </>
         ) : (
-          <SearchResultContainer query={searchQuery} filter={searchFilter} setHasResult={setHasResult} />
+          <>
+            {searchTarget === 'drink' ? (
+              <DrinkSearchResultContainer query={searchQuery} filter={searchFilter} setHasResult={setHasResult} />
+            ) : (
+              <ArticleSearchResultContainer query={searchQuery} setHasResult={setHasResult} />
+            )}
+          </>
         )}
       </div>
     </>

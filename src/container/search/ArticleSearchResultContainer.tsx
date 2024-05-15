@@ -1,28 +1,21 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import DrinkListItem from '@/components/common/drink/DrinkListItem';
-import { Menu } from '@/types/menu/menu';
 import NoSearchResults from '@/components/search/NoSearchResults';
-import SearchResultHeader from '@/components/search/SearchResultHeader';
 import SearchListSkeleton, { SearchListItemSkeleton } from '@/components/common/skeleton/SearchListSkeleton';
-import { MENU_PER_PAGE } from '@/constants/menu/menuList';
 import { useIntersect } from '@/hooks/useIntersect';
-import apiInstance from '@/api/instance';
+import { SearchResultContainerProps } from './DrinkSearchResultContainer';
+import ArticleListItem from '@/components/article/ArticleListItem';
+import { Article } from '@/types/article/article';
+import { getArticleSearchResult } from '@/api/search';
 
-interface SearchResultContainerProps {
-  query: string;
-  filter: string | null;
-  setHasResult: Dispatch<SetStateAction<boolean>>;
-}
-
-const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultContainerProps) => {
-  const [searchResults, setSearchResults] = useState<Menu[]>([]);
+const ArticleSearchResultContainer = ({ query, setHasResult }: SearchResultContainerProps) => {
+  const [searchResults, setSearchResults] = useState<Article[]>([]);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  const hasNextPage = page * MENU_PER_PAGE < totalResults;
+  const hasNextPage = page * 4 < totalResults;
 
   const targetRef = useIntersect(() => {
     if (hasNextPage && !isLoading) getSearchResults(page);
@@ -31,51 +24,44 @@ const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultCont
   const getSearchResults = async (pageNumber: number) => {
     setIsLoading(true);
     try {
-      const { data } = await apiInstance.get('/menu/list', {
-        params: {
-          word: query,
-          page: pageNumber,
-          size: MENU_PER_PAGE,
-          sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
-          cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
-        },
-      });
+      const data = await getArticleSearchResult(query, pageNumber);
 
       setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
-
       setTotalResults(data.totalElements);
       setHasResult(data.totalElements !== 0);
       setPage(data.number + 1);
     } catch (error) {
       setIsError(true);
     }
-
     setIsLoading(false);
   };
 
   useEffect(() => {
     setPage(0);
     getSearchResults(0);
-  }, [query, filter]);
+  }, [query]);
 
-  if (!isLoading && searchResults.length === 0 && !filter) {
+  if (!isLoading && searchResults.length === 0) {
     return <NoSearchResults />;
   }
 
   return (
-    <>
-      <SearchResultHeader totalResults={totalResults} />
+    <div className="flex flex-col pt-4">
+      <div className="mb-3 flex items-end gap-2 pl-5">
+        <div className="font-semibold leading-[22px] text-gray10">검색 결과</div>
+        <div className="text-xs text-primaryOrange">{totalResults}건</div>
+      </div>
       {searchResults.length === 0 && <>{isLoading ? <SearchListSkeleton /> : <NoSearchResults />}</>}
       <ul>
         {searchResults.map((result) => (
-          <DrinkListItem key={result.menuNo} drinkMenu={result} />
+          <ArticleListItem key={result.articleNo} article={result} />
         ))}
       </ul>
       <div ref={targetRef} className="flex">
         {hasNextPage && <SearchListItemSkeleton />}
       </div>
-    </>
+    </div>
   );
 };
 
-export default SearchResultContainer;
+export default ArticleSearchResultContainer;
