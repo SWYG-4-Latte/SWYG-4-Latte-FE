@@ -17,7 +17,7 @@ export default function FooterSection() {
   } = useSignupStore();
 
   const stepOneFilled = username && email && nickname
-  const stepTwoFilled = password && confirmPassword;
+  const stepTwoFilled = password && confirmPassword && termsAgreed
   const stepThreeFilled = age && gender
   const stepFourFilled = cupDay && symptoms.length > 0 && allergies.length > 0
 
@@ -45,10 +45,10 @@ export default function FooterSection() {
         return (
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
-            onClick={handleNextStep}
-            // disabled={!stepOneFilled}
+            onClick={goToNextStep}
+            disabled={!stepOneFilled}
             className={`
-              w-[320px] h-[50px] rounded-md
+              w-[320px] h-[50px] rounded-md font-semibold
               ${stepOneFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}
             `}>
             계속하기
@@ -60,7 +60,8 @@ export default function FooterSection() {
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
             onClick={goToNextStep}
-            className={`w-[320px] h-[50px] rounded-md
+            disabled={!stepTwoFilled}
+            className={`w-[320px] h-[50px] rounded-md font-semibold
             ${stepTwoFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}>
             계속하기
           </button>
@@ -77,7 +78,8 @@ export default function FooterSection() {
             </button>
             <button 
                 onClick={goToNextStep}
-                className={`w-[194px] h-[50px] rounded-md
+                disabled={!stepThreeFilled}
+                className={`w-[194px] h-[50px] rounded-md font-semibold
                 ${stepThreeFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}>
               마지막페이지로
             </button>
@@ -90,12 +92,12 @@ export default function FooterSection() {
           <div className="flex items-center space-x-2">
             <button 
               onClick={goToNextStep}
-              className="w-[118px] h-[50px] bg-gray01 border border-gray05 rounded-md text-gray08">
+              className="w-[118px] h-[50px] font-semibold bg-gray01 border border-gray05 rounded-md text-gray08">
               나중에 입력
             </button>
             <button 
                 onClick={goToNextStep}
-                className={`w-[194px] h-[50px] rounded-md
+                className={`w-[194px] h-[50px] rounded-md font-semibold
                 ${stepFourFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}>
               라떼핏과 함께 해요!
             </button>
@@ -108,7 +110,7 @@ export default function FooterSection() {
           <Link href="/auth/login">
             <button 
               onClick={handleFormSubmit}
-              className="w-[320px] h-[50px] bg-orange06 text-gray00 rounded-md">
+              className="w-[320px] h-[50px] font-semibold bg-orange06 text-gray00 rounded-md">
               라떼핏 바로가기
             </button>
           </Link>

@@ -135,7 +135,7 @@ export default function ContentsSection() {
                   onBlur={() => handleFocusChange('nickname', false)}
                   placeholder="한글 3자 이상, 8자 이하"
                   className={`mr-2 px-5 py-4 w-[236px] h-[50px] rounded-md text-[14px] bg-gray01 outline-none text-gray10
-                              border ${nicknameError ? (nicknameError === '사용 가능한 아이디 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : (nicknameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
+                              border ${nicknameError ? (nicknameError === '사용 가능한 닉네임 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : (nicknameFocused ? 'border-primaryOrange' : 'border-gray05')} placeholder:text-gray05`}
                 />
             <button
                   type="button"
@@ -146,7 +146,7 @@ export default function ContentsSection() {
                 중복확인
               </button>
               { nicknameError && (
-                <p className={`mt-2 text-xs ${nicknameError === '사용 가능한 아이디 입니다.' ? 'text-primaryOrange' : 'text-primaryRed'}`}>
+                <p className={`mt-2 text-xs ${nicknameError === '사용 가능한 닉네임 입니다.' ? 'text-primaryOrange' : 'text-primaryRed'}`}>
                   {nicknameError}
                 </p>
               )}

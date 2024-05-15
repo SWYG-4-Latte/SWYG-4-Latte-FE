@@ -48,6 +48,10 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   term2Agreed: false,
   termsError: false,
 
+  usernameChecked: false,
+  emailChecked: false,
+  nicknameChecked: false,
+
   // 사용자 정보 로드
   loadUserInfo: (userInfo: IUserInfo) => {
     set({
@@ -67,14 +71,17 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
 
 
   // 상태 업데이트 메소드
-  setUsername: (username: string) => set({ username }),
-  setEmail: (email: string) => set({ email }),
-  setNickname: (nickname: string) => set({ nickname }),
+  setUsername: (username) => set({ username, usernameChecked: false }),
+  setEmail: (email) => set({ email, emailChecked: false }),
+  setNickname: (nickname) => set({ nickname, nicknameChecked: false }),
   setPassword: (password: string) => set({ password }),
   setConfirmPassword: (confirmPassword: string) => set({ confirmPassword }),
   setAge: (age: string) => set({ age }),
   setGender: (gender: 'M' | 'F' | '' ) => set({ gender }),
-  setPregMonth: (month: string) => set({ pregMonth: month}),
+  setPregMonth: (month: string) => {
+    const pregMonthError = month ? (parseInt(month, 10) >= 1 && parseInt(month, 10) <= 10 ? null : '1-10 사이의 숫자를 입력해주세요.') : '임신 개월 수를 입력해주세요';
+    set({ pregMonth: month, pregMonthError });
+  },
   togglePregnancy: (pregnancy: boolean) => set({ pregnancy }),
   setCupDay: (cupDay) => set({ cupDay }),
 
@@ -198,7 +205,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       return;
     }
     const isNotDuplicate = await checkDuplicate('username', username);
-    set({ usernameError: isNotDuplicate ? '사용 가능한 아이디 입니다.' : '이미 사용중인 아이디입니다.' });
+    set({ usernameError: isNotDuplicate ? '사용 가능한 아이디 입니다.' : '이미 사용중인 아이디입니다.', usernameChecked: true });
   },
 
   checkEmailDuplication: async () => {
@@ -212,7 +219,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       return;
     }
     const isNotDuplicate = await checkDuplicate('email', email);
-    set({ emailError: isNotDuplicate ? null : '이미 사용 중인 이메일입니다.' });
+    set({ emailError: isNotDuplicate ? null : '이미 사용 중인 이메일입니다.', emailChecked: true })
     console.log('Username duplication check result:', isNotDuplicate);
   },
 
@@ -227,7 +234,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       return;
     }
     const isNotDuplicate = await checkDuplicate('nickname', nickname);
-    set({ nicknameError: isNotDuplicate ? '사용 가능한 아이디 입니다.' : '이미 사용중인 닉네임입니다.' });
+    set({ nicknameError: isNotDuplicate ? '사용 가능한 닉네임 입니다.' : '이미 사용중인 닉네임입니다.', nicknameChecked: true });
   },
 
   // 유효성 검사 메소드
@@ -300,7 +307,7 @@ validatePregMonth: (month: string) => {
   if (!month) {
     set({ pregMonthError: '임신 개월 수를 입력해주세요' });
   } else if (!/^\d+$/.test(month)) {
-    set({ pregMonthError: '1-10자의 숫자를 입력해주세요' });
+    set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요' });
   } else if (parseInt(month) < 1 || parseInt(month) > 10) {
     set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요' });
   } else {
@@ -309,22 +316,50 @@ validatePregMonth: (month: string) => {
 },
 
 goToNextStep: async () => {
-  const { currentStep, termsAgreed, email, checkEmailDuplication, emailError } = get();
+  const { currentStep, termsAgreed, email, usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, age, ageError, gender, pregnancy, pregMonth, pregMonthError, nicknameChecked, checkEmailDuplication, emailError } = get();
 
   // Step 1에서 이메일 중복 검사를 추가
   if (currentStep === 1) {
     await checkEmailDuplication(email);
-    if (get().emailError) {
+    if (get().emailError || !usernameChecked || !nicknameChecked) {
+      if (!usernameChecked) set({ usernameError: '아이디 중복 검사를 완료해주세요' });
+      if (!nicknameChecked) set({ nicknameError: '닉네임 중복 검사를 완료해주세요' });
       return;
     }
-}
-
-  if (currentStep === 2 && !termsAgreed) {
-    set({ termsError: true });
-  } else {
-    set({ currentStep: currentStep >= 5 ? 1 : currentStep + 1, termsError: false });
   }
+
+  // Step 2에서 비밀번호와 비밀번호 확인이 일치하는지 확인
+  if (currentStep === 2) {
+    if (!termsAgreed) {
+      set({ termsError: true });
+      return;
+    }
+    if (password !== confirmPassword) {
+      set({ confirmPasswordError: '비밀번호가 일치하지 않습니다.' });
+      return;
+    }
+    if (passwordError || confirmPasswordError) {
+      return;
+    }
+  }
+  // Step 3에서 나이를 입력했는지 확인
+  if (currentStep === 3) {
+    if (!age || ageError) {
+      set({ ageError: '만 나이를 입력해주세요.' });
+      return;
+    }
+
+    if (gender === 'F' && pregnancy) {
+      if (!pregMonth || pregMonthError || parseInt(pregMonth) < 1 || parseInt(pregMonth) > 10) {
+        set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요.' });
+        return;
+      }
+    }
+  }
+
+  set({ currentStep: currentStep >= 5 ? 1 : currentStep + 1, termsError: false });
 },
+
   goToPrevStep: () => set((state: any) => ({ 
     currentStep: state.currentStep > 1 ? state.currentStep - 1  : 1
   })),
