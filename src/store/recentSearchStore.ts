@@ -1,39 +1,43 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface RecentSearchState {
-  searchList: string[];
-}
+import { SearchTargetType } from '@/container/search/SearchMainContainer';
 
+interface RecentSearchState {
+  drink: string[];
+  article: string[];
+}
 interface RecentSearchActions {
-  addSearchWord: (word: string) => void;
-  deleteSearchWord: (word: string) => void;
-  deleteAllSearchWord: () => void;
+  addSearchWord: (word: string, target: SearchTargetType) => void;
+  deleteSearchWord: (word: string, target: SearchTargetType) => void;
+  deleteAllSearchWord: (target: SearchTargetType) => void;
 }
 
 export const useRecentSearchStore = create<RecentSearchState & RecentSearchActions>()(
   persist(
     (set) => ({
-      searchList: [],
-      addSearchWord: (word: string) =>
+      drink: [],
+      article: [],
+      addSearchWord: (word: string, target: SearchTargetType) =>
         set((state) => {
-          const existingWordIndex = state.searchList.indexOf(word);
+          const targetList = state[target];
+          const existingWordIndex = targetList.indexOf(word);
           // 이미 최근 검색어에 있는 경우 해당 단어 제거 후 맨 앞에 추가
           if (existingWordIndex !== -1) {
-            const newList = state.searchList.filter((searchWord) => searchWord !== word);
+            const newList = targetList.filter((searchWord) => searchWord !== word);
             newList.unshift(word);
             return {
-              searchList: newList,
+              [target]: newList,
             };
           } else {
-            return { searchList: [word, ...state.searchList.slice(0, 2)] };
+            return { [target]: [word, ...targetList.slice(0, 2)] };
           }
         }),
-      deleteSearchWord: (word: string) =>
-        set((state) => ({
-          searchList: state.searchList.filter((searchWord) => searchWord !== word),
-        })),
-      deleteAllSearchWord: () => set({ searchList: [] }),
+      deleteSearchWord: (word: string, target: SearchTargetType) =>
+        set((state) => {
+          return { [target]: state[target].filter((searchWord) => searchWord !== word) };
+        }),
+      deleteAllSearchWord: (target: SearchTargetType) => set({ [target]: [] }),
     }),
     { name: 'recent-search' },
   ),

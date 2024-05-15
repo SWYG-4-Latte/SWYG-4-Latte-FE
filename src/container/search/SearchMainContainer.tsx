@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { useRecentSearchStore } from '@/store/recentSearchStore';
@@ -10,9 +10,14 @@ import PopularSearchContainer from './PopularSearchContainer';
 import NavigationHeader from '@/components/common/header/NavigationHeader';
 import SearchInput from '@/components/search/SearchInput';
 
+export type SearchTargetType = 'drink' | 'article';
+
 const SearchMainContainer = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const searchTarget = pathname.includes('menu') ? 'drink' : 'article';
 
   const searchQuery = searchParams.get('query');
   const searchFilter = searchParams.get('filter');
@@ -30,7 +35,7 @@ const SearchMainContainer = () => {
   };
 
   useEffect(() => {
-    if (searchQuery) addSearchWord(searchQuery);
+    if (searchQuery) addSearchWord(searchQuery, searchTarget);
   }, [searchQuery]);
 
   return (
@@ -43,7 +48,7 @@ const SearchMainContainer = () => {
           <>
             <RecentSearchContainer />
             <div className="h-2 bg-gray03 " />
-            <PopularSearchContainer />
+            {searchTarget === 'drink' && <PopularSearchContainer />}
           </>
         ) : (
           <SearchResultContainer query={searchQuery} filter={searchFilter} setHasResult={setHasResult} />
