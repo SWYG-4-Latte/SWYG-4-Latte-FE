@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
+import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import LoginModal from '@/components/common/modal/LoginModal';
 
 const RankingListItem = ({
   menuNo,
@@ -21,11 +23,19 @@ const RankingListItem = ({
 }) => {
   const router = useRouter();
   const { isOpen, openModal, closeModal } = useModal();
+  const { isOpen: isLoginModalOpen, openModal: openLoginModal, closeModal: closeLoginModal } = useModal();
+  const isLoggedIn = !!useLocalStorage('accessToken');
 
   const handleRecordCaffeine = async (e: MouseEvent) => {
     e.stopPropagation();
+
+    if (!isLoggedIn) {
+      openLoginModal();
+      return;
+    }
+
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/drink/date/menu`, {
+      await apiInstance.post('/drink/date/menu', {
         menuNo,
       });
       openModal();
@@ -63,6 +73,7 @@ const RankingListItem = ({
         </div>
       </li>
       <RecordCompleteModal isOpen={isOpen} onClose={closeModal} menuImg={imageUrl} menuName={menuName} />
+      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </>
   );
 };

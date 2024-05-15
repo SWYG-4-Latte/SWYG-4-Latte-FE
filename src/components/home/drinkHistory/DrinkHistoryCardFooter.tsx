@@ -1,5 +1,8 @@
 'use client';
 
+import LoginModal from '@/components/common/modal/LoginModal';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useModal from '@/hooks/useModal';
 import { useRouter } from 'next/navigation';
 
 interface DrinkHistoryCardFooterProps {
@@ -11,7 +14,15 @@ interface DrinkHistoryCardFooterProps {
 const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCardFooterProps) => {
   const router = useRouter();
 
+  const { isOpen, openModal, closeModal } = useModal();
+  const isLoggedIn = !!useLocalStorage('accessToken');
+
   const handleRecord = () => {
+    if (!isLoggedIn) {
+      openModal();
+      return;
+    }
+
     if (isEmpty) {
       router.push('/menu');
       return;
@@ -21,14 +32,17 @@ const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCa
 
   if (isEmpty) {
     return (
-      <div className="flex h-9 w-full items-center justify-center">
-        <button
-          onClick={handleRecord}
-          className="h-full w-full text-xs text-gray10 hover:bg-orange01 hover:text-primaryOrange"
-        >
-          카페인 기록하러 가기
-        </button>
-      </div>
+      <>
+        <div className="flex h-9 w-full items-center justify-center">
+          <button
+            onClick={handleRecord}
+            className="h-full w-full text-xs text-gray10 hover:bg-orange01 hover:text-primaryOrange"
+          >
+            카페인 기록하러 가기
+          </button>
+        </div>
+        <LoginModal isOpen={isOpen} onClose={closeModal} />
+      </>
     );
   }
 

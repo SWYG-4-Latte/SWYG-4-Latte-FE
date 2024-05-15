@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import RankingListItem from './RankingListItem';
 import { Menu } from '@/types/menu/menu';
 import RankingListSkeleton from '@/components/common/skeleton/RankingListSkeleton';
+import apiInstance from '@/api/instance';
 
 const RankingList = ({ selectedBrand }: { selectedBrand: string }) => {
   const [rankingData, setRankingData] = useState<Menu[]>([]);
@@ -11,9 +11,9 @@ const RankingList = ({ selectedBrand }: { selectedBrand: string }) => {
 
   useEffect(() => {
     const getRankingData = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/ranking/${selectedBrand}`);
+      const { data } = await apiInstance.get(`/menu/ranking/${selectedBrand}`);
 
-      setRankingData(response.data.data);
+      setRankingData(data);
       setIsLoading(false);
     };
 

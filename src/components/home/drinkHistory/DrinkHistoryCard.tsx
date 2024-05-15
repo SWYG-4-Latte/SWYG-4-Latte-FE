@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
 import DrinkHistoryDetail from './DrinkHistoryDetail';
 import DrinkHistoryCardFooter from './DrinkHistoryCardFooter';
@@ -11,6 +10,7 @@ import useModal from '@/hooks/useModal';
 import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 import DeleteComparisonBoxModal from '@/components/common/modal/DeleteComparisonBoxModal';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
+import apiInstance from '@/api/instance';
 
 const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => {
   const router = useRouter();
@@ -51,7 +51,7 @@ const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => 
 
   const handleRecord = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/drink/date/menu`, {
+      await apiInstance.post('/drink/date/menu', {
         menuNo: drinkHistoryData?.menuNo,
       });
       openRecordCompleteModal();

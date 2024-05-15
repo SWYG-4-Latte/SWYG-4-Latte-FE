@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import axios from 'axios';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
 import { Menu } from '@/types/menu/menu';
@@ -8,6 +7,7 @@ import SearchResultHeader from '@/components/search/SearchResultHeader';
 import SearchListSkeleton, { SearchListItemSkeleton } from '@/components/common/skeleton/SearchListSkeleton';
 import { MENU_PER_PAGE } from '@/constants/menu/menuList';
 import { useIntersect } from '@/hooks/useIntersect';
+import apiInstance from '@/api/instance';
 
 interface SearchResultContainerProps {
   query: string;
@@ -31,7 +31,7 @@ const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultCont
   const getSearchResults = async (pageNumber: number) => {
     setIsLoading(true);
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/list`, {
+      const { data } = await apiInstance.get('/menu/list', {
         params: {
           word: query,
           page: pageNumber,
@@ -41,11 +41,11 @@ const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultCont
         },
       });
 
-      setSearchResults((prev) => (pageNumber === 0 ? data.data.content : [...prev, ...data.data.content]));
+      setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
 
-      setTotalResults(data.data.totalElements);
-      setHasResult(data.data.totalElements !== 0);
-      setPage(data.data.number + 1);
+      setTotalResults(data.totalElements);
+      setHasResult(data.totalElements !== 0);
+      setPage(data.number + 1);
     } catch (error) {
       setIsError(true);
     }

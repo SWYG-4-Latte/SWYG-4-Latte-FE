@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import axios from 'axios';
 import dayjs from 'dayjs';
 
 import 'react-calendar/dist/Calendar.css';
@@ -12,6 +11,8 @@ import './calendar.css';
 import MonthComparisonMessage from './MonthComparisonMessage';
 import { SelectDateHandler, SelectedDatePiece, ThisMonthData } from '@/types/caffeineCalendar/calendar';
 import CaffeineStatus from './CaffeineStatus';
+import apiInstance from '@/api/instance';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 interface CaffeineCalendarProps {
   selectedDate: SelectedDatePiece;
@@ -19,6 +20,8 @@ interface CaffeineCalendarProps {
 }
 
 const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => {
+  const isLoggedIn = !!useLocalStorage('accessToken');
+
   const [thisMonthData, setThisMonthData] = useState<ThisMonthData | null>(null);
   const [activeDate, setActiveDate] = useState(new Date()); // 현재 보여지는 달의 1일
   const [today, setToday] = useState<SelectedDatePiece>(null);
@@ -43,20 +46,22 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
   }, []);
 
   useEffect(() => {
+    if (!isLoggedIn) return;
+
     const getThisMonthData = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/drink/calendar`, {
+      const { data } = await apiInstance.get('/drink/calendar', {
         params: {
           datetime: dayjs(activeDate).format('YYYY-MM'),
         },
       });
-      setThisMonthData(response.data.data);
+      setThisMonthData(data);
     };
 
     getThisMonthData();
   }, [activeDate]);
 
   return (
-    <div className="relative flex items-center justify-center bg-primaryIvory px-5 pt-2">
+    <div className="relative flex items-center justify-center border-b border-gray04 bg-primaryIvory px-5 pt-2">
       {thisMonthData && isVisibleMonthComparisonMessage && <MonthComparisonMessage status={thisMonthData.status} />}
       <Calendar
         locale="ko"
