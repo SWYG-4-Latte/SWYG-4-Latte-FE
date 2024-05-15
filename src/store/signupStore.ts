@@ -313,7 +313,7 @@ validatePregMonth: (month: string) => {
 },
 
 goToNextStep: async () => {
-  const { currentStep, termsAgreed, email, usernameChecked, password, confirmPassword, emailChecked, nicknameChecked, checkEmailDuplication, emailError } = get();
+  const { currentStep, termsAgreed, email, usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, nicknameChecked, checkEmailDuplication, emailError } = get();
 
   // Step 1에서 이메일 중복 검사를 추가
   if (currentStep === 1) {
@@ -333,6 +333,9 @@ goToNextStep: async () => {
     }
     if (password !== confirmPassword) {
       set({ confirmPasswordError: '비밀번호가 일치하지 않습니다.' });
+      return;
+    }
+    if (passwordError || confirmPasswordError) {
       return;
     }
   }
