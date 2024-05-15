@@ -198,7 +198,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       return;
     }
     const isNotDuplicate = await checkDuplicate('username', username);
-    set({ usernameError: isNotDuplicate ? null : '이미 사용중인 아이디입니다.' });
+    set({ usernameError: isNotDuplicate ? '사용 가능한 아이디 입니다.' : '이미 사용중인 아이디입니다.' });
   },
 
   checkEmailDuplication: async () => {
@@ -213,6 +213,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
     }
     const isNotDuplicate = await checkDuplicate('email', email);
     set({ emailError: isNotDuplicate ? null : '이미 사용 중인 이메일입니다.' });
+    console.log('Username duplication check result:', isNotDuplicate);
   },
 
   checkNicknameDuplication: async () => {
@@ -226,7 +227,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       return;
     }
     const isNotDuplicate = await checkDuplicate('nickname', nickname);
-    set({ nicknameError: isNotDuplicate ? null : '이미 사용중인 닉네임입니다.' });
+    set({ nicknameError: isNotDuplicate ? '사용 가능한 아이디 입니다.' : '이미 사용중인 닉네임입니다.' });
   },
 
   // 유효성 검사 메소드
@@ -307,8 +308,17 @@ validatePregMonth: (month: string) => {
   }
 },
 
-goToNextStep: () => {
-  const { currentStep, termsAgreed } = get();
+goToNextStep: async () => {
+  const { currentStep, termsAgreed, email, checkEmailDuplication, emailError } = get();
+
+  // Step 1에서 이메일 중복 검사를 추가
+  if (currentStep === 1) {
+    await checkEmailDuplication(email);
+    if (get().emailError) {
+      return;
+    }
+}
+
   if (currentStep === 2 && !termsAgreed) {
     set({ termsError: true });
   } else {

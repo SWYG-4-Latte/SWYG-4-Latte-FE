@@ -35,13 +35,17 @@ export default function FooterSection() {
     }
   };
 
+  const handleNextStep = async () => {
+    await goToNextStep();
+  };
+
   const renderedFooterSection = () => {
     switch(currentStep) {
       case 1:
         return (
           <section className="fixed left-0 bottom-0 w-full h-[96px] flex-all-center">
           <button 
-            onClick={goToNextStep}
+            onClick={handleNextStep}
             // disabled={!stepOneFilled}
             className={`
               w-[320px] h-[50px] rounded-md
