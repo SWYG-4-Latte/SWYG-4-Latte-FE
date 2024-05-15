@@ -55,11 +55,12 @@ const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
       </button>
       <div className="text-lg font-semibold text-primaryOrange">라떼핏의 음료 추천</div>
       <Image
+        priority
         src={menuInfo.imageUrl}
         width={0}
         height={0}
         sizes="100vw"
-        className="h-[140px] w-[140px] rounded-full bg-primaryBeige"
+        className="h-[140px] w-[140px] rounded-full"
         alt="추천 음료"
       />
       <div className="text-center text-sm leading-[20px] text-gray10">

@@ -8,7 +8,7 @@ const LoginModal = ({ isOpen, onClose }: ModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <Image src="/svgs/icon-login-modal.svg" width={48} height={48} alt="login icon" />
+      <Image priority src="/svgs/icon-login-modal.svg" width={48} height={48} alt="login icon" />
       <div className="text-lg font-semibold text-primaryOrange">로그인이 필요한 서비스입니다</div>
       <p className="text-center text-sm leading-[20px] text-gray10">
         지금 라떼핏을 시작해보세요! <br /> 더 다양한 서비스를 이용할 수 있어요.
