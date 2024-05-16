@@ -1,10 +1,14 @@
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 import { getArticleSearchResult } from '@/api/search';
 import { ArticleListSkeleton } from '@/components/common/skeleton/ArticleListSkeleton';
 import { Article } from '@/types/article/article';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 const ArticleRecommendationContainer = () => {
+  const router = useRouter();
+
   const [articleList, setArticleList] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,7 +29,11 @@ const ArticleRecommendationContainer = () => {
       <h1 className="pt-4 font-semibold text-gray10">이런 아티클은 어때요?</h1>
       {isLoading && <ArticleListSkeleton />}
       {articleList.map((article) => (
-        <div key={article.articleNo} className="my-4 flex cursor-pointer flex-col gap-3">
+        <div
+          key={article.articleNo}
+          className="my-4 flex cursor-pointer flex-col gap-3"
+          onClick={() => router.push(`/article/${article.articleNo}`)}
+        >
           <Image
             priority
             quality={100}
