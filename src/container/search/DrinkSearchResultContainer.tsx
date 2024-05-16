@@ -7,15 +7,15 @@ import SearchResultHeader from '@/components/search/SearchResultHeader';
 import SearchListSkeleton, { SearchListItemSkeleton } from '@/components/common/skeleton/SearchListSkeleton';
 import { MENU_PER_PAGE } from '@/constants/menu/menuList';
 import { useIntersect } from '@/hooks/useIntersect';
-import apiInstance from '@/api/instance';
+import { getDrinkSearchResult } from '@/api/search';
 
-interface SearchResultContainerProps {
+export interface SearchResultContainerProps {
   query: string;
-  filter: string | null;
+  filter?: string | null;
   setHasResult: Dispatch<SetStateAction<boolean>>;
 }
 
-const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultContainerProps) => {
+const DrinkSearchResultContainer = ({ query, filter, setHasResult }: SearchResultContainerProps) => {
   const [searchResults, setSearchResults] = useState<Menu[]>([]);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
@@ -31,18 +31,9 @@ const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultCont
   const getSearchResults = async (pageNumber: number) => {
     setIsLoading(true);
     try {
-      const { data } = await apiInstance.get('/menu/list', {
-        params: {
-          word: query,
-          page: pageNumber,
-          size: MENU_PER_PAGE,
-          sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
-          cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
-        },
-      });
+      const data = await getDrinkSearchResult(query, filter, pageNumber);
 
       setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
-
       setTotalResults(data.totalElements);
       setHasResult(data.totalElements !== 0);
       setPage(data.number + 1);
@@ -78,4 +69,4 @@ const SearchResultContainer = ({ query, filter, setHasResult }: SearchResultCont
   );
 };
 
-export default SearchResultContainer;
+export default DrinkSearchResultContainer;

@@ -17,12 +17,13 @@ const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompl
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="text-lg font-semibold text-primaryOrange">오늘 마신 카페인</div>
       <Image
+        priority
         src={menuImg}
         width={0}
         height={0}
         sizes="100vw"
         alt={menuName}
-        className="h-20 w-20 rounded-full bg-primaryBeige"
+        className="h-20 w-20 rounded-full"
       />
       <p className="text-center text-sm leading-[20px] text-gray10">
         카페인 기록을 완료했어요. <br /> 오늘 마신 카페인을 확인하러 갈까요?
