@@ -30,11 +30,11 @@ const ArticleListItem = ({ article }: { article: Article }) => {
         <div className="line-clamp-1 font-medium text-gray10">{title}</div>
         <div className="flex items-center gap-[10px] text-sm text-gray06">
           <span>{dayjs(regDate).format('YYYY.MM.DD')}</span>
-          <div className="gap-1">
+          <div className="flex gap-1">
             <span>조회수</span>
             <span className="text-gray08">{viewCnt}</span>
           </div>
-          <div className="gap-1">
+          <div className="flex gap-1">
             <span>추천해요</span>
             <span className="text-gray08">{likeCnt}</span>
           </div>

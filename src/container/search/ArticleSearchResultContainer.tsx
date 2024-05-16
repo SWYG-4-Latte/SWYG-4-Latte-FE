@@ -7,6 +7,7 @@ import { SearchResultContainerProps } from './DrinkSearchResultContainer';
 import ArticleListItem from '@/components/article/ArticleListItem';
 import { Article } from '@/types/article/article';
 import { getArticleSearchResult } from '@/api/search';
+import { ArticleSearchListSkeleton } from '@/components/common/skeleton/ArticleListSkeleton';
 
 const ArticleSearchResultContainer = ({ query, setHasResult }: SearchResultContainerProps) => {
   const [searchResults, setSearchResults] = useState<Article[]>([]);
@@ -51,7 +52,7 @@ const ArticleSearchResultContainer = ({ query, setHasResult }: SearchResultConta
         <div className="font-semibold leading-[22px] text-gray10">검색 결과</div>
         <div className="text-xs text-primaryOrange">{totalResults}건</div>
       </div>
-      {searchResults.length === 0 && <>{isLoading ? <SearchListSkeleton /> : <NoSearchResults />}</>}
+      {searchResults.length === 0 && <>{isLoading ? <ArticleSearchListSkeleton /> : <NoSearchResults />}</>}
       <ul>
         {searchResults.map((result) => (
           <ArticleListItem key={result.articleNo} article={result} />

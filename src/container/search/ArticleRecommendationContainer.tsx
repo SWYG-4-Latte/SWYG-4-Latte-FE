@@ -1,5 +1,5 @@
 import { getArticleSearchResult } from '@/api/search';
-import ArticleListSkeleton from '@/components/common/skeleton/ArticleListSkeleton';
+import { ArticleListSkeleton } from '@/components/common/skeleton/ArticleListSkeleton';
 import { Article } from '@/types/article/article';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
