@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { Article } from '@/types/article/article';
 
 const ArticleListItem = ({ article }: { article: Article }) => {
-  const { imageUrl, title, viewCnt, likeCnt, regDate, articleNo } = article;
+  const { images, title, viewCnt, likeCnt, regDate, articleNo } = article;
 
   const router = useRouter();
 
@@ -16,12 +16,13 @@ const ArticleListItem = ({ article }: { article: Article }) => {
     >
       <div className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-lg">
         <Image
-          src={imageUrl ?? '/images/img-splash.png'}
+          src={images.imgUrl1}
           alt={title}
           width={0}
           height={0}
           sizes="100vw"
           className="h-full w-full"
+          style={{ objectFit: 'cover' }}
           priority
         />
       </div>
