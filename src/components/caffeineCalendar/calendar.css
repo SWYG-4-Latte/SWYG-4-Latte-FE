@@ -11,7 +11,7 @@ button.react-calendar__navigation__label {
   @apply min-w-[120px];
 
   span {
-    @apply whitespace-nowrap text-lg font-semibold text-gray10;
+    @apply whitespace-nowrap text-lg font-semibold text-gray10 !important;
   }
 }
 
@@ -47,7 +47,7 @@ button.react-calendar__navigation__arrow {
   }
 
   &:disabled {
-    @apply bg-transparent text-gray06;
+    @apply bg-transparent text-gray06 !important;
   }
 }
 
