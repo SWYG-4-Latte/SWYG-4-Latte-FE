@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const NoSearchResults = () => {
   return (
-    <div className="flex h-[calc(100dvh-244px)] flex-col items-center justify-center overflow-hidden">
+    <div className="flex h-[calc(100dvh-164px)] flex-col items-center justify-center overflow-hidden">
       <Image
         src="/svgs/no-search-results.svg"
         alt="검색 결과 없음"
