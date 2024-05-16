@@ -13,7 +13,16 @@ const DrinkItem = ({ imageUrl, menuName, menuNo }: Menu) => {
         className="flex h-[68px] w-[68px] cursor-pointer items-center justify-center overflow-hidden rounded-full"
         onClick={() => router.push(`/menu/${menuNo}`)}
       >
-        <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" priority />
+        <Image
+          priority
+          src={imageUrl}
+          alt={menuName}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="h-auto w-full"
+          style={{ objectFit: 'cover' }}
+        />
       </div>
       <div className="line-clamp-2 text-center text-xs text-gray08">{menuName}</div>
     </div>

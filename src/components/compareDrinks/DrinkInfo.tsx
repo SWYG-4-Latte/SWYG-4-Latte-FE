@@ -29,6 +29,7 @@ const DrinkInfo = ({ drink, onDelete }: { drink: ComparedMenu | null; onDelete: 
           width={0}
           height={0}
           sizes="100vw"
+          style={{ objectFit: 'cover' }}
           className={`h-full w-20 rounded-full ${!drink ? 'cursor-pointer' : undefined}`}
           alt={drink ? drink.menuName : '음료를 추가해주세요'}
           onMouseOver={() => setIsHovered(true)}

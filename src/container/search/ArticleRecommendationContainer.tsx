@@ -37,7 +37,7 @@ const ArticleRecommendationContainer = () => {
           <Image
             priority
             quality={100}
-            src={article.images.imgUrl1}
+            src={article.images.imgUrl2}
             alt={article.title}
             width={0}
             height={0}
