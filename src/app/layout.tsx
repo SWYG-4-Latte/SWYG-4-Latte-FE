@@ -6,7 +6,7 @@ import ToastMessageContainer from '@/components/common/ToastMessageContainer';
 
 export const metadata: Metadata = {
   title: {
-    template: '라떼 핏 | %s',
+    template: '%s | 라떼 핏 ',
     default: '라떼 핏',
   },
   description: '나에게 핏한 카페인 관리, 라떼 핏의 조언 한 잔으로 시작하세요.',
@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: '#FCFAF8',
+  userScalable: false,
 };
 
 export default function RootLayout({
