@@ -15,7 +15,7 @@ const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHis
         }
       }}
     >
-      <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
+      <div className="flex h-12 w-12 min-w-12 items-center justify-center overflow-hidden rounded-full">
         <Image
           priority
           src={drinkHistoryData?.imageUrl || '/svgs/beverage-small.svg'}
@@ -23,14 +23,14 @@ const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHis
           width={0}
           height={0}
           sizes="100vw"
-          className="h-auto w-full"
+          className="h-full w-full"
         />
       </div>
-      <div className="flex w-[162px] flex-col justify-center gap-2">
+      <div className="flex flex-col justify-center gap-2">
         <div className="line-clamp-1 text-ellipsis text-sm font-medium text-gray10">
           {drinkHistoryData ? drinkHistoryData.menuName : heading}
         </div>
-        <div className="flex items-center text-ellipsis text-nowrap text-xs text-gray08">
+        <div className="flex items-center text-ellipsis text-xs text-gray08">
           {drinkHistoryData ? (
             <>
               <div>{drinkHistoryData.brand}</div>
