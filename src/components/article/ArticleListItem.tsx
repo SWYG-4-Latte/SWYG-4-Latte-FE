@@ -21,7 +21,7 @@ const ArticleListItem = ({ article }: { article: Article }) => {
           width={0}
           height={0}
           sizes="100vw"
-          className="h-auto w-full"
+          className="h-full w-full"
           priority
         />
       </div>

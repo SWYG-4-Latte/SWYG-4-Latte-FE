@@ -15,12 +15,12 @@ export const getDrinkSearchResult = async (query: string, filter: string | null 
   return data;
 };
 
-export const getArticleSearchResult = async (query: string, page: number) => {
+export const getArticleSearchResult = async (query: string | null, page: number, size: number = 4) => {
   const { data } = await apiInstance.get('/article/list', {
     params: {
       page,
+      size,
       keyword: query,
-      size: 4,
     },
   });
 
