@@ -74,14 +74,14 @@ export default function FooterSection() {
             <div className="flex w-full items-center space-x-2">
               <button
                 onClick={goToNextStep}
-                className="h-[50px] min-w-[118px] grow-[2] rounded-md border border-gray05 bg-gray01 font-semibold text-gray08"
+                className="h-[50px] min-w-[118px] grow-[2] rounded-lg border border-gray05 bg-gray01 font-semibold text-gray08"
               >
                 나중에 입력
               </button>
               <button
                 onClick={goToNextStep}
                 disabled={!stepThreeFilled}
-                className={`h-[50px] min-w-[194px] grow-[3] rounded-md font-semibold
+                className={`h-[50px] min-w-[194px] grow-[3] rounded-lg font-semibold
                 ${stepThreeFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}
               >
                 마지막 페이지로
@@ -95,13 +95,13 @@ export default function FooterSection() {
             <div className="flex w-full items-center space-x-2">
               <button
                 onClick={goToNextStep}
-                className="h-[50px] min-w-[118px] grow-[2] rounded-md border border-gray05 bg-gray01 font-semibold text-gray08"
+                className="h-[50px] min-w-[118px] grow-[2] rounded-lg border border-gray05 bg-gray01 font-semibold text-gray08"
               >
                 나중에 입력
               </button>
               <button
                 onClick={goToNextStep}
-                className={`h-[50px] min-w-[194px] grow-[3] rounded-md font-semibold
+                className={`h-[50px] min-w-[194px] grow-[3] rounded-lg font-semibold
                 ${stepFourFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}
               >
                 라떼핏과 함께 해요!

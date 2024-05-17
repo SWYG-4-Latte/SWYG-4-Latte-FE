@@ -117,7 +117,7 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('username', true)}
               onBlur={() => handleFocusChange('username', false)}
               placeholder="아이디"
-              className={`h-[50px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+              className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
                           placeholder:text-gray08 ${usernameError ? 'border-primaryRed' : usernameFocused ? 'border-primaryOrange' : 'border-gray05'}
                         `}
             />
@@ -131,14 +131,14 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('password', true)}
               onBlur={() => handleFocusChange('password', false)}
               placeholder="비밀번호"
-              className={`h-[50px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+              className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
                           placeholder:text-gray08 ${passwordError ? 'border-primaryRed' : passwordFocused ? 'border-primaryOrange' : 'border-gray05'}
             `}
             />
             {passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}
           </div>
           <button
-            className={`h-[50px] rounded-md font-semibold ${isInputValid ? 'bg-primaryOrange text-gray00 ' : 'bg-orange02 text-gray06'}`}
+            className={`h-[50px] rounded-lg font-semibold ${isInputValid ? 'bg-primaryOrange text-gray00 ' : 'bg-orange02 text-gray06'}`}
           >
             로그인
           </button>

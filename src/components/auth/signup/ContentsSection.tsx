@@ -147,7 +147,7 @@ export default function ContentsSection() {
                       onFocus={() => handleFocusChange('username', true)}
                       onBlur={() => handleFocusChange('username', false)}
                       placeholder="아이디(6~12자 이내, 숫자/영문조합)"
-                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-md border bg-gray01 px-4 py-4 text-[14px] leading-6 text-gray10 outline-none
+                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-lg border bg-gray01 px-4 py-4 text-[14px] leading-6 text-gray10 outline-none
                               placeholder:text-gray08 ${usernameError ? (usernameError === '사용 가능한 아이디 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : usernameFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                     />
                     <button
@@ -179,7 +179,7 @@ export default function ContentsSection() {
                   onFocus={() => handleFocusChange('email', true)}
                   onBlur={() => handleFocusChange('email', false)}
                   placeholder="ex) latte@example.com"
-                  className={`h-[50px] w-full rounded-md border bg-gray01 px-5 py-4 text-[14px] leading-6 text-gray10 outline-none
+                  className={`h-[50px] w-full rounded-lg border bg-gray01 px-5 py-4 text-[14px] leading-6 text-gray10 outline-none
                               placeholder:text-gray08 ${emailError ? 'border-primaryRed' : emailFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                 />
                 {emailError && <p className="mt-2 text-xs text-primaryRed">{emailError}</p>}
@@ -196,7 +196,7 @@ export default function ContentsSection() {
                       onFocus={() => handleFocusChange('nickname', true)}
                       onBlur={() => handleFocusChange('nickname', false)}
                       placeholder="한글 3자 이상, 8자 이하"
-                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-md border bg-gray01 px-4 py-4 text-[14px] leading-6 text-gray10 outline-none
+                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-lg border bg-gray01 px-4 py-4 text-[14px] leading-6 text-gray10 outline-none
                               placeholder:text-gray08 ${nicknameError ? (nicknameError === '사용 가능한 닉네임 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : nicknameFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                     />
                     <button
@@ -234,7 +234,7 @@ export default function ContentsSection() {
                   onFocus={() => setPasswordFocused(true)}
                   onBlur={() => setPasswordFocused(false)}
                   placeholder="비밀번호(10자 이상, 영어 소문자/숫자/특수문자)조합"
-                  className={`h-[50px] min-w-[320px] grow rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+                  className={`h-[50px] min-w-[320px] grow rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
                   placeholder:text-gray08 ${passwordError ? 'border-primaryRed' : passwordFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                 />
                 {passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}
@@ -248,7 +248,7 @@ export default function ContentsSection() {
                   onFocus={() => setConfirmPasswordFocused(true)}
                   onBlur={() => setConfirmPasswordFocused(false)}
                   placeholder="다시 한번 입력해주세요."
-                  className={`h-[50px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+                  className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
                     placeholder:text-gray08 ${confirmPasswordError ? 'border-primaryRed' : confirmPasswordFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                 />
                 {confirmPasswordError && <span className="text-xs text-primaryRed">{confirmPasswordError}</span>}
@@ -322,7 +322,7 @@ export default function ContentsSection() {
                       onFocus={() => setAgeFocused(true)}
                       onBlur={() => setAgeFocused(false)}
                       placeholder="만 나이를 입력해주세요."
-                      className={`h-[50px] grow rounded-md border bg-gray01 px-4 py-4 text-[14px] text-gray10 outline-none
+                      className={`h-[50px] grow rounded-lg border bg-gray01 px-4 py-4 text-[14px] text-gray10 outline-none
                               placeholder:text-gray08 ${ageError ? 'border-primaryRed' : ageFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                     />
                     <span className="text-sm">세</span>{' '}
@@ -360,7 +360,7 @@ export default function ContentsSection() {
                     <button
                       type="button"
                       className={`flex-all-center h-[34px] w-[96px] rounded-md border px-4 py-2 text-sm
-                                ${pregnancy ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 text-gray08'}`}
+                                ${pregnancy ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 bg-primaryIvory text-gray08'}`}
                       onClick={() => togglePregnancy(!pregnancy)}
                     >
                       예
@@ -368,7 +368,7 @@ export default function ContentsSection() {
                     <button
                       type="button"
                       className={`flex-all-center h-[34px] w-[96px] rounded-md border px-4 py-2 text-sm
-                                  ${!pregnancy ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 text-gray08'}`}
+                                  ${!pregnancy ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 bg-primaryIvory text-gray08'}`}
                       onClick={() => togglePregnancy(false)}
                     >
                       아니요
@@ -387,7 +387,7 @@ export default function ContentsSection() {
                       onFocus={() => setPregMonthFocused(true)}
                       onBlur={() => setPregMonthFocused(false)}
                       placeholder="임신 개월 수를 입력해주세요."
-                      className={`h-[50px] w-[288px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+                      className={`h-[50px] w-[288px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
                                     placeholder:text-gray08 ${pregMonthError ? 'border-primaryRed' : pregMonthFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                     />
                     <span className="whitespace-nowrap text-sm">개월</span>
