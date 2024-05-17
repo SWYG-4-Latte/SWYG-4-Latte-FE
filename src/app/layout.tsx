@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 
 import '../styles/globals.css';
 import { pretendard } from '@/styles/fonts';
@@ -35,6 +36,7 @@ export default function RootLayout({
         <div id="modal-root" />
         <main>{children}</main>
         <ToastMessageContainer />
+        <Script src="https://cdn.swygbro.com/public/widget/swyg-widget.js" strategy="beforeInteractive" />
       </body>
     </html>
   );
