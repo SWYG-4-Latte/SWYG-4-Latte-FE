@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Menu } from '@/types/menu/menu';
@@ -26,7 +26,7 @@ const RankingListItem = ({
   const { isOpen: isLoginModalOpen, openModal: openLoginModal, closeModal: closeLoginModal } = useModal();
   const isLoggedIn = !!useLocalStorage('accessToken');
 
-  const [isHover, setIsHover] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(true);
 
   const handleRecordCaffeine = async (e: MouseEvent) => {
     e.stopPropagation();
@@ -68,11 +68,11 @@ const RankingListItem = ({
             <div>{menuSize}</div>
           </div>
         </div>
-        <div className="relative ml-auto" onMouseOver={() => setIsHover(true)} onMouseOut={() => setIsHover(false)}>
+        <div className="relative ml-auto">
           <button onClick={handleRecordCaffeine}>
             <Image src="/svgs/plus.svg" width={32} height={32} alt="카페인 기록하기 버튼" />
           </button>
-          {isHover && (
+          {isTooltipOpen && ranking === 1 && (
             <div className="absolute -right-2 -top-[64px] z-10 h-[60px] w-[164px]">
               <p className="absolute z-10 px-4 py-2 text-xs leading-[18px] text-gray00">
                 오늘 마신 카페인으로
@@ -82,7 +82,7 @@ const RankingListItem = ({
                 className="absolute right-4 top-2 h-4 w-4"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIsHover(false);
+                  setIsTooltipOpen(false);
                 }}
               >
                 <Image src="/svgs/close-white.svg" width={16} height={16} alt="닫기" />
