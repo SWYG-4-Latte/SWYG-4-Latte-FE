@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
 // NEXT && React
-import Image from "next/image"
-import Link from "next/link"
-import React, { useState, useMemo, useEffect } from 'react'
-import { fetchMemberInfo } from "@/utils/mypage/isMember"
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useState, useMemo, useEffect } from 'react';
+import { fetchMemberInfo } from '@/utils/mypage/isMember';
 //Zustand
 
 interface IMemberInfo {
@@ -37,45 +37,45 @@ interface IMemberData {
 }
 
 export default function MypageUserInfo() {
+  const [memberData, setMemberData] = useState<IMemberData | null>(null);
+  const [memberInfo, setMemberInfo] = useState<IMemberInfo | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
-  const [memberData, setMemberData] = useState<IMemberData| null>(null)
-  const [memberInfo, setMemberInfo] = useState<IMemberInfo | null>(null)
-  const [accessToken, setAccessToken] = useState<string | null>(null)
-
-  useEffect(()=> {
-    console.log('fetch memberInfo useEffect working in MY')
+  useEffect(() => {
+    console.log('fetch memberInfo useEffect working in MY');
     const loadMemberInfo = async () => {
-      const info = await fetchMemberInfo()
-      setMemberData(info)
-      setMemberInfo(info.member)
-    }
+      const info = await fetchMemberInfo();
+      setMemberData(info);
+      setMemberInfo(info.member);
+    };
 
-    loadMemberInfo()
-  },[])
+    loadMemberInfo();
+  }, []);
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'));
   }, []);
 
-  console.log(memberData)
-  console.log(memberInfo)
+  console.log(memberData);
+  console.log(memberInfo);
 
   const nicknameText = memberInfo ? memberInfo.nickname : '사용자';
   const genderText = memberInfo ? (memberInfo.gender === 'M' ? '남성' : memberInfo.gender === 'F' ? '여성' : '-') : '-';
-  const pregnancyText = memberInfo ? ( memberInfo.pregnancy
+  const pregnancyText = memberInfo
+    ? memberInfo.pregnancy
       ? `예${memberInfo.pregMonth ? ' / ' + memberInfo.pregMonth + '개월' : ''}`
       : '아니요'
-  ) : '-';
+    : '-';
   const caffeineText = memberData?.caffeinIntake ? memberData.caffeinIntake + 'mg' : '-';
 
   const formatAllergyText = (allergies: string) => {
-    const allergyList = allergies.split(', ').filter(Boolean)
+    const allergyList = allergies.split(', ').filter(Boolean);
 
     if (allergyList[0] === '없어요') {
       return '-';
     }
 
-    switch(allergies.length) {
+    switch (allergies.length) {
       case 0:
         return '-';
       case 1:
@@ -84,47 +84,43 @@ export default function MypageUserInfo() {
         return allergyList.join(', ');
       default:
         return `${allergyList[0]} 외 다수`;
-      }
-  }
-  
+    }
+  };
+
   const allergyText = memberInfo?.allergy ? formatAllergyText(memberInfo.allergy) : '-';
 
-
   const renderBeforeLogin = (
-    <div className="flex flex-col space-y-2 justify-center">
-      <Link href='/auth/login'>
-      <div className="flex">
-          <div>로그인해주세요</div>
-          <Image 
-            src="/svgs/svg_rightArrow.svg"
-            alt="right-Arrow"
-            width={16}
-            height={16}
-            priority
-            unoptimized
-            />
-      </div>
+    <div className="flex flex-col justify-center space-y-2">
+      <Link href="/auth/login">
+        <div className="flex items-center gap-1">
+          <div className="text-lg font-semibold">로그인 해주세요</div>
+          <Image src="/svgs/svg_rightArrow.svg" alt="right-Arrow" width={16} height={16} priority unoptimized />
+        </div>
       </Link>
-      <div className="px-4 py-2 w-[186px] h-[28px] bg-orange01 text-primaryOrange rounded-md text-[10px] whitespace-nowrap">
+      <div className="h-[28px] w-[186px] whitespace-nowrap rounded-md bg-orange01 px-4 py-2 text-[10px] text-primaryOrange">
         나에게 적절한 카페인 양을 알 수 있어요!
       </div>
     </div>
   );
 
   const renderAfterLogin = (
-    <div className="ml-4 w-full flex items-center justify-between">
-      <div className="font-semibold">{nicknameText}<span className="text-gray08 ">님</span></div>
-      <Link href='/mypage/my-profile'>
-        <div className="bg-gray01 text-gray08 border-gray05 flex-all-center rounded-md w-[61px] h-[26px] border text-xs">내 프로필</div>
+    <div className="ml-4 flex w-full items-center justify-between">
+      <div className="font-semibold">
+        {nicknameText}
+        <span className="ml-[2px] text-gray08">님</span>
+      </div>
+      <Link href="/mypage/my-profile">
+        <div className="flex-all-center h-[26px] w-[61px] rounded-md border border-gray05 bg-gray01 text-xs text-gray08">
+          내 프로필
+        </div>
       </Link>
     </div>
   );
 
-
   return (
-    <>
-      <section className="bg-gray00 min-w-[360px] px-5 flex-all-center w-full h-[94px]">
-        <div className="flex items-center w-full max-w-[360px]">
+    <div className="w-full pt-14">
+      <section className="flex-all-center h-[94px] w-full bg-primaryIvory px-5 py-[18px]">
+        <div className="flex w-full items-center">
           <Link href="/home">
             <Image
               src="/svgs/svg_profile.svg"
@@ -137,63 +133,42 @@ export default function MypageUserInfo() {
             />
           </Link>
           {/* 조건부렌더링 */}
-          { accessToken ? renderAfterLogin : renderBeforeLogin }
+          {accessToken ? renderAfterLogin : renderBeforeLogin}
         </div>
       </section>
-      <section className="flex items-center justify-center px-5 max-w-[360px] w-full h-[156px]">
-          {/* 성별 / 임신여부 / 적정 카페인량 / 알레르기 */}
-          <article className="px-[26px] py-[16px] flex items-center justify-between bg-gray01 w-[320px] h-[111px] rounded-lg shadow-md border border-gray04">
-            {/* ITEMS */}
-            <div className="flex flex-col items-center justify-center">
-              <Image 
-                src='/svgs/svg_my-sex.svg'
-                alt="my-sex"
-                width={40}
-                height={40}
-                priority
-                unoptimized
-              />
-              <p className="text-xs text-gray08 mt-[7px]">성별</p>
-              <p className="text-sm font-bold">{genderText}</p>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <Image 
-                src='/svgs/svg_my-pregnancy.svg'
-                alt="my-pregnancy"
-                width={40}
-                height={40}
-                priority
-                unoptimized
-              />
-              <p className="text-xs text-gray08 mt-[7px]">임신 여부</p>
-              <p className="text-sm font-bold">{pregnancyText}</p>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <Image 
-                src='/svgs/svg_my-caffeinefit.svg'
-                alt="my-caffeinefit"
-                width={40}
-                height={40}
-                priority
-                unoptimized
-              />
-              <p className="text-xs text-gray08 mt-[7px]">적정 카페인량</p>
-              <p className="text-sm font-bold">{caffeineText}</p>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <Image 
-                src='/svgs/svg_my-allergy.svg'
-                alt="my-allergy"
-                width={40}
-                height={40}
-                priority
-                unoptimized
-              />
-              <p className="text-xs text-gray08 mt-[7px]">알레르기</p>
-              <p className="text-sm font-bold">{allergyText}</p>
-            </div>
-          </article>
+      <section className="flex h-[156px] w-full items-center justify-center px-5">
+        {/* 성별 / 임신여부 / 적정 카페인량 / 알레르기 */}
+        <article className="flex h-[111px] w-full items-center justify-between rounded-xl border border-gray04 bg-gray01 px-[26px] py-[16px] shadow-toast">
+          {/* ITEMS */}
+          <div className="flex flex-col items-center justify-center">
+            <Image src="/svgs/svg_my-sex.svg" alt="my-sex" width={40} height={40} priority unoptimized />
+            <p className="mt-[7px] text-xs text-gray08">성별</p>
+            <p className="text-xs font-semibold">{genderText}</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <Image src="/svgs/svg_my-pregnancy.svg" alt="my-pregnancy" width={40} height={40} priority unoptimized />
+            <p className="mt-[7px] text-xs text-gray08">임신 여부</p>
+            <p className="text-xs font-semibold">{pregnancyText}</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src="/svgs/svg_my-caffeinefit.svg"
+              alt="my-caffeinefit"
+              width={40}
+              height={40}
+              priority
+              unoptimized
+            />
+            <p className="mt-[7px] text-xs text-gray08">적정 카페인량</p>
+            <p className="text-xs font-semibold">{caffeineText}</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <Image src="/svgs/svg_my-allergy.svg" alt="my-allergy" width={40} height={40} priority unoptimized />
+            <p className="mt-[7px] text-xs text-gray08">알레르기</p>
+            <p className="text-xs font-semibold">{allergyText}</p>
+          </div>
+        </article>
       </section>
-    </>
-  )
+    </div>
+  );
 }
