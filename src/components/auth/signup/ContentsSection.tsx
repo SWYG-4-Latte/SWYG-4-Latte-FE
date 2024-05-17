@@ -147,8 +147,8 @@ export default function ContentsSection() {
                       onFocus={() => handleFocusChange('username', true)}
                       onBlur={() => handleFocusChange('username', false)}
                       placeholder="아이디(6~12자 이내, 숫자/영문조합)"
-                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                              placeholder:tracking-tighter ${usernameError ? (usernameError === '사용 가능한 아이디 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : usernameFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
+                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-md border bg-gray01 px-4 py-4 text-[14px] leading-6 text-gray10 outline-none
+                              placeholder:text-gray08 ${usernameError ? (usernameError === '사용 가능한 아이디 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : usernameFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                     />
                     <button
                       type="button"
@@ -179,8 +179,8 @@ export default function ContentsSection() {
                   onFocus={() => handleFocusChange('email', true)}
                   onBlur={() => handleFocusChange('email', false)}
                   placeholder="ex) latte@example.com"
-                  className={`h-[50px] w-full rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10
-                              outline-none ${emailError ? 'border-primaryRed' : emailFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
+                  className={`h-[50px] w-full rounded-md border bg-gray01 px-5 py-4 text-[14px] leading-6 text-gray10 outline-none
+                              placeholder:text-gray08 ${emailError ? 'border-primaryRed' : emailFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                 />
                 {emailError && <p className="mt-2 text-xs text-primaryRed">{emailError}</p>}
               </div>
@@ -196,8 +196,8 @@ export default function ContentsSection() {
                       onFocus={() => handleFocusChange('nickname', true)}
                       onBlur={() => handleFocusChange('nickname', false)}
                       placeholder="한글 3자 이상, 8자 이하"
-                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10
-                              outline-none ${nicknameError ? (nicknameError === '사용 가능한 닉네임 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : nicknameFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
+                      className={`mr-2 h-[50px] min-w-[236px] grow rounded-md border bg-gray01 px-4 py-4 text-[14px] leading-6 text-gray10 outline-none
+                              placeholder:text-gray08 ${nicknameError ? (nicknameError === '사용 가능한 닉네임 입니다.' ? 'border-primaryOrange' : 'border-primaryRed') : nicknameFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                     />
                     <button
                       type="button"
@@ -322,7 +322,7 @@ export default function ContentsSection() {
                       onFocus={() => setAgeFocused(true)}
                       onBlur={() => setAgeFocused(false)}
                       placeholder="만 나이를 입력해주세요."
-                      className={`h-[50px] grow rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+                      className={`h-[50px] grow rounded-md border bg-gray01 px-4 py-4 text-[14px] text-gray10 outline-none
                               placeholder:text-gray08 ${ageError ? 'border-primaryRed' : ageFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                     />
                     <span className="text-sm">세</span>{' '}

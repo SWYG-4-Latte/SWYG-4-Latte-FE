@@ -32,7 +32,7 @@ export default function LoginContainer() {
   } = useLoginStore();
 
   const handleBackMove = () => {
-    router.back();
+    router.push('/home');
   };
 
   const isInputValid = username.trim() !== '' && password.trim() !== '';
@@ -89,6 +89,7 @@ export default function LoginContainer() {
       <section className="flex-i-center h-[54px] w-full">
         <Image
           onClick={handleBackMove}
+          className="cursor-pointer"
           src="/svgs/svg_leftArrow.svg"
           alt="letfArrow"
           width={24}
