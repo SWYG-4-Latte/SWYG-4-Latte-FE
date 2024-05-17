@@ -86,7 +86,7 @@ export default function LoginContainer() {
 
   return (
     <div className="flex h-screen w-full flex-col items-center px-5 text-gray10">
-      <section className="flex-i-center h-[54px] w-full max-w-[360px]">
+      <section className="flex-i-center h-[54px] w-full">
         <Image
           onClick={handleBackMove}
           src="/svgs/svg_leftArrow.svg"
