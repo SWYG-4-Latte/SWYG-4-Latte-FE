@@ -107,8 +107,8 @@ export default function LoginContainer() {
       <section className="flex-all-center mb-10">
         <Image src="/svgs/svg_logo.svg" alt="logo" width={360} height={80} priority unoptimized />
       </section>
-      <section className="mb-6">
-        <form onSubmit={handleLogin} className="space-y-4">
+      <section className="mb-6 w-full">
+        <form onSubmit={handleLogin} className="flex w-full flex-col space-y-4">
           <div className="flex flex-col justify-center">
             <input
               type="text"
@@ -117,8 +117,8 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('username', true)}
               onBlur={() => handleFocusChange('username', false)}
               placeholder="아이디"
-              className={`h-[50px] w-[320px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                          placeholder:text-gray05 ${usernameError ? 'border-primaryRed' : usernameFocused ? 'border-primaryOrange' : 'border-gray05'}
+              className={`h-[50px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+                          placeholder:text-gray08 ${usernameError ? 'border-primaryRed' : usernameFocused ? 'border-primaryOrange' : 'border-gray05'}
                         `}
             />
             {usernameError && <p className="mt-2 text-xs text-primaryRed">{usernameError}</p>}
@@ -131,14 +131,14 @@ export default function LoginContainer() {
               onFocus={() => handleFocusChange('password', true)}
               onBlur={() => handleFocusChange('password', false)}
               placeholder="비밀번호"
-              className={`h-[50px] w-[320px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                          placeholder:text-gray05 ${passwordError ? 'border-primaryRed' : passwordFocused ? 'border-primaryOrange' : 'border-gray05'}
+              className={`h-[50px] rounded-md border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+                          placeholder:text-gray08 ${passwordError ? 'border-primaryRed' : passwordFocused ? 'border-primaryOrange' : 'border-gray05'}
             `}
             />
             {passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}
           </div>
           <button
-            className={`h-[50px] w-[320px] rounded-md font-semibold ${isInputValid ? 'bg-primaryOrange text-gray00 ' : 'bg-orange02 text-gray06'}`}
+            className={`h-[50px] rounded-md font-semibold ${isInputValid ? 'bg-primaryOrange text-gray00 ' : 'bg-orange02 text-gray06'}`}
           >
             로그인
           </button>
