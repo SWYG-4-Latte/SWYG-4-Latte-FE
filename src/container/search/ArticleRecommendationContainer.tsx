@@ -32,7 +32,7 @@ const ArticleRecommendationContainer = () => {
         <div
           key={article.articleNo}
           className="my-4 flex cursor-pointer flex-col gap-3"
-          onClick={() => router.push(`/article/${article.articleNo}`)}
+          onClick={() => router.push(`/article/detail/${article.articleNo}`)}
         >
           <Image
             priority

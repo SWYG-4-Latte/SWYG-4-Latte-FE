@@ -16,6 +16,10 @@ export interface ISignupState {
   term2Agreed: boolean;
   termsError: boolean;
 
+  usernameChecked: boolean,
+  emailChecked: boolean,
+  nicknameChecked: boolean,
+
   // 추가 사용자 정보
   age: string;
   gender: 'M' | 'F' | '';
@@ -42,6 +46,7 @@ export interface ISignupState {
   confirmPasswordFocused: boolean;
   ageFocused: boolean;
   pregMonthFocused: boolean;
+  
 
   // 현재 폼 단계
   currentStep: number;

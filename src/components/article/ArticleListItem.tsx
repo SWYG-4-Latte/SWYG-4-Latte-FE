@@ -11,7 +11,7 @@ const ArticleListItem = ({ article }: { article: Article }) => {
 
   return (
     <li
-      onClick={() => router.push(`/article/${articleNo}`)}
+      onClick={() => router.push(`/article/detail/${articleNo}`)}
       className="flex min-h-24 cursor-pointer items-center gap-4 border-b border-gray04 bg-gray02 px-4 py-4 last:border-none"
     >
       <div className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-lg">
