@@ -6,6 +6,7 @@ import { pretendard } from '@/styles/fonts';
 import ToastMessageContainer from '@/components/common/ToastMessageContainer';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://lattefit.swygbro.com'),
   title: {
     template: '%s | 라떼 핏 ',
     default: '라떼 핏',
