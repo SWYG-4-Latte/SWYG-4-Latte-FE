@@ -61,6 +61,7 @@ const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
         height={0}
         sizes="100vw"
         className="h-[140px] w-[140px] rounded-full"
+        style={{ objectFit: 'cover' }}
         alt="추천 음료"
       />
       <div className="text-center text-sm leading-[20px] text-gray10">
