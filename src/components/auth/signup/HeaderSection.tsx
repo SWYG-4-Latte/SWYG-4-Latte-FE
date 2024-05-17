@@ -29,7 +29,7 @@ export default function HeaderSection() {
           unoptimized
         />
       </Link>
-      {currentStep < 5 && <div className="font-pretendard text-md">회원가입</div>}
+      {currentStep < 5 && <div className="font-semibold text-md">회원가입</div>}
       {currentStep < 5 && <div className="w-6 h-6"/>} 
     </section>
   )
