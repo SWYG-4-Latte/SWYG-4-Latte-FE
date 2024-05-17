@@ -9,10 +9,10 @@
 
 button.react-calendar__navigation__label {
   @apply min-w-[120px];
+}
 
-  span {
-    @apply whitespace-nowrap text-lg font-semibold text-gray10;
-  }
+.react-calendar__navigation__label__labelText {
+  @apply whitespace-nowrap text-lg font-semibold text-gray10;
 }
 
 button.react-calendar__navigation__arrow {
@@ -32,23 +32,23 @@ button.react-calendar__navigation__arrow {
 /* 요일 */
 .react-calendar__month-view__weekdays {
   @apply mb-2 flex h-8 items-center border-b border-gray04 p-0 text-xs font-normal text-gray10;
+}
 
-  abbr {
-    @apply no-underline;
-  }
+.react-calendar__month-view__weekdays__weekday > abbr {
+  @apply no-underline;
 }
 
 /* 날짜(day) 타일 */
 .react-calendar__tile {
   @apply flex h-11 flex-col items-center text-nowrap bg-primaryIvory p-0;
+}
 
-  abbr {
-    @apply flex h-6 w-6 items-center justify-center text-sm;
-  }
+.react-calendar__tile > abbr {
+  @apply flex h-6 w-6 items-center justify-center text-sm leading-6;
+}
 
-  &:disabled {
-    @apply bg-transparent text-gray06;
-  }
+.react-calendar__tile:disabled {
+  @apply bg-transparent text-gray06;
 }
 
 .react-calendar__month-view__days__day {
@@ -73,7 +73,7 @@ button.react-calendar__navigation__arrow {
 .react-calendar__tile--active.react-calendar__tile--now,
 .react-calendar__tile--active:enabled:focus,
 .react-calendar__tile--active:enabled:hover {
-  @apply rounded border-none  bg-primaryAmber font-semibold text-gray00;
+  @apply rounded border-none bg-primaryAmber font-semibold text-gray00;
 }
 
 /* 오늘 날짜 타일*/
@@ -90,5 +90,9 @@ button.react-calendar__navigation__arrow {
 .react-calendar__decade-view__years__year,
 .react-calendar__year-view__months__month,
 .react-calendar__century-view__decades__decade {
-  @apply flex justify-center;
+  @apply line-clamp-1 flex justify-center text-nowrap text-gray10;
+}
+
+.react-calendar__tile--hasActive {
+  @apply text-primaryOrange;
 }

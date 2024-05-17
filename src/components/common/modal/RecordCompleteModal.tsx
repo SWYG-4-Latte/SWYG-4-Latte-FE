@@ -23,6 +23,7 @@ const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompl
         height={0}
         sizes="100vw"
         alt={menuName}
+        style={{ objectFit: 'cover' }}
         className="h-20 w-20 rounded-full"
       />
       <p className="text-center text-sm leading-[20px] text-gray10">

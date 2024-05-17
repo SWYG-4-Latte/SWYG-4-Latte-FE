@@ -10,7 +10,8 @@ export interface Article {
 }
 
 interface ArticleImages {
-  imgUrl1: string;
-  imgUrl2?: string;
+  imgUrl1: string; // thumbnail
+  imgUrl2: string;
   imgUrl3?: string;
+  imgUrl4?: string;
 }
