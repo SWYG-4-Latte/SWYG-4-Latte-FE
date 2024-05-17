@@ -21,7 +21,7 @@ const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
       onClick={() => router.push(`/menu/${menuNo}`)}
       className={`flex min-h-24 cursor-pointer items-center gap-4 border-b border-gray04 px-4 py-4 last:border-none ${price ? 'even:bg-gray03' : 'bg-gray02'}`}
     >
-      <div className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full bg-primaryBeige">
+      <div className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full">
         <Image src={imageUrl} alt={menuName} width={0} height={0} sizes="100vw" className="h-auto w-full" priority />
       </div>
       <div className="flex flex-col justify-center gap-2">

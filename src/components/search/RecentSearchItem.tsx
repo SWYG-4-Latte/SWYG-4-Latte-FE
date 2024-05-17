@@ -1,23 +1,26 @@
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 
 import { useRecentSearchStore } from '@/store/recentSearchStore';
 
 const RecentSearchItem = ({ word }: { word: string }) => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const searchTarget = pathname.includes('menu') ? 'drink' : 'article';
 
   const deleteRecentSearchWord = useRecentSearchStore((state) => state.deleteSearchWord);
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     params.set('query', word);
-    router.replace(`/menu/search?${params.toString()}`, { scroll: false });
+    router.replace(`search?${params.toString()}`, { scroll: false });
   };
 
   const handleDelete = (e: MouseEvent) => {
     e.stopPropagation();
-    deleteRecentSearchWord(word);
+    deleteRecentSearchWord(word, searchTarget);
   };
 
   return (
