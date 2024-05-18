@@ -1,6 +1,5 @@
 'use client';
 
-import LoginModal from '@/components/common/modal/LoginModal';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useModal from '@/hooks/useModal';
 import { useRouter } from 'next/navigation';
@@ -14,7 +13,7 @@ interface DrinkHistoryCardFooterProps {
 const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCardFooterProps) => {
   const router = useRouter();
 
-  const { isOpen, openModal, closeModal } = useModal();
+  const { openModal } = useModal('login');
   const isLoggedIn = !!useLocalStorage('accessToken');
 
   const handleRecord = () => {
@@ -41,7 +40,6 @@ const DrinkHistoryCardFooter = ({ isEmpty, onCompare, onRecord }: DrinkHistoryCa
             카페인 기록하러 가기
           </button>
         </div>
-        <LoginModal isOpen={isOpen} onClose={closeModal} />
       </>
     );
   }

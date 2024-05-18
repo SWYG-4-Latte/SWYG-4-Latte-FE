@@ -60,29 +60,25 @@ const Modal = ({ isOpen, onClose, children, isRecommendationModal = false }: Pro
   useOutsideClick(modalRef, onClose);
 
   return (
-    <Portal>
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <Backdrop>
-              <motion.div
-                ref={modalRef}
-                key="modal"
-                role="dialog"
-                className="shadow-modal fixed z-[999] flex w-[304px] flex-col items-center gap-4 rounded-2xl bg-gray02 px-5 py-6"
-                variants={modalVariants}
-                initial={isRecommendationModal ? 'recommendationHidden' : 'hidden'}
-                animate={isRecommendationModal ? 'recommendationVisible' : 'visible'}
-                exit="exit"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {children}
-              </motion.div>
-            </Backdrop>
-          </>
-        )}
-      </AnimatePresence>
-    </Portal>
+    <AnimatePresence>
+      {isOpen && (
+        <Backdrop>
+          <motion.div
+            ref={modalRef}
+            key="modal"
+            role="dialog"
+            className="fixed z-[999] flex w-[304px] flex-col items-center gap-4 rounded-2xl bg-gray02 px-5 py-6 shadow-modal"
+            variants={modalVariants}
+            initial={isRecommendationModal ? 'recommendationHidden' : 'hidden'}
+            animate={isRecommendationModal ? 'recommendationVisible' : 'visible'}
+            exit="exit"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {children}
+          </motion.div>
+        </Backdrop>
+      )}
+    </AnimatePresence>
   );
 };
 

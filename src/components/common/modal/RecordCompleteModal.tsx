@@ -1,20 +1,23 @@
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
-import Modal, { ModalProps } from './Modal';
+import Modal from './Modal';
 import Button from '../button/Button';
+import useModal from '@/hooks/useModal';
 
-interface RecordCompleteModalProps extends ModalProps {
+export interface RecordCompleteModalData {
   menuImg: string;
   menuName: string;
 }
 
-const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompleteModalProps) => {
+const RecordCompleteModal = ({ menuImg, menuName }: RecordCompleteModalData) => {
+  const { isOpen, closeModal } = useModal('recordComplete');
+
   const router = useRouter();
   const pathname = usePathname();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={closeModal}>
       <div className="text-lg font-semibold text-primaryOrange">오늘 마신 카페인</div>
       <Image
         priority
@@ -32,7 +35,7 @@ const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompl
         <button
           className="h-[50px] w-32 rounded-lg border border-gray05 bg-primaryIvory px-4 py-3 font-semibold leading-[25px] text-gray08 hover:border-0 hover:bg-gray06 hover:text-gray00"
           onClick={() => {
-            onClose();
+            closeModal();
             if (pathname === '/home') {
               window.location.reload();
             }
@@ -43,6 +46,7 @@ const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompl
         <Button
           className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
           onClick={() => {
+            closeModal();
             router.push('/calendar/today-caffeine');
             router.refresh();
           }}

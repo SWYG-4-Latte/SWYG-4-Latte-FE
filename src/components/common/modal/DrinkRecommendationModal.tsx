@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
-import Modal, { ModalProps } from './Modal';
+import Modal from './Modal';
 import Button from '../button/Button';
 import apiInstance from '@/api/instance';
 import useLocalStorage from '@/hooks/useLocalStorage';
+import useModal from '@/hooks/useModal';
 
 interface MenuInfo {
   menuNo: number;
@@ -16,7 +17,8 @@ interface MenuInfo {
   content: string;
 }
 
-const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
+const DrinkRecommendationModal = () => {
+  const { isOpen, closeModal } = useModal('recommendation');
   const router = useRouter();
 
   const isLoggedIn = !!useLocalStorage('accessToken');
@@ -31,7 +33,7 @@ const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
 
   const handleHideModal = () => {
     localStorage.setItem('hideModal', dayjs().add(1, 'day').valueOf().toString());
-    onClose();
+    closeModal();
   };
 
   useEffect(() => {
@@ -43,8 +45,8 @@ const DrinkRecommendationModal = ({ isOpen, onClose }: ModalProps) => {
   if (!menuInfo) return null;
 
   return (
-    <Modal isRecommendationModal isOpen={isOpen} onClose={onClose}>
-      <button className="absolute -top-14 right-0" onClick={onClose}>
+    <Modal isRecommendationModal isOpen={isOpen} onClose={closeModal}>
+      <button className="absolute -top-14 right-0" onClick={closeModal}>
         <Image priority src="/svgs/icon-modal-close.svg" width={32} height={32} alt="닫기" />
       </button>
       <button

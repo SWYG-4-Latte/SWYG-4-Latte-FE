@@ -1,16 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-const useModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+import { ModalData, ModalType, useModalStore } from '@/store/modalStore';
+
+const useModal = (modalType: ModalType) => {
+  const isOpen = useModalStore((state) => state.isOpen(modalType));
+  const modalOpen = useModalStore((state) => state.setModalOpen);
+  const modalClose = useModalStore((state) => state.setModalClose);
 
   const closeModal = () => {
-    setIsOpen(false);
+    modalClose(modalType);
   };
 
-  const openModal = () => {
-    setIsOpen(true);
+  const openModal = (data?: ModalData[typeof modalType]) => {
+    modalOpen(modalType, data);
   };
 
   useEffect(() => {

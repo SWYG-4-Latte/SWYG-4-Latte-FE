@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 import MenuInfoContainer from './MenuInfoContainer';
 import CaffeineComparisonContainer from './CaffeineComparisonContainer';
 import LowerCaffeineMenuContainer from './LowerCaffeineMenuContainer';
@@ -14,13 +13,12 @@ import { useRecentlyViewedDrinksStore } from '@/store/recentlyViewedDrinksStore'
 import { MenuDetail } from '@/types/menu/menu';
 import apiInstance from '@/api/instance';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import LoginModal from '@/components/common/modal/LoginModal';
 
 const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const { addDrinkToRecentlyViewedStore } = useRecentlyViewedDrinksStore();
 
-  const { isOpen: isCompleteModalOpen, openModal: openCompleteModal, closeModal: closeCompleteModal } = useModal();
-  const { isOpen: isLoginModalOpen, openModal: openLoginModal, closeModal: closeLoginModal } = useModal();
+  const { openModal: openCompleteModal } = useModal('recordComplete');
+  const { openModal: openLoginModal } = useModal('login');
 
   const isLoggedIn = !!useLocalStorage('accessToken');
 
@@ -40,7 +38,7 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
       await apiInstance.post('/drink/date/menu', {
         menuNo,
       });
-      openCompleteModal();
+      openCompleteModal({ menuImg: activeMenuDetail.imageUrl, menuName: activeMenuDetail.menuName });
     } catch (error) {
       toast('마신 메뉴 등록에 실패했습니다.');
     }
@@ -71,13 +69,6 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
         <LowerCaffeineMenuContainer menus={lowCaffeineMenus} />
         <FooterGradientButton onClick={handleRecord}>오늘 마신 카페인으로 기록하기</FooterGradientButton>
       </div>
-      <RecordCompleteModal
-        isOpen={isCompleteModalOpen}
-        onClose={closeCompleteModal}
-        menuImg={activeMenuDetail.imageUrl}
-        menuName={activeMenuDetail.menuName}
-      />
-      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </div>
   );
 };
