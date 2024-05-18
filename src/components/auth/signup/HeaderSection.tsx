@@ -6,6 +6,8 @@ import React from 'react';
 //Zustand
 import useSignupStore from '@/store/signupStore';
 
+import ProgressbarSection from './ProgressbarSection';
+
 export default function HeaderSection() {
   const { currentStep, goToPrevStep } = useSignupStore();
 
@@ -32,6 +34,7 @@ export default function HeaderSection() {
       </Link>
       {currentStep < 5 && <div className="text-md font-semibold">회원가입</div>}
       {currentStep < 5 && <div className="h-6 w-6" />}
+      <ProgressbarSection />
     </section>
   );
 }

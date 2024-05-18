@@ -11,7 +11,6 @@ export default function SignupContainer() {
     <div className="w-full text-gray10">
       <div className="relative flex w-full flex-col items-center pb-24">
         <HeaderSection />
-        <ProgressbarSection />
         <TitleSection />
         <ContentsSection />
         <FooterSection />

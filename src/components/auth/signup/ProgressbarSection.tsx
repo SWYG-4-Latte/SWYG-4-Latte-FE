@@ -9,7 +9,7 @@ export default function ProgressbarSection() {
   if (currentStep === 5) return null;
 
   return (
-    <div className="absolute top-14 h-[2px] w-full bg-gray03">
+    <div className="absolute left-0 top-14 h-[2px] w-full bg-gray03">
       <motion.div
         initial={{ width: `calc(${currentStep}/4*100%)` }}
         animate={{ width: `calc(${currentStep}/4*100%)` }}
