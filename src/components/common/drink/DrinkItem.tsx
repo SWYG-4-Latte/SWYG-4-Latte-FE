@@ -20,8 +20,7 @@ const DrinkItem = ({ imageUrl, menuName, menuNo }: Menu) => {
           width={0}
           height={0}
           sizes="100vw"
-          className="h-auto w-full"
-          style={{ objectFit: 'cover' }}
+          className="h-auto w-full object-cover"
         />
       </div>
       <div className="line-clamp-2 text-center text-xs text-gray08">{menuName}</div>

@@ -42,7 +42,7 @@ const ArticleRecommendationContainer = () => {
             width={0}
             height={0}
             sizes="100vw"
-            className="h-40 w-full rounded-lg"
+            className="h-40 w-full rounded-lg object-cover"
           />
           <div className="flex flex-col gap-2">
             <span className="line-clamp-1 font-medium text-gray10">{article.title}</span>

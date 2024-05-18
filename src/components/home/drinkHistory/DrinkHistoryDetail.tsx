@@ -23,8 +23,7 @@ const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHis
           width={0}
           height={0}
           sizes="100vw"
-          className="h-full w-full"
-          style={{ objectFit: 'cover' }}
+          className="h-full w-full object-cover"
         />
       </div>
       <div className="flex flex-col justify-center gap-2">

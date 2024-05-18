@@ -23,8 +23,7 @@ const RecordCompleteModal = ({ isOpen, onClose, menuImg, menuName }: RecordCompl
         height={0}
         sizes="100vw"
         alt={menuName}
-        style={{ objectFit: 'cover' }}
-        className="h-20 w-20 rounded-full"
+        className="h-20 w-20 rounded-full object-cover"
       />
       <p className="text-center text-sm leading-[20px] text-gray10">
         카페인 기록을 완료했어요. <br /> 오늘 마신 카페인을 확인하러 갈까요?

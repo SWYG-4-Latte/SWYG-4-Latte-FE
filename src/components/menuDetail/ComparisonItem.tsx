@@ -21,9 +21,8 @@ const ComparisonItem = ({ drink, onDelete }: ComparisonItemProps) => {
         src={drink ? drink.imageUrl : '/svgs/beverage.svg'}
         width={0}
         height={0}
-        style={{ objectFit: 'cover' }}
         sizes="100vw"
-        className="h-full w-20 rounded-full"
+        className="h-full w-20 rounded-full object-cover"
         alt="비교함 음료"
       />
       {drink && (
