@@ -107,7 +107,7 @@ export default function Article() {
           </button>
       </div>
         {/* ITEMS - Data Fetching  */}
-        <div className="w-full mt-4">
+        <div className="w-full mt-4 mb-20">
           {articles.map((article, index) => (
               <ArticleCard 
                   key={article.articleNo}

@@ -14,11 +14,16 @@ const CommentList: React.FC<CommentListProps> = ({ articleNo }) => {
     fetchComments(articleNo);
   }, [articleNo]);
 
+  console.log('comments:', comments)
+
   return (
     <div className="pb-24">
-      {comments.map((comment) => (
-        <CommentCard key={comment.commentNo} comment={comment} />
-      ))}
+      <h1>댓글</h1>
+      {comments
+        .filter((comment) => comment !== undefined) // undefined 항목 필터링
+        .map((comment) => (
+          <CommentCard key={comment.commentNo} comment={comment} />
+        ))}
     </div>
   );
 };
