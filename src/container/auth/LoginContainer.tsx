@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 //Libary
-import React from 'react';
+import React, { useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 // Zustand
@@ -29,11 +29,17 @@ export default function LoginContainer() {
     validatePassword,
     setLogin,
     isLoggedIn,
+    clearIdentity,
   } = useLoginStore();
 
   const handleBackMove = () => {
     router.push('/home');
   };
+
+    useEffect(() => {
+      clearIdentity();
+    }, []);
+  
 
   const isInputValid = username.trim() !== '' && password.trim() !== '';
 
