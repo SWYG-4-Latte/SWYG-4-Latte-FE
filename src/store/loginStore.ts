@@ -44,6 +44,11 @@ const useLoginStore = create<ILoginState>((set) => ({
       toastId: 'logout-success'
     })
   },
+  setUserInfo: (userInfo) => {
+    const { nickname } = userInfo;
+    set({ nickname });
+    localStorage.setItem('nickname', nickname);
+  },
 
   
   validateUsername: (username) => {

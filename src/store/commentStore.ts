@@ -1,5 +1,6 @@
 import axios from "axios";
 import { create } from "zustand";
+import { toast } from "react-toastify";
 
 
 interface IComment {
@@ -20,7 +21,7 @@ interface ICommentState {
   comments: IComment[];
   fetchComments: (articleNo: number) => Promise<void>;
   addComment: (articleNo: number, content: string, accessToken: string | null, nickname: string) => Promise<void>;
-  deleteComment: (commentNo: number) => Promise<void>;
+  deleteComment: (commentNo: number, accessToken: string | null) => Promise<void>;
   reportComment: (commentNo: number) => Promise<void>;
   likeComment: (commentNo: number) => Promise<void>;
 }
@@ -83,19 +84,28 @@ const useCommentStore = create<ICommentState>((set)=>({
       }));
     }
   },
-  deleteComment:  async (commentNo) => {
+  deleteComment: async (commentNo, accessToken) => {
     try {
-      await axios.delete(`https//latte-server.site/delete/${commentNo}`);
-      set((state) => ({ comments: state.comments.filter(comment => comment.commentNo !== commentNo) })) 
+      await axios.delete(`https://latte-server.site/comment/delete/${commentNo}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      set((state) => ({ comments: state.comments.filter(comment => comment.commentNo !== commentNo) }));
+      toast('댓글을 삭제했어요', {
+        toastId: 'comment-delete'
+      })
     } catch (error) {
-      console.error('Failed to delete comment:', error)
+      console.error('Failed to delete comment:', error);
     }
-
   },
   reportComment: async (commentNo) => {
     try{
       await axios.post(`https://latte-server.site/comment/report/${commentNo}`);
       console.log(`Reported comment with ID: ${commentNo}`);
+      toast('댓글을 신고했어요', {
+        toastId: 'comment-report'
+      })
     } catch (error) {
       console.error("Failed to report comment:", error);
     }

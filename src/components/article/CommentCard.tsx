@@ -2,7 +2,12 @@
 // NEXT && React
 import Image from "next/image"
 import React, { useState } from "react"
+//Commponent, Library
+import Modal, { ModalProps } from "../common/modal/Modal"
+import CommentModal from "../common/modal/CommentModal"
+import useModal from "@/hooks/useModal"
 // Zustand && Hook
+import useSignupStore from "@/store/signupStore"
 import useCommentStore from "@/store/commentStore"
 import { formatDate } from "@/utils/article/date"
 
@@ -27,11 +32,75 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   const { deleteComment, reportComment, likeComment } = useCommentStore()
   const [liked, setLiked] = useState(false)
 
+  const { isOpen, openModal, closeModal } = useModal();
+
   const handleLikeClick = async () => {
     await likeComment(comment.commentNo)
     setLiked(!liked)
   }
   
+  const handleCommentModalOpen = () => {
+    openModal()
+  }
+  const handleDeleteClick = async () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      await deleteComment(comment.commentNo, accessToken);
+      closeModal();
+    } else {
+      console.error('Access token is missing');
+    }
+  }
+
+  const handleReportClick = async () => {
+    await reportComment(comment.commentNo)
+    closeModal()
+  }
+
+
+  // localStorage에서 nickname을 가져옴
+  const currentUserNickname = localStorage.getItem('nickname');
+
+  const renderedCommentModal = (
+    <CommentModal isOpen={isOpen} onClose={closeModal}>
+      <div className="w-full text-center">
+        {comment.nickname === currentUserNickname ? (
+          <>
+            <div className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
+              <button
+                className="w-[280px] h-[18px] flex items-center justify-start"
+                onClick={handleDeleteClick}
+                >
+                댓글삭제
+            </button>
+            </div>
+          </>
+        ) : (
+          <>
+          <div className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
+            <button
+              className="w-[280px] h-[18px] flex items-center justify-start"
+              onClick={handleReportClick}
+              >
+              댓글신고
+            </button>
+          </div>
+          </>
+        )}
+        <div className="flex items-center justify-start px-5 py-4">
+          <button
+            className="w-[280px] h-[18px] flex items-center justify-start"
+            onClick={closeModal}
+            >
+            취소
+          </button>
+        </div>
+      </div>
+    </CommentModal>
+  )
+
+  console.log('comment.nickname:', comment.nickname, 'currentUserNickname:', currentUserNickname)
+
 
   return (
     <>
@@ -55,6 +124,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
             </p>
             <p>
               <Image
+                onClick={handleCommentModalOpen}
                 src="/svgs/svg_ellipsis-vertical.svg"
                 alt="profile"
                 width={12}
@@ -74,13 +144,13 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
               ${liked ? 'border-primaryOrange text-primaryOrange' : 'border-gray05 text-gray05'}
             `}
           >
-            <Image 
+            <Image
               src={liked ? '/svgs/svg_article-thumb03.svg' : '/svgs/svg_article-thumb02.svg' } 
               alt="thumb" width={12} height={12} priority unoptimized/>
             <span className="text-[10px]">{comment.likeCnt}</span>
           </button>
         </div>
-
+        {isOpen && renderedCommentModal}
       </div>
     </>
   )

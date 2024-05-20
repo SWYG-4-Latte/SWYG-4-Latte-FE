@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from "react"
 import useCommentStore from "@/store/commentStore"
+import useSignupStore from "@/store/signupStore"
 
 interface CommentFormProps {
   articleNo: number;
@@ -10,18 +11,19 @@ interface CommentFormProps {
 const CommentForm: React.FC<CommentFormProps> = ({ articleNo, accessToken }) => {
   const [content, setContent] = useState('')
   const { addComment } = useCommentStore()
+  const nickname = useSignupStore((state) => state.nickname)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (content.trim()) {
-      await addComment(articleNo, content, accessToken);
+      await addComment(articleNo, content, accessToken, nickname);
       setContent("");
     }
   };
 return(
   <form onSubmit={handleSubmit} className="fixed bottom-0 min-w-[360px] max-w-[500px] w-full h-[56px] bg-white border-t border-gray-200">
       <div className="flex items-center space-x-2 px-5 py-[11px]">
-        <textarea
+        <input
           placeholder="댓글을 입력해 보세요"
           value={content}
           onChange={(e) => setContent(e.target.value)}
