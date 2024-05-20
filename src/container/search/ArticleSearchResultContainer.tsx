@@ -7,7 +7,7 @@ import { SearchResultContainerProps } from './DrinkSearchResultContainer';
 import ArticleListItem from '@/components/article/ArticleListItem';
 import { Article } from '@/types/article/article';
 import { getArticleSearchResult } from '@/api/search';
-import { ArticleSearchListSkeleton } from '@/components/common/skeleton/ArticleListSkeleton';
+import { ArticleSearchListSkeleton } from '@/components/common/skeleton/ArticleSkeleton';
 
 const ArticleSearchResultContainer = ({ query, setHasResult }: SearchResultContainerProps) => {
   const [searchResults, setSearchResults] = useState<Article[]>([]);

@@ -21,8 +21,8 @@ import FooterGradientButton from '@/components/common/button/FooterGradientButto
 
 export default function MyProfileContent() {
   const router = useRouter();
-  const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal();
-  const { isOpen: isConfirmOpen, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal();
+  const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal('exit');
+  const { isOpen: isConfirmOpen, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal('exitConfirm');
 
   const {
     emailError,

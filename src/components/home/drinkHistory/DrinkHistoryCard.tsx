@@ -7,8 +7,6 @@ import DrinkHistoryDetail from './DrinkHistoryDetail';
 import DrinkHistoryCardFooter from './DrinkHistoryCardFooter';
 import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
-import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
-import DeleteComparisonBoxModal from '@/components/common/modal/DeleteComparisonBoxModal';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
 import apiInstance from '@/api/instance';
 
@@ -17,17 +15,9 @@ const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => 
 
   const { addDrink, isDrinkExist, isFull } = useDrinkComparisonStore();
 
-  const {
-    isOpen: isRecordCompleteModalOpen,
-    openModal: openRecordCompleteModal,
-    closeModal: closeRecordCompleteModal,
-  } = useModal();
+  const { openModal: openRecordCompleteModal } = useModal('recordComplete');
 
-  const {
-    isOpen: isDeleteComparisonBoxModalOpen,
-    openModal: openDeleteComparisonBoxModal,
-    closeModal: closeDeleteComparisonBoxModal,
-  } = useModal();
+  const { openModal: openDeleteComparisonBoxModal } = useModal('deleteComparisonDrinks');
 
   const handleCompare = () => {
     if (!drinkHistoryData) return;
@@ -50,11 +40,17 @@ const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => 
   };
 
   const handleRecord = async () => {
+    if (!drinkHistoryData) return;
+
     try {
       await apiInstance.post('/drink/date/menu', {
-        menuNo: drinkHistoryData?.menuNo,
+        menuNo: drinkHistoryData.menuNo,
       });
-      openRecordCompleteModal();
+      const recordDrinkData = {
+        menuName: drinkHistoryData.menuName,
+        menuImg: drinkHistoryData.imageUrl,
+      };
+      openRecordCompleteModal(recordDrinkData);
     } catch (error) {
       toast('마신 메뉴 등록에 실패했습니다.');
     }
@@ -73,17 +69,6 @@ const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => 
         onRecord={handleRecord}
         onCompare={handleCompare}
       />
-      {drinkHistoryData && (
-        <>
-          <RecordCompleteModal
-            isOpen={isRecordCompleteModalOpen}
-            onClose={closeRecordCompleteModal}
-            menuName={drinkHistoryData.menuName}
-            menuImg={drinkHistoryData.imageUrl}
-          />
-          <DeleteComparisonBoxModal isOpen={isDeleteComparisonBoxModalOpen} onClose={closeDeleteComparisonBoxModal} />
-        </>
-      )}
     </div>
   );
 };

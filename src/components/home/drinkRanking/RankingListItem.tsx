@@ -5,10 +5,8 @@ import { toast } from 'react-toastify';
 
 import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
-import RecordCompleteModal from '@/components/common/modal/RecordCompleteModal';
 import apiInstance from '@/api/instance';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import LoginModal from '@/components/common/modal/LoginModal';
 
 const RankingListItem = ({
   menuNo,
@@ -22,8 +20,8 @@ const RankingListItem = ({
   ranking: number;
 }) => {
   const router = useRouter();
-  const { isOpen, openModal, closeModal } = useModal();
-  const { isOpen: isLoginModalOpen, openModal: openLoginModal, closeModal: closeLoginModal } = useModal();
+  const { openModal: openRecordCompleteModal } = useModal('recordComplete');
+  const { openModal: openLoginModal } = useModal('login');
   const isLoggedIn = !!useLocalStorage('accessToken');
 
   const [isTooltipOpen, setIsTooltipOpen] = useState(true);
@@ -40,7 +38,7 @@ const RankingListItem = ({
       await apiInstance.post('/drink/date/menu', {
         menuNo,
       });
-      openModal();
+      openRecordCompleteModal({ menuName, menuImg: imageUrl });
     } catch (error) {
       toast('마신 메뉴 등록에 실패했습니다.');
     }
@@ -92,8 +90,6 @@ const RankingListItem = ({
           )}
         </div>
       </li>
-      <RecordCompleteModal isOpen={isOpen} onClose={closeModal} menuImg={imageUrl} menuName={menuName} />
-      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </>
   );
 };

@@ -8,13 +8,12 @@ dayjs.extend(isBetween);
 import HomeBanner from '@/components/home/banner/HomeBanner';
 import DrinkHistoryContainer from './DrinkHistoryContainer';
 import { UserCaffeineData } from '@/types/home/user';
-import DrinkRecommendationModal from '@/components/common/modal/DrinkRecommendationModal';
 import useModal from '@/hooks/useModal';
 import apiInstance from '@/api/instance';
 import useLocalStorage from '@/hooks/useLocalStorage';
 
 const HomeMainContainer = () => {
-  const { isOpen, openModal, closeModal } = useModal();
+  const { openModal } = useModal('recommendation');
 
   const [userData, setUserData] = useState<UserCaffeineData | null>(null);
 
@@ -47,7 +46,6 @@ const HomeMainContainer = () => {
 
   return (
     <>
-      <DrinkRecommendationModal isRecommendationModal isOpen={isOpen} onClose={closeModal} />
       <HomeBanner caffeineData={isLoggedIn ? userData : null} />
       <DrinkHistoryContainer drinkHistory={isLoggedIn && userData ? userData.recent : []} />
     </>

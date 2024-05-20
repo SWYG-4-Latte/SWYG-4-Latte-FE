@@ -11,6 +11,8 @@ const Splash = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    router.prefetch('/home');
+
     setTimeout(() => {
       setIsVisible(false);
       router.replace('/home');

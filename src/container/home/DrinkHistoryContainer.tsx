@@ -1,19 +1,17 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import EmptyCard from '@/components/home/drinkHistory/EmptyCard';
 import DrinkHistorySwiper from '@/components/home/drinkHistory/DrinkHistorySwiper';
 import { Menu } from '@/types/menu/menu';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useModal from '@/hooks/useModal';
-import LoginModal from '@/components/common/modal/LoginModal';
 import { useRouter } from 'next/navigation';
 
 const DrinkHistoryContainer = ({ drinkHistory }: { drinkHistory: Menu[] }) => {
   const router = useRouter();
 
   const isLoggedIn = !!useLocalStorage('accessToken');
-  const { isOpen, openModal, closeModal } = useModal();
+  const { openModal } = useModal('login');
 
   const handleNavigateToComparePage = () => {
     if (!isLoggedIn) {
@@ -37,7 +35,6 @@ const DrinkHistoryContainer = ({ drinkHistory }: { drinkHistory: Menu[] }) => {
       <div className="mt-2 flex w-full items-center justify-center">
         {drinkHistory.length === 0 ? <EmptyCard /> : <DrinkHistorySwiper slideData={drinkHistory} />}
       </div>
-      <LoginModal isOpen={isOpen} onClose={closeModal} />
     </div>
   );
 };

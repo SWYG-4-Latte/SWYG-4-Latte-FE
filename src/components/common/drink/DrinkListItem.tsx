@@ -29,8 +29,7 @@ const DrinkListItem = ({ drinkMenu }: { drinkMenu: Menu }) => {
           width={0}
           height={0}
           sizes="100vw"
-          className="h-auto w-full"
-          style={{ objectFit: 'cover' }}
+          className="h-auto w-full object-cover"
         />
       </div>
       <div className="flex flex-col justify-center gap-2">

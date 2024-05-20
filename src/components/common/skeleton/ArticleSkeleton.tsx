@@ -1,14 +1,3 @@
-// 아티클 검색 페이지 추천 아티클 리스트에서 사용
-export const ArticleListSkeleton = () => {
-  return (
-    <>
-      {Array.from({ length: 3 }).map((_, idx) => (
-        <ArticleItemSkeleton key={idx} />
-      ))}
-    </>
-  );
-};
-
 export const ArticleSearchListSkeleton = () => {
   return (
     <>
@@ -25,7 +14,7 @@ export const ArticleSearchListSkeleton = () => {
   );
 };
 
-const ArticleItemSkeleton = () => {
+export const RecommendedArticleItemSkeleton = () => {
   return (
     <div className="flex animate-pulse flex-col gap-3  py-4">
       <div className="h-40 w-full rounded-lg bg-gray04"></div>

@@ -4,6 +4,7 @@ import Script from 'next/script';
 import '../styles/globals.css';
 import { pretendard } from '@/styles/fonts';
 import ToastMessageContainer from '@/components/common/ToastMessageContainer';
+import Modals from '@/components/common/modal/Modals';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://lattefit.swygbro.com'),
@@ -34,7 +35,9 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body className={`layout ${pretendard.className}`}>
-        <div id="modal-root" />
+        <div id="modal-root">
+          <Modals />
+        </div>
         <main>{children}</main>
         <ToastMessageContainer />
         <Script src="https://cdn.swygbro.com/public/widget/swyg-widget.js" strategy="beforeInteractive" />
