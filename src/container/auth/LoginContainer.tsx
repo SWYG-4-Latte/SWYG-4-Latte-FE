@@ -7,7 +7,8 @@ import React, { useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 // Zustand
-import useLoginStore from '@/store/loginStore';
+import useLoginStore from "@/store/loginStore"
+import useSignupStore from "@/store/signupStore"
 // Hook
 import { login } from '@/utils/auth-signup/isLogin';
 
@@ -15,29 +16,20 @@ export default function LoginContainer() {
   const router = useRouter();
 
   const {
-    username,
-    password,
-    setUsername,
-    setPassword,
-    usernameError,
-    passwordError,
-    usernameFocused,
-    passwordFocused,
-    setUsernameFocused,
-    setPasswordFocused,
-    validateUsername,
-    validatePassword,
-    setLogin,
-    isLoggedIn,
-    clearIdentity,
+    username, password, setUsername, setPassword,
+    usernameError, passwordError, usernameFocused, passwordFocused,
+    setUsernameFocused, setPasswordFocused, validateUsername, validatePassword,
+    setLogin, isLoggedIn, setUserInfo
   } = useLoginStore();
+
+  const { loadUserInfo } = useSignupStore();
 
   const handleBackMove = () => {
     router.push('/home');
   };
 
     useEffect(() => {
-      clearIdentity();
+      // clearIdentity();
     }, []);
   
 
@@ -73,15 +65,16 @@ export default function LoginContainer() {
       const response = await login(username, password);
 
       if (response.jwtToken && response.jwtToken.accessToken) {
-        // JWT 토큰을 로컬 스토리지에 저장
-        // localStorage.setItem('accessToken', response.jwtToken.accessToken);
-        // localStorage.setItem('refreshToken', response.jwtToken.refreshToken);
+        const { nickname, mbrNo } = response;
         setLogin(response.jwtToken.accessToken, response.jwtToken.refreshToken);
-        console.log('Login Success');
-        alert('로그인에 성공하였습니다.');
+        setUserInfo({ nickname, mbrNo }); // 사용자 정보 설정
+        loadUserInfo({ nickname, mbrNo }); // 사용자 정보 로드
+        
+        console.log("Login Success");
+        alert("로그인에 성공하였습니다.");
         router.push('/home');
       } else {
-        console.error('Login Failed: ', response.message);
+        console.error("Login Failed: ", response.message);
         alert(`로그인 실패: ${response.message}`);
       }
     } catch (error) {

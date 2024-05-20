@@ -53,20 +53,12 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   nicknameChecked: false,
 
   // 사용자 정보 로드
-  loadUserInfo: (userInfo: IUserInfo) => {
+  loadUserInfo: (userInfo: any) => {
     set({
-      mbrNo: userInfo.mbrNo,
-      username: userInfo.nickname, 
-      email: userInfo.email,
       nickname: userInfo.nickname,
-      age: userInfo.age,
-      gender: userInfo.gender,
-      pregnancy: userInfo.pregnancy,
-      pregMonth: userInfo.pregMonth,
-      cupDay: userInfo.cupDay,
-      symptoms: userInfo.symptoms ? userInfo.symptoms : [],
-      allergies: userInfo.allergies ? userInfo.allergies : []
+      // 필요한 다른 사용자 정보도 여기에 설정하세요
     });
+    localStorage.setItem('nickname', userInfo.nickname); // localStorage에 저장
   },
 
 
