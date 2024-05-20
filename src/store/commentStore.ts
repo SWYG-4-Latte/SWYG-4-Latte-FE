@@ -23,7 +23,7 @@ interface ICommentState {
   addComment: (articleNo: number, content: string, accessToken: string | null, nickname: string) => Promise<void>;
   deleteComment: (commentNo: number, accessToken: string | null) => Promise<void>;
   reportComment: (commentNo: number) => Promise<void>;
-  likeComment: (commentNo: number) => Promise<void>;
+  likeComment: (commentNo: number, liked: boolean, accessToken: string | null) => Promise<void>;
 }
 
 const useCommentStore = create<ICommentState>((set)=>({
@@ -110,14 +110,25 @@ const useCommentStore = create<ICommentState>((set)=>({
       console.error("Failed to report comment:", error);
     }
   },
-  likeComment: async (commentNo) => {
+  likeComment: async (commentNo, liked, accessToken) => {
     try {
-      const response = await axios.post(`https://latte-server.site/comment/like/${commentNo}`);
-      set((state) => ({
-        comments: state.comments.map(comment =>
+      const response = await axios.post(
+        `https://latte-server.site/comment/like/${commentNo}`,
+        { like: !liked },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        }
+      );
+      console.log('likeComment response:', response.data); // 콘솔 로그 추가
+      set((state) => {
+        const updatedComments = state.comments.map(comment =>
           comment.commentNo === commentNo ? { ...comment, likeCnt: response.data.data.likeCnt } : comment
-        ),
-      }));
+        );
+        console.log('Updated comments:', updatedComments); // 콘솔 로그 추가
+        return { comments: updatedComments };
+      });
     } catch (error) {
       console.error("Failed to like comment:", error);
     }

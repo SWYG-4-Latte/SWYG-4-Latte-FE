@@ -1,7 +1,7 @@
 'use client'
 // NEXT && React
 import Image from "next/image"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 //Commponent, Library
 import Modal, { ModalProps } from "../common/modal/Modal"
 import CommentModal from "../common/modal/CommentModal"
@@ -31,12 +31,26 @@ interface CommentCardProps {
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   const { deleteComment, reportComment, likeComment } = useCommentStore()
   const [liked, setLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(comment.likeCnt)
 
   const { isOpen, openModal, closeModal } = useModal();
 
+  useEffect(() => {
+    const isLiked = localStorage.getItem(`liked_${comment.commentNo}`);
+    setLiked(isLiked === 'true');
+  }, [comment.commentNo]);
   const handleLikeClick = async () => {
-    await likeComment(comment.commentNo)
-    setLiked(!liked)
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      await likeComment(comment.commentNo, liked, accessToken)
+      setLiked(!liked)
+      const newLikeCount = likeCount + (liked ? -1 : 1);
+      setLikeCount(newLikeCount)
+      localStorage.setItem(`liked_${comment.commentNo}`, (!liked).toString());
+      console.log(`Like button clicked: liked=${liked}, likeCount=${newLikeCount}`); // 콘솔 로그 추가
+    } else {
+      console.error('Access token is missing');
+    }
   }
   
   const handleCommentModalOpen = () => {

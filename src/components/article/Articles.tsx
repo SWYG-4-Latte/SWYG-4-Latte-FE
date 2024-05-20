@@ -38,7 +38,7 @@ export default function Article() {
     console.log(articles)
 
     useEffect(() => {
-      const articleHero = articles.find(article => article.articleNo === 7)
+      const articleHero = articles.find(article => article.articleNo === 1)
       if (articleHero) {
         setArticleHero(articleHero)
       }
@@ -70,12 +70,12 @@ export default function Article() {
           priority
           className="rounded-lg w-full"
         />
-        <div className="flex flex-col mt-3">
-          <h1 className="font-medium">라떼 핏을 소개합니다.</h1>
+        <div className="flex flex-col mt-3 mb-4">
+          <h1 className="font-medium">{articleHero ? articleHero.title : '라떼 핏을 소개합니다!'}</h1>
           <p className="mt-2 text-[12px] text-gray06 space-x-2.5">
-            <span>조회수 <strong>1320</strong></span>
+            <span>조회수 <strong>{articleHero ? articleHero.viewCnt : 0}</strong></span>
             <span className="w-[1px] h-2 border-l borde-gray06 mx-2.5"/>
-            <span>추천해요 <strong>1000</strong></span>
+            <span>추천해요 <strong>{articleHero ? articleHero.likeCnt : 0}</strong></span>
           </p>
         </div>
       </section>
