@@ -179,19 +179,35 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   },
   toggleSymptom: (symptom) => {
     const currentSymptoms = get().symptoms;
-    set({
-      symptoms: currentSymptoms.includes(symptom) ? 
-              currentSymptoms.filter(s => s !== symptom) :
-              [...currentSymptoms, symptom] 
-    })
+    if (symptom === '별다른 증상이 없어요') {
+      if (currentSymptoms.includes(symptom)) {
+        set({ symptoms: currentSymptoms.filter(s => s !== symptom) });
+      } else {
+        set({ symptoms: [symptom] });
+      }
+    } else {
+      set({
+        symptoms: currentSymptoms.includes(symptom) ?
+          currentSymptoms.filter(s => s !== symptom) :
+          [...currentSymptoms.filter(s => s !== '별다른 증상이 없어요'), symptom]
+      });
+    }
   },
   toggleAllergy: (allergy) => {
     const currentAllergies = get().allergies;
-    set({
-      allergies: currentAllergies.includes(allergy) ?
-                currentAllergies.filter(a => a !== allergy) :
-                [...currentAllergies, allergy]
-    });
+    if (allergy === '없어요') {
+      if (currentAllergies.includes(allergy)) {
+        set({ allergies: currentAllergies.filter(a => a !== allergy) });
+      } else {
+        set({ allergies: [allergy] });
+      }
+    } else {
+      set({
+        allergies: currentAllergies.includes(allergy) ?
+          currentAllergies.filter(a => a !== allergy) :
+          [...currentAllergies.filter(a => a !== '없어요'), allergy]
+      });
+    }
   },
   // 중복 검사 메소드
   checkUsernameDuplication: async () => {
@@ -267,7 +283,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       set({ nicknameError: '닉네임을 입력해주세요' });
       return;
     }
-    if (!/^[A-Za-z0-9가-힣_]{2,10}$/.test(nickname)) {
+    if (!/^[가-힣]{2,10}$/.test(nickname)) {
       set({ nicknameError: '한글 3자 이상, 8자 이하로 입력해주세요.' });
       return;
     }
@@ -294,13 +310,15 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
 },
 
 validateAge: (age: string) => {
-  if(!age) {
-    set({ ageError: '만 나이를 입력해주세요.'})
+  if (!age) {
+    set({ ageError: '만 나이를 입력해주세요.' });
   } else if (!/^\d+$/.test(age)) {
-    set({ ageError: '숫자로만 입력해주세요' });
-  } else { 
-    set({ ageError: null })
-  }   
+    set({ ageError: '숫자로만 입력해주세요.' });
+  } else if (age.length > 2 || Number(age) < 19 || Number(age) > 98) {
+    set({ ageError: '만 19 ~ 98세까지 입력가능합니다.' });
+  } else {
+    set({ ageError: null });
+  }
 },
 
 validatePregMonth: (month: string) => {
@@ -316,14 +334,16 @@ validatePregMonth: (month: string) => {
 },
 
 goToNextStep: async () => {
-  const { currentStep, termsAgreed, email, usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, age, ageError, gender, pregnancy, pregMonth, pregMonthError, nicknameChecked, checkEmailDuplication, emailError } = get();
-
+  const { currentStep, termsAgreed, username, email, nickname,  usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, age, ageError, gender, pregnancy, pregMonth, pregMonthError, nicknameChecked, checkEmailDuplication, checkNicknameDuplication, checkUsernameDuplication, emailError } = get();
+  
   // Step 1에서 이메일 중복 검사를 추가
   if (currentStep === 1) {
     await checkEmailDuplication(email);
-    if (get().emailError || !usernameChecked || !nicknameChecked) {
-      if (!usernameChecked) set({ usernameError: '아이디 중복 검사를 완료해주세요' });
-      if (!nicknameChecked) set({ nicknameError: '닉네임 중복 검사를 완료해주세요' });
+    await checkUsernameDuplication(username);
+    await checkNicknameDuplication(nickname);
+
+    const { emailError, usernameError, nicknameError } = get();
+    if (emailError === '이미 사용 중인 이메일입니다.' || usernameError === '이미 사용중인 아이디입니다.' || nicknameError === '이미 사용중인 닉네임입니다.') {
       return;
     }
   }

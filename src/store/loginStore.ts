@@ -45,6 +45,10 @@ const useLoginStore = create<ILoginState>((set) => ({
     })
   },
 
+  clearIdentity: () => {
+    set({ username: '', password: '', usernameError: null, passwordError: null });
+  },
+
   
   validateUsername: (username) => {
     const usernameRegex = /^[A-Za-z0-9]{6,12}$/;

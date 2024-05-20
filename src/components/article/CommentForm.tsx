@@ -12,7 +12,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ articleNo }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await addComment(articleNo, content)
+    // await addComment(articleNo, content)
     setContent('')
   };
 

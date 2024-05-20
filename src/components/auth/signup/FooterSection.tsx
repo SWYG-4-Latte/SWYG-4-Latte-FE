@@ -46,10 +46,6 @@ export default function FooterSection() {
     }
   };
 
-  const handleNextStep = async () => {
-    await goToNextStep();
-  };
-
   const renderedFooterSection = () => {
     switch (currentStep) {
       case 1:
