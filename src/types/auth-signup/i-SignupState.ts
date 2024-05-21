@@ -46,7 +46,7 @@ export interface ISignupState {
   confirmPasswordFocused: boolean;
   ageFocused: boolean;
   pregMonthFocused: boolean;
-  
+  loadUserInfo: any;
 
   // 현재 폼 단계
   currentStep: number;

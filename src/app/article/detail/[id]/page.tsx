@@ -30,6 +30,7 @@ interface IArticle {
 
 
 export default function ArticlesDetailPage() {
+  const accessToken = localStorage.getItem('accessToken')
   const { articles } = useArticleStore()
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -110,7 +111,7 @@ export default function ArticlesDetailPage() {
         <section className="px-5 mt-8 pb-24">
           <CommentList articleNo={article.articleNo} />
         </section>
-          <CommentForm articleNo={article.articleNo} />
+          <CommentForm articleNo={article.articleNo} accessToken={accessToken} />
       </main>
     </>
   )

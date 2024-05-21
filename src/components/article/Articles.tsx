@@ -25,7 +25,7 @@ interface IArticle {
 }
 
 export default function Article() {
-  const { articles, fetchArticles, hasMore, setSort } = useArticleStore();
+  const { articles, fetchArticles, hasMore, setSort, initialLoad } = useArticleStore();
   const [activeSort, setActiveSort] = useState('recent');
   const [articleHero, setArticleHero] = useState<IArticle | null>(null);
 
@@ -33,21 +33,19 @@ export default function Article() {
     fetchArticles(true);
   }, []);
 
-  console.log(articles);
-
   useEffect(() => {
-    const articleHero = articles.find((article) => article.articleNo === 7);
+    const articleHero = articles.find((article) => article.articleNo === 1);
     if (articleHero) {
       setArticleHero(articleHero);
     }
   }, [articles]);
 
   const onIntersect = useCallback(() => {
-    if (hasMore) {
+    if (!initialLoad && hasMore) { // 초기 로드 완료 후에만 동작
       console.log('Intersected and fetching more articles...');
       fetchArticles();
     }
-  }, [hasMore, fetchArticles]);
+  }, [hasMore, fetchArticles, initialLoad]);
 
   const observeTargetRef = useIntersect(onIntersect);
 
@@ -58,7 +56,7 @@ export default function Article() {
 
   return (
     <>
-      <section className="min-h-[255px] px-5 py-4 text-gray10">
+      <section className="min-h-[255px] px-5 py-4 text-gray10 cursor-pointer">
         <Image
           src={'/svgs/svg_article-hero.svg'}
           alt="article-hero"
@@ -67,16 +65,12 @@ export default function Article() {
           priority
           className="w-full rounded-lg"
         />
-        <div className="mt-3 flex flex-col">
-          <h1 className="font-medium">라떼 핏을 소개합니다.</h1>
-          <p className="mt-2 space-x-2.5 text-[12px] text-gray06">
-            <span>
-              조회수 <strong>1320</strong>
-            </span>
-            <span className="borde-gray06 mx-2.5 h-2 w-[1px] border-l" />
-            <span>
-              추천해요 <strong>1000</strong>
-            </span>
+        <div className="flex flex-col mt-3 mb-4">
+          <h1 className="font-medium">{articleHero ? articleHero.title : '라떼 핏을 소개합니다!'}</h1>
+          <p className="mt-2 text-[12px] text-gray06 space-x-2.5">
+            <span>조회수 <strong>{articleHero ? articleHero.viewCnt : 0}</strong></span>
+            <span className="w-[1px] h-2 border-l borde-gray06 mx-2.5"/>
+            <span>추천해요 <strong>{articleHero ? articleHero.likeCnt : 0}</strong></span>
           </p>
         </div>
       </section>
@@ -108,7 +102,7 @@ export default function Article() {
           </button>
         </div>
         {/* ITEMS - Data Fetching  */}
-        <div className="mt-4 w-full">
+        <div className="w-full mt-4 mb-20">
           {articles.map((article, index) => (
             <ArticleCard
               key={article.articleNo}

@@ -22,6 +22,7 @@ interface IArticleStoreState {
   page: number;
   hasMore: boolean;
   sort: string;
+  initialLoad: boolean; // 초기 로드 여부
   fetchArticles: (initial?: boolean) => Promise<void>;
   setSort: (sort: string) => void;
 }
@@ -31,6 +32,7 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
   page: 0,
   hasMore: true,
   sort: 'recent',
+  initialLoad: true, // 초기 로드 여부 설정
   fetchArticles: async (initial = false) => {
     const { page, sort, articles } = get();
     const currentPage = initial ? 0 : page;
@@ -52,7 +54,8 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
       set({
         articles: initial ? newArticles : [...articles, ...newArticles],
         page: currentPage + 1,
-        hasMore: !response.data.data.last
+        hasMore: !response.data.data.last,
+        initialLoad: false, // 초기 로드 완료로 설정
       });
 
       console.log(`Updated state - Page: ${currentPage + 1}, HasMore: ${!response.data.data.last}`);
@@ -62,7 +65,7 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
   },
   
   setSort: (sort) => {
-    set({ sort, page: 0, hasMore: true, articles: [] });
+    set({ sort, page: 0, hasMore: true, articles: [], initialLoad: true });
     get().fetchArticles(true);
   },
 }));
