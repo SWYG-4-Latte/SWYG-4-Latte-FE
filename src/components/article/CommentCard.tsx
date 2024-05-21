@@ -82,10 +82,10 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           <>
             <div className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
               <button
-                className="w-[280px] h-[18px] flex items-center justify-start"
+                className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
                 onClick={handleDeleteClick}
                 >
-                댓글삭제
+                댓글 삭제
             </button>
             </div>
           </>
@@ -93,17 +93,17 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           <>
           <div className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
             <button
-              className="w-[280px] h-[18px] flex items-center justify-start"
+              className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
               onClick={handleReportClick}
               >
-              댓글신고
+              댓글 신고
             </button>
           </div>
           </>
         )}
         <div className="flex items-center justify-start px-5 py-4">
           <button
-            className="w-[280px] h-[18px] flex items-center justify-start"
+            className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
             onClick={closeModal}
             >
             취소
@@ -133,7 +133,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           {/* NICKNAME, YY.MM.DD, menuDots */}
           <div className="w-full flex items-center justify-between">
             <p className="text-gray06 text-[12px] space-x-2">
-              <span>{comment.nickname}</span>
+              <span className="text-gray08">{comment.nickname}</span>
               <span>{formatDate(comment.regDate)}</span>
             </p>
             <p>

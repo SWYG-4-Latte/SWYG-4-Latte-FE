@@ -37,7 +37,7 @@ const ArticleCard = React.forwardRef<HTMLDivElement, IArticleCardProps>(({ artic
   return (
     <div 
       onClick={handleClick}
-      className="w-full h-[96px] flex items-center" ref={ref}>
+      className="w-full h-[96px] flex items-center cursor-pointer" ref={ref}>
       {article.images?.imgUrl1 && (
         <Image 
           src={article.images.imgUrl1} 

@@ -25,7 +25,7 @@ interface IArticle {
 }
 
 export default function Article() {
-  const { articles, fetchArticles, hasMore, setSort } = useArticleStore();
+  const { articles, fetchArticles, hasMore, setSort, initialLoad } = useArticleStore();
   const [activeSort, setActiveSort] = useState('recent');
   const [articleHero, setArticleHero] = useState<IArticle | null>(null);
 
@@ -33,26 +33,19 @@ export default function Article() {
     fetchArticles(true);
   }, []);
 
-    useEffect(() => {
-      const articleHero = articles.find(article => article.articleNo === 1)
-      if (articleHero) {
-        setArticleHero(articleHero)
-      }
-    }, [articles])
-
   useEffect(() => {
-    const articleHero = articles.find((article) => article.articleNo === 7);
+    const articleHero = articles.find((article) => article.articleNo === 1);
     if (articleHero) {
       setArticleHero(articleHero);
     }
   }, [articles]);
 
   const onIntersect = useCallback(() => {
-    if (hasMore) {
+    if (!initialLoad && hasMore) { // 초기 로드 완료 후에만 동작
       console.log('Intersected and fetching more articles...');
       fetchArticles();
     }
-  }, [hasMore, fetchArticles]);
+  }, [hasMore, fetchArticles, initialLoad]);
 
   const observeTargetRef = useIntersect(onIntersect);
 
@@ -63,7 +56,7 @@ export default function Article() {
 
   return (
     <>
-      <section className="min-h-[255px] px-5 py-4 text-gray10">
+      <section className="min-h-[255px] px-5 py-4 text-gray10 cursor-pointer">
         <Image
           src={'/svgs/svg_article-hero.svg'}
           alt="article-hero"

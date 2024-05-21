@@ -69,7 +69,7 @@ const CommentModal = ({ isOpen, onClose, children, isRecommendationModal = false
                 ref={modalRef}
                 key="modal"
                 role="dialog"
-                className="shadow-modal fixed bottom-0 z-[999] flex max-w-[500px] w-full flex-col items-center gap-4 rounded-t-3xl bg-gray02 py-6"
+                className="shadow-modal fixed bottom-0 z-[999] flex max-w-[500px] w-full flex-col items-center gap-4 rounded-t-3xl bg-gray02 pt-6"
                 variants={modalVariants}
                 initial={isRecommendationModal ? 'recommendationHidden' : 'hidden'}
                 animate={isRecommendationModal ? 'recommendationVisible' : 'visible'}
