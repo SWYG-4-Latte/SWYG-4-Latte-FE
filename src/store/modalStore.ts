@@ -8,7 +8,8 @@ export type ModalType =
   | 'deleteComparisonDrinks'
   | 'recommendation'
   | 'exit'
-  | 'exitConfirm';
+  | 'exitConfirm'
+  | 'comment';
 
 // 모달에 전달할 추가 props 데이터, 현재는 RecordCompleteModal에만 필요
 export interface ModalData {
@@ -18,6 +19,7 @@ export interface ModalData {
   recommendation: null;
   exitConfirm: null;
   exit: null;
+  comment: null;
 }
 
 interface ModalState {
@@ -41,6 +43,7 @@ export const useModalStore = create<ModalState & ModalActions>((set, get) => ({
     recommendation: null,
     exitConfirm: null,
     exit: null,
+    comment: null
   },
   isOpen: (type) => get().openedModal === type,
   setModalOpen: (type, data) =>

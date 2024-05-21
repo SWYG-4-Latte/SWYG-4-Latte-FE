@@ -2,7 +2,6 @@ import axios from "axios";
 import { create } from "zustand";
 import { toast } from "react-toastify";
 
-
 interface IComment {
   commentNo: number;
   articleNo: number;
@@ -26,17 +25,16 @@ interface ICommentState {
   likeComment: (commentNo: number, liked: boolean, accessToken: string | null) => Promise<void>;
 }
 
-const useCommentStore = create<ICommentState>((set)=>({
+const useCommentStore = create<ICommentState>((set) => ({
   comments: [],
   fetchComments: async (articleNo) => {
     try {
       const response = await axios.get(`https://latte-server.site/comment/list/${articleNo}`);
-      console.log('fecthComents is working..', response.data.data ) // 성공 
-      set({ comments: response.data.data })
+      // console.log('fetchComments is working..', response.data.data); // 성공
+      set({ comments: response.data.data });
     } catch (error) {
-      console.error('Failed to fetch comments:', error)
+      console.error('Failed to fetch comments:', error);
     }
-    
   },
   addComment: async (articleNo, content, accessToken, nickname) => {
     const newComment: IComment = {
@@ -94,18 +92,18 @@ const useCommentStore = create<ICommentState>((set)=>({
       set((state) => ({ comments: state.comments.filter(comment => comment.commentNo !== commentNo) }));
       toast('댓글을 삭제했어요', {
         toastId: 'comment-delete'
-      })
+      });
     } catch (error) {
       console.error('Failed to delete comment:', error);
     }
   },
   reportComment: async (commentNo) => {
-    try{
+    try {
       await axios.post(`https://latte-server.site/comment/report/${commentNo}`);
       console.log(`Reported comment with ID: ${commentNo}`);
       toast('댓글을 신고했어요', {
         toastId: 'comment-report'
-      })
+      });
     } catch (error) {
       console.error("Failed to report comment:", error);
     }
@@ -133,6 +131,6 @@ const useCommentStore = create<ICommentState>((set)=>({
       console.error("Failed to like comment:", error);
     }
   },
-}))
+}));
 
 export default useCommentStore;
