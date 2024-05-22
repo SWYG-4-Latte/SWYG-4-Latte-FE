@@ -13,5 +13,5 @@ export const ellipsisText = (text: string, maxLength: number) => {
     slicedText += ch;
   }
 
-  return len < 10 ? slicedText : slicedText + '...';
+  return text === slicedText ? slicedText : slicedText + '...';
 };
