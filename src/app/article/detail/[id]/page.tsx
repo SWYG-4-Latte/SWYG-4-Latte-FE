@@ -128,7 +128,9 @@ export default function ArticlesDetailPage() {
             <p className='text-[16px] text-gray08 mb-4'>{likeCount}명이 도움을 받았어요</p>
             <button 
               onClick={handleLikeClick}
-              className='flex items-center text-gray00 text-[14px] font-medium bg-primaryOrange px-4 py-2 rounded-lg'>
+              className={`flex items-center text-gray00 text-[14px] font-medium  px-4 py-2 rounded-lg
+              ${liked ? 'bg-orange03 border border-black': 'bg-primaryOrange'}
+              `}>
               <Image 
               src="/svgs/svg_article-thumb01.svg"
               alt="article-smile"
