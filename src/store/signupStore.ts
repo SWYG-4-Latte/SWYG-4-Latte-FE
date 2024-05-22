@@ -53,13 +53,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   nicknameChecked: false,
 
   // 사용자 정보 로드
-  loadUserInfo: (userInfo: any) => {
-    set({
-      nickname: userInfo.nickname,
-      // 필요한 다른 사용자 정보도 여기에 설정하세요
-    });
-    localStorage.setItem('nickname', userInfo.nickname); // localStorage에 저장
-  },
+  loadUserInfo: (userInfo) => set({ nickname: userInfo.nickname }),
 
 
   // 상태 업데이트 메소드
@@ -145,7 +139,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
     }
   },
 
-
+  
   // 토글 메소드
   toggleTermsAgreed: () => {
     const newTermsAgreed = !get().termsAgreed;

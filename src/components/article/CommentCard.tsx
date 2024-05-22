@@ -29,7 +29,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   const { deleteComment, reportComment, likeComment } = useCommentStore();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likeCnt);
-  const { isOpen, openModal, closeModal } = useModal('comment');
+  const [isOpen, setIsOpen] = useState(false); // 모달 상태 추가
   const [currentUserNickname, setCurrentUserNickname] = useState<string | null>(null);
 
   useEffect(() => {
@@ -66,8 +66,14 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   };
 
   const handleCommentModalOpen = () => {
-    openModal();
+    setIsOpen(true); // 모달 열기
   };
+
+  const handlCommentModalClose = () => {
+    setIsOpen(false); // 모달 닫기
+  };
+
+
 
   const handleDeleteClick = async () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -76,7 +82,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
         console.log('Attempting to delete comment...');
         await deleteComment(comment.commentNo, accessToken);
         console.log('Comment deleted successfully');
-        closeModal();
+        setIsOpen(false); // 모달 닫기
       } catch (error) {
         console.error('Failed to delete comment:', error);
       }
@@ -90,7 +96,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
       console.log('Attempting to report comment...');
       await reportComment(comment.commentNo);
       console.log('Comment reported successfully');
-      closeModal();
+      setIsOpen(false); // 모달 닫기
     } catch (error) {
       console.error('Failed to report comment:', error);
     }
@@ -99,14 +105,15 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   console.log('comment.nickname:', comment.nickname, 'currentUserNickname:', currentUserNickname);
 
   const renderedCommentModal = (
-    <CommentModal isOpen={isOpen} onClose={closeModal}>
+    <CommentModal isOpen={isOpen} onClose={handlCommentModalClose}>
       <div className="w-full text-center">
         {comment.nickname === currentUserNickname || null ? (
           <>
-            <div className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
+            <div
+              onClick={handleDeleteClick}
+              className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
               <button
                 className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
-                onClick={handleDeleteClick}
               >
                 댓글 삭제
               </button>
@@ -114,20 +121,22 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           </>
         ) : (
           <>
-            <div className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
+            <div
+              onClick={handleReportClick}
+              className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
               <button
                 className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
-                onClick={handleReportClick}
               >
                 댓글 신고
               </button>
             </div>
           </>
         )}
-        <div className="flex items-center justify-start px-5 py-4">
+        <div
+          onClick={handlCommentModalClose}
+          className="flex items-center justify-start px-5 py-4">
           <button
             className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
-            onClick={closeModal}
           >
             취소
           </button>

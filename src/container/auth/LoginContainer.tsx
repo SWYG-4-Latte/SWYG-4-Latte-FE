@@ -69,6 +69,9 @@ export default function LoginContainer() {
         setLogin(response.jwtToken.accessToken, response.jwtToken.refreshToken);
         setUserInfo({ nickname, mbrNo }); // 사용자 정보 설정
         loadUserInfo({ nickname, mbrNo }); // 사용자 정보 로드
+
+          // 사용자 정보가 제대로 설정되었는지 확인하기 위한 로그
+          console.log("User info after login:", { nickname, mbrNo });
         
         console.log("Login Success");
         alert("로그인에 성공하였습니다.");

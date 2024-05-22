@@ -1,7 +1,7 @@
 'use client'
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import useCommentStore from "@/store/commentStore"
-import useSignupStore from "@/store/signupStore"
+// import useSignupStore from "@/store/signupStore"
 
 interface CommentFormProps {
   articleNo: number;
@@ -11,15 +11,26 @@ interface CommentFormProps {
 const CommentForm: React.FC<CommentFormProps> = ({ articleNo, accessToken }) => {
   const [content, setContent] = useState('')
   const { addComment } = useCommentStore()
-  const nickname = useSignupStore((state) => state.nickname)
+  // const nickname = useSignupStore((state) => state.nickname)
+  const [nickname, setNickname] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedNickname = localStorage.getItem('nickname');
+    setNickname(storedNickname);
+  }, []);
+
+  console.log('nickname:', nickname);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (content.trim()) {
+    if (content.trim() && nickname) {
       await addComment(articleNo, content, accessToken, nickname);
       setContent("");
+    } else {
+      console.error('Nickname is missing or content is empty');
     }
   };
+
 return(
   <form onSubmit={handleSubmit} className="fixed bottom-0 min-w-[360px] max-w-[500px] w-full h-[56px] bg-white border-t border-gray-200">
       <div className="flex items-center space-x-2 px-5 py-[11px]">

@@ -14,7 +14,6 @@ const CommentList: React.FC<CommentListProps> = ({ articleNo }) => {
     fetchComments(articleNo);
   }, [articleNo]);
 
-  // console.log('comments:', comments)
 
   return (
     <div className="pb-24">

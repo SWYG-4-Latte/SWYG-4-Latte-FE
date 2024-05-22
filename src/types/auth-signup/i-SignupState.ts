@@ -3,7 +3,7 @@ import { IUserInfoTwo } from "./i-UserInfoTwo";
 
 export interface ISignupState {
   // 사용자 정보
-  mbrNo: number | null ;
+  mbrNo: string | number | null ;
   username: string;
   email: string;
   nickname: string;
@@ -46,7 +46,8 @@ export interface ISignupState {
   confirmPasswordFocused: boolean;
   ageFocused: boolean;
   pregMonthFocused: boolean;
-  loadUserInfo: any;
+
+  loadUserInfo: (userInfo: { nickname: string; mbrNo: string | number }) => void;
 
   // 현재 폼 단계
   currentStep: number;
