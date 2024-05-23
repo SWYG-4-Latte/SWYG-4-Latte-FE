@@ -69,15 +69,17 @@ const useMemberStore = create<IMemberStoreState>((set, get) => ({
   
     try {
       const { cupDay, symptoms, allergies } = info;
+      const updatedSymptoms = symptoms.includes('별다른 증상이 없어요') ? ['별다른 증상이 없어요'] : symptoms;
+      const updatedAllergies = allergies.includes('없어요') ? ['없어요'] : allergies;
       const postData = {
         cupDay,
-        symptom: symptoms.join(', '),
-        allergy: allergies.join(', ')
+        symptom: updatedSymptoms.join(', '),
+        allergy: updatedAllergies.join(', ')
       };
       const response = await axios.post(`https://latte-server.site/auth/update/${memberInfo.mbrNo}`, postData);
       if (response.data.message === "회원 수정에 성공했습니다.") {
         set({
-          memberInfo: {...memberInfo, cupDay, symptoms, allergies}
+          memberInfo: {...memberInfo, cupDay, symptoms: updatedSymptoms, allergies: updatedAllergies}
         });
         console.log('업데이트 성공, 최신 정보로 상태 갱신');
       } else {

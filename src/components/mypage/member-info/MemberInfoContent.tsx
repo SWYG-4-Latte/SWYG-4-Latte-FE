@@ -37,21 +37,26 @@ export default function MemberInfoContent() {
   };
 
   const toggleSymptom = (symptom: any) => {
-    setLocalMemberInfo((prev) => ({
-      ...prev,
-      symptoms: prev.symptoms.includes(symptom)
-        ? prev.symptoms.filter((s) => s !== symptom)
-        : [...prev.symptoms, symptom],
-    }));
-  };
+    setLocalMemberInfo((prev) => {
+      const updatedSymptoms = symptom === '별다른 증상이 없어요'
+        ? ['별다른 증상이 없어요']
+        : prev.symptoms.includes(symptom)
+          ? prev.symptoms.filter((s) => s !== symptom)
+          : [...prev.symptoms.filter((s) => s !== '별다른 증상이 없어요'), symptom];
 
+      return { ...prev, symptoms: updatedSymptoms };
+    });
+  };
   const toggleAllergy = (allergy: any) => {
-    setLocalMemberInfo((prev) => ({
-      ...prev,
-      allergies: prev.allergies.includes(allergy)
-        ? prev.allergies.filter((a) => a !== allergy)
-        : [...prev.allergies, allergy],
-    }));
+    setLocalMemberInfo((prev) => {
+      const updatedAllergies = allergy === '없어요'
+        ? ['없어요']
+        : prev.allergies.includes(allergy)
+          ? prev.allergies.filter((a) => a !== allergy)
+          : [...prev.allergies.filter((a) => a !== '없어요'), allergy];
+
+      return { ...prev, allergies: updatedAllergies };
+    });
   };
 
   const handleUpdateProfileTwo = async () => {
