@@ -19,7 +19,7 @@ export default function LoginContainer() {
     username, password, setUsername, setPassword,
     usernameError, passwordError, usernameFocused, passwordFocused,
     setUsernameFocused, setPasswordFocused, validateUsername, validatePassword,
-    setLogin, isLoggedIn, setUserInfo
+    setLogin, isLoggedIn, setUserInfo, clearIdentity
   } = useLoginStore();
 
   const { loadUserInfo } = useSignupStore();
@@ -29,8 +29,8 @@ export default function LoginContainer() {
   };
 
     useEffect(() => {
-      // clearIdentity();
-    }, []);
+      clearIdentity();
+    }, [clearIdentity]);
   
 
   const isInputValid = username.trim() !== '' && password.trim() !== '';

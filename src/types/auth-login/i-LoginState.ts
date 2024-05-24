@@ -27,4 +27,5 @@ export interface ILoginState {
   setLogin: (accessToken: any, refreshToken: any) => void;
   setLogout: () => void;
   setUserInfo: (userInfo: any) => void;
+  clearIdentity: () => void;
 }
