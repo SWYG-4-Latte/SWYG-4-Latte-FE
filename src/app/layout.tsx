@@ -33,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="kr">
-      <body className={`layout ${pretendard.className}`}>
+    <html lang="kr" className={pretendard.className}>
+      <body className="layout">
         <div id="modal-root">
           <Modals />
         </div>

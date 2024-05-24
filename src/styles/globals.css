@@ -34,7 +34,7 @@
 }
 
 :root {
-  --toastify-font-family: Pretendard;
+  --toastify-font-family: var(--font-pretendard);
 }
 
 .Toastify__toast {
