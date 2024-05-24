@@ -5,6 +5,11 @@ import { useRouter } from 'next/navigation';
 import useSignupStore from '@/store/signupStore';
 import Link from 'next/link';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
+//Modal
+import Modal, { ModalProps } from '@/components/common/modal/Modal';
+import Button from '@/components/common/button/Button';
+import useModal from '@/hooks/useModal';
+
 
 export default function FooterSection() {
   const router = useRouter();
@@ -27,6 +32,8 @@ export default function FooterSection() {
     resetSignupForm,
   } = useSignupStore();
 
+  const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal('exit');
+
   const stepOneFilled = username && email && nickname;
   const stepTwoFilled = password && confirmPassword && termsAgreed;
   const stepThreeFilled = age && gender;
@@ -45,6 +52,37 @@ export default function FooterSection() {
       router.push('/auth/login');
     }
   };
+  
+  const handleLaterModalOpen = () => {
+    openExitModal();
+  }
+
+  const handleSaveAndSignup = () => {
+    closeExitModal();
+    goToNextStep();
+  };
+
+  const renderLaterSignupModal = (
+    <Modal isOpen={isExitOpen} onClose={closeExitModal}>
+      <div className="text-lg font-semibold text-primaryOrange">지금까지 입력한 내용을 저장할까요?</div>
+      <p className="w-[209px] text-center text-[14px] leading-[20px] text-gray10">
+        입력하신 아이디, 비밀번호, 닉네임으로 라떼 핏 회원가입이 완료됩니다.
+      </p>
+      <div className="flex gap-2">
+        <button
+          className="h-[50px] w-32 rounded-lg border border-gray05 bg-primaryIvory px-4 py-3 font-semibold leading-[25px] text-gray08 hover:border-0 hover:bg-gray06 hover:text-gray00"
+          onClick={closeExitModal}
+        >
+          마저 입력하기
+        </button>
+        <Button
+          onClick={handleSaveAndSignup}
+          className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]">
+          저장 후 가입
+        </Button>
+      </div>
+    </Modal>
+  );
 
   const renderedFooterSection = () => {
     switch (currentStep) {
@@ -90,7 +128,7 @@ export default function FooterSection() {
           <section className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex h-[96px] w-full max-w-[500px] items-center px-5">
             <div className="flex w-full items-center space-x-2">
               <button
-                onClick={goToNextStep}
+                onClick={handleLaterModalOpen}
                 className="h-[50px] min-w-[118px] grow-[2] rounded-lg border border-gray05 bg-gray01 font-semibold text-gray08"
               >
                 나중에 입력
@@ -118,5 +156,10 @@ export default function FooterSection() {
     }
   };
 
-  return renderedFooterSection();
+  return (
+    <>
+      {renderedFooterSection()}
+      {renderLaterSignupModal}
+    </>
+  );
 }

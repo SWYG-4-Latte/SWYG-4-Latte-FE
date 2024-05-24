@@ -129,7 +129,7 @@ export default function ArticlesDetailPage() {
             <button 
               onClick={handleLikeClick}
               className={`flex items-center text-gray00 text-[14px] font-medium  px-4 py-2 rounded-lg
-              ${liked ? 'bg-orange03 border border-black': 'bg-primaryOrange'}
+              ${liked ? 'bg-orange03': 'bg-primaryOrange'}
               `}>
               <Image 
               src="/svgs/svg_article-thumb01.svg"
