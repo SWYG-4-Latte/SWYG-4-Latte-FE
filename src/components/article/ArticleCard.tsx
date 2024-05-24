@@ -4,6 +4,8 @@ import React from 'react'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { formatDate } from '@/utils/article/date'
+//utils
+import { incrementViewCount } from '@/utils/article/incrementViewCount'
 
 
 interface IArticle {
@@ -30,9 +32,16 @@ interface IArticleCardProps {
 const ArticleCard = React.forwardRef<HTMLDivElement, IArticleCardProps>(({ article }, ref) => {
   const router = useRouter();
 
-  const handleClick = () => {
-    router.push(`/article/detail/${article.articleNo}`);
+  const handleClick = async () => {
+    try {
+      const result = await incrementViewCount(article.articleNo);
+      console.log('API call successful, response:', result); // API 호출 성공 로그
+      router.push(`/article/detail/${article.articleNo}`);
+    } catch (error) {
+      console.error('Failed to increment view count or navigate:', error);
+    }
   };
+
 
   return (
     <div 

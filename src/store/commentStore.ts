@@ -10,6 +10,7 @@ interface IComment {
   likeCnt: number;
   writerNo: number;
   writeId: string | null;
+  title: string | null
   deleteYn: string;
   reportCount: number;
   regDate: string;
@@ -19,6 +20,7 @@ interface IComment {
 interface ICommentState {
   comments: IComment[];
   fetchComments: (articleNo: number) => Promise<void>;
+  fetchUserComments: (accessToken: string | null, sort?: string) => Promise<void>;
   addComment: (articleNo: number, content: string, accessToken: string | null, nickname: string) => Promise<void>;
   deleteComment: (commentNo: number, accessToken: string | null) => Promise<void>;
   reportComment: (commentNo: number) => Promise<void>;
@@ -34,6 +36,22 @@ const useCommentStore = create<ICommentState>((set) => ({
       set({ comments: response.data.data });
     } catch (error) {
       console.error('Failed to fetch comments:', error);
+    }
+  },
+  fetchUserComments: async (accessToken, sort = 'recent') => {
+    try {
+      const response = await axios.get('https://latte-server.site/mypage/myCommentList', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          sort
+        }
+      });
+      console.log('fetchUserComments is working..', response.data.data); // 성공
+      set({ comments: response.data.data });
+    } catch (error) {
+      console.error('Failed to fetch user comments:', error);
     }
   },
   addComment: async (articleNo, content, accessToken, nickname) => {
@@ -53,6 +71,7 @@ const useCommentStore = create<ICommentState>((set) => ({
         writeId: null,
         deleteYn: "N",
         reportCount: 0,
+        title: '',
         regDate: new Date().toISOString(),
         updateDate: null,
       };

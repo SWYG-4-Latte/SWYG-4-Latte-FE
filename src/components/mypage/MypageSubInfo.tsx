@@ -2,12 +2,9 @@
 
 //NEXT
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 // Modal
-import Modal, { ModalProps } from '../common/modal/Modal';
-import Button from '../common/button/Button';
 import useModal from '@/hooks/useModal';
 //Constants
 import { subInfos } from '@/constants/mypage/subInfos';
@@ -28,6 +25,8 @@ export default function MypageSubInfo() {
   const handleCheckToken = (link: string) => {
     if (!accessToken && link === '/mypage/my-reply') {
       openModal();
+    } else if (link.startsWith('http')) {
+      window.location.href = link;
     } else {
       router.push(link);
     }

@@ -1,5 +1,11 @@
+import MypageHeader from "@/components/mypage/MypageHeader"
+import MyReplyContent from "@/components/mypage/my-reply/MyReplyContent"
+
 export default function MyReplyPage() {
   return (
-    <div>page</div>
+    <div>
+      <MypageHeader />
+      <MyReplyContent />
+    </div>
   )
 }

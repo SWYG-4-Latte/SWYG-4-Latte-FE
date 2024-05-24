@@ -2,9 +2,10 @@
 // NEXT && React
 import Image from 'next/image';
 import React from 'react';
-// Zustand
+// Zustand && Hook
 import useSignupStore from '@/store/signupStore';
-// Hook
+
+
 
 export default function ContentsSection() {
   const {
@@ -73,6 +74,7 @@ export default function ContentsSection() {
     checkUsernameDuplication,
   } = useSignupStore();
 
+  
   const handleInputChange = (field: string, value: string) => {
     switch (field) {
       case 'username':
@@ -129,6 +131,7 @@ export default function ContentsSection() {
   const toggleTermsAgreement = () => {
     toggleTermsAgreed();
   };
+
 
   const renderedContentsSection = () => {
     switch (currentStep) {

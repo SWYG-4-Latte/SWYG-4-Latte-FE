@@ -25,11 +25,13 @@ interface IArticle {
 }
 
 export default function Article() {
-  const { articles, fetchArticles, hasMore, setSort, initialLoad } = useArticleStore();
+  const { articles, fetchArticles, hasMore, setSort, initialLoad, resetArticles } = useArticleStore();
   const [activeSort, setActiveSort] = useState('recent');
   const [articleHero, setArticleHero] = useState<IArticle | null>(null);
+  const router = useRouter()
 
   useEffect(() => {
+    resetArticles();
     fetchArticles(true);
   }, []);
 
@@ -52,6 +54,7 @@ export default function Article() {
   const handleClickSort = (sortType: string) => {
     setActiveSort(sortType);
     setSort(sortType);
+    fetchArticles(true);
   };
 
   return (

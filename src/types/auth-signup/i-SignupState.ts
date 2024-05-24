@@ -93,7 +93,7 @@ export interface ISignupState {
   checkEmailDuplication: (email: string) => Promise<void>;
 
   // 네이게이션 함수
-  goToNextStep: () => void;
+  goToNextStep: (forceNextStep: boolean) => void;
   goToPrevStep: () => void;
 
   // 약관 동의 토글
