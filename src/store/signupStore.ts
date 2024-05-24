@@ -319,53 +319,54 @@ validatePregMonth: (month: string) => {
   }
 },
 
-goToNextStep: async () => {
-  const { currentStep, termsAgreed, username, email, nickname,  usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, age, ageError, gender, pregnancy, pregMonth, pregMonthError, nicknameChecked, checkEmailDuplication, checkNicknameDuplication, checkUsernameDuplication, emailError } = get();
-  
-  // Step 1에서 이메일 중복 검사를 추가
-  if (currentStep === 1) {
-    await checkEmailDuplication(email);
-    await checkUsernameDuplication(username);
-    await checkNicknameDuplication(nickname);
+goToNextStep: async (forceNextStep:boolean = false) => {
+  const { currentStep, termsAgreed, username, email, nickname, usernameChecked, password, passwordError, confirmPassword, confirmPasswordError, emailChecked, age, ageError, gender, pregnancy, pregMonth, pregMonthError, nicknameChecked, checkEmailDuplication, checkNicknameDuplication, checkUsernameDuplication } = get();
 
-    const { emailError, usernameError, nicknameError } = get();
-    if (emailError === '이미 사용 중인 이메일입니다.' || usernameError === '이미 사용중인 아이디입니다.' || nicknameError === '이미 사용중인 닉네임입니다.' || nicknameError === '닉네임은 한글만 입력 가능합니다.') {
-      return;
-    }
-  }
+  if (!forceNextStep) {
+    // Step 1에서 이메일, 아이디, 닉네임 중복 검사를 추가
+    if (currentStep === 1) {
+      await checkEmailDuplication(email);
+      await checkUsernameDuplication(username);
+      await checkNicknameDuplication(nickname);
 
-  // Step 2에서 비밀번호와 비밀번호 확인이 일치하는지 확인
-  if (currentStep === 2) {
-    if (!termsAgreed) {
-      set({ termsError: true });
-      return;
-    }
-    if (password !== confirmPassword) {
-      set({ confirmPasswordError: '비밀번호가 일치하지 않습니다.' });
-      return;
-    }
-    if (passwordError || confirmPasswordError) {
-      return;
-    }
-  }
-  // Step 3에서 나이를 입력했는지 확인
-  if (currentStep === 3) {
-    if (!age || ageError) {
-      set({ ageError: '만 나이를 입력해주세요.' });
-      return;
-    }
-
-    if (gender === 'F' && pregnancy) {
-      if (!pregMonth || pregMonthError || parseInt(pregMonth) < 1 || parseInt(pregMonth) > 10) {
-        set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요.' });
+      const { emailError, usernameError, nicknameError } = get();
+      if (emailError === '이미 사용 중인 이메일입니다.' || usernameError === '이미 사용중인 아이디입니다.' || nicknameError === '이미 사용중인 닉네임입니다.' || nicknameError === '닉네임은 한글만 입력 가능합니다.') {
         return;
+      }
+    }
+
+    // Step 2에서 비밀번호와 비밀번호 확인이 일치하는지 확인
+    if (currentStep === 2) {
+      if (!termsAgreed) {
+        set({ termsError: true });
+        return;
+      }
+      if (password !== confirmPassword) {
+        set({ confirmPasswordError: '비밀번호가 일치하지 않습니다.' });
+        return;
+      }
+      if (passwordError || confirmPasswordError) {
+        return;
+      }
+    }
+
+    // Step 3에서 나이를 입력했는지 확인
+    if (currentStep === 3) {
+      if (!age || ageError) {
+        set({ ageError: '만 나이를 입력해주세요.' });
+        return;
+      }
+      if (gender === 'F' && pregnancy) {
+        if (!pregMonth || pregMonthError || parseInt(pregMonth) < 1 || parseInt(pregMonth) > 10) {
+          set({ pregMonthError: '1-10 사이의 숫자를 입력해주세요.' });
+          return;
+        }
       }
     }
   }
 
   set({ currentStep: currentStep >= 5 ? 1 : currentStep + 1, termsError: false });
 },
-
   goToPrevStep: () => set((state: any) => ({ 
     currentStep: state.currentStep > 1 ? state.currentStep - 1  : 1
   })),

@@ -59,7 +59,7 @@ export default function FooterSection() {
 
   const handleSaveAndSignup = () => {
     closeExitModal();
-    goToNextStep();
+    goToNextStep(true);
   };
 
   const renderLaterSignupModal = (
@@ -89,7 +89,7 @@ export default function FooterSection() {
       case 1:
         return (
           <section>
-            <FooterGradientButton onClick={goToNextStep} disabled={!stepOneFilled}>
+            <FooterGradientButton onClick={() => goToNextStep(false)} disabled={!stepOneFilled}>
               계속하기
             </FooterGradientButton>
           </section>
@@ -97,7 +97,7 @@ export default function FooterSection() {
       case 2:
         return (
           <section>
-            <FooterGradientButton onClick={goToNextStep} disabled={!stepTwoFilled}>
+            <FooterGradientButton onClick={() => goToNextStep(false)} disabled={!stepTwoFilled}>
               계속하기
             </FooterGradientButton>
           </section>
@@ -107,13 +107,13 @@ export default function FooterSection() {
           <section className="fixed bottom-0 left-0 right-0 z-10 mx-auto flex h-[96px] w-full max-w-[500px] items-center px-5">
             <div className="flex w-full items-center space-x-2">
               <button
-                onClick={goToNextStep}
+                onClick={handleLaterModalOpen}
                 className="h-[50px] min-w-[118px] grow-[2] rounded-lg border border-gray05 bg-gray01 font-semibold text-gray08"
               >
                 나중에 입력
               </button>
               <button
-                onClick={goToNextStep}
+                onClick={() => goToNextStep(false)}
                 disabled={!stepThreeFilled}
                 className={`h-[50px] min-w-[194px] grow-[3] rounded-lg font-semibold
                 ${stepThreeFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}
@@ -134,7 +134,7 @@ export default function FooterSection() {
                 나중에 입력
               </button>
               <button
-                onClick={goToNextStep}
+                onClick={() => goToNextStep(false)}
                 className={`h-[50px] min-w-[194px] grow-[3] rounded-lg font-semibold
                 ${stepFourFilled ? 'bg-orange06 text-gray00' : 'bg-orange02 text-gray06'}`}
               >
