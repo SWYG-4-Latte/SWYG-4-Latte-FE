@@ -1,5 +1,6 @@
 'use client';
 // NEXT
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 // Zustand
 import useSignupStore from '@/store/signupStore';
@@ -64,6 +65,14 @@ export default function FooterSection() {
 
   const renderLaterSignupModal = (
     <Modal isOpen={isExitOpen} onClose={closeExitModal}>
+      <Image
+        src="/svgs/svg_modalIcon.svg"
+        alt="modal-icon"
+        width={48}
+        height={48}
+        priority
+        unoptimized
+      />
       <div className="text-lg font-semibold text-primaryOrange">지금까지 입력한 내용을 저장할까요?</div>
       <p className="w-[209px] text-center text-[14px] leading-[20px] text-gray10">
         입력하신 아이디, 비밀번호, 닉네임으로 라떼 핏 회원가입이 완료됩니다.
