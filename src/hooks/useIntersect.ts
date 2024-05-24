@@ -22,7 +22,7 @@ export const useIntersect = (onIntersect: () => void) => {
     return () => {
       observer.disconnect();
     };
-  }, [observeTargetRef, onIntersect]);
+  }, [observeTargetRef, onIntersect, observerCallback]);
 
   return observeTargetRef;
 };
