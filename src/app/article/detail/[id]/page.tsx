@@ -30,19 +30,48 @@ interface IArticle {
 
 
 export default function ArticlesDetailPage() {
-  const accessToken = localStorage.getItem('accessToken')
-  const { articles } = useArticleStore()
+  const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null; // 서버 사이드 렌더링 방지
+
+  const { articles, likeArticle } = useArticleStore();
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-  const [article, setArticle] = useState<IArticle | null>(null)
 
-  useEffect(()=>{
-    const articleDetail = articles.find(article => article.articleNo === parseInt(id, 10))
-    if(articleDetail) {
-      setArticle(articleDetail)
+  const [article, setArticle] = useState<IArticle | null>(null);
+  const [liked, setLiked] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(0);
+
+  useEffect(() => {
+    const articleDetail = articles.find(article => article.articleNo === parseInt(id, 10));
+    if (articleDetail) {
+      setArticle(articleDetail);
+      setLikeCount(articleDetail.likeCnt); // likeCount의 초기값을 articleDetail.likeCnt로 설정
+      if (typeof window !== 'undefined') {
+        const isLiked = localStorage.getItem(`liked_${articleDetail.articleNo}`);
+        setLiked(isLiked === 'true');
+      }
     }
-  },[article, id])
-
+  }, [articles, id]);
+  
+  const handleLikeClick = async () => {
+    if (article) {
+      const newLikeState = !liked;
+      const newLikeCount = Math.max(likeCount + (newLikeState ? 1 : -1), 0); // 0 아래로 감소하지 않도록 설정
+  
+      try {
+        await likeArticle(article.articleNo, newLikeState, accessToken); // liked 대신 newLikeState를 전달합니다.
+        setLiked(newLikeState);
+        setLikeCount(newLikeCount);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`liked_${article.articleNo}`, newLikeState.toString());
+        }
+        console.log(`Like button clicked: liked=${newLikeState}, likeCount=${newLikeCount}`); // 콘솔 로그 추가
+      } catch (error) {
+        console.error('Failed to like article:', error);
+      }
+    }
+  };
+  
+  
   if (!article) {
     return <div>Loading...</div>;
   }
@@ -93,9 +122,15 @@ export default function ArticlesDetailPage() {
               priority
               className='mb-4'
             />
-            <p className='text-[18px] font-bold mb-1'>이 아티클이 도움이 되었나요?</p>
-            <p className='text-[16px] text-gray08 mb-4'>0명이 도움을 받았어요</p>
-            <button className='flex items-center text-gray00 text-[14px] font-medium bg-primaryOrange px-4 py-2 rounded-lg'>
+            <p className="mb-1 text-[18px] font-bold">
+            {liked ? '더 유익한 정보를 위해 노력할게요.' : '이 아티클이 도움이 되었나요?'}
+            </p>
+            <p className='text-[16px] text-gray08 mb-4'>{likeCount}명이 도움을 받았어요</p>
+            <button 
+              onClick={handleLikeClick}
+              className={`flex items-center text-gray00 text-[14px] font-medium  px-4 py-2 rounded-lg
+              ${liked ? 'bg-orange03 border border-black': 'bg-primaryOrange'}
+              `}>
               <Image 
               src="/svgs/svg_article-thumb01.svg"
               alt="article-smile"
@@ -104,7 +139,7 @@ export default function ArticlesDetailPage() {
               priority
               className='mr-1'
               />
-              이 아티클을 추천해요
+              {liked ? '이 아티클을 추천했어요': '이 아티클을 추천해요'}
             </button>
           </div>
         </aside>

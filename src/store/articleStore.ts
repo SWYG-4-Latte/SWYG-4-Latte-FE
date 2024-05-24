@@ -24,6 +24,7 @@ interface IArticleStoreState {
   sort: string;
   initialLoad: boolean; // 초기 로드 여부
   fetchArticles: (initial?: boolean) => Promise<void>;
+  likeArticle: (articleNo: number, liked: boolean, accessToken: string | null) => Promise<void>;
   setSort: (sort: string) => void;
 }
 
@@ -37,7 +38,7 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
     const { page, sort, articles } = get();
     const currentPage = initial ? 0 : page;
 
-    console.log(`Fetching articles - Page: ${currentPage}, Sort: ${sort}, Initial: ${initial}`);
+    // console.log(`Fetching articles - Page: ${currentPage}, Sort: ${sort}, Initial: ${initial}`);
 
     try {
       const response = await axios.get('https://latte-server.site/article/list', {
@@ -49,7 +50,7 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
       });
 
       const newArticles = response.data.data.content;
-      console.log('Fetched articles:', newArticles);
+      // console.log('Fetched articles:', newArticles);
 
       set({
         articles: initial ? newArticles : [...articles, ...newArticles],
@@ -63,7 +64,36 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
       console.error('Error fetching articles:', error);
     }
   },
-  
+
+  likeArticle: async (articleNo, liked, accessToken) => {
+    try {
+      const response = await axios.post(
+        `https://latte-server.site/article/like/${articleNo}`,
+        { like: !liked },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        }
+        
+      );
+      console.log('likeArticle response:', response.data); // 콘솔 로그 추가
+
+      if (response.data.success) {
+        set((state) => {
+          const updatedArticles = state.articles.map(article =>
+            article.articleNo === articleNo ? { ...article, likeCnt: response.data.data.likeCnt } : article
+          );
+          console.log('Updated articles:', updatedArticles); // 콘솔 로그 추가
+          return { articles: updatedArticles };
+        });
+      } else {
+        console.error('Failed to like article:', response.data.message);
+      }
+    } catch (error) {
+      console.error("Failed to like article:", error);
+    }
+  },
   setSort: (sort) => {
     set({ sort, page: 0, hasMore: true, articles: [], initialLoad: true });
     get().fetchArticles(true);

@@ -8,7 +8,7 @@ export type ModalType =
   | 'deleteComparisonDrinks'
   | 'recommendation'
   | 'exit'
-  | 'exitConfirm';
+  | 'exitConfirm'
 
 // 모달에 전달할 추가 props 데이터, 현재는 RecordCompleteModal에만 필요
 export interface ModalData {

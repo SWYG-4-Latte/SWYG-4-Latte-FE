@@ -53,13 +53,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   nicknameChecked: false,
 
   // 사용자 정보 로드
-  loadUserInfo: (userInfo: any) => {
-    set({
-      nickname: userInfo.nickname,
-      // 필요한 다른 사용자 정보도 여기에 설정하세요
-    });
-    localStorage.setItem('nickname', userInfo.nickname); // localStorage에 저장
-  },
+  loadUserInfo: (userInfo) => set({ nickname: userInfo.nickname }),
 
 
   // 상태 업데이트 메소드
@@ -145,7 +139,7 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
     }
   },
 
-
+  
   // 토글 메소드
   toggleTermsAgreed: () => {
     const newTermsAgreed = !get().termsAgreed;
@@ -237,8 +231,8 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
       set({ nicknameError: '닉네임을 입력해주세요' });
       return;
     }
-    if (!/^[A-Za-z0-9가-힣_]{2,10}$/.test(nickname)) {
-      set({ nicknameError: '한글 3자 이상, 8자 이하로 입력해주세요.' });
+    if (!/^[가-힣]{3,8}$/.test(nickname)) {
+      set({ nicknameError: '닉네임은 한글만 입력 가능합니다.' });
       return;
     }
     const isNotDuplicate = await checkDuplicate('nickname', nickname);
@@ -335,7 +329,7 @@ goToNextStep: async () => {
     await checkNicknameDuplication(nickname);
 
     const { emailError, usernameError, nicknameError } = get();
-    if (emailError === '이미 사용 중인 이메일입니다.' || usernameError === '이미 사용중인 아이디입니다.' || nicknameError === '이미 사용중인 닉네임입니다.') {
+    if (emailError === '이미 사용 중인 이메일입니다.' || usernameError === '이미 사용중인 아이디입니다.' || nicknameError === '이미 사용중인 닉네임입니다.' || nicknameError === '닉네임은 한글만 입력 가능합니다.') {
       return;
     }
   }

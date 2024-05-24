@@ -2,7 +2,6 @@ import axios from "axios";
 import { create } from "zustand";
 import { toast } from "react-toastify";
 
-
 interface IComment {
   commentNo: number;
   articleNo: number;
@@ -26,35 +25,39 @@ interface ICommentState {
   likeComment: (commentNo: number, liked: boolean, accessToken: string | null) => Promise<void>;
 }
 
-const useCommentStore = create<ICommentState>((set)=>({
+const useCommentStore = create<ICommentState>((set) => ({
   comments: [],
   fetchComments: async (articleNo) => {
     try {
       const response = await axios.get(`https://latte-server.site/comment/list/${articleNo}`);
-      console.log('fecthComents is working..', response.data.data ) // 성공 
-      set({ comments: response.data.data })
+      console.log('fetchComments is working..', response.data.data); // 성공
+      set({ comments: response.data.data });
     } catch (error) {
-      console.error('Failed to fetch comments:', error)
+      console.error('Failed to fetch comments:', error);
     }
-    
   },
   addComment: async (articleNo, content, accessToken, nickname) => {
-    const newComment: IComment = {
-      commentNo: Date.now(), // 임시 ID
-      articleNo,
-      content,
-      nickname,
-      likeCnt: 0,
-      writerNo: 0, // 사용자 ID (예시)
-      writeId: null,
-      deleteYn: "N",
-      reportCount: 0,
-      regDate: new Date().toISOString(),
-      updateDate: null,
+    const getNextCommentNo = (comments: IComment[]) => {
+      const maxCommentNo = comments.reduce((max, comment) => Math.max(max, comment.commentNo), 0);
+      return maxCommentNo + 1;
     };
 
-    // 클라이언트 상태 업데이트
-    set((state) => ({ comments: [...state.comments, newComment] }));
+    set((state) => {
+      const tempComment: IComment = {
+        commentNo: getNextCommentNo(state.comments), // 마지막 commentNo + 1
+        articleNo,
+        content,
+        nickname,
+        likeCnt: 0,
+        writerNo: 0,
+        writeId: null,
+        deleteYn: "N",
+        reportCount: 0,
+        regDate: new Date().toISOString(),
+        updateDate: null,
+      };
+      return { comments: [...state.comments, tempComment] };
+    });
 
     try {
       const response = await axios.post(
@@ -72,7 +75,7 @@ const useCommentStore = create<ICommentState>((set)=>({
         console.log('New comment added:', addedComment);
         set((state) => ({
           comments: state.comments.map(comment =>
-            comment.commentNo === newComment.commentNo ? addedComment : comment
+            comment.commentNo === addedComment.commentNo ? addedComment : comment
           )
         }));
       }
@@ -80,10 +83,11 @@ const useCommentStore = create<ICommentState>((set)=>({
       console.error('Failed to add comment:', error);
       // 요청 실패 시 롤백
       set((state) => ({
-        comments: state.comments.filter(comment => comment.commentNo !== newComment.commentNo)
+        comments: state.comments.filter(comment => comment.commentNo !== state.comments[state.comments.length - 1].commentNo)
       }));
     }
   },
+  
   deleteComment: async (commentNo, accessToken) => {
     try {
       await axios.delete(`https://latte-server.site/comment/delete/${commentNo}`, {
@@ -94,18 +98,18 @@ const useCommentStore = create<ICommentState>((set)=>({
       set((state) => ({ comments: state.comments.filter(comment => comment.commentNo !== commentNo) }));
       toast('댓글을 삭제했어요', {
         toastId: 'comment-delete'
-      })
+      });
     } catch (error) {
       console.error('Failed to delete comment:', error);
     }
   },
   reportComment: async (commentNo) => {
-    try{
+    try {
       await axios.post(`https://latte-server.site/comment/report/${commentNo}`);
       console.log(`Reported comment with ID: ${commentNo}`);
       toast('댓글을 신고했어요', {
         toastId: 'comment-report'
-      })
+      });
     } catch (error) {
       console.error("Failed to report comment:", error);
     }
@@ -133,6 +137,6 @@ const useCommentStore = create<ICommentState>((set)=>({
       console.error("Failed to like comment:", error);
     }
   },
-}))
+}));
 
 export default useCommentStore;
