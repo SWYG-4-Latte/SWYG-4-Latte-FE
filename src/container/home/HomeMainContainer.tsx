@@ -10,23 +10,27 @@ import DrinkHistoryContainer from './DrinkHistoryContainer';
 import { UserCaffeineData } from '@/types/home/user';
 import useModal from '@/hooks/useModal';
 import apiInstance from '@/api/instance';
-import useLocalStorage from '@/hooks/useLocalStorage';
 
 const HomeMainContainer = () => {
   const { openModal } = useModal('recommendation');
 
   const [userData, setUserData] = useState<UserCaffeineData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isLoggedIn = !!useLocalStorage('accessToken');
+  const isLoggedIn = typeof window === 'undefined' ? null : localStorage.getItem('accessToken');
 
   const getUserData = async () => {
     const { data } = await apiInstance.get('/drink');
 
     setUserData(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn) {
+      setIsLoading(false);
+      return;
+    }
 
     getUserData();
 
@@ -48,8 +52,8 @@ const HomeMainContainer = () => {
 
   return (
     <>
-      <HomeBanner caffeineData={isLoggedIn ? userData : null} />
-      <DrinkHistoryContainer drinkHistory={isLoggedIn && userData ? userData.recent : []} />
+      <HomeBanner caffeineData={userData} isLoading={isLoading} />
+      <DrinkHistoryContainer drinkHistory={isLoggedIn && userData ? userData.recent : []} isLoading={isLoading} />
     </>
   );
 };

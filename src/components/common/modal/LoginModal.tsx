@@ -19,13 +19,13 @@ const LoginModal = () => {
       </p>
       <div className="flex gap-2">
         <button
-          className="h-[50px] w-32 rounded-lg border border-gray05 bg-primaryIvory px-4 py-3 font-semibold leading-[25px] text-gray08 hover:border-0 hover:bg-gray06 hover:text-gray00"
+          className="h-[50px] w-32 text-nowrap rounded-lg border border-gray05 bg-primaryIvory px-4 py-3 font-semibold leading-[25px] text-gray08 hover:border-0 hover:bg-gray06 hover:text-gray00"
           onClick={closeModal}
         >
           나중에 할게요
         </button>
         <Button
-          className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]"
+          className="w-32 text-nowrap rounded-lg px-4 py-3 font-semibold leading-[25px]"
           onClick={() => {
             closeModal();
             router.push('/auth/login');
