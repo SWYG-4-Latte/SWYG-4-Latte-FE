@@ -15,7 +15,7 @@ const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => 
 
   const { addDrink, isDrinkExist, isFull } = useDrinkComparisonStore();
 
-  const { openModal: openRecordCompleteModal } = useModal('recordComplete');
+  const { openModal: openRecordModal } = useModal('record');
 
   const { openModal: openDeleteComparisonBoxModal } = useModal('deleteComparisonDrinks');
 
@@ -42,18 +42,12 @@ const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => 
   const handleRecord = async () => {
     if (!drinkHistoryData) return;
 
-    try {
-      await apiInstance.post('/drink/date/menu', {
-        menuNo: drinkHistoryData.menuNo,
-      });
-      const recordDrinkData = {
-        menuName: drinkHistoryData.menuName,
-        menuImg: drinkHistoryData.imageUrl,
-      };
-      openRecordCompleteModal(recordDrinkData);
-    } catch (error) {
-      toast('마신 메뉴 등록에 실패했습니다.');
-    }
+    const recordDrinkData = {
+      menuNo: drinkHistoryData.menuNo,
+      menuName: drinkHistoryData.menuName,
+      menuImg: drinkHistoryData.imageUrl,
+    };
+    openRecordModal(recordDrinkData);
   };
 
   return (
