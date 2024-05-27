@@ -2,7 +2,7 @@
 
 import { useModalStore } from '@/store/modalStore';
 import LoginModal from './LoginModal';
-import RecordCompleteModal from './RecordCompleteModal';
+import DrinkRecordModal from './DrinkRecordModal';
 import DeleteComparisonBoxModal from './DeleteComparisonBoxModal';
 import DrinkRecommendationModal from './DrinkRecommendationModal';
 
@@ -14,10 +14,10 @@ const Modals = () => {
     case 'login':
       return <LoginModal />;
 
-    case 'recordComplete':
-      const recordCompleteData = getModalData('recordComplete');
-      if (recordCompleteData) {
-        return <RecordCompleteModal {...recordCompleteData} />;
+    case 'record':
+      const drinkData = getModalData('record');
+      if (drinkData) {
+        return <DrinkRecordModal {...drinkData} />;
       }
 
     case 'deleteComparisonDrinks':

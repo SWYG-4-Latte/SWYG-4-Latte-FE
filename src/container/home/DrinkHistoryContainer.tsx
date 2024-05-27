@@ -6,8 +6,14 @@ import { Menu } from '@/types/menu/menu';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useModal from '@/hooks/useModal';
 import { useRouter } from 'next/navigation';
+import DrinkHistoryCardSkeleton from '@/components/common/skeleton/DrinkHistoryCardSkeleton';
 
-const DrinkHistoryContainer = ({ drinkHistory }: { drinkHistory: Menu[] }) => {
+interface DrinkHistoryContainerProps {
+  drinkHistory: Menu[];
+  isLoading: boolean;
+}
+
+const DrinkHistoryContainer = ({ drinkHistory, isLoading }: DrinkHistoryContainerProps) => {
   const router = useRouter();
 
   const isLoggedIn = !!useLocalStorage('accessToken');
@@ -33,7 +39,11 @@ const DrinkHistoryContainer = ({ drinkHistory }: { drinkHistory: Menu[] }) => {
         </button>
       </div>
       <div className="mt-2 flex w-full items-center justify-center">
-        {drinkHistory.length === 0 ? <EmptyCard /> : <DrinkHistorySwiper slideData={drinkHistory} />}
+        {isLoading ? (
+          <DrinkHistoryCardSkeleton />
+        ) : (
+          <>{drinkHistory.length === 0 ? <EmptyCard /> : <DrinkHistorySwiper slideData={drinkHistory} />} </>
+        )}
       </div>
     </div>
   );

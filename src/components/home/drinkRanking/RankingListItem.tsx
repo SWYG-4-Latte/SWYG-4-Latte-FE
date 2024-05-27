@@ -20,7 +20,7 @@ const RankingListItem = ({
   ranking: number;
 }) => {
   const router = useRouter();
-  const { openModal: openRecordCompleteModal } = useModal('recordComplete');
+  const { openModal: openRecordModal } = useModal('record');
   const { openModal: openLoginModal } = useModal('login');
   const isLoggedIn = !!useLocalStorage('accessToken');
 
@@ -34,14 +34,7 @@ const RankingListItem = ({
       return;
     }
 
-    try {
-      await apiInstance.post('/drink/date/menu', {
-        menuNo,
-      });
-      openRecordCompleteModal({ menuName, menuImg: imageUrl });
-    } catch (error) {
-      toast('마신 메뉴 등록에 실패했습니다.');
-    }
+    openRecordModal({ menuNo, menuName, menuImg: imageUrl });
   };
 
   return (

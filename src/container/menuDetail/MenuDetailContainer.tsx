@@ -17,7 +17,7 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const { addDrinkToRecentlyViewedStore } = useRecentlyViewedDrinksStore();
 
-  const { openModal: openCompleteModal } = useModal('recordComplete');
+  const { openModal: openRecordModal } = useModal('record');
   const { openModal: openLoginModal } = useModal('login');
 
   const isLoggedIn = !!useLocalStorage('accessToken');
@@ -26,7 +26,7 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const size = searchParams.get('size');
   const [activeMenuDetail, setActiveMenuDetail] = useState(menuDetail);
 
-  const { menuNo, lowCaffeineMenus } = activeMenuDetail;
+  const { menuNo, lowCaffeineMenus, menuName, imageUrl } = activeMenuDetail;
 
   const handleRecord = async () => {
     if (!isLoggedIn) {
@@ -34,14 +34,13 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
       return;
     }
 
-    try {
-      await apiInstance.post('/drink/date/menu', {
-        menuNo,
-      });
-      openCompleteModal({ menuImg: activeMenuDetail.imageUrl, menuName: activeMenuDetail.menuName });
-    } catch (error) {
-      toast('마신 메뉴 등록에 실패했습니다.');
-    }
+    const recordDrinkData = {
+      menuNo: menuNo,
+      menuName: menuName,
+      menuImg: imageUrl,
+    };
+
+    openRecordModal(recordDrinkData);
   };
 
   useEffect(() => {

@@ -1,19 +1,13 @@
 import { create } from 'zustand';
 
-import { RecordCompleteModalData } from '@/components/common/modal/RecordCompleteModal';
+import { DrinkRecordModalProps } from '@/components/common/modal/DrinkRecordModal';
 
-export type ModalType =
-  | 'login'
-  | 'recordComplete'
-  | 'deleteComparisonDrinks'
-  | 'recommendation'
-  | 'exit'
-  | 'exitConfirm'
+export type ModalType = 'login' | 'record' | 'deleteComparisonDrinks' | 'recommendation' | 'exit' | 'exitConfirm';
 
-// 모달에 전달할 추가 props 데이터, 현재는 RecordCompleteModal에만 필요
+// 모달에 전달할 추가 props 데이터, 현재는 기록하기 모달에만 필요
 export interface ModalData {
   login: null;
-  recordComplete: RecordCompleteModalData | null;
+  record: DrinkRecordModalProps | null;
   deleteComparisonDrinks: null;
   recommendation: null;
   exitConfirm: null;
@@ -36,7 +30,7 @@ export const useModalStore = create<ModalState & ModalActions>((set, get) => ({
   openedModal: null,
   modalData: {
     login: null,
-    recordComplete: null,
+    record: null,
     deleteComparisonDrinks: null,
     recommendation: null,
     exitConfirm: null,
