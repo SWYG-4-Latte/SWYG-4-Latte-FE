@@ -43,7 +43,15 @@ const HomeBanner = ({ caffeineData, isLoading }: HomeBannerProps) => {
     <div className="relative w-full bg-primaryBeige pb-[61.11%]">
       {isLoading && (
         <>
-          <Image priority fill src={BannerDefaultImg} className="h-auto w-full" alt="배너 이미지" placeholder="blur" />
+          <Image
+            priority
+            fill
+            src={BannerDefaultImg}
+            sizes="100%"
+            className="h-auto w-full"
+            alt="배너 이미지"
+            placeholder="blur"
+          />
           <div className="loading loading-spinner loading-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-primaryOrange"></div>
         </>
       )}
