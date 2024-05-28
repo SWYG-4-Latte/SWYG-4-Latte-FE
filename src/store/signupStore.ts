@@ -277,9 +277,9 @@ const useSignupStore = create<ISignupState>((set, get)=> ({
   },
 
   validatePassword: (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,18}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>~`\\/\[\]\-=_+;'])[A-Za-z\d!@#$%^&*(),.?":{}|<>~`\\/\[\]\-=_+;']{8,18}$/;
     set({
-      passwordError: password ? (passwordRegex.test(password) ? null : '10자 이상의 영어 소문자, 숫자, 특수문자를 조합해주세요.') : '비밀번호를 입력해주세요'
+      passwordError: password ? (passwordRegex.test(password) ? null : '8자 이상의 영어 소문자, 숫자, 특수문자를 조합해주세요.') : '비밀번호를 입력해주세요'
     });
   },
 
@@ -370,6 +370,8 @@ goToNextStep: async (forceNextStep:boolean = false) => {
   goToPrevStep: () => set((state: any) => ({ 
     currentStep: state.currentStep > 1 ? state.currentStep - 1  : 1
   })),
+
+  setCurrentStep: (step: number) => set({ currentStep: step }),
 
   // 상태 초기화 함수
   resetSignupForm: () => set({

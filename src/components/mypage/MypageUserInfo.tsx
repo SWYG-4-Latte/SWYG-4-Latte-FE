@@ -40,6 +40,7 @@ export default function MypageUserInfo() {
   const [memberData, setMemberData] = useState<IMemberData | null>(null);
   const [memberInfo, setMemberInfo] = useState<IMemberInfo | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(true);
 
   useEffect(() => {
     console.log('fetch memberInfo useEffect working in MY');
@@ -59,13 +60,19 @@ export default function MypageUserInfo() {
   console.log(memberData);
   console.log(memberInfo);
 
+  const handelTooltipVisible = () => {
+    setIsTooltipVisible(!isTooltipVisible)
+  }
+
   const nicknameText = memberInfo ? memberInfo.nickname : '사용자';
   const genderText = memberInfo ? (memberInfo.gender === 'M' ? '남성' : memberInfo.gender === 'F' ? '여성' : '-') : '-';
   const pregnancyText = memberInfo
-    ? memberInfo.pregnancy
-      ? `예${memberInfo.pregMonth ? ' / ' + memberInfo.pregMonth + '개월' : ''}`
-      : '아니요'
-    : '-';
+  ? memberInfo.gender === 'M'
+    ? '-'
+    : memberInfo.pregnancy
+    ? `예${memberInfo.pregMonth ? ' / ' + memberInfo.pregMonth + '개월' : ''}`
+    : '아니요'
+  : '-';
   const caffeineText = memberData?.caffeinIntake ? memberData.caffeinIntake + 'mg' : '-';
 
   const formatAllergyText = (allergies: string) => {
@@ -140,17 +147,17 @@ export default function MypageUserInfo() {
         {/* 성별 / 임신여부 / 적정 카페인량 / 알레르기 */}
         <article className="flex h-[111px] w-full items-center justify-between rounded-xl border border-gray04 bg-gray01 px-[26px] py-[16px] shadow-toast">
           {/* ITEMS */}
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center w-[60px] h-[79px]">
             <Image src="/svgs/svg_my-sex.svg" alt="my-sex" width={40} height={40} priority unoptimized />
             <p className="mt-[7px] text-xs text-gray08">성별</p>
             <p className="text-xs font-semibold">{genderText}</p>
           </div>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center w-[61px] h-[79px]">
             <Image src="/svgs/svg_my-pregnancy.svg" alt="my-pregnancy" width={40} height={40} priority unoptimized />
             <p className="mt-[7px] text-xs text-gray08">임신 여부</p>
             <p className="text-xs font-semibold">{pregnancyText}</p>
           </div>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center w-[65px] h-[79px]">
             <Image
               src="/svgs/svg_my-caffeinefit.svg"
               alt="my-caffeinefit"
@@ -160,9 +167,40 @@ export default function MypageUserInfo() {
               unoptimized
             />
             <p className="mt-[7px] text-xs text-gray08">적정 카페인량</p>
-            <p className="text-xs font-semibold">{caffeineText}</p>
+            <div className="relative flex items-center gap-[2px] justify-center text-xs font-semibold">
+                {caffeineText}
+                  <Image
+                    onClick={handelTooltipVisible}
+                    className='mt-[2px] cursor-pointer'
+                    src="/svgs/svg_mypage-tooltipbtn.svg"
+                    alt="tooltip-btn"
+                    width={12}
+                    height={12}
+                    priority
+                    unoptimized
+                    />
+            {isTooltipVisible && (
+            <aside className="absolute -right-[36px] top-[16px] z-10 h-[60px] w-[222px]">
+              <p className="absolute z-10 px-4 py-4 text-xs leading-[18px] text-gray00">
+                사용자의 연령, 성별, 카페인 부작용 <br />등을 고려하여 선정한 기준입니다.
+              </p>
+              <button
+              className="absolute right-4 top-4 h-4 w-4"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsTooltipVisible(false);
+              }}
+              >
+                <Image src="/svgs/close-white.svg" width={16} height={16} alt="닫기" />
+              </button>
+              <Image 
+              className=''
+              src="/svgs/svg_mypage-tooltip.svg" width={222} height={60} alt="mypage-tooltip" />
+            </aside>
+            )}
+            </div>
           </div>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center w-[60px] h-[79px]">
             <Image src="/svgs/svg_my-allergy.svg" alt="my-allergy" width={40} height={40} priority unoptimized />
             <p className="mt-[7px] text-xs text-gray08">알레르기</p>
             <p className="text-xs font-semibold">{allergyText}</p>

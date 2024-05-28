@@ -28,9 +28,11 @@ export default function MyReplyContent() {
 
   console.log('comments:', comments)
 
+  const filteredComments = comments.filter(comment => comment.commentNo);
+
   const renderCommentList = () => (
     <section className="px-5">
-      <p className="mt-4 text-gray08 text-[12px]">총 {comments.length}개의 작성한 댓글이 있습니다.</p>
+      <p className="mt-4 text-gray08 text-[12px]">총 {filteredComments.length}개의 작성한 댓글이 있습니다.</p>
       <div className="flex justify-between items-center">
       <div className="itmes-center mt-2 flex space-x-2">
       <button
@@ -49,8 +51,8 @@ export default function MyReplyContent() {
         </button>
         </div>
         </div>
-      <div>
-        {comments.map((comment, index) => (
+        <div>
+        {filteredComments.length > 0 ? filteredComments.map((comment, index) => (
           <div key={index} className="border-b border-gray04 py-4">
             <p className="text-gray10 mb-2">{comment.content}</p>
             <div className="flex items-center space-x-2">
@@ -58,7 +60,9 @@ export default function MyReplyContent() {
               <p className="text-[12px] text-gray08">{comment.title}</p>
             </div>
           </div>
-        ))}
+        )) : (
+          null
+        )}
       </div>
     </section>
   );
@@ -81,7 +85,7 @@ export default function MyReplyContent() {
 
   return (
     <div className="pt-14">
-    {comments.length > 0 ? renderCommentList() : renderNoComments()}
-  </div>
+      {filteredComments.length > 0 ? renderCommentList() : renderNoComments()}
+    </div>
   );
 };

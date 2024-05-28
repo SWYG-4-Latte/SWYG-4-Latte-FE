@@ -31,6 +31,7 @@ export default function FooterSection() {
     currentStep,
     submitSignupForm,
     resetSignupForm,
+    setCurrentStep,
   } = useSignupStore();
 
   const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal('exit');
@@ -61,6 +62,7 @@ export default function FooterSection() {
   const handleSaveAndSignup = () => {
     closeExitModal();
     goToNextStep(true);
+    setCurrentStep(5);
   };
 
   const renderLaterSignupModal = (
