@@ -27,6 +27,7 @@ interface IArticleStoreState {
   likeArticle: (articleNo: number, liked: boolean, accessToken: string | null) => Promise<void>;
   setSort: (sort: string) => void;
   resetArticles: () => void; // 상태 초기화 메서드 추가
+  setArticle: (article: IArticle) => void;
 }
 
 const useArticleStore = create<IArticleStoreState>((set, get) => ({
@@ -102,6 +103,11 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
   resetArticles: () => {
     set({ articles: [], page: 0, hasMore: true, sort: 'recent', initialLoad: true });
   },
+  setArticle: (article: IArticle) => {
+    set((state) => ({
+      articles: [article, ...state.articles.filter(a => a.articleNo !== article.articleNo)],
+    }))
+  }
 }));
 
 export default useArticleStore;

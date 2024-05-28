@@ -174,7 +174,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
                 height={12}
                 priority
                 unoptimized
-                className="mr-4"
+                className="mr-4 cursor-pointer"
               />
             </p>
           </div>

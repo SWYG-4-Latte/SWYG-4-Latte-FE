@@ -1,4 +1,5 @@
 //NEXT, React
+import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useCallback, useState } from 'react';
@@ -7,6 +8,7 @@ import useArticleStore from '@/store/articleStore';
 import { useIntersect } from '@/hooks/useIntersect';
 //Component
 import ArticleCard from './ArticleCard';
+import { incrementViewCount } from '@/utils/article/incrementViewCount';
 
 interface IArticle {
   articleNo: number;
@@ -57,26 +59,41 @@ export default function Article() {
     fetchArticles(true);
   };
 
+  const handleHeroClick = async () => {
+    if (articleHero) {
+      try {
+        await incrementViewCount(articleHero.articleNo);
+        router.push(`/article/detail/${articleHero.articleNo}`);
+      } catch (error) {
+        console.error('Failed to increment view count or navigate:', error);
+      }
+    }
+  };
+
   return (
     <>
-      <section className="min-h-[255px] px-5 py-4 text-gray10 cursor-pointer">
-        <Image
-          src={'/svgs/svg_article-hero.svg'}
-          alt="article-hero"
-          width={360}
-          height={175}
-          priority
-          className="w-full rounded-lg"
-        />
-        <div className="flex flex-col mt-3 mb-4">
-          <h1 className="font-medium">{articleHero ? articleHero.title : '라떼 핏을 소개합니다!'}</h1>
-          <p className="mt-2 text-[12px] text-gray06 space-x-2.5">
-            <span>조회수 <strong>{articleHero ? articleHero.viewCnt : 0}</strong></span>
-            <span className="w-[1px] h-2 border-l borde-gray06 mx-2.5"/>
-            <span>추천해요 <strong>{articleHero ? articleHero.likeCnt : 0}</strong></span>
-          </p>
-        </div>
-      </section>
+     {articleHero && (
+        <Link href={`/article/detail/${articleHero.articleNo}`}>
+          <section className="min-h-[255px] px-5 py-4 text-gray10 cursor-pointer" onClick={handleHeroClick}>
+            <Image
+              src={'/svgs/svg_article-hero.svg'}
+              alt="article-hero"
+              width={360}
+              height={175}
+              priority
+              className="w-full rounded-lg"
+            />
+            <div className="flex flex-col mt-3 mb-4">
+              <h1 className="font-medium">{articleHero.title}</h1>
+              <p className="mt-2 text-[12px] text-gray06 space-x-2.5">
+                <span>조회수 <strong>{articleHero.viewCnt}</strong></span>
+                <span className="w-[1px] h-2 border-l borde-gray06 mx-2.5"/>
+                <span>추천해요 <strong>{articleHero.likeCnt}</strong></span>
+              </p>
+            </div>
+          </section>
+        </Link>
+      )}
       <div className="h-2 w-full bg-gray03 px-5" />
       {/* 무한스크롤 */}
       <section className="min-h-[375px] px-5 text-gray10">

@@ -95,6 +95,7 @@ export interface ISignupState {
   // 네이게이션 함수
   goToNextStep: (forceNextStep: boolean) => void;
   goToPrevStep: () => void;
+  setCurrentStep: (step: number) => void;
 
   // 약관 동의 토글
   toggleTermsAgreed: () => void;

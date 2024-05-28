@@ -211,6 +211,7 @@ export default function MyProfileContent() {
             />
             <p className="text-sm leading-6 text-gray08">세</p>
           </div>
+          {ageError && <span className="text-xs text-primaryRed">{ageError}</span>}
           <label className="text-xs text-gray10">성별</label>
           <div className="flex items-center space-x-2">
             <button
