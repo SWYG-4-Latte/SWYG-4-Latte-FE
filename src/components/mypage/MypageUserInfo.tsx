@@ -145,7 +145,7 @@ export default function MypageUserInfo() {
       </section>
       <section className="flex h-[156px] w-full items-center justify-center px-5">
         {/* 성별 / 임신여부 / 적정 카페인량 / 알레르기 */}
-        <article className="relative flex h-[111px] w-full items-center justify-between rounded-xl border border-gray04 bg-gray01 px-[26px] py-[16px] shadow-toast">
+        <article className="flex h-[111px] w-full items-center justify-between rounded-xl border border-gray04 bg-gray01 px-[26px] py-[16px] shadow-toast">
           {/* ITEMS */}
           <div className="flex flex-col items-center justify-center w-[60px] h-[79px]">
             <Image src="/svgs/svg_my-sex.svg" alt="my-sex" width={40} height={40} priority unoptimized />
@@ -167,21 +167,20 @@ export default function MypageUserInfo() {
               unoptimized
             />
             <p className="mt-[7px] text-xs text-gray08">적정 카페인량</p>
-            <div className="flex items-center gap-[2px] justify-center text-xs font-semibold">
+            <div className="relative flex items-center gap-[2px] justify-center text-xs font-semibold">
                 {caffeineText}
-                <Image
-                  onClick={handelTooltipVisible}
-                  className='mt-[2px] cursor-pointer'
-                  src="/svgs/svg_mypage-tooltipbtn.svg"
-                  alt="tooltip-btn"
-                  width={12}
-                  height={12}
-                  priority
-                  unoptimized
-                />
-            </div>
+                  <Image
+                    onClick={handelTooltipVisible}
+                    className='mt-[2px] cursor-pointer'
+                    src="/svgs/svg_mypage-tooltipbtn.svg"
+                    alt="tooltip-btn"
+                    width={12}
+                    height={12}
+                    priority
+                    unoptimized
+                    />
             {isTooltipVisible && (
-            <aside className='absolute z-10 top-[100px] right-[70px]'>
+            <aside className="absolute -right-[36px] top-[16px] z-10 h-[60px] w-[222px]">
               <p className="absolute z-10 px-4 py-4 text-xs leading-[18px] text-gray00">
                 사용자의 연령, 성별, 카페인 부작용 <br />등을 고려하여 선정한 기준입니다.
               </p>
@@ -199,6 +198,7 @@ export default function MypageUserInfo() {
               src="/svgs/svg_mypage-tooltip.svg" width={222} height={60} alt="mypage-tooltip" />
             </aside>
             )}
+            </div>
           </div>
           <div className="flex flex-col items-center justify-center w-[60px] h-[79px]">
             <Image src="/svgs/svg_my-allergy.svg" alt="my-allergy" width={40} height={40} priority unoptimized />

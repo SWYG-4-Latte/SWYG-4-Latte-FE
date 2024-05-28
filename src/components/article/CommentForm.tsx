@@ -5,10 +5,10 @@ import useCommentStore from "@/store/commentStore"
 
 interface CommentFormProps {
   articleNo: number;
-  accessToken: string | null;
 }
 
-const CommentForm: React.FC<CommentFormProps> = ({ articleNo, accessToken }) => {
+const CommentForm: React.FC<CommentFormProps> = ({ articleNo }) => {
+  const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null; // 서버 사이드 렌더링 방지
   const [content, setContent] = useState('')
   const { addComment } = useCommentStore()
   // const nickname = useSignupStore((state) => state.nickname)

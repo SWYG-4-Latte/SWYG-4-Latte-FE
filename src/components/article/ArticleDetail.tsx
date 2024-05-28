@@ -38,12 +38,17 @@ const ArticleDetail = ({ initialArticle }: ArticleDetailProps) => {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(initialArticle?.likeCnt || 0);
   const [article, setArticleState] = useState<IArticle | null>(initialArticle || null);
-
+  
   useEffect(() => {
     if (!initialArticle) {
-      const articleDetail = articles.find(a => a.articleNo === parseInt(id, 10));
-      if (articleDetail) {
-        setArticleState(articleDetail);
+      const storedArticle = localStorage.getItem(`article_${id}`);
+      if (storedArticle) {
+        setArticleState(JSON.parse(storedArticle));
+      } else {
+        const articleDetail = articles.find(a => a.articleNo === parseInt(id, 10));
+        if (articleDetail) {
+          setArticleState(articleDetail);
+        }
       }
     }
   }, [id, articles, initialArticle]);
@@ -51,8 +56,17 @@ const ArticleDetail = ({ initialArticle }: ArticleDetailProps) => {
   useEffect(() => {
     if (article) {
       setArticle(article);
+      localStorage.setItem(`article_${article.articleNo}`, JSON.stringify(article));
     }
   }, [article]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && article) {
+      const likedState = localStorage.getItem(`liked_${article.articleNo}`);
+      setLiked(likedState === 'true');
+    }
+  }, [article]);
+
 
   const handleLikeClick = async () => {
     if (article) {
