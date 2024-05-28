@@ -10,19 +10,20 @@ const DrinkHistorySwiper = ({ slideData }: { slideData: Menu[] }) => {
   return (
     <Swiper
       slidesPerView="auto"
+      slidesOffsetBefore={20}
       spaceBetween={8}
       freeMode={true}
       modules={[FreeMode]}
       slidesOffsetAfter={20}
-      className="!m-0 !w-full !pb-8"
+      className="!pb-8"
     >
       {slideData.map((data) => (
-        <SwiperSlide key={data.menuNo} className="mr-2 !w-fit first:ml-5 last:mr-0">
+        <SwiperSlide key={data.menuNo}>
           <DrinkHistoryCard drinkHistoryData={data} />
         </SwiperSlide>
       ))}
       {slideData.length === 1 && (
-        <SwiperSlide className="!w-fit">
+        <SwiperSlide>
           <DrinkHistoryCard />
         </SwiperSlide>
       )}
