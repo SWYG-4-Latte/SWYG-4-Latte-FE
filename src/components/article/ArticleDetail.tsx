@@ -38,20 +38,16 @@ const ArticleDetail = ({ initialArticle }: ArticleDetailProps) => {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(initialArticle?.likeCnt || 0);
   const [article, setArticleState] = useState<IArticle | null>(initialArticle || null);
-  
+
   useEffect(() => {
     if (!initialArticle) {
-      const storedArticle = localStorage.getItem(`article_${id}`);
-      if (storedArticle) {
-        setArticleState(JSON.parse(storedArticle));
-      } else {
-        const articleDetail = articles.find(a => a.articleNo === parseInt(id, 10));
-        if (articleDetail) {
-          setArticleState(articleDetail);
-        }
+      const articleDetail = articles.find(a => a.articleNo === parseInt(id, 10));
+      if (articleDetail) {
+        setArticleState(articleDetail);
       }
     }
   }, [id, articles, initialArticle]);
+
 
   useEffect(() => {
     if (article) {
