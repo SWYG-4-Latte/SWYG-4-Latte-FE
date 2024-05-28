@@ -40,23 +40,6 @@ const ArticleDetail = ({ initialArticle }: ArticleDetailProps) => {
   const [article, setArticleState] = useState<IArticle | null>(initialArticle || null);
 
   useEffect(() => {
-    if (!initialArticle) {
-      const articleDetail = articles.find(a => a.articleNo === parseInt(id, 10));
-      if (articleDetail) {
-        setArticleState(articleDetail);
-      }
-    }
-  }, [id, articles, initialArticle]);
-
-
-  useEffect(() => {
-    if (article) {
-      setArticle(article);
-      localStorage.setItem(`article_${article.articleNo}`, JSON.stringify(article));
-    }
-  }, [article]);
-
-  useEffect(() => {
     if (typeof window !== 'undefined' && article) {
       const likedState = localStorage.getItem(`liked_${article.articleNo}`);
       setLiked(likedState === 'true');
