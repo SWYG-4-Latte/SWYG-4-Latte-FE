@@ -32,7 +32,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
   const addTitleContent = ({ date }: { date: Date }) => {
     if (!thisMonthData) return;
 
-    const curDate = date.getDate().toString();
+    const curDate = dayjs(date).format('YYYY-MM-DD');
     const status = thisMonthData.date[curDate];
 
     if (!status) return null;

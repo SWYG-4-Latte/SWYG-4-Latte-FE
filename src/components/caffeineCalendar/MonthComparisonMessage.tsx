@@ -2,7 +2,7 @@ const MonthComparisonMessage = ({ status }: { status: string }) => {
   let message = '';
 
   if (status === '없음') message = '지난 달의 데이터가 없어요';
-  else if (status === '같음') message = '지난 달과 카페인 섭취량이 같아요';
+  else if (status === '동일') message = '지난 달과 카페인 섭취량이 같아요';
   else message = '지난 달보다 카페인 섭취량이 ';
 
   return (
