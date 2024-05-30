@@ -82,7 +82,7 @@ export default function MypageUserInfo() {
       return '-';
     }
 
-    switch (allergies.length) {
+    switch (allergyList.length) {
       case 0:
         return '-';
       case 1:
@@ -94,7 +94,10 @@ export default function MypageUserInfo() {
     }
   };
 
+  
   const allergyText = memberInfo?.allergy ? formatAllergyText(memberInfo.allergy) : '-';
+  
+  console.log('allergyText:', allergyText)
 
   const renderBeforeLogin = (
     <div className="flex flex-col justify-center space-y-2">
@@ -203,7 +206,7 @@ export default function MypageUserInfo() {
           <div className="flex flex-col items-center justify-center w-[60px] h-[79px]">
             <Image src="/svgs/svg_my-allergy.svg" alt="my-allergy" width={40} height={40} priority unoptimized />
             <p className="mt-[7px] text-xs text-gray08">알레르기</p>
-            <p className="text-xs font-semibold">{allergyText}</p>
+            <p className="text-xs font-semibold whitespace-nowrap">{allergyText}</p>
           </div>
         </article>
       </section>

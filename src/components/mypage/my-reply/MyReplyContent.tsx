@@ -28,9 +28,26 @@ export default function MyReplyContent() {
 
   console.log('comments:', comments)
 
-  const filteredComments = comments.filter(comment => comment.commentNo);
+  const filteredComments = comments.slice(0, comments.length - 1);
 
-  const renderCommentList = () => (
+  console.log(filteredComments)
+
+  const renderNoComments = (
+    <section className="flex flex-col items-center justify-center mt-[160px]">
+      <Image 
+        src="/svgs/svg_my-noMsg.svg"
+        alt="no-msg"
+        width={72}
+        height={76}
+        priority
+        unoptimized
+      />
+      <p className="text-center text-gray08 text-[16px] mb-2">내가 쓴 댓글이 없어요.</p>
+      <p className="text-center text-gray08 text-[14px]">아티클을 읽고 의견을 남겨주세요.</p>
+    </section>
+  );
+  
+  const renderCommentList = (
     <section className="px-5">
       <p className="mt-4 text-gray08 text-[12px]">총 {filteredComments.length}개의 작성한 댓글이 있습니다.</p>
       <div className="flex justify-between items-center">
@@ -61,31 +78,15 @@ export default function MyReplyContent() {
             </div>
           </div>
         )) : (
-          null
+          renderNoComments
         )}
       </div>
     </section>
   );
 
-  const renderNoComments = () => (
-    <section className="flex flex-col items-center justify-center mt-[160px]">
-      <Image 
-        src="/svgs/svg_my-noMsg.svg"
-        alt="no-msg"
-        width={72}
-        height={76}
-        priority
-        unoptimized
-      />
-      <p className="text-center text-gray08 text-[16px] mb-2">내가 쓴 댓글이 없어요.</p>
-      <p className="text-center text-gray08 text-[14px]">아티클을 읽고 의견을 남겨주세요.</p>
-    </section>
-  );
-  
-
   return (
     <div className="pt-14">
-      {filteredComments.length > 0 ? renderCommentList() : renderNoComments()}
+      {filteredComments.length > 0 ? renderCommentList : renderNoComments }
     </div>
   );
 };
