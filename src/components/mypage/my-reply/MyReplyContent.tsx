@@ -26,10 +26,10 @@ export default function MyReplyContent() {
     setSort(newSort);
   };
 
-  console.log('comments:', comments)
 
   const filteredComments = comments.slice(0, comments.length - 1);
-
+  
+  console.log('comments:', comments)
   console.log(filteredComments)
 
   const renderNoComments = (
@@ -60,11 +60,11 @@ export default function MyReplyContent() {
           최신순
         </button>
         <button
-          onClick={() => handleClickSort('viewCnt')}
+          onClick={() => handleClickSort('likeCnt')}
           className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
-            ${sort === 'viewCnt' ? 'border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
+            ${sort === 'likeCnt' ? 'border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
         >
-          조회순
+          추천순
         </button>
         </div>
         </div>
