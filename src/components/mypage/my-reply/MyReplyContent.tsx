@@ -26,48 +26,13 @@ export default function MyReplyContent() {
     setSort(newSort);
   };
 
+
+  const filteredComments = comments.slice(0, comments.length - 1);
+  
   console.log('comments:', comments)
+  console.log(filteredComments)
 
-  const filteredComments = comments.filter(comment => comment.commentNo);
-
-  const renderCommentList = () => (
-    <section className="px-5">
-      <p className="mt-4 text-gray08 text-[12px]">총 {filteredComments.length}개의 작성한 댓글이 있습니다.</p>
-      <div className="flex justify-between items-center">
-      <div className="itmes-center mt-2 flex space-x-2">
-      <button
-          onClick={() => handleClickSort('recent')}
-          className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
-            ${sort === 'recent' ? 'border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
-        >
-          최신순
-        </button>
-        <button
-          onClick={() => handleClickSort('viewCnt')}
-          className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
-            ${sort === 'viewCnt' ? 'border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
-        >
-          조회순
-        </button>
-        </div>
-        </div>
-        <div>
-        {filteredComments.length > 0 ? filteredComments.map((comment, index) => (
-          <div key={index} className="border-b border-gray04 py-4">
-            <p className="text-gray10 mb-2">{comment.content}</p>
-            <div className="flex items-center space-x-2">
-              <p className="text-[12px] text-gray08">{formatDate(comment.regDate)}</p>
-              <p className="text-[12px] text-gray08">{comment.title}</p>
-            </div>
-          </div>
-        )) : (
-          null
-        )}
-      </div>
-    </section>
-  );
-
-  const renderNoComments = () => (
+  const renderNoComments = (
     <section className="flex flex-col items-center justify-center mt-[160px]">
       <Image 
         src="/svgs/svg_my-noMsg.svg"
@@ -82,10 +47,46 @@ export default function MyReplyContent() {
     </section>
   );
   
+  const renderCommentList = (
+    <section className="px-5">
+      <p className="mt-4 text-gray08 text-[12px]">총 {filteredComments.length}개의 작성한 댓글이 있습니다.</p>
+      <div className="flex justify-between items-center">
+      <div className="itmes-center mt-2 flex space-x-2">
+      <button
+          onClick={() => handleClickSort('recent')}
+          className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
+            ${sort === 'recent' ? 'border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
+        >
+          최신순
+        </button>
+        <button
+          onClick={() => handleClickSort('likeCnt')}
+          className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
+            ${sort === 'likeCnt' ? 'border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
+        >
+          추천순
+        </button>
+        </div>
+        </div>
+        <div>
+        {filteredComments.length > 0 ? filteredComments.map((comment, index) => (
+          <div key={index} className="border-b border-gray04 py-4">
+            <p className="text-gray10 mb-2">{comment.content}</p>
+            <div className="flex items-center space-x-2">
+              <p className="text-[12px] text-gray08">{formatDate(comment.regDate)}</p>
+              <p className="text-[12px] text-gray08">{comment.title}</p>
+            </div>
+          </div>
+        )) : (
+          renderNoComments
+        )}
+      </div>
+    </section>
+  );
 
   return (
     <div className="pt-14">
-      {filteredComments.length > 0 ? renderCommentList() : renderNoComments()}
+      {filteredComments.length > 0 ? renderCommentList : renderNoComments }
     </div>
   );
 };

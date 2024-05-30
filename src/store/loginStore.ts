@@ -71,7 +71,7 @@ const useLoginStore = create<ILoginState>((set) => ({
     if (!password) {
       error = '비밀번호를 입력해주세요';
     } else if (!passwordRegex.test(password)) {
-      error = '10자 이상의 영어 소문자, 숫자, 특수문자를 조합해주세요.';
+      error = '8자 이상의 영어 소문자, 숫자, 특수문자를 조합해주세요.';
     }
     set({ passwordError: error });
   }
