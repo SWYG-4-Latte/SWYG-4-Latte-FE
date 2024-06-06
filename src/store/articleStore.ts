@@ -26,8 +26,6 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
     const { page, sort, articles } = get();
     const currentPage = initial ? 0 : page;
 
-    console.log(`Fetching articles - Page: ${currentPage}, Sort: ${sort}, Initial: ${initial}`);
-
     try {
       const response = await axios.get('https://latte-server.site/article/list', {
         params: {
@@ -38,7 +36,6 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
       });
 
       const newArticles = response.data.data.content;
-      console.log('Fetched articles:', newArticles);
 
       set({
         articles: initial ? newArticles : [...articles, ...newArticles],
@@ -46,8 +43,6 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
         hasMore: !response.data.data.last,
         initialLoad: false,
       });
-
-      console.log(`Updated state - Page: ${currentPage + 1}, HasMore: ${!response.data.data.last}`);
     } catch (error) {
       console.error('Error fetching articles:', error);
     }
@@ -64,14 +59,13 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
           },
         },
       );
-      console.log('likeArticle response:', response.data);
 
       if (response.data.success) {
         set((state) => {
           const updatedArticles = state.articles.map((article) =>
             article.articleNo === articleNo ? { ...article, likeCnt: response.data.data.likeCnt } : article,
           );
-          console.log('Updated articles:', updatedArticles);
+
           return { articles: updatedArticles };
         });
       } else {

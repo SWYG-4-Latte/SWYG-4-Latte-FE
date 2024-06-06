@@ -1,6 +1,6 @@
-import axios from "axios";
-import { create } from "zustand";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { create } from 'zustand';
+import { toast } from 'react-toastify';
 
 interface IComment {
   commentNo: number;
@@ -10,7 +10,7 @@ interface IComment {
   likeCnt: number;
   writerNo: number;
   writeId: string | null;
-  title: string | null
+  title: string | null;
   deleteYn: string;
   reportCount: number;
   regDate: string;
@@ -32,7 +32,7 @@ const useCommentStore = create<ICommentState>((set) => ({
   fetchComments: async (articleNo) => {
     try {
       const response = await axios.get(`https://latte-server.site/comment/list/${articleNo}`);
-      console.log('fetchComments is working..', response.data.data); // 성공
+
       set({ comments: response.data.data });
     } catch (error) {
       console.error('Failed to fetch comments:', error);
@@ -45,10 +45,10 @@ const useCommentStore = create<ICommentState>((set) => ({
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
-          sort
-        }
+          sort,
+        },
       });
-      console.log('fetchUserComments is working..', response.data.data); // 성공
+
       set({ comments: response.data.data });
     } catch (error) {
       console.error('Failed to fetch user comments:', error);
@@ -69,7 +69,7 @@ const useCommentStore = create<ICommentState>((set) => ({
         likeCnt: 0,
         writerNo: 0,
         writeId: null,
-        deleteYn: "N",
+        deleteYn: 'N',
         reportCount: 0,
         title: '',
         regDate: new Date().toISOString(),
@@ -86,27 +86,28 @@ const useCommentStore = create<ICommentState>((set) => ({
           headers: {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
-          }
-        }
+          },
+        },
       );
       const addedComment = response.data.data.commentInfo;
       if (addedComment && response.data.resultYn) {
-        console.log('New comment added:', addedComment);
         set((state) => ({
-          comments: state.comments.map(comment =>
-            comment.commentNo === addedComment.commentNo ? addedComment : comment
-          )
+          comments: state.comments.map((comment) =>
+            comment.commentNo === addedComment.commentNo ? addedComment : comment,
+          ),
         }));
       }
     } catch (error) {
       console.error('Failed to add comment:', error);
       // 요청 실패 시 롤백
       set((state) => ({
-        comments: state.comments.filter(comment => comment.commentNo !== state.comments[state.comments.length - 1].commentNo)
+        comments: state.comments.filter(
+          (comment) => comment.commentNo !== state.comments[state.comments.length - 1].commentNo,
+        ),
       }));
     }
   },
-  
+
   deleteComment: async (commentNo, accessToken) => {
     try {
       await axios.delete(`https://latte-server.site/comment/delete/${commentNo}`, {
@@ -114,9 +115,9 @@ const useCommentStore = create<ICommentState>((set) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      set((state) => ({ comments: state.comments.filter(comment => comment.commentNo !== commentNo) }));
+      set((state) => ({ comments: state.comments.filter((comment) => comment.commentNo !== commentNo) }));
       toast('댓글을 삭제했어요', {
-        toastId: 'comment-delete'
+        toastId: 'comment-delete',
       });
     } catch (error) {
       console.error('Failed to delete comment:', error);
@@ -125,12 +126,12 @@ const useCommentStore = create<ICommentState>((set) => ({
   reportComment: async (commentNo) => {
     try {
       await axios.post(`https://latte-server.site/comment/report/${commentNo}`);
-      console.log(`Reported comment with ID: ${commentNo}`);
+
       toast('댓글을 신고했어요', {
-        toastId: 'comment-report'
+        toastId: 'comment-report',
       });
     } catch (error) {
-      console.error("Failed to report comment:", error);
+      console.error('Failed to report comment:', error);
     }
   },
   likeComment: async (commentNo, liked, accessToken) => {
@@ -141,19 +142,19 @@ const useCommentStore = create<ICommentState>((set) => ({
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-          }
-        }
+          },
+        },
       );
-      console.log('likeComment response:', response.data); // 콘솔 로그 추가
+
       set((state) => {
-        const updatedComments = state.comments.map(comment =>
-          comment.commentNo === commentNo ? { ...comment, likeCnt: response.data.data.likeCnt } : comment
+        const updatedComments = state.comments.map((comment) =>
+          comment.commentNo === commentNo ? { ...comment, likeCnt: response.data.data.likeCnt } : comment,
         );
-        console.log('Updated comments:', updatedComments); // 콘솔 로그 추가
+
         return { comments: updatedComments };
       });
     } catch (error) {
-      console.error("Failed to like comment:", error);
+      console.error('Failed to like comment:', error);
     }
   },
 }));

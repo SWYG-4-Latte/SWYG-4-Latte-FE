@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 /** Docs
  * 중복 검사 함수
@@ -21,22 +21,18 @@ async function checkDuplicate(fieldType: string, value: string): Promise<boolean
       throw new Error(`Unsupported field type: ${fieldType}`);
     }
 
-    console.log(`Sending request to: ${endpoint}`);
-
     const response = await axios.post(endpoint);
     const { data } = response.data;
 
-    console.log(`Response from ${endpoint}:`, response.data);
-
-    if (fieldType === 'username') return data.confirmIdYn === "true";
-    if (fieldType === 'nickname') return data.confirmNicknameYn === "true";
-    if (fieldType === 'email') return data.confirmEmailYn === "true";
+    if (fieldType === 'username') return data.confirmIdYn === 'true';
+    if (fieldType === 'nickname') return data.confirmNicknameYn === 'true';
+    if (fieldType === 'email') return data.confirmEmailYn === 'true';
 
     return false;
   } catch (error) {
     console.error(`Duplicate check failed for ${fieldType}:`, error);
-    return false; 
+    return false;
   }
 }
 
-export default checkDuplicate
+export default checkDuplicate;

@@ -48,7 +48,6 @@ export default function MyProfileContent() {
   const { memberInfo, setMemberInfo, updateMemberInfo } = useMemberStore();
 
   useEffect(() => {
-    console.log('fetch memberInfo useEffect working in 내 프로필');
     const loadMemberInfo = async () => {
       const info = await fetchMemberInfo();
       setMemberInfo(info.member);
@@ -56,8 +55,6 @@ export default function MyProfileContent() {
 
     loadMemberInfo();
   }, []);
-
-  console.log(memberInfo);
 
   const handleInputChange = (field: any, value: string) => {
     switch (field) {
@@ -81,8 +78,6 @@ export default function MyProfileContent() {
   };
 
   const handleUpdateProfile = async () => {
-    console.log('업데이트 전 memberInfo:', memberInfo);
-
     await updateMemberInfo();
     toast('내 프로필을 저장했어요', {
       toastId: 'profile-update',
@@ -117,7 +112,6 @@ export default function MyProfileContent() {
 
   const handleConfirmExit = async () => {
     try {
-      console.log('memberInfo.mbrNo in 탈퇴하기', memberInfo.mbrNo);
       await deleteUser(memberInfo.mbrNo);
       closeExitModal();
       localStorage.removeItem('accessToken'); // 로컬 스토리지에서 인증 토큰을 제거
