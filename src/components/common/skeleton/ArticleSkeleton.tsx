@@ -2,15 +2,21 @@ export const ArticleSearchListSkeleton = () => {
   return (
     <>
       {Array.from({ length: 12 }).map((_, idx) => (
-        <div className="flex min-h-24 animate-pulse items-center gap-4 border-b border-gray04 bg-gray02 px-4 py-4 last:border-none">
-          <div className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-lg bg-gray04"></div>
-          <div className="flex flex-col justify-center gap-2">
-            <div className="h-4 w-52 rounded bg-gray04"></div>
-            <div className="flex h-3 w-36 rounded bg-gray04"></div>
-          </div>
-        </div>
+        <ArticleListItemSkeleton key={idx} />
       ))}
     </>
+  );
+};
+
+export const ArticleListItemSkeleton = () => {
+  return (
+    <div className="flex min-h-24 animate-pulse items-center gap-4 border-b border-gray04 bg-gray02 px-4 py-4 last:border-none">
+      <div className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-lg bg-gray04"></div>
+      <div className="flex flex-col justify-center gap-2">
+        <div className="h-4 w-52 rounded bg-gray04"></div>
+        <div className="flex h-3 w-36 rounded bg-gray04"></div>
+      </div>
+    </div>
   );
 };
 

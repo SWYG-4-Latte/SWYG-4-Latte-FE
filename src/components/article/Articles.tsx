@@ -1,26 +1,24 @@
-//NEXT, React
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useCallback, useState } from 'react';
-//Library && Hook
+
 import useArticleStore from '@/store/articleStore';
 import { useIntersect } from '@/hooks/useIntersect';
-//Component
 
-import { incrementViewCount } from '@/utils/article/incrementViewCount';
-import { ArticleHeroSkeleton } from '../common/skeleton/ArticleSkeleton';
+import {
+  ArticleHeroSkeleton,
+  ArticleListItemSkeleton,
+  ArticleSearchListSkeleton,
+} from '../common/skeleton/ArticleSkeleton';
 import ArticleListItem from './ArticleListItem';
 import { IArticle } from '@/types/article/article';
 
-export default function Article() {
-  const { articles, fetchArticles, hasMore, setSort, initialLoad, resetArticles } = useArticleStore();
+export default function Articles() {
+  const { articles, fetchArticles, hasMore, setSort, initialLoad } = useArticleStore();
   const [activeSort, setActiveSort] = useState('recent');
   const [articleHero, setArticleHero] = useState<IArticle | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
-    resetArticles();
     fetchArticles(true);
   }, []);
 
@@ -34,10 +32,9 @@ export default function Article() {
   const onIntersect = useCallback(() => {
     if (!initialLoad && hasMore) {
       // 초기 로드 완료 후에만 동작
-      console.log('Intersected and fetching more articles...');
       fetchArticles();
     }
-  }, [hasMore, fetchArticles, initialLoad]);
+  }, [hasMore, fetchArticles, initialLoad, articles]);
 
   const observeTargetRef = useIntersect(onIntersect);
 
@@ -47,22 +44,11 @@ export default function Article() {
     fetchArticles(true);
   };
 
-  const handleHeroClick = async () => {
-    if (articleHero) {
-      try {
-        await incrementViewCount(articleHero.articleNo);
-        router.push(`/article/detail/${articleHero.articleNo}`);
-      } catch (error) {
-        console.error('Failed to increment view count or navigate:', error);
-      }
-    }
-  };
-
   return (
     <>
       {articleHero ? (
         <Link href={`/article/detail/${articleHero.articleNo}`}>
-          <section className="h-[255px] cursor-pointer px-5 py-4 text-gray10" onClick={handleHeroClick}>
+          <section className="h-[255px] cursor-pointer px-5 py-4 text-gray10">
             <Image
               src={articleHero.images.imgUrl2}
               alt="article-hero"
@@ -118,9 +104,11 @@ export default function Article() {
         </div>
         {/* ITEMS - Data Fetching  */}
         <div className="mb-20 mt-4 w-full">
+          {initialLoad && <ArticleSearchListSkeleton />}
           {articles.map((article, index) => (
             <ArticleListItem key={article.articleNo} article={article} />
           ))}
+          <div ref={observeTargetRef}>{hasMore && <ArticleListItemSkeleton />}</div>
         </div>
       </section>
     </>
