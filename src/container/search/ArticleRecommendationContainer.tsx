@@ -4,12 +4,12 @@ import { useRouter } from 'next/navigation';
 
 import { getArticleSearchResult } from '@/api/search';
 import { RecommendedArticleItemSkeleton } from '@/components/common/skeleton/ArticleSkeleton';
-import { Article } from '@/types/article/article';
+import { IArticle } from '@/types/article/article';
 
 const ArticleRecommendationContainer = () => {
   const router = useRouter();
 
-  const [recommendedArticle, setRecommendedArticle] = useState<Article | null>(null);
+  const [recommendedArticle, setRecommendedArticle] = useState<IArticle | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const getArticleList = async () => {

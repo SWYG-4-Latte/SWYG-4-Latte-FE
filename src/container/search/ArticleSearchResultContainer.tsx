@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 
 import NoSearchResults from '@/components/search/NoSearchResults';
-import SearchListSkeleton, { SearchListItemSkeleton } from '@/components/common/skeleton/SearchListSkeleton';
+import { SearchListItemSkeleton } from '@/components/common/skeleton/SearchListSkeleton';
 import { useIntersect } from '@/hooks/useIntersect';
 import { SearchResultContainerProps } from './DrinkSearchResultContainer';
 import ArticleListItem from '@/components/article/ArticleListItem';
-import { Article } from '@/types/article/article';
+import { IArticle } from '@/types/article/article';
 import { getArticleSearchResult } from '@/api/search';
 import { ArticleSearchListSkeleton } from '@/components/common/skeleton/ArticleSkeleton';
 
 const ArticleSearchResultContainer = ({ query, setHasResult }: SearchResultContainerProps) => {
-  const [searchResults, setSearchResults] = useState<Article[]>([]);
+  const [searchResults, setSearchResults] = useState<IArticle[]>([]);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);

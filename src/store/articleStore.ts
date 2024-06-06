@@ -1,21 +1,7 @@
-import axios from "axios";
-import { create } from "zustand";
+import axios from 'axios';
+import { create } from 'zustand';
 
-interface IArticle{
-  articleNo: number;
-  imageUrl: string | null;
-  images: { imgUrl1: string; imgUrl2: string } | null;
-  title: string;
-  subTitle: string;
-  content: string;
-  writerNo: number;
-  nickname: string;
-  viewCnt: number;
-  likeCnt: number;
-  deleteYn: string;
-  regDate: string;
-  updateDate: string | null;
-}
+import { IArticle } from '@/types/article/article';
 
 interface IArticleStoreState {
   articles: IArticle[];
@@ -40,28 +26,23 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
     const { page, sort, articles } = get();
     const currentPage = initial ? 0 : page;
 
-    console.log(`Fetching articles - Page: ${currentPage}, Sort: ${sort}, Initial: ${initial}`);
-
     try {
       const response = await axios.get('https://latte-server.site/article/list', {
         params: {
           page: currentPage,
           size: 4,
-          sort
-        }
+          sort,
+        },
       });
 
       const newArticles = response.data.data.content;
-      console.log('Fetched articles:', newArticles);
 
       set({
         articles: initial ? newArticles : [...articles, ...newArticles],
         page: currentPage + 1,
         hasMore: !response.data.data.last,
-        initialLoad: false, 
+        initialLoad: false,
       });
-
-      console.log(`Updated state - Page: ${currentPage + 1}, HasMore: ${!response.data.data.last}`);
     } catch (error) {
       console.error('Error fetching articles:', error);
     }
@@ -75,25 +56,23 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-          }
-        }
-        
+          },
+        },
       );
-      console.log('likeArticle response:', response.data); 
 
       if (response.data.success) {
         set((state) => {
-          const updatedArticles = state.articles.map(article =>
-            article.articleNo === articleNo ? { ...article, likeCnt: response.data.data.likeCnt } : article
+          const updatedArticles = state.articles.map((article) =>
+            article.articleNo === articleNo ? { ...article, likeCnt: response.data.data.likeCnt } : article,
           );
-          console.log('Updated articles:', updatedArticles); 
+
           return { articles: updatedArticles };
         });
       } else {
         console.error('Failed to like article:', response.data.message);
       }
     } catch (error) {
-      console.error("Failed to like article:", error);
+      console.error('Failed to like article:', error);
     }
   },
   setSort: (sort) => {
@@ -105,9 +84,9 @@ const useArticleStore = create<IArticleStoreState>((set, get) => ({
   },
   setArticle: (article: IArticle) => {
     set((state) => ({
-      articles: [article, ...state.articles.filter(a => a.articleNo !== article.articleNo)],
-    }))
-  }
+      articles: [article, ...state.articles.filter((a) => a.articleNo !== article.articleNo)],
+    }));
+  },
 }));
 
 export default useArticleStore;

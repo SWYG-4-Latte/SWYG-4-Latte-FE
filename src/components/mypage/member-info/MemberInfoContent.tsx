@@ -18,7 +18,6 @@ export default function MemberInfoContent() {
   });
 
   useEffect(() => {
-    console.log('fetch memberInfo useEffect working in 나의 카페인 추가설정');
     const loadMemberInfo = async () => {
       const info = await fetchMemberInfo();
       setMemberInfo(info.member);
@@ -38,22 +37,24 @@ export default function MemberInfoContent() {
 
   const toggleSymptom = (symptom: any) => {
     setLocalMemberInfo((prev) => {
-      const updatedSymptoms = symptom === '별다른 증상이 없어요'
-        ? ['별다른 증상이 없어요']
-        : prev.symptoms.includes(symptom)
-          ? prev.symptoms.filter((s) => s !== symptom)
-          : [...prev.symptoms.filter((s) => s !== '별다른 증상이 없어요'), symptom];
+      const updatedSymptoms =
+        symptom === '별다른 증상이 없어요'
+          ? ['별다른 증상이 없어요']
+          : prev.symptoms.includes(symptom)
+            ? prev.symptoms.filter((s) => s !== symptom)
+            : [...prev.symptoms.filter((s) => s !== '별다른 증상이 없어요'), symptom];
 
       return { ...prev, symptoms: updatedSymptoms };
     });
   };
   const toggleAllergy = (allergy: any) => {
     setLocalMemberInfo((prev) => {
-      const updatedAllergies = allergy === '없어요'
-        ? ['없어요']
-        : prev.allergies.includes(allergy)
-          ? prev.allergies.filter((a) => a !== allergy)
-          : [...prev.allergies.filter((a) => a !== '없어요'), allergy];
+      const updatedAllergies =
+        allergy === '없어요'
+          ? ['없어요']
+          : prev.allergies.includes(allergy)
+            ? prev.allergies.filter((a) => a !== allergy)
+            : [...prev.allergies.filter((a) => a !== '없어요'), allergy];
 
       return { ...prev, allergies: updatedAllergies };
     });
@@ -86,9 +87,6 @@ export default function MemberInfoContent() {
       });
     }
   };
-
-  console.log('localMemberInfo.cupDay', localMemberInfo.cupDay);
-  console.log('localMemberInfo.symptoms', localMemberInfo.symptoms);
 
   return (
     <section className="w-full px-5 pt-14">

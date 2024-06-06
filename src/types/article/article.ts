@@ -1,11 +1,15 @@
-export interface Article {
+export interface IArticle {
   articleNo: number;
   viewCnt: number;
   likeCnt: number;
   title: string;
+  subTitle: string;
   imageUrl: string;
   regDate: string;
+  updateDate: string;
   content: string;
+  writerNo: string;
+  deleteYn: string;
   images: ArticleImages;
 }
 

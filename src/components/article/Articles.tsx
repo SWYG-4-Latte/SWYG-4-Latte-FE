@@ -1,39 +1,24 @@
-//NEXT, React
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useCallback, useState } from 'react';
-//Library && Hook
+
 import useArticleStore from '@/store/articleStore';
 import { useIntersect } from '@/hooks/useIntersect';
-//Component
-import ArticleCard from './ArticleCard';
-import { incrementViewCount } from '@/utils/article/incrementViewCount';
 
-interface IArticle {
-  articleNo: number;
-  imageUrl: string | null;
-  images: { imgUrl1: string; imgUrl2: string } | null;
-  title: string;
-  subTitle: string;
-  content: string;
-  writerNo: number;
-  nickname: string;
-  viewCnt: number;
-  likeCnt: number;
-  deleteYn: string;
-  regDate: string;
-  updateDate: string | null;
-}
+import {
+  ArticleHeroSkeleton,
+  ArticleListItemSkeleton,
+  ArticleSearchListSkeleton,
+} from '../common/skeleton/ArticleSkeleton';
+import ArticleListItem from './ArticleListItem';
+import { IArticle } from '@/types/article/article';
 
-export default function Article() {
-  const { articles, fetchArticles, hasMore, setSort, initialLoad, resetArticles } = useArticleStore();
+export default function Articles() {
+  const { articles, fetchArticles, hasMore, setSort, initialLoad } = useArticleStore();
   const [activeSort, setActiveSort] = useState('recent');
   const [articleHero, setArticleHero] = useState<IArticle | null>(null);
-  const router = useRouter()
 
   useEffect(() => {
-    resetArticles();
     fetchArticles(true);
   }, []);
 
@@ -45,11 +30,11 @@ export default function Article() {
   }, [articles]);
 
   const onIntersect = useCallback(() => {
-    if (!initialLoad && hasMore) { // 초기 로드 완료 후에만 동작
-      console.log('Intersected and fetching more articles...');
+    if (!initialLoad && hasMore) {
+      // 초기 로드 완료 후에만 동작
       fetchArticles();
     }
-  }, [hasMore, fetchArticles, initialLoad]);
+  }, [hasMore, fetchArticles, initialLoad, articles]);
 
   const observeTargetRef = useIntersect(onIntersect);
 
@@ -59,77 +44,71 @@ export default function Article() {
     fetchArticles(true);
   };
 
-  const handleHeroClick = async () => {
-    if (articleHero) {
-      try {
-        await incrementViewCount(articleHero.articleNo);
-        router.push(`/article/detail/${articleHero.articleNo}`);
-      } catch (error) {
-        console.error('Failed to increment view count or navigate:', error);
-      }
-    }
-  };
-
   return (
     <>
-     {articleHero && (
+      {articleHero ? (
         <Link href={`/article/detail/${articleHero.articleNo}`}>
-          <section className="min-h-[255px] px-5 py-4 text-gray10 cursor-pointer" onClick={handleHeroClick}>
+          <section className="h-[255px] cursor-pointer px-5 py-4 text-gray10">
             <Image
-              src={'/svgs/svg_article-hero.svg'}
+              src={articleHero.images.imgUrl2}
               alt="article-hero"
-              width={360}
-              height={175}
+              width={0}
+              height={0}
+              sizes="100%"
               priority
-              className="w-full rounded-lg"
+              className="h-40 w-full rounded-lg bg-gray04 object-cover"
             />
-            <div className="flex flex-col mt-3 mb-4">
-              <h1 className="font-medium">{articleHero.title}</h1>
-              <p className="mt-2 text-[12px] text-gray06 space-x-2.5">
-                <span>조회수 <strong>{articleHero.viewCnt}</strong></span>
-                <span className="w-[1px] h-2 border-l borde-gray06 mx-2.5"/>
-                <span>추천해요 <strong>{articleHero.likeCnt}</strong></span>
-              </p>
+            <div className="mb-4 mt-3 flex flex-col">
+              <h2 className="font-medium">{articleHero.title}</h2>
+              <div className="mt-2 flex items-center text-gray08">
+                <span className="flex gap-2.5">
+                  조회수 <span>{articleHero.viewCnt}</span>
+                </span>
+                <div className="mx-2.5 h-3 w-[1px] bg-gray06" />
+                <span className="flex gap-2.5">
+                  추천해요 <span>{articleHero.likeCnt}</span>
+                </span>
+              </div>
             </div>
           </section>
         </Link>
+      ) : (
+        <ArticleHeroSkeleton />
       )}
-      <div className="h-2 w-full bg-gray03 px-5" />
+      <div className="h-2 w-full bg-gray03" />
       {/* 무한스크롤 */}
-      <section className="min-h-[375px] px-5 text-gray10">
+      <section className="min-h-[375px] text-gray10">
         {/* Filter Btns */}
-        <div className="itmes-center mt-4 flex space-x-2">
+        <div className="mt-4 flex items-center space-x-2 px-5">
           <button
             onClick={() => handleClickSort('recent')}
             className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
-              ${activeSort === 'recent' ? 'border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
+              ${activeSort === 'recent' ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 bg-gray01 text-gray08'}`}
           >
             최신순
           </button>
           <button
             onClick={() => handleClickSort('viewCnt')}
             className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
-          ${activeSort === 'viewCnt' ? ' border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
+          ${activeSort === 'viewCnt' ? ' border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 bg-gray01 text-gray08'}`}
           >
             조회순
           </button>
           <button
             onClick={() => handleClickSort('likeCnt')}
             className={`flex-all-center h-[30px] w-[63px] whitespace-nowrap rounded-md border px-4 py-2 text-[12px]
-          ${activeSort === 'likeCnt' ? ' border-primaryOrange text-primaryOrange' : 'border-gray05'}`}
+          ${activeSort === 'likeCnt' ? ' border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 bg-gray01 text-gray08'}`}
           >
             추천순
           </button>
         </div>
         {/* ITEMS - Data Fetching  */}
-        <div className="w-full mt-4 mb-20">
+        <div className="mb-20 mt-4 w-full">
+          {initialLoad && <ArticleSearchListSkeleton />}
           {articles.map((article, index) => (
-            <ArticleCard
-              key={article.articleNo}
-              ref={index === articles.length - 1 ? observeTargetRef : null}
-              article={article}
-            />
+            <ArticleListItem key={article.articleNo} article={article} />
           ))}
+          <div ref={observeTargetRef}>{hasMore && <ArticleListItemSkeleton />}</div>
         </div>
       </section>
     </>

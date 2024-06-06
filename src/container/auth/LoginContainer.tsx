@@ -3,12 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 //Libary
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 // Zustand
-import useLoginStore from "@/store/loginStore"
-import useSignupStore from "@/store/signupStore"
+import useLoginStore from '@/store/loginStore';
+import useSignupStore from '@/store/signupStore';
 // Hook
 import { login } from '@/utils/auth-signup/isLogin';
 
@@ -16,10 +16,22 @@ export default function LoginContainer() {
   const router = useRouter();
 
   const {
-    username, password, setUsername, setPassword,
-    usernameError, passwordError, usernameFocused, passwordFocused,
-    setUsernameFocused, setPasswordFocused, validateUsername, validatePassword,
-    setLogin, isLoggedIn, setUserInfo, clearIdentity
+    username,
+    password,
+    setUsername,
+    setPassword,
+    usernameError,
+    passwordError,
+    usernameFocused,
+    passwordFocused,
+    setUsernameFocused,
+    setPasswordFocused,
+    validateUsername,
+    validatePassword,
+    setLogin,
+    isLoggedIn,
+    setUserInfo,
+    clearIdentity,
   } = useLoginStore();
 
   const { loadUserInfo } = useSignupStore();
@@ -28,10 +40,9 @@ export default function LoginContainer() {
     router.push('/home');
   };
 
-    useEffect(() => {
-      clearIdentity();
-    }, [clearIdentity]);
-  
+  useEffect(() => {
+    clearIdentity();
+  }, [clearIdentity]);
 
   const isInputValid = username.trim() !== '' && password.trim() !== '';
 
@@ -70,14 +81,10 @@ export default function LoginContainer() {
         setUserInfo({ nickname, mbrNo }); // 사용자 정보 설정
         loadUserInfo({ nickname, mbrNo }); // 사용자 정보 로드
 
-          // 사용자 정보가 제대로 설정되었는지 확인하기 위한 로그
-          console.log("User info after login:", { nickname, mbrNo });
-        
-        console.log("Login Success");
-        alert("로그인에 성공하였습니다.");
+        alert('로그인에 성공하였습니다.');
         router.push('/home');
       } else {
-        console.error("Login Failed: ", response.message);
+        console.error('Login Failed: ', response.message);
         alert(`로그인 실패: ${response.message}`);
       }
     } catch (error) {

@@ -1,13 +1,13 @@
-'use client'
+'use client';
 // NEXT && React
-import Image from "next/image"
-import React, { useState, useEffect } from "react"
+import Image from 'next/image';
+import React, { useState, useEffect } from 'react';
 //Component, Library
-import CommentModal from "../common/modal/CommentModal"
-import useModal from "@/hooks/useModal"
+import CommentModal from '../common/modal/CommentModal';
+import useModal from '@/hooks/useModal';
 // Zustand && Hook
-import useCommentStore from "@/store/commentStore"
-import { formatDate } from "@/utils/article/date"
+import useCommentStore from '@/store/commentStore';
+import { formatDate } from '@/utils/article/date';
 
 interface CommentCardProps {
   comment: {
@@ -42,7 +42,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
     if (nickname) {
       setCurrentUserNickname(nickname);
     } else {
-      console.error("Nickname is not found in localStorage");
+      console.error('Nickname is not found in localStorage');
     }
   }, []);
 
@@ -50,13 +50,11 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       try {
-        console.log('Attempting to like comment...');
         await likeComment(comment.commentNo, liked, accessToken);
         setLiked(!liked);
         const newLikeCount = likeCount + (liked ? -1 : 1);
         setLikeCount(newLikeCount);
         localStorage.setItem(`liked_${comment.commentNo}`, (!liked).toString());
-        console.log(`Like button clicked: liked=${liked}, likeCount=${newLikeCount}`);
       } catch (error) {
         console.error('Failed to like comment:', error);
       }
@@ -73,15 +71,12 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
     setIsOpen(false); // 모달 닫기
   };
 
-
-
   const handleDeleteClick = async () => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       try {
-        console.log('Attempting to delete comment...');
         await deleteComment(comment.commentNo, accessToken);
-        console.log('Comment deleted successfully');
+
         setIsOpen(false); // 모달 닫기
       } catch (error) {
         console.error('Failed to delete comment:', error);
@@ -93,16 +88,13 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
 
   const handleReportClick = async () => {
     try {
-      console.log('Attempting to report comment...');
       await reportComment(comment.commentNo);
-      console.log('Comment reported successfully');
+
       setIsOpen(false); // 모달 닫기
     } catch (error) {
       console.error('Failed to report comment:', error);
     }
   };
-
-  console.log('comment.nickname:', comment.nickname, 'currentUserNickname:', currentUserNickname);
 
   const renderedCommentModal = (
     <CommentModal isOpen={isOpen} onClose={handlCommentModalClose}>
@@ -111,35 +103,23 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           <>
             <div
               onClick={handleDeleteClick}
-              className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
-              <button
-                className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
-              >
-                댓글 삭제
-              </button>
+              className="flex items-center justify-start border-b border-b-gray04 px-5 py-4"
+            >
+              <button className="flex h-[18px] w-[280px] items-center justify-start text-gray08">댓글 삭제</button>
             </div>
           </>
         ) : (
           <>
             <div
               onClick={handleReportClick}
-              className="flex items-center justify-start px-5 border-b border-b-gray04 py-4">
-              <button
-                className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
-              >
-                댓글 신고
-              </button>
+              className="flex items-center justify-start border-b border-b-gray04 px-5 py-4"
+            >
+              <button className="flex h-[18px] w-[280px] items-center justify-start text-gray08">댓글 신고</button>
             </div>
           </>
         )}
-        <div
-          onClick={handlCommentModalClose}
-          className="flex items-center justify-start px-5 py-4">
-          <button
-            className="w-[280px] h-[18px] flex items-center justify-start text-gray08"
-          >
-            취소
-          </button>
+        <div onClick={handlCommentModalClose} className="flex items-center justify-start px-5 py-4">
+          <button className="flex h-[18px] w-[280px] items-center justify-start text-gray08">취소</button>
         </div>
       </div>
     </CommentModal>
@@ -147,21 +127,13 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
 
   return (
     <>
-      <div className="py-3 flex">
+      <div className="flex py-3">
         {/* IMG */}
-        <Image
-          src="/svgs/svg_profile.svg"
-          alt="profile"
-          width={40}
-          height={40}
-          priority
-          unoptimized
-          className="mr-4"
-        />
-        <div className="w-full flex flex-col items-start space-y-2">
+        <Image src="/svgs/svg_profile.svg" alt="profile" width={40} height={40} priority unoptimized className="mr-4" />
+        <div className="flex w-full flex-col items-start space-y-2">
           {/* NICKNAME, YY.MM.DD, menuDots */}
-          <div className="w-full flex items-center justify-between">
-            <p className="text-gray06 text-[12px] space-x-2">
+          <div className="flex w-full items-center justify-between">
+            <p className="space-x-2 text-[12px] text-gray06">
               <span className="text-gray08">{comment.nickname}</span>
               <span>{formatDate(comment.regDate)}</span>
             </p>
@@ -181,15 +153,20 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           {/* Comment */}
           <p className="text-[14px]">{comment.content}</p>
           {/* LikeBtn */}
-          <button 
+          <button
             onClick={handleLikeClick}
-            className={`w-[33px] h-[20px] flex-all-center py-1 px-2 border rounded-sm bg-gray0
+            className={`flex-all-center bg-gray0 h-[20px] w-[33px] rounded-sm border px-2 py-1
               ${liked ? 'border-primaryOrange text-primaryOrange' : 'border-gray05 text-gray05'}
             `}
           >
             <Image
-              src={liked ? '/svgs/svg_article-thumb03.svg' : '/svgs/svg_article-thumb02.svg'} 
-              alt="thumb" width={12} height={12} priority unoptimized/>
+              src={liked ? '/svgs/svg_article-thumb03.svg' : '/svgs/svg_article-thumb02.svg'}
+              alt="thumb"
+              width={12}
+              height={12}
+              priority
+              unoptimized
+            />
             <span className="text-[10px]">{likeCount}</span>
           </button>
         </div>
