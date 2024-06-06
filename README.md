@@ -1,23 +1,38 @@
-## Getting Started
+# Latte Fit(라떼핏) ☕️
+![image](https://github.com/SWYG-4-Latte/SWYG-4-Latte-FE/assets/79398566/9c14a618-eca8-4fa4-9f56-51c0c0345593)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<p align="center">
+  <a href="https://lattefit.swygbro.com/">카페인 관리 시작하기</a>
+</p>
 
-## Installed Library & Command
+<br />
 
-```bash
-Eslint              # NEXT 설치 시 기본 설정
-Prettier            # npm install -D prettier eslint-plugin-prettier eslint-config-prettier
-Tailwindcss         # NEXT 설치 시 기본 설정
-Daisyui             # npm i -D daisyui@latest
-Axios               # npm i axios
-Swiper              # npm i Swiper
+## ✨ 주요 기능
+### 카페인 맞춤 설정
+![image](https://github.com/SWYG-4-Latte/SWYG-4-Latte-FE/assets/79398566/b491eae6-5223-4075-97ae-d1dda992304b)
 
-Zustand             # npm i zustand
-```
+### 카페인 기록하기
+![image](https://github.com/SWYG-4-Latte/SWYG-4-Latte-FE/assets/79398566/7be3f10e-4099-42de-8e1d-973c35480a82)
+
+### 카페인 비교하기
+![image](https://github.com/SWYG-4-Latte/SWYG-4-Latte-FE/assets/79398566/eb1c30cf-63d7-4c96-b05e-8675f19026ba)
+
+### 카페인 달력
+![image](https://github.com/SWYG-4-Latte/SWYG-4-Latte-FE/assets/79398566/9efd119b-fb29-4e64-bae6-3964a97803dd)
+
+### 아티클
+![image](https://github.com/SWYG-4-Latte/SWYG-4-Latte-FE/assets/79398566/b000b7e7-b72d-4df8-bf5d-c6c3ecbdcb1f)
+
+
+<br />
+
+## 🛠️ Tech Stack
+- Next.js, TypeScript
+- Zustand
+- Axios
+- Tailwind CSS, Framer Motion
+
+<br />
 
 ## Projects Folder Explanation
 
