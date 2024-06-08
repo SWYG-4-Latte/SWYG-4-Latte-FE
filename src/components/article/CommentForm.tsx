@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import useCommentStore from '@/store/commentStore';
-// import useSignupStore from "@/store/signupStore"
 
 interface CommentFormProps {
   articleNo: number;
@@ -32,16 +31,20 @@ const CommentForm: React.FC<CommentFormProps> = ({ articleNo }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="fixed bottom-0 h-[56px] w-full min-w-[360px] max-w-[500px] border-t border-gray-200 bg-white"
+      className="fixed bottom-0 h-[56px] w-full min-w-[360px] max-w-[500px] bg-primaryIvory shadow-nav"
     >
       <div className="flex items-center space-x-2 px-5 py-[11px]">
         <input
-          placeholder="댓글을 입력해 보세요"
+          placeholder="댓글을 입력해 보세요."
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="h-[34px] w-full min-w-[252px] rounded-md border bg-gray01 p-2"
+          className="grow rounded-md border border-gray04 bg-gray03 px-4 py-2 text-sm text-gray06"
         />
-        <button type="submit" className="h-[34px] w-[60px] rounded bg-primaryOrange p-2 text-[14px] text-white">
+        <button
+          type="submit"
+          disabled={content === ''}
+          className={`h-[34px] w-[60px] rounded-md px-4 py-2 text-[14px] text-white ${content === '' ? 'bg-orange02' : 'bg-primaryOrange'}`}
+        >
           등록
         </button>
       </div>

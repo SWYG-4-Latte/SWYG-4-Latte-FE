@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { useScroll, motion } from 'framer-motion';
+import { useScroll, motion, useTransform } from 'framer-motion';
 import dayjs from 'dayjs';
 
 import useArticleStore from '@/store/articleStore';
@@ -18,6 +18,7 @@ const ArticleDetail = ({ article }: ArticleDetailProps) => {
   const { likeArticle } = useArticleStore();
 
   const { scrollYProgress } = useScroll();
+  const clampedScrollYProgress = useTransform(scrollYProgress, (value) => Math.min(value, 1));
 
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(article?.likeCnt || 0);
@@ -47,17 +48,13 @@ const ArticleDetail = ({ article }: ArticleDetailProps) => {
     }
   };
 
-  if (!article) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <NavigationHeader>
         <div className="absolute left-0 top-[54px] h-0.5 w-full bg-gray03">
           <motion.div
-            style={{ scaleX: scrollYProgress, transformOrigin: '0%' }}
-            className="z-20 h-0.5 max-w-[500px] bg-primaryAmber"
+            style={{ scaleX: clampedScrollYProgress, transformOrigin: '0%' }}
+            className="left-0 right-0 h-0.5 max-w-[500px] bg-primaryAmber"
           />
         </div>
       </NavigationHeader>

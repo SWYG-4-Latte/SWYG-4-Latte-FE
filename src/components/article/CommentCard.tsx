@@ -1,13 +1,11 @@
 'use client';
-// NEXT && React
+
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
-//Component, Library
+import dayjs from 'dayjs';
+
 import CommentModal from '../common/modal/CommentModal';
-import useModal from '@/hooks/useModal';
-// Zustand && Hook
 import useCommentStore from '@/store/commentStore';
-import { formatDate } from '@/utils/article/date';
 
 interface CommentCardProps {
   comment: {
@@ -127,7 +125,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
 
   return (
     <>
-      <div className="flex py-3">
+      <div className="flex items-start py-3">
         {/* IMG */}
         <Image src="/svgs/svg_profile.svg" alt="profile" width={40} height={40} priority unoptimized className="mr-4" />
         <div className="flex w-full flex-col items-start space-y-2">
@@ -135,27 +133,26 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
           <div className="flex w-full items-center justify-between">
             <p className="space-x-2 text-[12px] text-gray06">
               <span className="text-gray08">{comment.nickname}</span>
-              <span>{formatDate(comment.regDate)}</span>
+              <span className="text-[10px] text-gray06">{dayjs(comment.regDate).format('YYYY.MM.DD')}</span>
             </p>
-            <p>
+            <button onClick={handleCommentModalOpen} className="h-3 w-3">
               <Image
-                onClick={handleCommentModalOpen}
                 src="/svgs/svg_ellipsis-vertical.svg"
-                alt="profile"
+                alt="더보기"
                 width={12}
                 height={12}
                 priority
                 unoptimized
                 className="mr-4 cursor-pointer"
               />
-            </p>
+            </button>
           </div>
           {/* Comment */}
-          <p className="text-[14px]">{comment.content}</p>
+          <p className="text-[14px] leading-5 text-gray10">{comment.content}</p>
           {/* LikeBtn */}
           <button
             onClick={handleLikeClick}
-            className={`flex-all-center bg-gray0 h-[20px] w-[33px] rounded-sm border px-2 py-1
+            className={`flex-all-center bg-gray0 h-[20px] w-[33px] rounded border px-2 py-1
               ${liked ? 'border-primaryOrange text-primaryOrange' : 'border-gray05 text-gray05'}
             `}
           >

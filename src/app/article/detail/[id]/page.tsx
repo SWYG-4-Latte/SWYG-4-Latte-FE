@@ -31,9 +31,11 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
   return (
     <div>
       <ArticleDetail article={article} />
-      <section className="mt-8 px-5 pb-24">
+      <section className="mt-8 pb-14">
         <CommentList articleNo={article.articleNo} />
+        <div className="h-2 w-full bg-gray03" />
       </section>
+
       <CommentForm articleNo={article.articleNo} />
     </div>
   );
