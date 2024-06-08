@@ -25,13 +25,13 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
   const article = await getData(params.id);
 
   if (!article) {
-    return <div>Failed to load article.</div>
+    return <div>Failed to load article.</div>;
   }
 
   return (
     <div>
-      <ArticleDetail initialArticle={article} />
-      <section className="px-5 mt-8 pb-24">
+      <ArticleDetail article={article} />
+      <section className="mt-8 px-5 pb-24">
         <CommentList articleNo={article.articleNo} />
       </section>
       <CommentForm articleNo={article.articleNo} />

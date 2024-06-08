@@ -1,28 +1,26 @@
-// src/components/article/ArticleDetail.tsx
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { formatDate } from '@/utils/article/date';
+import { useScroll, motion } from 'framer-motion';
+import dayjs from 'dayjs';
+
 import useArticleStore from '@/store/articleStore';
 import { IArticle } from '@/types/article/article';
+import NavigationHeader from '../common/header/NavigationHeader';
 
 interface ArticleDetailProps {
-  initialArticle: IArticle;
+  article: IArticle;
 }
 
-const ArticleDetail = ({ initialArticle }: ArticleDetailProps) => {
+const ArticleDetail = ({ article }: ArticleDetailProps) => {
   const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-  const { articles, likeArticle, setArticle } = useArticleStore();
+  const { likeArticle } = useArticleStore();
 
-  const params = useParams();
-  const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
+  const { scrollYProgress } = useScroll();
 
   const [liked, setLiked] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(initialArticle?.likeCnt || 0);
-  const [article, setArticleState] = useState<IArticle | null>(initialArticle || null);
+  const [likeCount, setLikeCount] = useState<number>(article?.likeCnt || 0);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && article) {
@@ -55,16 +53,19 @@ const ArticleDetail = ({ initialArticle }: ArticleDetailProps) => {
 
   return (
     <>
-      <header className="flex h-[56px] w-full items-center px-5">
-        <Link href="/article">
-          <Image src="/svgs/svg_leftArrow.svg" alt="left-arrow" width={24} height={24} priority unoptimized />
-        </Link>
-      </header>
-      <main className="relative text-gray10">
+      <NavigationHeader>
+        <div className="absolute left-0 top-[54px] h-0.5 w-full bg-gray03">
+          <motion.div
+            style={{ scaleX: scrollYProgress, transformOrigin: '0%' }}
+            className="z-20 h-0.5 max-w-[500px] bg-primaryAmber"
+          />
+        </div>
+      </NavigationHeader>
+      <main className="relative pt-14 text-gray10">
         <section className="flex flex-col justify-center px-5 pt-6">
           <h1 className="mb-1 text-[18px] font-bold">{article.title}</h1>
-          <h3 className="mb-3 text-[16px]">{article.subTitle}</h3>
-          <p className="text-[14px] text-gray08">{formatDate(article.regDate)}</p>
+          <h2 className="mb-3 text-[16px]">{article.subTitle}</h2>
+          <p className="text-[14px] text-gray08">{dayjs(article.regDate).format('YYYY.MM.DD')}</p>
         </section>
         {article.images?.imgUrl2 && (
           <Image
