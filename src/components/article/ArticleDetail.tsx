@@ -54,7 +54,7 @@ const ArticleDetail = ({ article }: ArticleDetailProps) => {
         <div className="absolute left-0 top-[54px] h-0.5 w-full bg-gray03">
           <motion.div
             style={{ scaleX: clampedScrollYProgress, transformOrigin: '0%' }}
-            className="left-0 right-0 h-0.5 max-w-[500px] bg-primaryAmber"
+            className="left-0 right-0 h-0.5 bg-primaryAmber"
           />
         </div>
       </NavigationHeader>

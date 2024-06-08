@@ -38,7 +38,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ articleNo }) => {
           placeholder="댓글을 입력해 보세요."
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="grow rounded-md border border-gray04 bg-gray03 px-4 py-2 text-sm text-gray06"
+          className="grow rounded-md border border-gray04 bg-gray03 px-4 py-2 text-sm text-gray06 focus-visible:outline-none"
         />
         <button
           type="submit"

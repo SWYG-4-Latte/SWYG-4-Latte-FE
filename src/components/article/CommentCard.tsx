@@ -65,7 +65,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
     setIsOpen(true); // 모달 열기
   };
 
-  const handlCommentModalClose = () => {
+  const handleCommentModalClose = () => {
     setIsOpen(false); // 모달 닫기
   };
 
@@ -95,7 +95,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   };
 
   const renderedCommentModal = (
-    <CommentModal isOpen={isOpen} onClose={handlCommentModalClose}>
+    <CommentModal isOpen={isOpen} onClose={handleCommentModalClose}>
       <div className="w-full text-center">
         {comment.nickname === currentUserNickname || null ? (
           <>
@@ -116,7 +116,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
             </div>
           </>
         )}
-        <div onClick={handlCommentModalClose} className="flex items-center justify-start px-5 py-4">
+        <div onClick={handleCommentModalClose} className="flex items-center justify-start px-5 py-4">
           <button className="flex h-[18px] w-[280px] items-center justify-start text-gray08">취소</button>
         </div>
       </div>
