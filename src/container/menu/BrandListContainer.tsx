@@ -22,7 +22,7 @@ const BrandListContainer = ({ brandList }: { brandList: CafeBrand[] }) => {
     }
 
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }, [selectedBrand]);
+  }, [selectedBrand, pathname, router, searchParams]);
 
   return <BrandList brandList={brandList} selectedBrand={selectedBrand} setSelectedBrand={setSelectedBrand} />;
 };

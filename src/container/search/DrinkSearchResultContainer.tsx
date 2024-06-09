@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import DrinkListItem from '@/components/common/drink/DrinkListItem';
 import { Menu } from '@/types/menu/menu';
@@ -28,26 +28,29 @@ const DrinkSearchResultContainer = ({ query, filter, setHasResult }: SearchResul
     if (hasNextPage && !isLoading) getSearchResults(page);
   });
 
-  const getSearchResults = async (pageNumber: number) => {
-    setIsLoading(true);
-    try {
-      const data = await getDrinkSearchResult(query, filter, pageNumber);
+  const getSearchResults = useCallback(
+    async (pageNumber: number) => {
+      setIsLoading(true);
+      try {
+        const data = await getDrinkSearchResult(query, filter, pageNumber);
 
-      setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
-      setTotalResults(data.totalElements);
-      setHasResult(data.totalElements !== 0);
-      setPage(data.number + 1);
-    } catch (error) {
-      setIsError(true);
-    }
+        setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
+        setTotalResults(data.totalElements);
+        setHasResult(data.totalElements !== 0);
+        setPage(data.number + 1);
+      } catch (error) {
+        setIsError(true);
+      }
 
-    setIsLoading(false);
-  };
+      setIsLoading(false);
+    },
+    [query, filter, setHasResult],
+  );
 
   useEffect(() => {
     setPage(0);
     getSearchResults(0);
-  }, [query, filter]);
+  }, [getSearchResults]);
 
   if (!isLoading && searchResults.length === 0 && !filter) {
     return <NoSearchResults />;

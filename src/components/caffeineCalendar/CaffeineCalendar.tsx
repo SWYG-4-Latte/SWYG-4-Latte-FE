@@ -58,7 +58,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
     };
 
     getThisMonthData();
-  }, [activeDate]);
+  }, [activeDate, isLoggedIn]);
 
   return (
     <div className="relative flex items-center justify-center border-b border-gray04 bg-primaryIvory px-5 pt-2">

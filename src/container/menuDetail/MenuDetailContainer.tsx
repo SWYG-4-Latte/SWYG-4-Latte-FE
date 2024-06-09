@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import MenuInfoContainer from './MenuInfoContainer';
@@ -42,22 +42,29 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
     openRecordModal(recordDrinkData);
   };
 
-  useEffect(() => {
-    const getMenuDetailBySize = async (menuSize: string) => {
-      const { data } = await apiInstance.get(`/menu/detail/${menuNo}`, {
+  const getMenuDetailBySize = useCallback(
+    async (menuSize: string) => {
+      const { data } = await apiInstance.get(`/menu/detail/${menuDetail.menuNo}`, {
         params: {
           menu_size: menuSize,
         },
       });
       setActiveMenuDetail(data);
-    };
+    },
+    [menuDetail.menuNo],
+  );
 
-    getMenuDetailBySize(size ?? menuDetail.menuSize);
-  }, [size]);
+  useEffect(() => {
+    if (!size) return;
+
+    getMenuDetailBySize(size);
+  }, [size, getMenuDetailBySize]);
 
   useEffect(() => {
     addDrinkToRecentlyViewedStore(menuNo);
-  }, []);
+    // 사이즈에 상관없이 처음 클릭한 메뉴(사이즈)만 저장
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addDrinkToRecentlyViewedStore]);
 
   return (
     <div>

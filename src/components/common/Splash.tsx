@@ -17,7 +17,7 @@ const Splash = () => {
       setIsVisible(false);
       router.replace('/home');
     }, 2000);
-  }, []);
+  }, [router]);
 
   return (
     <AnimatePresence initial={false}>

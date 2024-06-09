@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import useArticleStore from '@/store/articleStore';
 import { useIntersect } from '@/hooks/useIntersect';
@@ -20,7 +20,7 @@ export default function Articles() {
 
   useEffect(() => {
     fetchArticles(true);
-  }, []);
+  }, [fetchArticles]);
 
   useEffect(() => {
     const articleHero = articles.find((article) => article.articleNo === 1);
@@ -29,12 +29,12 @@ export default function Articles() {
     }
   }, [articles]);
 
-  const onIntersect = useCallback(() => {
+  const onIntersect = () => {
     if (!initialLoad && hasMore) {
       // 초기 로드 완료 후에만 동작
       fetchArticles();
     }
-  }, [hasMore, fetchArticles, initialLoad]);
+  };
 
   const observeTargetRef = useIntersect(onIntersect);
 

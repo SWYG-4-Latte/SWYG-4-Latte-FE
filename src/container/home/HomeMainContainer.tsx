@@ -49,7 +49,7 @@ const HomeMainContainer = () => {
     if (!hideModalTime || (hideModalTime && +hideModalTime < +dayjs())) {
       openModal();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, openModal]);
 
   return (
     <>

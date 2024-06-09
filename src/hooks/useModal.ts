@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ModalData, ModalType, useModalStore } from '@/store/modalStore';
 
@@ -13,9 +13,12 @@ const useModal = (modalType: ModalType) => {
     modalClose(modalType);
   };
 
-  const openModal = (data?: ModalData[typeof modalType]) => {
-    modalOpen(modalType, data);
-  };
+  const openModal = useCallback(
+    (data?: ModalData[typeof modalType]) => {
+      modalOpen(modalType, data);
+    },
+    [modalType, modalOpen],
+  );
 
   useEffect(() => {
     if (isOpen) {

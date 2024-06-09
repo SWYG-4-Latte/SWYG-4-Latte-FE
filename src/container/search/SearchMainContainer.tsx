@@ -36,7 +36,7 @@ const SearchMainContainer = () => {
 
   useEffect(() => {
     if (searchQuery) addSearchWord(searchQuery, searchTarget);
-  }, [searchQuery]);
+  }, [searchQuery, searchTarget, addSearchWord]);
 
   return (
     <>

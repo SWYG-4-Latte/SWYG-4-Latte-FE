@@ -49,7 +49,7 @@ const SearchFilter = () => {
     }
 
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }, [filterOption]);
+  }, [filterOption, pathname, router, searchParams]);
 
   const isDropdownSelected = isDropdownOpen || (filterOption !== null && filterOption !== 'none');
 

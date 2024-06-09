@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import NoSearchResults from '@/components/search/NoSearchResults';
 import { SearchListItemSkeleton } from '@/components/common/skeleton/SearchListSkeleton';
@@ -22,25 +22,28 @@ const ArticleSearchResultContainer = ({ query, setHasResult }: SearchResultConta
     if (hasNextPage && !isLoading) getSearchResults(page);
   });
 
-  const getSearchResults = async (pageNumber: number) => {
-    setIsLoading(true);
-    try {
-      const data = await getArticleSearchResult(query, pageNumber);
+  const getSearchResults = useCallback(
+    async (pageNumber: number) => {
+      setIsLoading(true);
+      try {
+        const data = await getArticleSearchResult(query, pageNumber);
 
-      setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
-      setTotalResults(data.totalElements);
-      setHasResult(data.totalElements !== 0);
-      setPage(data.number + 1);
-    } catch (error) {
-      setIsError(true);
-    }
-    setIsLoading(false);
-  };
+        setSearchResults((prev) => (pageNumber === 0 ? data.content : [...prev, ...data.content]));
+        setTotalResults(data.totalElements);
+        setHasResult(data.totalElements !== 0);
+        setPage(data.number + 1);
+      } catch (error) {
+        setIsError(true);
+      }
+      setIsLoading(false);
+    },
+    [query, setHasResult],
+  );
 
   useEffect(() => {
     setPage(0);
     getSearchResults(0);
-  }, [query]);
+  }, [getSearchResults]);
 
   if (!isLoading && searchResults.length === 0) {
     return <NoSearchResults />;

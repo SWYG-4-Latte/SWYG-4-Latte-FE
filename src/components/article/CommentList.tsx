@@ -13,7 +13,7 @@ const CommentList: React.FC<CommentListProps> = ({ articleNo }) => {
 
   useEffect(() => {
     fetchComments(articleNo);
-  }, [articleNo]);
+  }, [articleNo, fetchComments]);
 
   return (
     <div className="px-5">

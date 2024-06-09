@@ -54,7 +54,7 @@ export default function MyProfileContent() {
     };
 
     loadMemberInfo();
-  }, []);
+  }, [setMemberInfo]);
 
   const handleInputChange = (field: any, value: string) => {
     switch (field) {

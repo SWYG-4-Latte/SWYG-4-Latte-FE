@@ -15,7 +15,7 @@ const useOutsideClick = (ref: RefObject<HTMLElement>, close: () => void) => {
       document.removeEventListener('mousedown', handleOutsideClick);
       document.removeEventListener('touchstart', handleOutsideClick);
     };
-  }, [ref]);
+  }, [ref, close]);
 };
 
 export default useOutsideClick;
