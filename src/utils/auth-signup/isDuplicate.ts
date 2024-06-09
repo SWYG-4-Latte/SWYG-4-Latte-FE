@@ -10,7 +10,7 @@ import axios from 'axios';
 async function checkDuplicate(fieldType: string, value: string): Promise<boolean> {
   try {
     let endpoint = '';
-    let requestData = {};
+
     if (fieldType === 'username') {
       endpoint = `https://latte-server.site/auth/existsId/${value}`;
     } else if (fieldType === 'nickname') {

@@ -14,11 +14,13 @@ const Modals = () => {
     case 'login':
       return <LoginModal />;
 
-    case 'record':
+    case 'record': {
       const drinkData = getModalData('record');
       if (drinkData) {
         return <DrinkRecordModal {...drinkData} />;
       }
+      break;
+    }
 
     case 'deleteComparisonDrinks':
       return <DeleteComparisonBoxModal />;

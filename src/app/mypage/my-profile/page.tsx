@@ -1,5 +1,5 @@
-import MypageHeader from "@/components/mypage/MypageHeader"
-import MyProfileContent from "@/components/mypage/my-profile/MyProfileContent"
+import MypageHeader from '@/components/mypage/MypageHeader';
+import MyProfileContent from '@/components/mypage/my-profile/MyProfileContent';
 
 export default function MyProfilePage() {
   return (
@@ -7,5 +7,5 @@ export default function MyProfilePage() {
       <MypageHeader />
       <MyProfileContent />
     </div>
-  )
+  );
 }

@@ -5,7 +5,7 @@ import Link from 'next/link';
 //Libary
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+
 // Zustand
 import useLoginStore from '@/store/loginStore';
 import useSignupStore from '@/store/signupStore';
@@ -29,7 +29,6 @@ export default function LoginContainer() {
     validateUsername,
     validatePassword,
     setLogin,
-    isLoggedIn,
     setUserInfo,
     clearIdentity,
   } = useLoginStore();

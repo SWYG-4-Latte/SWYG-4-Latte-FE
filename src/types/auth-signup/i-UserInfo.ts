@@ -1,5 +1,5 @@
 export interface IUserInfo {
-  mbrNo: number | null ;
+  mbrNo: number | null;
   email: string;
   nickname: string;
   age: string;

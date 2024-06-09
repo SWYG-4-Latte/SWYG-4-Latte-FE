@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-dayjs.locale('ko');
 
 import PopularSearchItem from '@/components/search/PopularSearchItem';
 import apiInstance from '@/api/instance';
+
+dayjs.locale('ko');
 
 export interface PopularSearchWord {
   rank: number;

@@ -3,7 +3,6 @@
 import { PropsWithChildren, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import Portal from './Portal';
 import useOutsideClick from '@/hooks/useOutsideClick';
 
 /**

@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-dayjs.extend(isBetween);
 
 import HomeBanner from '@/components/home/banner/HomeBanner';
 import DrinkHistoryContainer from './DrinkHistoryContainer';
 import { UserCaffeineData } from '@/types/home/user';
 import useModal from '@/hooks/useModal';
 import apiInstance from '@/api/instance';
+
+dayjs.extend(isBetween);
 
 const HomeMainContainer = () => {
   const { openModal } = useModal('recommendation');

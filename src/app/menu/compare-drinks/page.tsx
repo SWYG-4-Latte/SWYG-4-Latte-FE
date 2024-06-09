@@ -28,7 +28,7 @@ export default function CompareDrinksPage() {
     };
 
     getDrinksData();
-  }, [drinks]);
+  }, [drinks, router]);
 
   return (
     <main>

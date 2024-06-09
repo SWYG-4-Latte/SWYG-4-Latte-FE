@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { toast } from 'react-toastify';
 
 import MenuInfoContainer from './MenuInfoContainer';
 import CaffeineComparisonContainer from './CaffeineComparisonContainer';

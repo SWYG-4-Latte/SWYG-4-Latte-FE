@@ -335,26 +335,23 @@ const useSignupStore = create<ISignupState>((set, get) => ({
     }
   },
 
-  goToNextStep: async (forceNextStep: boolean = false) => {
+  goToNextStep: async (forceNextStep = false) => {
     const {
       currentStep,
       termsAgreed,
       username,
       email,
       nickname,
-      usernameChecked,
       password,
       passwordError,
       confirmPassword,
       confirmPasswordError,
-      emailChecked,
       age,
       ageError,
       gender,
       pregnancy,
       pregMonth,
       pregMonthError,
-      nicknameChecked,
       checkEmailDuplication,
       checkNicknameDuplication,
       checkUsernameDuplication,
@@ -447,20 +444,8 @@ const useSignupStore = create<ISignupState>((set, get) => ({
     }),
 
   submitSignupForm: async () => {
-    const {
-      username,
-      email,
-      nickname,
-      password,
-      confirmPassword,
-      age,
-      gender,
-      pregnancy,
-      pregMonth,
-      cupDay,
-      symptoms,
-      allergies,
-    } = get();
+    const { username, email, nickname, password, age, gender, pregnancy, pregMonth, cupDay, symptoms, allergies } =
+      get();
     try {
       // 데이터 구조를 백엔드 요구 사항에 맞게 매핑
       const data = {

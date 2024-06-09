@@ -46,8 +46,7 @@ const useMemberStore = create<IMemberStoreState>((set, get) => ({
 
     try {
       const response = await axios.post(`https://latte-server.site/auth/update/${memberInfo.mbrNo}`, memberInfo);
-      if (response.data.message === '회원 수정에 성공했습니다.') {
-      } else {
+      if (response.data.message !== '회원 수정에 성공했습니다.') {
         console.error('업데이트 실패:', response.data.message);
       }
     } catch (error) {

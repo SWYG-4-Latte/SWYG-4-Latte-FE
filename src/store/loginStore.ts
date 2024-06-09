@@ -1,8 +1,8 @@
 // Zustand
-import { create } from "zustand";
+import { create } from 'zustand';
 // TS
 import { ILoginState } from './../types/auth-login/i-LoginState';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 const useLoginStore = create<ILoginState>((set) => ({
   username: '',
@@ -29,20 +29,20 @@ const useLoginStore = create<ILoginState>((set) => ({
   setPasswordFocused: (focused) => set({ passwordFocused: focused }),
 
   setLogin: (accessToken: any, refreshToken: any) => {
-    localStorage.setItem('accessToken', accessToken)
-    localStorage.setItem('refreshToken', refreshToken)
-    set({ accessToken, refreshToken, isLoggedIn: true});
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    set({ accessToken, refreshToken, isLoggedIn: true });
     toast('로그인 되었습니다', {
-      toastId: 'login-success'
-    })
+      toastId: 'login-success',
+    });
   },
   setLogout: () => {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    set({ accessToken: '', refreshToken: '', isLoggedIn: false})
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    set({ accessToken: '', refreshToken: '', isLoggedIn: false });
     toast('로그아웃 되었습니다', {
-      toastId: 'logout-success'
-    })
+      toastId: 'logout-success',
+    });
   },
   setUserInfo: (userInfo) => {
     const { nickname } = userInfo;
@@ -54,7 +54,6 @@ const useLoginStore = create<ILoginState>((set) => ({
     set({ username: '', password: '', usernameError: null, passwordError: null });
   },
 
-  
   validateUsername: (username) => {
     const usernameRegex = /^[A-Za-z0-9]{6,12}$/;
     let error = null;
@@ -74,7 +73,7 @@ const useLoginStore = create<ILoginState>((set) => ({
       error = '8자 이상의 영어 소문자, 숫자, 특수문자를 조합해주세요.';
     }
     set({ passwordError: error });
-  }
+  },
 }));
 
-export default useLoginStore
+export default useLoginStore;

@@ -8,7 +8,6 @@ import DrinkHistoryCardFooter from './DrinkHistoryCardFooter';
 import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
 import { useDrinkComparisonStore } from '@/store/drinkComparisonStore';
-import apiInstance from '@/api/instance';
 
 const DrinkHistoryCard = ({ drinkHistoryData }: { drinkHistoryData?: Menu }) => {
   const router = useRouter();

@@ -6,6 +6,6 @@ export const signup = async (signupData: any) => {
     const response = await axios.post(endpoint, signupData);
     return response.data;
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 };

@@ -1,5 +1,5 @@
-import MypageHeader from "@/components/mypage/MypageHeader"
-import MyReplyContent from "@/components/mypage/my-reply/MyReplyContent"
+import MypageHeader from '@/components/mypage/MypageHeader';
+import MyReplyContent from '@/components/mypage/my-reply/MyReplyContent';
 
 export default function MyReplyPage() {
   return (
@@ -7,5 +7,5 @@ export default function MyReplyPage() {
       <MypageHeader />
       <MyReplyContent />
     </div>
-  )
+  );
 }

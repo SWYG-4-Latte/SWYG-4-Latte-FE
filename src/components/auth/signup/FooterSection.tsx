@@ -7,10 +7,9 @@ import useSignupStore from '@/store/signupStore';
 import Link from 'next/link';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
 //Modal
-import Modal, { ModalProps } from '@/components/common/modal/Modal';
+import Modal from '@/components/common/modal/Modal';
 import Button from '@/components/common/button/Button';
 import useModal from '@/hooks/useModal';
-
 
 export default function FooterSection() {
   const router = useRouter();
@@ -54,10 +53,10 @@ export default function FooterSection() {
       router.push('/auth/login');
     }
   };
-  
+
   const handleLaterModalOpen = () => {
     openExitModal();
-  }
+  };
 
   const handleSaveAndSignup = () => {
     closeExitModal();
@@ -67,14 +66,7 @@ export default function FooterSection() {
 
   const renderLaterSignupModal = (
     <Modal isOpen={isExitOpen} onClose={closeExitModal}>
-      <Image
-        src="/svgs/svg_modalIcon.svg"
-        alt="modal-icon"
-        width={48}
-        height={48}
-        priority
-        unoptimized
-      />
+      <Image src="/svgs/svg_modalIcon.svg" alt="modal-icon" width={48} height={48} priority unoptimized />
       <div className="text-lg font-semibold text-primaryOrange">지금까지 입력한 내용을 저장할까요?</div>
       <p className="w-[209px] text-center text-[14px] leading-[20px] text-gray10">
         입력하신 아이디, 비밀번호, 닉네임으로 라떼 핏 회원가입이 완료됩니다.
@@ -86,9 +78,7 @@ export default function FooterSection() {
         >
           마저 입력하기
         </button>
-        <Button
-          onClick={handleSaveAndSignup}
-          className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]">
+        <Button onClick={handleSaveAndSignup} className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]">
           저장 후 가입
         </Button>
       </div>

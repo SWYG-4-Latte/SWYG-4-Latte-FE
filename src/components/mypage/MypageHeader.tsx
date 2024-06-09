@@ -1,20 +1,12 @@
 'use client';
-// NEXT && React
-import Image from 'next/image';
-import Link from 'next/link';
+
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+
 import NavigationHeader from '../common/header/NavigationHeader';
-//Zustand
 
 export default function MypageHeader() {
-  const router = useRouter();
   const pathname = usePathname();
-
-  const handleBackMove = () => {
-    router.back();
-  };
 
   let title = 'MY';
 

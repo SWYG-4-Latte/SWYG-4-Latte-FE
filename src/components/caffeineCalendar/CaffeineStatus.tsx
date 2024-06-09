@@ -1,7 +1,7 @@
 const CaffeineStatus = ({ status, locatedInCalendar }: { status: string; locatedInCalendar: boolean }) => {
   let textColor = 'text-primaryOrange';
   let bgColor = locatedInCalendar ? 'bg-orange02' : 'bg-primaryOrange';
-  let lineHeight = locatedInCalendar ? 'leading-normal' : 'leading-6';
+  const lineHeight = locatedInCalendar ? 'leading-normal' : 'leading-6';
 
   if (status === '낮음') {
     textColor = 'text-[#6ABF9C]';

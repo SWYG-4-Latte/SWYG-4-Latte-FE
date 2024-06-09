@@ -17,7 +17,6 @@ export interface ILoginState {
   allergies: string[];
   caffeineIntake: number; // Backend지정값
 
-
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   setUsernameFocused: (focused: boolean) => void;

@@ -7,7 +7,7 @@ export const ellipsisText = (text: string, maxLength: number) => {
 
   for (const ch of text) {
     if (len === maxLength) break;
-    if (ch != ' ') {
+    if (ch !== ' ') {
       len += 1;
     }
     slicedText += ch;

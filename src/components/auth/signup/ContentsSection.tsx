@@ -5,8 +5,6 @@ import React from 'react';
 // Zustand && Hook
 import useSignupStore from '@/store/signupStore';
 
-
-
 export default function ContentsSection() {
   const {
     username,
@@ -69,12 +67,10 @@ export default function ContentsSection() {
     toggleSymptom,
     allergies,
     toggleAllergy,
-    checkEmailDuplication,
     checkNicknameDuplication,
     checkUsernameDuplication,
   } = useSignupStore();
 
-  
   const handleInputChange = (field: string, value: string) => {
     switch (field) {
       case 'username':
@@ -131,7 +127,6 @@ export default function ContentsSection() {
   const toggleTermsAgreement = () => {
     toggleTermsAgreed();
   };
-
 
   const renderedContentsSection = () => {
     switch (currentStep) {
@@ -233,11 +228,11 @@ export default function ContentsSection() {
                 <input
                   type="password"
                   value={password}
-                    onChange={(e) => handleInputChange('password', e.target.value)}
-                    onFocus={() => setPasswordFocused(true)}
-                    onBlur={() => setPasswordFocused(false)}
-                    placeholder="비밀번호(8자 이상, 영어 소문자/숫자/특수문자)조합"
-                    className={`h-[50px] min-w-[320px] grow rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  onFocus={() => setPasswordFocused(true)}
+                  onBlur={() => setPasswordFocused(false)}
+                  placeholder="비밀번호(8자 이상, 영어 소문자/숫자/특수문자)조합"
+                  className={`h-[50px] min-w-[320px] grow rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
                   placeholder:text-gray08 ${passwordError ? 'border-primaryRed' : passwordFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
                 />
                 {passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}

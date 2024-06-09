@@ -4,13 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 //Library
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 //Zustand
 import useSignupStore from '@/store/signupStore';
 import useMemberStore from '@/store/memberStore';
 //Modal
-import Modal, { ModalProps } from '@/components/common/modal/Modal';
+import Modal from '@/components/common/modal/Modal';
 import Button from '@/components/common/button/Button';
 import useModal from '@/hooks/useModal';
 //utils
@@ -22,7 +22,7 @@ import FooterGradientButton from '@/components/common/button/FooterGradientButto
 export default function MyProfileContent() {
   const router = useRouter();
   const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal('exit');
-  const { isOpen: isConfirmOpen, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal('exitConfirm');
+  const { isOpen: isConfirmOpen, closeModal: closeConfirmModal } = useModal('exitConfirm');
 
   const {
     emailError,

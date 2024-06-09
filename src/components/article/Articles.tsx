@@ -34,7 +34,7 @@ export default function Articles() {
       // 초기 로드 완료 후에만 동작
       fetchArticles();
     }
-  }, [hasMore, fetchArticles, initialLoad, articles]);
+  }, [hasMore, fetchArticles, initialLoad]);
 
   const observeTargetRef = useIntersect(onIntersect);
 

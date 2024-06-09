@@ -1,5 +1,5 @@
-import MypageHeader from "@/components/mypage/MypageHeader"
-import AgreementsContent from "@/components/mypage/agreements/AgreementsContent"
+import MypageHeader from '@/components/mypage/MypageHeader';
+import AgreementsContent from '@/components/mypage/agreements/AgreementsContent';
 
 export default function AgreementsPage() {
   return (
@@ -7,5 +7,5 @@ export default function AgreementsPage() {
       <MypageHeader />
       <AgreementsContent />
     </div>
-  )
+  );
 }

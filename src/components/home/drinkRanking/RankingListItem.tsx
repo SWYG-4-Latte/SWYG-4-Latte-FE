@@ -1,11 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { MouseEvent, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { MouseEvent, useState } from 'react';
 
 import { Menu } from '@/types/menu/menu';
 import useModal from '@/hooks/useModal';
-import apiInstance from '@/api/instance';
 import useLocalStorage from '@/hooks/useLocalStorage';
 
 const RankingListItem = ({

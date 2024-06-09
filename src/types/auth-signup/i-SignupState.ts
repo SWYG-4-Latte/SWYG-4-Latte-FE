@@ -1,9 +1,9 @@
-import { IUserInfo } from "./i-UserInfo";
-import { IUserInfoTwo } from "./i-UserInfoTwo";
+import { IUserInfo } from './i-UserInfo';
+import { IUserInfoTwo } from './i-UserInfoTwo';
 
 export interface ISignupState {
   // 사용자 정보
-  mbrNo: string | number | null ;
+  mbrNo: string | number | null;
   username: string;
   email: string;
   nickname: string;
@@ -16,9 +16,9 @@ export interface ISignupState {
   term2Agreed: boolean;
   termsError: boolean;
 
-  usernameChecked: boolean,
-  emailChecked: boolean,
-  nicknameChecked: boolean,
+  usernameChecked: boolean;
+  emailChecked: boolean;
+  nicknameChecked: boolean;
 
   // 추가 사용자 정보
   age: string;
@@ -72,13 +72,12 @@ export interface ISignupState {
   setNicknameFocused: (focused: boolean) => void;
   setPasswordFocused: (focused: boolean) => void;
   setConfirmPasswordFocused: (focused: boolean) => void;
-  setAgeFocused:(focused: boolean) => void;
-  setPregMonthFocused:(focused: boolean) => void;
-  
+  setAgeFocused: (focused: boolean) => void;
+  setPregMonthFocused: (focused: boolean) => void;
+
   // 사용자 정보 업데이트
   updateUserInfo: (userInfo: IUserInfo) => void;
   updateUserInfoTwo: (userInfo: IUserInfoTwo) => void;
-
 
   // 유효성 검사 및 중복 검사 함수
   validateUsername: (username: string) => void;
@@ -87,7 +86,7 @@ export interface ISignupState {
   validatePassword: (password: string) => void;
   validateConfirmPassword: (confirmPassword: string) => void;
   validateAge: (age: string) => void;
-  validatePregMonth: (month: string) => void; 
+  validatePregMonth: (month: string) => void;
   checkUsernameDuplication: (username: string) => Promise<void>;
   checkNicknameDuplication: (nickname: string) => Promise<void>;
   checkEmailDuplication: (email: string) => Promise<void>;
@@ -106,5 +105,5 @@ export interface ISignupState {
   submitSignupForm: () => Promise<void>;
 
   // 상태초기화 함수
-  resetSignupForm: () => void
+  resetSignupForm: () => void;
 }

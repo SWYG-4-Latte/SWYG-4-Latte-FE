@@ -7,9 +7,9 @@
   ],
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/interface-name-prefix": "on",
-    "@typescript-eslint/explicit-function-return-type": "on",
-    "@typescript-eslint/explicit-module-boundary-types": "on",
-    "@typescript-eslint/no-explicit-any": "on"
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-useless-escape": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
