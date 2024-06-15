@@ -6,11 +6,12 @@ import { cn } from '@/utils/style';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  error?: string;
+  error?: string | boolean;
   children?: React.ReactNode;
+  bottomMessage?: string | boolean;
 }
 
-const Input = ({ label, id, error, children, ...props }: InputProps) => {
+const Input = ({ label, id, error, bottomMessage, children, ...props }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -18,7 +19,7 @@ const Input = ({ label, id, error, children, ...props }: InputProps) => {
       <label htmlFor={id} className="text-xs text-gray10">
         {label}
       </label>
-      <div className="flex items-center gap-2">
+      <div className="relative flex items-center gap-2">
         <input
           {...props}
           onFocus={() => setIsFocused(true)}
@@ -31,7 +32,7 @@ const Input = ({ label, id, error, children, ...props }: InputProps) => {
         />
         {children}
       </div>
-
+      {bottomMessage && <p className="text-xs text-primaryOrange">{bottomMessage}</p>}
       {error && <p className="text-xs text-primaryRed">{error}</p>}
     </section>
   );
