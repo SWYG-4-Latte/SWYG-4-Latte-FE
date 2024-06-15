@@ -154,13 +154,11 @@ export default function LoginContainer() {
       </section>
       <section>
         <div className="flex-all-center px-2 text-xs">
-          <div>아이디찾기</div>
+          <Link href="/auth/find/id">아이디 찾기</Link>
           <div className="mx-4 h-[12px] w-[1px] border-l border-gray06" />
-          <div>비밀번호찾기</div>
+          <Link href="/auth/find/password">비밀번호 찾기</Link>
           <div className="mx-4 h-[12px] w-[1px] border-l border-gray06" />
-          <div>
-            <Link href="/auth/signup">회원가입</Link>
-          </div>
+          <Link href="/auth/signup">회원가입</Link>
         </div>
       </section>
     </div>
