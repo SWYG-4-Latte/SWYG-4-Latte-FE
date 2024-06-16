@@ -9,3 +9,16 @@ export const validateNickname = (name: string) => {
 
   return nicknameRegex.test(name);
 };
+
+export const validateId = (id: string) => {
+  const idRegex = /^[A-Za-z0-9]{6,12}$/;
+
+  return idRegex.test(id);
+};
+
+export const validatePassword = (password: string) => {
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>~`\\/\[\]\-=_+;'])[A-Za-z\d!@#$%^&*(),.?":{}|<>~`\\/\[\]\-=_+;']{8,18}$/;
+
+  return passwordRegex.test(password);
+};

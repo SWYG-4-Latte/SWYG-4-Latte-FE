@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import apiInstance from '@/api/instance';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
@@ -13,8 +12,6 @@ import useTimer from '@/hooks/useTimer';
 import FindIdResultContainer from './FindIdResultContainer';
 
 const FindIdContainer = () => {
-  const router = useRouter();
-
   const {
     value: nameValue,
     handleInputChange: handleNameChange,

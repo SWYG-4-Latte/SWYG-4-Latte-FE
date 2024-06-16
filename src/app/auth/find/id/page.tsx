@@ -1,5 +1,6 @@
-import FindIdContainer from '@/container/auth/FindIdContainer';
 import { Metadata } from 'next';
+
+import FindIdContainer from '@/container/auth/FindIdContainer';
 
 export const metadata: Metadata = {
   title: '아이디 찾기',
