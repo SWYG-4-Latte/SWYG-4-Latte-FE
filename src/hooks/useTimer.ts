@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const DEFAULT_TIME = 6;
+const DEFAULT_TIME = 600;
 
 const useTimer = () => {
   const [time, setTime] = useState(DEFAULT_TIME);

@@ -29,11 +29,11 @@ const Tabs = () => {
             key={label}
             className={cn(
               'flex w-1/2 items-center justify-center text-gray08',
-              path === pathname && 'text-primaryOrange',
+              pathname.includes(path) && 'text-primaryOrange',
             )}
           >
             <span className="text-nowrap text-[14px] leading-6">{label}</span>
-            {path === pathname && (
+            {pathname.includes(path) && (
               <motion.div
                 layoutId="underline"
                 transition={{ duration: 0.2 }}

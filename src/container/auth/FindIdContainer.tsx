@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import apiInstance from '@/api/instance';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
@@ -9,8 +10,11 @@ import Input from '@/components/common/input/Input';
 import useInput from '@/hooks/useInput';
 import { validateEmail, validateNickname } from '@/utils/validation';
 import useTimer from '@/hooks/useTimer';
+import FindIdResultContainer from './FindIdResultContainer';
 
 const FindIdContainer = () => {
+  const router = useRouter();
+
   const {
     value: nameValue,
     handleInputChange: handleNameChange,
@@ -23,13 +27,16 @@ const FindIdContainer = () => {
     isValid: emailIsValid,
   } = useInput('', validateEmail);
 
-  const [codeValue, setCodeValue] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
-  const [codeInputMsg, setCodeInputMsg] = useState('');
-  const [codeIsValid, setCodeIsValid] = useState(false);
-  const [codeSent, setCodeSent] = useState(false);
-
   const { setTimer, stopTimer, remainingTime, formattedTime } = useTimer();
+
+  const [verification, setVerification] = useState({
+    inputValue: '',
+    inputMsg: '',
+    isValid: false,
+    sent: false,
+  });
+  const [userId, setUserId] = useState('');
+  const [hasResult, setHasResult] = useState(false);
 
   const handleSendEmail = async () => {
     setTimer();
@@ -41,8 +48,10 @@ const FindIdContainer = () => {
           nickname: nameValue,
         },
       });
-      setCodeSent(true);
-      setVerificationCode(data);
+      setVerification((prev) => ({
+        ...prev,
+        sent: true,
+      }));
     } catch (error) {
       console.error(error);
     }
@@ -50,25 +59,30 @@ const FindIdContainer = () => {
 
   const handleVerifyCode = () => {
     if (remainingTime === 0) {
-      setCodeInputMsg('입력 시간이 초과되었습니다. 다시 인증해주세요.');
-      setCodeIsValid(false);
+      setVerification((prev) => ({
+        ...prev,
+        inputMsg: '입력 시간이 초과되었습니다. 다시 인증해주세요.',
+        isValid: false,
+      }));
       return;
     }
 
-    if (verificationCode === codeValue) {
-      setCodeInputMsg('인증이 완료되었습니다.');
-      setCodeIsValid(true);
-      stopTimer();
-    } else {
-      setCodeInputMsg('인증번호가 일치하지 않습니다.');
-      setCodeIsValid(false);
-    }
+    // TODO: 인증번호 일치 여부. 검사 추가하기
   };
 
-  const findIdButtonIsValid = nameIsValid && emailIsValid && codeIsValid;
+  const handleFindId = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setHasResult(true);
+  };
+
+  const findIdButtonIsValid = nameIsValid && emailIsValid && verification.isValid;
+
+  if (hasResult) {
+    return <FindIdResultContainer id={userId} />;
+  }
 
   return (
-    <section className="mx-5 pt-[104px]">
+    <>
       <form>
         <Input
           id="name"
@@ -86,7 +100,7 @@ const FindIdContainer = () => {
           placeholder="ex) latte@example.com"
           value={emailValue}
           onChange={handleEmailChange}
-          bottomMessage={verificationCode && '인증번호가 전송되었습니다. 이메일을 확인해주세요.'}
+          bottomMessage={verification.sent && '인증번호가 전송되었습니다. 이메일을 확인해주세요.'}
           error={emailValue && !emailIsValid && '올바르지 않은 이메일 형식입니다.'}
         >
           <InputCheckButton disabled={!emailIsValid || !nameIsValid} onClick={handleSendEmail}>
@@ -94,28 +108,37 @@ const FindIdContainer = () => {
           </InputCheckButton>
         </Input>
 
-        {codeSent && (
+        {verification.sent && (
           <Input
             inputMode="numeric"
             id="verification-number"
             label="인증번호"
             placeholder="인증번호 입력"
             disabled={!emailIsValid}
-            value={codeValue}
-            onChange={(e) => setCodeValue(e.target.value)}
-            bottomMessage={codeIsValid && codeInputMsg}
-            error={!codeIsValid && codeInputMsg}
+            value={verification.inputValue}
+            onChange={(e) =>
+              setVerification((prev) => ({
+                ...prev,
+                inputValue: e.target.value,
+              }))
+            }
+            bottomMessage={verification.isValid && verification.inputMsg}
+            error={!verification.isValid && verification.inputMsg}
           >
-            {codeSent && <span className="absolute right-[100px] text-[14px] text-gray06">{formattedTime}</span>}
-            <InputCheckButton disabled={!codeValue || !emailIsValid || !codeSent} onClick={handleVerifyCode}>
+            {verification.sent && (
+              <span className="absolute right-[100px] text-[14px] text-gray06">{formattedTime}</span>
+            )}
+            <InputCheckButton disabled={!verification.inputValue || !emailIsValid} onClick={handleVerifyCode}>
               확인
             </InputCheckButton>
           </Input>
         )}
 
-        <FooterGradientButton disabled={!findIdButtonIsValid}>아이디 찾기</FooterGradientButton>
+        <FooterGradientButton disabled={!findIdButtonIsValid} onClick={handleFindId}>
+          아이디 찾기
+        </FooterGradientButton>
       </form>
-    </section>
+    </>
   );
 };
 

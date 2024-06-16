@@ -25,7 +25,7 @@ const Input = ({ label, id, error, bottomMessage, children, ...props }: InputPro
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={cn(
-            'my-2 h-[50px] grow rounded-lg border border-gray05 bg-gray01 px-5 py-4 text-[14px] leading-6 text-gray10 outline-none placeholder:text-gray08',
+            'my-2 h-[50px] min-w-[236px] grow rounded-lg border border-gray05 bg-gray01 py-4 pl-5 text-[14px] leading-6 text-gray10 outline-none placeholder:text-gray08',
             error && 'border-primaryRed',
             isFocused && 'border-primaryOrange',
           )}
