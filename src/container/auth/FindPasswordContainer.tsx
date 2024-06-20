@@ -78,7 +78,7 @@ const FindPasswordContainer = () => {
     }
   };
 
-  const handleVerifyCode = () => {
+  const handleVerifyCode = async () => {
     if (remainingTime === 0) {
       setVerification((prev) => ({
         ...prev,
@@ -89,11 +89,22 @@ const FindPasswordContainer = () => {
     }
 
     // TODO: 인증번호 일치 여부. 검사 추가하기
+    try {
+      const data = await apiInstance.post('/auth/verifyCode', null, {
+        params: {
+          email: emailValue,
+          code: verification.inputValue,
+        },
+      });
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const passwordIsValid = password.value.trim() !== '' ? validatePassword(password.value) : true;
   const isPasswordSame = password.value.trim() !== '' && password.value === password.confirmValue;
-
+  console.log(idIsValid);
   return (
     <form onSubmit={handleChangePassword}>
       <Input
@@ -102,7 +113,7 @@ const FindPasswordContainer = () => {
         placeholder="아이디를 입력해주세요."
         value={idValue}
         onChange={handleIdChange}
-        error={!idIsValid && ''}
+        error={idValue && !idIsValid && '6-12자 이내의 숫자와 영문을 조합해주세요'}
       />
       <Input
         type="email"

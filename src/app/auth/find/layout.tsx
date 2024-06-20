@@ -17,7 +17,7 @@ export default function Layout({
       <NavigationHeader title="아이디 / 비밀번호 찾기" onGoBack={() => router.push('/auth/login')}>
         <Tabs />
       </NavigationHeader>
-      <section className="px-5 pt-[104px]">{children}</section>
+      <section className="px-5 pt-[120px]">{children}</section>
     </div>
   );
 }

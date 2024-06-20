@@ -1,16 +1,17 @@
 'use client';
-// NEXT
+
 import Image from 'next/image';
 import Link from 'next/link';
-//Libary
+
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Zustand
 import useLoginStore from '@/store/loginStore';
 import useSignupStore from '@/store/signupStore';
-// Hook
+
 import { login } from '@/utils/auth-signup/isLogin';
+import Input from '@/components/common/input/Input';
+import Button from '@/components/common/button/Button';
 
 export default function LoginContainer() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function LoginContainer() {
     clearIdentity();
   }, [clearIdentity]);
 
-  const isInputValid = username.trim() !== '' && password.trim() !== '';
+  const isInputValid = username.trim() !== '' && password.trim() !== '' && !usernameError && !passwordError;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
     const { value } = e.target;
@@ -116,40 +117,26 @@ export default function LoginContainer() {
         <Image src="/svgs/svg_logo.svg" alt="logo" width={360} height={80} priority unoptimized />
       </section>
       <section className="mb-6 w-full">
-        <form onSubmit={handleLogin} className="flex w-full flex-col space-y-4">
-          <div className="flex flex-col justify-center">
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => handleInputChange(e, 'username')}
-              onFocus={() => handleFocusChange('username', true)}
-              onBlur={() => handleFocusChange('username', false)}
-              placeholder="아이디"
-              className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                          placeholder:text-gray08 ${usernameError ? 'border-primaryRed' : usernameFocused ? 'border-primaryOrange' : 'border-gray05'}
-                        `}
-            />
-            {usernameError && <p className="mt-2 text-xs text-primaryRed">{usernameError}</p>}
-          </div>
-          <div className="flex flex-col justify-center">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => handleInputChange(e, 'password')}
-              onFocus={() => handleFocusChange('password', true)}
-              onBlur={() => handleFocusChange('password', false)}
-              placeholder="비밀번호"
-              className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                          placeholder:text-gray08 ${passwordError ? 'border-primaryRed' : passwordFocused ? 'border-primaryOrange' : 'border-gray05'}
-            `}
-            />
-            {passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}
-          </div>
-          <button
-            className={`h-[50px] rounded-lg font-semibold ${isInputValid ? 'bg-primaryOrange text-gray00 ' : 'bg-orange02 text-gray06'}`}
-          >
+        <form onSubmit={handleLogin} className="flex w-full flex-col">
+          <Input
+            type="text"
+            value={username}
+            onChange={(e) => handleInputChange(e, 'username')}
+            placeholder="아이디"
+            error={usernameError}
+          />
+
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => handleInputChange(e, 'password')}
+            placeholder="비밀번호"
+            error={passwordError}
+          />
+
+          <Button disabled={!isInputValid} className="h-[50px] rounded-lg font-semibold">
             로그인
-          </button>
+          </Button>
         </form>
       </section>
       <section>

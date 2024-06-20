@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 // Zustand && Hook
 import useSignupStore from '@/store/signupStore';
+import Input from '@/components/common/input/Input';
 
 export default function ContentsSection() {
   const {
@@ -223,34 +224,23 @@ export default function ContentsSection() {
         return (
           <section className="mb-[18px] flex w-full flex-col px-5">
             <form className="mb-[61px] flex w-full flex-col">
-              <p className="mb-2 text-xs">비밀번호 입력</p>
-              <div className="mb-4 flex flex-col">
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => handleInputChange('password', e.target.value)}
-                  onFocus={() => setPasswordFocused(true)}
-                  onBlur={() => setPasswordFocused(false)}
-                  placeholder="비밀번호(8자 이상, 영어 소문자/숫자/특수문자)조합"
-                  className={`h-[50px] min-w-[320px] grow rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                  placeholder:text-gray08 ${passwordError ? 'border-primaryRed' : passwordFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
-                />
-                {passwordError && <span className="mt-2 text-xs text-primaryRed">{passwordError}</span>}
-              </div>
-              <p className="mb-2 text-xs">비밀번호 확인</p>
-              <div className="flex flex-col justify-center space-y-2">
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                  onFocus={() => setConfirmPasswordFocused(true)}
-                  onBlur={() => setConfirmPasswordFocused(false)}
-                  placeholder="다시 한번 입력해주세요."
-                  className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                    placeholder:text-gray08 ${confirmPasswordError ? 'border-primaryRed' : confirmPasswordFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
-                />
-                {confirmPasswordError && <span className="text-xs text-primaryRed">{confirmPasswordError}</span>}
-              </div>
+              <Input
+                label="비밀번호 입력"
+                type="password"
+                value={password}
+                onChange={(e) => handleInputChange('password', e.target.value)}
+                placeholder="비밀번호(8자 이상, 영어 소문자/숫자/특수문자)조합"
+                error={passwordError}
+              />
+
+              <Input
+                label="비밀번호 확인"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                placeholder="다시 한번 입력해주세요."
+                error={confirmPasswordError}
+              />
             </form>
 
             <div

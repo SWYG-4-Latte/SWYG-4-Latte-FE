@@ -7,17 +7,11 @@ import FooterGradientButton from '@/components/common/button/FooterGradientButto
 import InputCheckButton from '@/components/common/button/InputCheckButton';
 import Input from '@/components/common/input/Input';
 import useInput from '@/hooks/useInput';
-import { validateEmail, validateNickname } from '@/utils/validation';
+import { validateEmail } from '@/utils/validation';
 import useTimer from '@/hooks/useTimer';
 import FindIdResultContainer from './FindIdResultContainer';
 
 const FindIdContainer = () => {
-  const {
-    value: nameValue,
-    handleInputChange: handleNameChange,
-    isValid: nameIsValid,
-  } = useInput('', validateNickname);
-
   const {
     value: emailValue,
     handleInputChange: handleEmailChange,
@@ -42,7 +36,6 @@ const FindIdContainer = () => {
       const { data } = await apiInstance.post('/auth/findId', null, {
         params: {
           email: emailValue,
-          nickname: nameValue,
         },
       });
       setVerification((prev) => ({
@@ -72,70 +65,57 @@ const FindIdContainer = () => {
     setHasResult(true);
   };
 
-  const findIdButtonIsValid = nameIsValid && emailIsValid && verification.isValid;
+  const findIdButtonIsValid = emailIsValid && verification.isValid;
 
   if (hasResult) {
     return <FindIdResultContainer id={userId} />;
   }
 
   return (
-    <>
-      <form>
-        <Input
-          id="name"
-          label="이름"
-          placeholder="이름을 입력해주세요."
-          value={nameValue}
-          onChange={handleNameChange}
-          error={nameValue && !nameIsValid && '올바른 이름을 입력해주세요.'}
-        />
+    <form>
+      <Input
+        type="email"
+        id="email"
+        label="이메일"
+        placeholder="ex) latte@example.com"
+        value={emailValue}
+        onChange={handleEmailChange}
+        bottomMessage={verification.sent && '인증번호가 전송되었습니다. 이메일을 확인해주세요.'}
+        error={emailValue && !emailIsValid && '올바르지 않은 이메일 형식입니다.'}
+      >
+        <InputCheckButton disabled={!emailIsValid} onClick={handleSendEmail}>
+          인증하기
+        </InputCheckButton>
+      </Input>
 
+      {verification.sent && (
         <Input
-          type="email"
-          id="email"
-          label="이메일"
-          placeholder="ex) latte@example.com"
-          value={emailValue}
-          onChange={handleEmailChange}
-          bottomMessage={verification.sent && '인증번호가 전송되었습니다. 이메일을 확인해주세요.'}
-          error={emailValue && !emailIsValid && '올바르지 않은 이메일 형식입니다.'}
+          inputMode="numeric"
+          id="verification-number"
+          label="인증번호"
+          placeholder="인증번호 입력"
+          disabled={!emailIsValid}
+          value={verification.inputValue}
+          onChange={(e) =>
+            setVerification((prev) => ({
+              ...prev,
+              inputValue: e.target.value,
+            }))
+          }
+          bottomMessage={verification.isValid && verification.inputMsg}
+          error={!verification.isValid && verification.inputMsg}
         >
-          <InputCheckButton disabled={!emailIsValid || !nameIsValid} onClick={handleSendEmail}>
-            인증하기
+          {verification.sent && <span className="absolute right-[100px] text-[14px] text-gray06">{formattedTime}</span>}
+          <InputCheckButton disabled={!verification.inputValue || !emailIsValid} onClick={handleVerifyCode}>
+            확인
           </InputCheckButton>
         </Input>
+      )}
 
-        {verification.sent && (
-          <Input
-            inputMode="numeric"
-            id="verification-number"
-            label="인증번호"
-            placeholder="인증번호 입력"
-            disabled={!emailIsValid}
-            value={verification.inputValue}
-            onChange={(e) =>
-              setVerification((prev) => ({
-                ...prev,
-                inputValue: e.target.value,
-              }))
-            }
-            bottomMessage={verification.isValid && verification.inputMsg}
-            error={!verification.isValid && verification.inputMsg}
-          >
-            {verification.sent && (
-              <span className="absolute right-[100px] text-[14px] text-gray06">{formattedTime}</span>
-            )}
-            <InputCheckButton disabled={!verification.inputValue || !emailIsValid} onClick={handleVerifyCode}>
-              확인
-            </InputCheckButton>
-          </Input>
-        )}
-
-        <FooterGradientButton disabled={!findIdButtonIsValid} onClick={handleFindId}>
-          아이디 찾기
-        </FooterGradientButton>
-      </form>
-    </>
+      <FooterGradientButton disabled={!findIdButtonIsValid} onClick={handleFindId}>
+        아이디 찾기
+      </FooterGradientButton>
+    </form>
   );
 };
 
