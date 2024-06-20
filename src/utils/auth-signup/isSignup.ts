@@ -1,11 +1,18 @@
-import axios from 'axios';
+import apiInstance from '@/api/instance';
+
+export interface SignupResponseData {
+  result: {
+    mbrNo: number;
+    nickname: string;
+  };
+  jwtToken: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
 
 export const signup = async (signupData: any) => {
-  try {
-    const endpoint = 'https://latte-server.site/auth/signup';
-    const response = await axios.post(endpoint, signupData);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+  const { data } = await apiInstance.post('/auth/signup', signupData);
+
+  return data as SignupResponseData;
 };

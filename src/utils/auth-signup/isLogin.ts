@@ -1,15 +1,23 @@
-import axios from 'axios';
+import apiInstance from '@/api/instance';
+
+export interface LoginResponse {
+  message: string;
+  data: {
+    nickname: string;
+    mbrNo: number;
+    jwtToken?: {
+      grantType: string;
+      accessToken: string;
+      refreshToken: string;
+    };
+  };
+}
 
 export const login = async (username: string, password: string) => {
-  try {
-    const endpoint = 'https://latte-server.site/auth/login';
-    const response = await axios.post(endpoint, {
-      mbrId: username,
-      password,
-    });
+  const response = (await apiInstance.post('/auth/login', {
+    mbrId: username,
+    password,
+  })) as LoginResponse;
 
-    return response.data.data;
-  } catch (error) {
-    console.error(error);
-  }
+  return response;
 };

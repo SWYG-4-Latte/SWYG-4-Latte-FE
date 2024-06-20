@@ -10,6 +10,8 @@ import FooterGradientButton from '@/components/common/button/FooterGradientButto
 import Modal from '@/components/common/modal/Modal';
 import Button from '@/components/common/button/Button';
 import useModal from '@/hooks/useModal';
+import { login } from '@/utils/auth-signup/isLogin';
+import useLoginStore from '@/store/loginStore';
 
 export default function FooterSection() {
   const router = useRouter();
@@ -33,6 +35,8 @@ export default function FooterSection() {
     setCurrentStep,
   } = useSignupStore();
 
+  const { setLogin, setUserInfo } = useLoginStore();
+
   const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal('exit');
 
   const stepOneFilled = username && email && nickname;
@@ -42,12 +46,18 @@ export default function FooterSection() {
 
   const handleFormSubmit = async () => {
     try {
-      await submitSignupForm(); // 회원가입 API 호출
-      alert('회원가입이 성공적으로 완료되었습니다!');
+      const { result, jwtToken } = await submitSignupForm(); // 회원가입 API 호출
       resetSignupForm(); // 상태초기화
-      router.push('/auth/login');
+
+      if (jwtToken && jwtToken.accessToken) {
+        const { nickname, mbrNo } = result;
+        setLogin(jwtToken.accessToken, jwtToken.refreshToken);
+        setUserInfo({ nickname, mbrNo }); // 사용자 정보 설정
+
+        router.push('/home');
+      }
     } catch (error) {
-      alert('회원가입에 실패했습니다.');
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
       console.error('Signup failed:', error);
       resetSignupForm();
       router.push('/auth/login');
@@ -147,9 +157,7 @@ export default function FooterSection() {
       case 5:
         return (
           <section className="flex w-full">
-            <Link href="/auth/login">
-              <FooterGradientButton onClick={handleFormSubmit}>라떼핏 바로가기</FooterGradientButton>
-            </Link>
+            <FooterGradientButton onClick={handleFormSubmit}>라떼핏 바로가기</FooterGradientButton>
           </section>
         );
       default:

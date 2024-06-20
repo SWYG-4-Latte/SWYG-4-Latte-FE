@@ -7,6 +7,7 @@ import React from 'react';
 import useSignupStore from '@/store/signupStore';
 
 import ProgressbarSection from './ProgressbarSection';
+import { cn } from '@/utils/style';
 
 export default function HeaderSection() {
   const { currentStep, goToPrevStep } = useSignupStore();
@@ -20,7 +21,10 @@ export default function HeaderSection() {
 
   return (
     <section
-      className={`fixed z-10 flex h-14 w-full max-w-[500px] items-center bg-primaryIvory px-5 ${currentStep === 5 ? 'justify-end' : 'justify-between'}`}
+      className={cn(
+        'fixed z-10 flex h-14 w-full max-w-[500px] items-center bg-primaryIvory px-5',
+        currentStep === 5 ? 'justify-end bg-gray02' : 'justify-between',
+      )}
     >
       <Link href={currentStep === 1 ? '/auth/login' : '#'} onClick={handleBackClick}>
         <Image

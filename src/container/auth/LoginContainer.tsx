@@ -2,12 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-
-import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import useLoginStore from '@/store/loginStore';
-import useSignupStore from '@/store/signupStore';
 
 import { login } from '@/utils/auth-signup/isLogin';
 import Input from '@/components/common/input/Input';
@@ -34,7 +32,7 @@ export default function LoginContainer() {
     clearIdentity,
   } = useLoginStore();
 
-  const { loadUserInfo } = useSignupStore();
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
   const handleBackMove = () => {
     router.push('/home');
@@ -57,41 +55,29 @@ export default function LoginContainer() {
     }
   };
 
-  const handleFocusChange = (type: string, focused: boolean) => {
-    if (type === 'username') {
-      setUsernameFocused(focused);
-    } else {
-      setPasswordFocused(focused);
-    }
-  };
-
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!username.trim() || !password.trim()) {
-      alert('아이디와 비밀번호를 모두 입력해주세요.');
-      return;
-    }
 
     try {
-      const response = await login(username, password);
+      const { data, message } = await login(username, password);
 
-      if (response.jwtToken && response.jwtToken.accessToken) {
-        const { nickname, mbrNo } = response;
-        setLogin(response.jwtToken.accessToken, response.jwtToken.refreshToken);
+      if (data.jwtToken && data.jwtToken.accessToken) {
+        const { nickname, mbrNo } = data;
+        setLogin(data.jwtToken.accessToken, data.jwtToken.refreshToken);
         setUserInfo({ nickname, mbrNo }); // 사용자 정보 설정
-        loadUserInfo({ nickname, mbrNo }); // 사용자 정보 로드
 
-        alert('로그인에 성공하였습니다.');
         router.push('/home');
       } else {
-        console.error('Login Failed: ', response.message);
-        alert(`로그인 실패: ${response.message}`);
+        setLoginErrorMessage(message);
       }
     } catch (error) {
       console.error('Login Error', error);
-      alert(`로그인 오류: ${error instanceof Error ? error.message : '알 수 없는 에러가 발생했습니다.'}`);
     }
   };
+
+  useEffect(() => {
+    setLoginErrorMessage('');
+  }, [password, username]);
 
   return (
     <div className="flex h-screen w-full flex-col items-center px-5 text-gray10">
@@ -131,7 +117,7 @@ export default function LoginContainer() {
             value={password}
             onChange={(e) => handleInputChange(e, 'password')}
             placeholder="비밀번호"
-            error={passwordError}
+            error={passwordError || loginErrorMessage}
           />
 
           <Button disabled={!isInputValid} className="h-[50px] rounded-lg font-semibold">
