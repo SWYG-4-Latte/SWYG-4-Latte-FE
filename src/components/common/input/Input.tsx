@@ -40,7 +40,10 @@ const Input = ({ label, error, success, type, value, id, className, children, ..
 
         {type === 'password' && value && (
           <button type="button" className="absolute right-4" onClick={() => setShowPassword((prev) => !prev)}>
-            <Image src={showPassword ? EyeOnIcon : EyeOffIcon} alt={showPassword ? '비밀번호 표시' : '비밀번호 숨김'} />
+            <Image
+              src={showPassword ? EyeOffIcon : EyeOnIcon}
+              alt={showPassword ? '비밀번호 숨김 아이콘' : '비밀번호 표시 아이콘'}
+            />
           </button>
         )}
 
