@@ -11,10 +11,10 @@ import EyeOffIcon from '/public/svgs/eye-off.svg';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string | boolean | null;
-  bottomMessage?: string | boolean;
+  success?: string | boolean;
 }
 
-const Input = ({ label, error, bottomMessage, type, value, id, className, children, ...props }: InputProps) => {
+const Input = ({ label, error, success, type, value, id, className, children, ...props }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -48,8 +48,8 @@ const Input = ({ label, error, bottomMessage, type, value, id, className, childr
         {children}
       </div>
 
-      {(error || bottomMessage) && (
-        <p className={cn('mt-2 text-xs text-primaryOrange', error && 'text-primaryRed')}>{bottomMessage || error}</p>
+      {(error || success) && (
+        <p className={cn('mt-2 text-xs text-primaryOrange', error && 'text-primaryRed')}>{success || error}</p>
       )}
     </section>
   );

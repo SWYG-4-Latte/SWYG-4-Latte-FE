@@ -10,12 +10,14 @@ import useInput from '@/hooks/useInput';
 import { validateEmail } from '@/utils/validation';
 import useTimer from '@/hooks/useTimer';
 import FindIdResultContainer from './FindIdResultContainer';
+import { INPUT_MESSAGE } from '@/constants/message';
 
 const FindIdContainer = () => {
   const {
     value: emailValue,
     handleInputChange: handleEmailChange,
     isValid: emailIsValid,
+    hasError: emailHasError,
   } = useInput('', validateEmail);
 
   const { setTimer, stopTimer, remainingTime, formattedTime } = useTimer();
@@ -28,6 +30,11 @@ const FindIdContainer = () => {
   });
   const [userId, setUserId] = useState('');
   const [hasResult, setHasResult] = useState(false);
+
+  const emailErrorMessage =
+    emailHasError && (emailValue.trim() === '' ? INPUT_MESSAGE.EMAIL.EMPTY : INPUT_MESSAGE.EMAIL.INVALID);
+
+  const findIdButtonIsValid = !emailHasError && verification.isValid;
 
   const handleSendEmail = async () => {
     setTimer();
@@ -65,8 +72,6 @@ const FindIdContainer = () => {
     setHasResult(true);
   };
 
-  const findIdButtonIsValid = emailIsValid && verification.isValid;
-
   if (hasResult) {
     return <FindIdResultContainer id={userId} />;
   }
@@ -80,8 +85,8 @@ const FindIdContainer = () => {
         placeholder="ex) latte@example.com"
         value={emailValue}
         onChange={handleEmailChange}
-        bottomMessage={verification.sent && '인증번호가 전송되었습니다. 이메일을 확인해주세요.'}
-        error={emailValue && !emailIsValid && '올바르지 않은 이메일 형식입니다.'}
+        success={verification.sent && '인증번호가 전송되었습니다. 이메일을 확인해주세요.'}
+        error={emailErrorMessage}
       >
         <InputCheckButton disabled={!emailIsValid} onClick={handleSendEmail}>
           인증하기
@@ -102,7 +107,7 @@ const FindIdContainer = () => {
               inputValue: e.target.value,
             }))
           }
-          bottomMessage={verification.isValid && verification.inputMsg}
+          success={verification.isValid && verification.inputMsg}
           error={!verification.isValid && verification.inputMsg}
         >
           {verification.sent && <span className="absolute right-[100px] text-[14px] text-gray06">{formattedTime}</span>}

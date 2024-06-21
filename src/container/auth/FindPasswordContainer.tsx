@@ -10,19 +10,31 @@ import ChangePasswordSuccessModal from '@/components/common/modal/ChangePassword
 import useInput from '@/hooks/useInput';
 import useTimer from '@/hooks/useTimer';
 import { validateEmail, validateId, validatePassword } from '@/utils/validation';
+import { INPUT_MESSAGE } from '@/constants/message';
 
 const FindPasswordContainer = () => {
-  const { value: idValue, handleInputChange: handleIdChange, isValid: idIsValid } = useInput('', validateId);
+  const {
+    value: idValue,
+    handleInputChange: handleIdChange,
+    isValid: idIsValid,
+    hasError: idHasError,
+  } = useInput('', validateId);
+
   const {
     value: emailValue,
     handleInputChange: handleEmailChange,
     isValid: emailIsValid,
+    hasError: emailHasError,
   } = useInput('', validateEmail);
 
-  const [password, setPassword] = useState({
-    value: '',
-    confirmValue: '',
-  });
+  const {
+    value: passwordValue,
+    handleInputChange: handlePasswordInputChange,
+    isValid: passwordIsValid,
+    hasError: passwordHasError,
+  } = useInput('', validatePassword);
+
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [verification, setVerification] = useState({
     inputValue: '',
@@ -35,12 +47,15 @@ const FindPasswordContainer = () => {
 
   const { setTimer, stopTimer, remainingTime, formattedTime } = useTimer();
 
-  const handlePasswordInput = (id: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword((prev) => ({
-      ...prev,
-      [id]: event.target.value,
-    }));
-  };
+  const isPasswordSame = passwordValue.trim() !== '' && passwordValue === confirmPassword;
+
+  const idInputErrorMessage = idHasError && (idValue.trim() === '' ? INPUT_MESSAGE.ID.EMPTY : INPUT_MESSAGE.ID.INVALID);
+
+  const emailInputErrorMessage =
+    emailHasError && (emailValue.trim() === '' ? INPUT_MESSAGE.EMAIL.EMPTY : INPUT_MESSAGE.EMAIL.INVALID);
+
+  const passwordInputErrorMessage =
+    passwordHasError && (passwordValue.trim() === '' ? INPUT_MESSAGE.PASSWORD.EMPTY : INPUT_MESSAGE.PASSWORD.INVALID);
 
   const handleSendEmail = async () => {
     setTimer();
@@ -69,7 +84,7 @@ const FindPasswordContainer = () => {
       await apiInstance.post('/auth/update_pw', null, {
         params: {
           mbrNo: 1,
-          password: password.value,
+          password: passwordValue,
         },
       });
       setIsModalOpen(true);
@@ -102,9 +117,6 @@ const FindPasswordContainer = () => {
     }
   };
 
-  const passwordIsValid = password.value.trim() !== '' ? validatePassword(password.value) : true;
-  const isPasswordSame = password.value.trim() !== '' && password.value === password.confirmValue;
-  console.log(idIsValid);
   return (
     <form onSubmit={handleChangePassword}>
       <Input
@@ -113,7 +125,7 @@ const FindPasswordContainer = () => {
         placeholder="아이디를 입력해주세요."
         value={idValue}
         onChange={handleIdChange}
-        error={idValue && !idIsValid && '6-12자 이내의 숫자와 영문을 조합해주세요'}
+        error={idInputErrorMessage}
       />
       <Input
         type="email"
@@ -122,8 +134,8 @@ const FindPasswordContainer = () => {
         placeholder="ex) latte@example.com"
         value={emailValue}
         onChange={handleEmailChange}
-        bottomMessage={verification.sent && '인증번호가 전송되었습니다. 이메일을 확인해주세요.'}
-        error={emailValue && !emailIsValid && '올바르지 않은 이메일 형식입니다.'}
+        success={verification.sent && INPUT_MESSAGE.VERIFICATION.SENT}
+        error={emailInputErrorMessage}
       >
         <InputCheckButton disabled={!emailIsValid || !idIsValid} onClick={handleSendEmail}>
           인증하기
@@ -144,7 +156,7 @@ const FindPasswordContainer = () => {
               inputValue: e.target.value,
             }))
           }
-          bottomMessage={verification.isValid && verification.inputMsg}
+          success={verification.isValid && verification.inputMsg}
           error={!verification.isValid && verification.inputMsg}
         >
           <span className="absolute right-[100px] text-[14px] text-gray06">{formattedTime}</span>
@@ -154,25 +166,25 @@ const FindPasswordContainer = () => {
         </Input>
       )}
 
-      {verification.isValid && (
+      {!verification.isValid && (
         <>
           <Input
             type="password"
             id="password"
             label="비밀번호 재설정"
             placeholder="비밀번호(8자 이상, 영어 소문자/숫자/특문) 조합"
-            value={password.value}
-            onChange={(event) => handlePasswordInput('value', event)}
-            error={!passwordIsValid && '8자 이상의 영어 소문자, 숫자, 특수문자를 조합해주세요.'}
+            value={passwordValue}
+            onChange={handlePasswordInputChange}
+            error={passwordInputErrorMessage}
           />
           <Input
             type="password"
             id="password-confirm"
             label="비밀번호 확인"
             placeholder="다시 한번 입력해주세요."
-            value={password.confirmValue}
-            onChange={(event) => handlePasswordInput('confirmValue', event)}
-            error={password.confirmValue !== '' && !isPasswordSame && '비밀번호가 일치하지 않습니다.'}
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+            error={confirmPassword.trim() !== '' && !isPasswordSame && INPUT_MESSAGE.PASSWORD.MISMATCH}
           />
         </>
       )}

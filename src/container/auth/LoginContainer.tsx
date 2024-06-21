@@ -11,7 +11,7 @@ import { login } from '@/utils/auth-signup/isLogin';
 import Input from '@/components/common/input/Input';
 import Button from '@/components/common/button/Button';
 import { validateId, validatePassword } from '@/utils/validation';
-import { ERROR_MESSAGE } from '@/constants/message';
+import { INPUT_MESSAGE } from '@/constants/message';
 import useInput from '@/hooks/useInput';
 
 export default function LoginContainer() {
@@ -35,8 +35,8 @@ export default function LoginContainer() {
   const isInputValid = id.trim() !== '' && password.trim() !== '' && !idHasError && !passwordHasError;
 
   const passwordErrorMessage =
-    passwordHasError && (password.trim() === '' ? ERROR_MESSAGE.PASSWORD.EMPTY : ERROR_MESSAGE.PASSWORD.INVALID);
-  const idErrorMessage = idHasError && (id.trim() === '' ? ERROR_MESSAGE.ID.EMPTY : ERROR_MESSAGE.ID.INVALID);
+    passwordHasError && (password.trim() === '' ? INPUT_MESSAGE.PASSWORD.EMPTY : INPUT_MESSAGE.PASSWORD.INVALID);
+  const idErrorMessage = idHasError && (id.trim() === '' ? INPUT_MESSAGE.ID.EMPTY : INPUT_MESSAGE.ID.INVALID);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === 'user-id') {
