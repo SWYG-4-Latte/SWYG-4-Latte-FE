@@ -3,34 +3,28 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import useLoginStore from '@/store/loginStore';
 
 import { login } from '@/utils/auth-signup/isLogin';
 import Input from '@/components/common/input/Input';
 import Button from '@/components/common/button/Button';
+import { validateId, validatePassword } from '@/utils/validation';
+import { ERROR_MESSAGE } from '@/constants/message';
+import useInput from '@/hooks/useInput';
 
 export default function LoginContainer() {
   const router = useRouter();
 
+  const { setLogin, setUserInfo } = useLoginStore();
+
+  const { value: id, hasError: idHasError, handleInputChange: handleIdChange } = useInput('', validateId);
   const {
-    username,
-    password,
-    setUsername,
-    setPassword,
-    usernameError,
-    passwordError,
-    usernameFocused,
-    passwordFocused,
-    setUsernameFocused,
-    setPasswordFocused,
-    validateUsername,
-    validatePassword,
-    setLogin,
-    setUserInfo,
-    clearIdentity,
-  } = useLoginStore();
+    value: password,
+    hasError: passwordHasError,
+    handleInputChange: handlePasswordChange,
+  } = useInput('', validatePassword);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
@@ -38,20 +32,21 @@ export default function LoginContainer() {
     router.push('/home');
   };
 
-  useEffect(() => {
-    clearIdentity();
-  }, [clearIdentity]);
+  const isInputValid = id.trim() !== '' && password.trim() !== '' && !idHasError && !passwordHasError;
 
-  const isInputValid = username.trim() !== '' && password.trim() !== '' && !usernameError && !passwordError;
+  const passwordErrorMessage =
+    passwordHasError && (password.trim() === '' ? ERROR_MESSAGE.PASSWORD.EMPTY : ERROR_MESSAGE.PASSWORD.INVALID);
+  const idErrorMessage = idHasError && (id.trim() === '' ? ERROR_MESSAGE.ID.EMPTY : ERROR_MESSAGE.ID.INVALID);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
-    const { value } = e.target;
-    if (type === 'username') {
-      setUsername(value);
-      validateUsername(value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.id === 'user-id') {
+      handleIdChange(e);
     } else {
-      setPassword(value);
-      validatePassword(value);
+      handlePasswordChange(e);
+    }
+
+    if (loginErrorMessage !== '') {
+      setLoginErrorMessage('');
     }
   };
 
@@ -59,7 +54,7 @@ export default function LoginContainer() {
     e.preventDefault();
 
     try {
-      const { data, message } = await login(username, password);
+      const { data, message } = await login(id, password);
 
       if (data.jwtToken && data.jwtToken.accessToken) {
         const { nickname, mbrNo } = data;
@@ -74,10 +69,6 @@ export default function LoginContainer() {
       console.error('Login Error', error);
     }
   };
-
-  useEffect(() => {
-    setLoginErrorMessage('');
-  }, [password, username]);
 
   return (
     <div className="flex h-screen w-full flex-col items-center px-5 text-gray10">
@@ -105,19 +96,21 @@ export default function LoginContainer() {
       <section className="mb-6 w-full">
         <form onSubmit={handleLogin} className="flex w-full flex-col">
           <Input
+            id="user-id"
             type="text"
-            value={username}
-            onChange={(e) => handleInputChange(e, 'username')}
+            value={id}
+            onChange={handleInputChange}
             placeholder="아이디"
-            error={usernameError}
+            error={idErrorMessage}
           />
 
           <Input
+            id="password"
             type="password"
             value={password}
-            onChange={(e) => handleInputChange(e, 'password')}
+            onChange={handleInputChange}
             placeholder="비밀번호"
-            error={passwordError || loginErrorMessage}
+            error={passwordErrorMessage || loginErrorMessage}
           />
 
           <Button disabled={!isInputValid} className="h-[50px] rounded-lg font-semibold">

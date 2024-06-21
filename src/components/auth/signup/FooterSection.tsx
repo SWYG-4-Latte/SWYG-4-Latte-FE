@@ -1,16 +1,13 @@
 'use client';
-// NEXT
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-// Zustand
+
 import useSignupStore from '@/store/signupStore';
-import Link from 'next/link';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
-//Modal
 import Modal from '@/components/common/modal/Modal';
 import Button from '@/components/common/button/Button';
 import useModal from '@/hooks/useModal';
-import { login } from '@/utils/auth-signup/isLogin';
 import useLoginStore from '@/store/loginStore';
 
 export default function FooterSection() {

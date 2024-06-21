@@ -15,7 +15,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({ label, error, bottomMessage, type, value, id, className, children, ...props }: InputProps) => {
-  const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -28,14 +27,12 @@ const Input = ({ label, error, bottomMessage, type, value, id, className, childr
 
       <div className={cn('relative flex items-center', label && 'gap-2')}>
         <input
+          id={id}
           value={value}
           type={showPassword ? 'text' : type}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
           className={cn(
-            'h-[50px] min-w-[236px] grow rounded-lg border border-gray05 bg-gray01 py-4 pl-5 text-[14px] leading-6 text-gray10 outline-none placeholder:text-gray08',
-            error && 'border-primaryRed',
-            isFocused && !error && 'border-primaryOrange',
+            'h-[50px] min-w-[236px] grow rounded-lg border border-gray05 bg-gray01 py-4 pl-5 text-[14px] leading-6 text-gray10 outline-none placeholder:text-gray08 focus:border-primaryOrange',
+            error && 'border-primaryRed focus:border-primaryRed',
             className,
           )}
           {...props}
