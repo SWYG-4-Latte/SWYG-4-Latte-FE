@@ -11,14 +11,13 @@ export const validateNickname = (name: string) => {
 };
 
 export const validateId = (id: string) => {
-  const idRegex = /^[A-Za-z0-9]{6,12}$/;
+  const idRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/g;
 
   return idRegex.test(id);
 };
 
 export const validatePassword = (password: string) => {
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>~`\\/\[\]\-=_+;'])[A-Za-z\d!@#$%^&*(),.?":{}|<>~`\\/\[\]\-=_+;']{8,18}$/;
+  const passwordRegex = /^(?!((?:[a-z]+)|(?:[~!@#$%^&*()\-_+=]+)|(?:[\d]+))$)[a-z\d~!@#$%^&*()\-_+=]{8,}$/;
 
   return passwordRegex.test(password);
 };
