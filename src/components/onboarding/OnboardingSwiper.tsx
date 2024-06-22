@@ -21,6 +21,7 @@ const OnboardingSwiper = () => {
           <p className="my-3 text-center text-xs leading-4 text-gray08">{description}</p>
           <div className="px-5">
             <Image
+              priority
               src={`/images/img-onboarding${order}.png`}
               alt="화면 이미지"
               width={0}
