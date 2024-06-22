@@ -33,6 +33,22 @@
   @apply w-fit !important;
 }
 
+.swiper-onboarding {
+  @apply !w-full;
+}
+
+.swiper-pagination {
+  @apply bottom-2 h-2 !important;
+}
+
+.swiper-pagination-bullet {
+  @apply mx-[2.5px] bg-gray04 opacity-100 !important;
+  transition: 0.3s ease width;
+}
+.swiper-pagination-bullet-active {
+  @apply w-5 rounded-[50px] bg-primaryOrange !important;
+}
+
 :root {
   --toastify-font-family: var(--font-pretendard);
 }
