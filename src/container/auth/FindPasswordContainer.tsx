@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import apiInstance from '@/api/instance';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
@@ -39,20 +40,18 @@ const FindPasswordContainer = () => {
   const [verification, setVerification] = useState({
     inputValue: '',
     inputMsg: '',
-    isValid: false,
+    isVerified: false,
     sent: false,
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { setTimer, stopTimer, remainingTime, formattedTime } = useTimer();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [idInputMessage, setIdInputMessage] = useState('');
+  const [emailInputMessage, setEmailInputMessage] = useState('');
+  const [mbrNo, setMbrNo] = useState(null);
+
   const isPasswordSame = passwordValue.trim() !== '' && passwordValue === confirmPassword;
-
-  const idInputErrorMessage = idHasError && (idValue.trim() === '' ? INPUT_MESSAGE.ID.EMPTY : INPUT_MESSAGE.ID.INVALID);
-
-  const emailInputErrorMessage =
-    emailHasError && (emailValue.trim() === '' ? INPUT_MESSAGE.EMAIL.EMPTY : INPUT_MESSAGE.EMAIL.INVALID);
 
   const passwordInputErrorMessage =
     passwordHasError && (passwordValue.trim() === '' ? INPUT_MESSAGE.PASSWORD.EMPTY : INPUT_MESSAGE.PASSWORD.INVALID);
@@ -72,18 +71,26 @@ const FindPasswordContainer = () => {
         ...prev,
         sent: true,
       }));
+      setEmailInputMessage(INPUT_MESSAGE.VERIFICATION.SENT);
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error) && error.response) {
+        const { message } = error.response.data;
+        if (message === INPUT_MESSAGE.ID.NOT_FOUND) {
+          setIdInputMessage(message);
+        } else {
+          setEmailInputMessage(message);
+        }
+      }
     }
   };
 
   const handleChangePassword = async (event: React.FormEvent) => {
     event.preventDefault();
-    // 인증 완료 후 mbrNo 받아오는 API 필요
+
     try {
       await apiInstance.post('/auth/update_pw', null, {
         params: {
-          mbrNo: 1,
+          mbrNo,
           password: passwordValue,
         },
       });
@@ -97,25 +104,53 @@ const FindPasswordContainer = () => {
     if (remainingTime === 0) {
       setVerification((prev) => ({
         ...prev,
-        inputMsg: '입력 시간이 초과되었습니다. 다시 인증해주세요.',
-        isValid: false,
+        inputMsg: INPUT_MESSAGE.VERIFICATION.TIME_OUT,
+        isVerified: false,
       }));
       return;
     }
 
-    // TODO: 인증번호 일치 여부. 검사 추가하기
     try {
-      const data = await apiInstance.post('/auth/verifyCode', null, {
+      const { data } = await apiInstance.post('/auth/verifyCode', null, {
         params: {
           email: emailValue,
           code: verification.inputValue,
         },
       });
-      console.log(data);
+
+      setMbrNo(data);
+
+      setVerification((prev) => ({
+        ...prev,
+        inputMsg: INPUT_MESSAGE.VERIFICATION.COMPLETE,
+        isVerified: true,
+      }));
+      setEmailInputMessage('');
+      stopTimer();
     } catch (error) {
-      console.error(error);
+      setVerification((prev) => ({
+        ...prev,
+        inputMsg: INPUT_MESSAGE.VERIFICATION.INVALID,
+        isVerified: false,
+      }));
     }
   };
+
+  useEffect(() => {
+    if (idHasError) {
+      setIdInputMessage(idValue.trim() === '' ? INPUT_MESSAGE.ID.EMPTY : INPUT_MESSAGE.ID.INVALID);
+    } else {
+      setIdInputMessage('');
+    }
+  }, [idHasError, idValue]);
+
+  useEffect(() => {
+    if (emailHasError) {
+      setEmailInputMessage(emailValue.trim() === '' ? INPUT_MESSAGE.EMAIL.EMPTY : INPUT_MESSAGE.EMAIL.INVALID);
+    } else {
+      setEmailInputMessage('');
+    }
+  }, [emailHasError, emailValue]);
 
   return (
     <form onSubmit={handleChangePassword}>
@@ -125,7 +160,7 @@ const FindPasswordContainer = () => {
         placeholder="아이디를 입력해주세요."
         value={idValue}
         onChange={handleIdChange}
-        error={idInputErrorMessage}
+        error={idInputMessage}
       />
       <Input
         type="email"
@@ -134,21 +169,24 @@ const FindPasswordContainer = () => {
         placeholder="ex) latte@example.com"
         value={emailValue}
         onChange={handleEmailChange}
-        success={verification.sent && INPUT_MESSAGE.VERIFICATION.SENT}
-        error={emailInputErrorMessage}
+        success={verification.sent && !emailHasError && emailInputMessage}
+        error={emailInputMessage || emailHasError}
+        disabled={verification.isVerified}
       >
-        <InputCheckButton disabled={!emailIsValid || !idIsValid} onClick={handleSendEmail}>
+        <InputCheckButton disabled={!emailIsValid || !idIsValid || verification.isVerified} onClick={handleSendEmail}>
           인증하기
         </InputCheckButton>
       </Input>
 
       {verification.sent && (
         <Input
+          type="number"
           inputMode="numeric"
+          maxLength={6}
           id="verification-number"
           label="인증번호"
-          placeholder="인증번호 입력"
-          disabled={!emailIsValid}
+          placeholder="인증번호 6자리 입력"
+          disabled={!emailIsValid || verification.isVerified}
           value={verification.inputValue}
           onChange={(e) =>
             setVerification((prev) => ({
@@ -156,17 +194,21 @@ const FindPasswordContainer = () => {
               inputValue: e.target.value,
             }))
           }
-          success={verification.isValid && verification.inputMsg}
-          error={!verification.isValid && verification.inputMsg}
+          success={verification.isVerified && verification.inputMsg}
+          error={!verification.isVerified && verification.inputMsg}
+          className={`${verification.isVerified && 'border-primaryOrange'}`}
         >
           <span className="absolute right-[100px] text-[14px] text-gray06">{formattedTime}</span>
-          <InputCheckButton disabled={!verification.inputValue || !emailIsValid} onClick={handleVerifyCode}>
+          <InputCheckButton
+            disabled={!verification.inputValue || !emailIsValid || verification.isVerified}
+            onClick={handleVerifyCode}
+          >
             확인
           </InputCheckButton>
         </Input>
       )}
 
-      {!verification.isValid && (
+      {verification.isVerified && (
         <>
           <Input
             type="password"

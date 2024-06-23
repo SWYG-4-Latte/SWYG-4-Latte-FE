@@ -33,6 +33,7 @@ const Input = ({ label, error, success, type, value, id, className, children, ..
           className={cn(
             'h-[50px] min-w-[236px] grow rounded-lg border border-gray05 bg-gray01 py-4 pl-5 text-[14px] leading-6 text-gray10 outline-none placeholder:text-gray08 focus:border-primaryOrange',
             error && 'border-primaryRed focus:border-primaryRed',
+            success && 'border-primaryOrange',
             className,
           )}
           {...props}
@@ -52,7 +53,9 @@ const Input = ({ label, error, success, type, value, id, className, children, ..
       </div>
 
       {(error || success) && (
-        <p className={cn('mt-2 text-xs text-primaryOrange', error && 'text-primaryRed')}>{success || error}</p>
+        <p className={cn('mt-2 text-xs text-primaryOrange', error && !success && 'text-primaryRed')}>
+          {success || error}
+        </p>
       )}
     </section>
   );
