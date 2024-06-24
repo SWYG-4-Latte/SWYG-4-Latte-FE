@@ -22,7 +22,7 @@ apiInstance.interceptors.request.use(
 
 apiInstance.interceptors.response.use(
   (response) => {
-    return response.data;
+    return response;
   },
   (error) => {
     // 토큰이 유효하지 않은 경우 저장된 토큰 삭제

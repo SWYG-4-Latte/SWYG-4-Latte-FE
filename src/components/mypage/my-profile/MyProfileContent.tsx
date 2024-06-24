@@ -1,103 +1,97 @@
 'use client';
-//NEXT
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-//Library
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-//Zustand
-import useSignupStore from '@/store/signupStore';
+
 import useMemberStore from '@/store/memberStore';
-//Modal
-import Modal from '@/components/common/modal/Modal';
-import Button from '@/components/common/button/Button';
 import useModal from '@/hooks/useModal';
-//utils
-import { fetchMemberInfo } from '@/utils/mypage/isMember';
-import { deleteUser } from '@/utils/auth-signup/isDelete';
+import useInput from '@/hooks/useInput';
 import useLoginStore from '@/store/loginStore';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
+import { validateAge, validateEmail, validateNickname, validatePregnancyMonth } from '@/utils/validation';
+import { cn } from '@/utils/style';
+import Input from '@/components/common/input/Input';
+import { INPUT_MESSAGE } from '@/constants/message';
+
+import apiInstance from '@/api/instance';
+import ExitModal from '@/components/common/modal/ExitModal';
+import ExitSuccessModal from '@/components/common/modal/ExitSuccessModal';
 
 export default function MyProfileContent() {
   const router = useRouter();
-  const { isOpen: isExitOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal('exit');
-  const { isOpen: isConfirmOpen, closeModal: closeConfirmModal } = useModal('exitConfirm');
+  const { isOpen: exitModalIsOpen, openModal: openExitModal, closeModal: closeExitModal } = useModal('exit');
+  const {
+    isOpen: exitSuccessModalIsOpen,
+    openModal: openExitSuccessModal,
+    closeModal: closeExitSuccessModal,
+  } = useModal('exitSuccess');
+
+  const { memberInfo, setMemberInfo } = useMemberStore();
 
   const {
-    emailError,
-    emailFocused,
-    validateEmail,
-    setEmailFocused,
-    ageError,
-    ageFocused,
-    validateAge,
-    setAgeFocused,
-    nicknameError,
-    nicknameFocused,
-    validateNickname,
-    setNicknameFocused,
-    setPregMonthFocused,
-    pregMonthError,
-    pregMonthFocused,
-    validatePregMonth,
-  } = useSignupStore();
+    value: email,
+    hasError: emailHasError,
+    handleInputChange: handleEmailChange,
+    setValue: setEmail,
+  } = useInput('', validateEmail);
+
+  const {
+    value: nickname,
+    hasError: nicknameHasError,
+    handleInputChange: handleNicknameChange,
+    setValue: setNickname,
+  } = useInput('', validateNickname);
+
+  const {
+    value: age,
+    hasError: ageHasError,
+    handleInputChange: handleAgeChange,
+    setValue: setAge,
+  } = useInput('', validateAge);
+
+  const {
+    value: pregnancyMonth,
+    hasError: pregnancyMonthHasError,
+    handleInputChange: handlePregnancyMonthChange,
+    setValue: setPregnancyMonth,
+  } = useInput('', validatePregnancyMonth);
+
+  const [gender, setGender] = useState<null | string>('');
+  const [isPregnant, setIsPregnant] = useState(false);
+  const [nicknameInputMessage, setNicknameInputMessage] = useState('');
+  const [emailInputMessage, setEmailInputMessage] = useState('');
 
   const { setLogout } = useLoginStore();
 
-  const { memberInfo, setMemberInfo, updateMemberInfo } = useMemberStore();
-
-  useEffect(() => {
-    const loadMemberInfo = async () => {
-      const info = await fetchMemberInfo();
-      setMemberInfo(info.member);
-    };
-
-    loadMemberInfo();
-  }, [setMemberInfo]);
-
-  const handleInputChange = (field: any, value: string) => {
-    switch (field) {
-      case 'email':
-        setMemberInfo({ ...memberInfo, [field]: value });
-        validateEmail(value);
-        break;
-      case 'nickname':
-        setMemberInfo({ ...memberInfo, [field]: value });
-        validateNickname(value);
-        break;
-      case 'age':
-        setMemberInfo({ ...memberInfo, [field]: value });
-        validateAge(value);
-        break;
-      case 'pregMonth':
-        setMemberInfo({ ...memberInfo, [field]: value });
-        validatePregMonth(value);
-        break;
-    }
-  };
-
   const handleUpdateProfile = async () => {
-    await updateMemberInfo();
-    toast('내 프로필을 저장했어요', {
-      toastId: 'profile-update',
-    });
-  };
+    try {
+      const { data } = await apiInstance.post(`/auth/update/${memberInfo.mbrNo}`, {
+        nickname,
+        age,
+        gender,
+        email,
+        pregMonth: pregnancyMonth,
+        pregnancy: isPregnant,
+      });
 
-  const handleFocusChange = (field: string, focused: boolean) => {
-    switch (field) {
-      case 'email':
-        setEmailFocused(focused);
-        break;
-      case 'nickname':
-        setNicknameFocused(focused);
-        break;
-      case 'age':
-        setAgeFocused(focused);
-        break;
-      case 'pregMonth':
-        setPregMonthFocused(focused);
-        break;
+      if (data.message === '이메일이 이미 존재합니다.') {
+        setEmailInputMessage(INPUT_MESSAGE.EMAIL.DUPLICATE);
+        return;
+      } else if (data.message === '닉네임이 이미 존재합니다.') {
+        setNicknameInputMessage(INPUT_MESSAGE.NICKNAME.DUPLICATE);
+        return;
+      }
+
+      toast('내 프로필을 저장했어요', {
+        toastId: 'profile-update',
+      });
+      setMemberInfo(data.data.result);
+    } catch (error) {
+      console.error('업데이트 에러', error);
     }
   };
 
@@ -106,173 +100,158 @@ export default function MyProfileContent() {
     router.push('/home');
   };
 
-  const handleExit = () => {
-    openExitModal();
-  };
-
-  const handleConfirmExit = async () => {
-    try {
-      await deleteUser(memberInfo.mbrNo);
-      closeExitModal();
-      localStorage.removeItem('accessToken'); // 로컬 스토리지에서 인증 토큰을 제거
-      router.push('/home'); // 홈 페이지로 리다이렉트
-    } catch (error) {
-      console.error('회원 탈퇴 처리 중 오류 발생:', error);
+  useEffect(() => {
+    if (!localStorage.getItem('accessToken')) {
+      router.replace('/auth/login');
     }
-  };
+  }, [router]);
 
-  const renderExitConfirmModal = (
-    <Modal isOpen={isConfirmOpen} onClose={closeConfirmModal}>
-      <div className="text-lg font-semibold text-primaryOrange">탈퇴가 완료되었습니다</div>
-      <p className="w-[182px] text-center text-sm leading-[20px] text-gray10">
-        언제든 돌아오시길 기다릴게요! <br /> 더 좋은 서비스로 보답하겠습니다.
-      </p>
-      <Button onClick={closeConfirmModal} className="w-full rounded-lg px-4 py-3 font-semibold leading-[25px]">
-        홈으로 돌아가기
-      </Button>
-    </Modal>
-  );
+  useEffect(() => {
+    if (emailHasError) {
+      setEmailInputMessage(email.trim() === '' ? INPUT_MESSAGE.EMAIL.EMPTY : INPUT_MESSAGE.EMAIL.INVALID);
+    } else {
+      setEmailInputMessage('');
+    }
+  }, [emailHasError, email]);
 
-  const renderExitModal = (
-    <Modal isOpen={isExitOpen} onClose={closeExitModal}>
-      <div className="text-lg font-semibold text-primaryOrange">정말 탈퇴하시겠어요?</div>
-      <p className="w-[161px] text-center text-sm leading-[20px] text-gray10">
-        지금 탈퇴하면 그동안 기록한 카페인 섭취량을 볼 수 없어요.
-      </p>
-      <div className="flex gap-2">
-        <button
-          className="h-[50px] w-32 rounded-lg border border-gray05 bg-primaryIvory px-4 py-3 font-semibold leading-[25px] text-gray08 hover:border-0 hover:bg-gray06 hover:text-gray00"
-          onClick={closeExitModal}
-        >
-          아니요
-        </button>
-        <Button onClick={handleConfirmExit} className="w-32 rounded-lg px-4 py-3 font-semibold leading-[25px]">
-          탈퇴하기
-        </Button>
-      </div>
-    </Modal>
-  );
+  useEffect(() => {
+    if (nicknameHasError) {
+      setNicknameInputMessage(nickname.trim() === '' ? INPUT_MESSAGE.NICKNAME.EMPTY : INPUT_MESSAGE.NICKNAME.INVALID);
+    } else {
+      setNicknameInputMessage('');
+    }
+  }, [nicknameHasError, nickname]);
+
+  useEffect(() => {
+    setEmail(memberInfo.email);
+    setNickname(memberInfo.nickname);
+    setAge(memberInfo.age);
+    setGender(memberInfo.gender);
+    setIsPregnant(memberInfo.pregnancy);
+    setPregnancyMonth(memberInfo.pregMonth.toString());
+  }, [memberInfo]);
 
   return (
     <>
-      <section className="relative flex h-auto w-full min-w-[360px] flex-col items-center px-5 pt-14">
+      {exitModalIsOpen && (
+        <ExitModal isOpen={exitModalIsOpen} onClose={closeExitModal} openSuccessModal={openExitSuccessModal} />
+      )}
+      {exitSuccessModalIsOpen && <ExitSuccessModal isOpen={exitSuccessModalIsOpen} onClose={closeExitSuccessModal} />}
+
+      <section className="flex h-auto w-full min-w-[360px] flex-col items-center  pt-14">
         {/* 이미지 */}
-        <div className="flex-all-center mb-5 mt-8 w-full">
+        <div className="flex-all-center mb-5 mt-8 w-full ">
           <Image src="/svgs/svg_profile.svg" alt="my-profile" width={120} height={120} priority unoptimized />
         </div>
         {/* 나의 기본 정보 */}
-        <form className="flex w-full flex-col justify-center space-y-2">
-          <h2 className="font-semibold text-gray10">나의 기본 정보</h2>
-          <label className="text-xs text-gray10">
-            닉네임 <span className="text-primaryOrange">*</span>
-          </label>
-          <input
+        <form className="flex w-full flex-col justify-center space-y-2 px-5">
+          <h2 className="mb-2 font-semibold text-gray10">나의 기본 정보</h2>
+
+          <Input
+            required
             type="text"
-            value={memberInfo.nickname}
-            onChange={(e) => handleInputChange('nickname', e.target.value)}
-            onFocus={() => handleFocusChange('nickname', true)}
-            onBlur={() => handleFocusChange('nickname', false)}
-            placeholder="닉네임"
-            className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                      placeholder:tracking-tighter ${nicknameError ? 'border-primaryRed' : nicknameFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
+            id="nickname"
+            label="닉네임"
+            value={nickname}
+            onChange={handleNicknameChange}
+            placeholder="3자 이상으로 입력해주세요."
+            error={nicknameInputMessage}
           />
-          {nicknameError && <p className="mt-2 text-xs text-primaryRed">{nicknameError}</p>}
-          <label className="text-xs text-gray10">
-            이메일 <span className="text-primaryOrange">*</span>
-          </label>
-          <input
+          <Input
+            required
             type="text"
-            value={memberInfo.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            onFocus={() => handleFocusChange('email', true)}
-            onBlur={() => handleFocusChange('email', false)}
+            id="email"
+            label="이메일"
+            value={email}
+            onChange={handleEmailChange}
             placeholder="이메일"
-            className={`h-[50px] rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                      placeholder:tracking-tighter ${emailError ? 'border-primaryRed' : emailFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
+            error={emailInputMessage}
           />
-          {emailError && <p className="mt-2 text-xs text-primaryRed">{emailError}</p>}
-          <label className="text-xs text-gray10">만 나이</label>
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              value={memberInfo.age}
-              onChange={(e) => handleInputChange('age', e.target.value)}
-              onFocus={() => handleFocusChange('age', true)}
-              onBlur={() => handleFocusChange('age', false)}
-              placeholder="만 나이를 입력해주세요"
-              className={`h-[50px] grow rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10 outline-none
-                        placeholder:tracking-tighter ${ageError ? 'border-primaryRed' : ageFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
-            />
+
+          <Input
+            type="number"
+            id="age"
+            label="만 나이"
+            value={age}
+            onChange={handleAgeChange}
+            placeholder="만 나이를 입력해주세요."
+            error={age && ageHasError && INPUT_MESSAGE.AGE.RANGE}
+          >
             <p className="text-sm leading-6 text-gray08">세</p>
-          </div>
-          {ageError && <span className="text-xs text-primaryRed">{ageError}</span>}
-          <label className="text-xs text-gray10">성별</label>
-          <div className="flex items-center space-x-2">
-            <button
-              type="button"
-              className={`flex-all-center h-[34px] w-[96px] rounded-md border border-gray05 px-4 py-2 
-            ${memberInfo.gender === 'M' ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'bg-gray01 text-gray08'}`}
-              onClick={() => setMemberInfo({ ...memberInfo, gender: 'M' })}
+          </Input>
+
+          <label htmlFor="gender" className="text-xs text-gray10">
+            성별
+          </label>
+          <div className="flex items-center space-x-2 ">
+            <label
+              className={cn(
+                'flex-all-center h-[34px] w-[96px] cursor-pointer rounded-md border border-gray05 bg-gray01 px-4 py-2 text-gray08',
+                gender === 'M' && 'border-primaryOrange bg-orange01 text-primaryOrange',
+              )}
             >
-              남성
-            </button>
-            <button
-              type="button"
-              className={`flex-all-center h-[34px] w-[96px] rounded-md border border-gray05 px-4 py-2 
-            ${memberInfo.gender === 'F' ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'bg-gray01 text-gray08'}`}
-              onClick={() => setMemberInfo({ ...memberInfo, gender: 'F' })}
+              <input name="gender" id="male" type="radio" checked={gender === 'M'} onChange={() => setGender('M')} />
+              <span className="text-[14px] leading-6">남성</span>
+            </label>
+
+            <label
+              className={cn(
+                'flex-all-center h-[34px] w-[96px] cursor-pointer rounded-md border border-gray05 bg-gray01 px-4 py-2 text-gray08',
+                gender === 'F' && 'border-primaryOrange bg-orange01 text-primaryOrange',
+              )}
             >
-              여성
-            </button>
+              <input name="gender" id="female" type="radio" checked={gender === 'F'} onChange={() => setGender('F')} />
+              <span className="text-[14px] leading-6">여성</span>
+            </label>
           </div>
 
-          {memberInfo.gender === 'F' && (
+          {gender === 'F' && (
             <>
               <p className="text-xs text-gray10">임신여부</p>
               <div className="flex items-center space-x-2">
-                <button
-                  type="button"
-                  className={`flex-all-center h-[34px] w-[96px] rounded-md border px-4 py-2 
-                          ${memberInfo.pregnancy ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 bg-gray01 text-gray08'}`}
-                  onClick={() => setMemberInfo({ ...memberInfo, pregnancy: !memberInfo.pregnancy })}
+                <label
+                  className={cn(
+                    'flex-all-center h-[34px] w-[96px] cursor-pointer rounded-md border border-gray05 bg-gray01 px-4 py-2 text-gray08',
+                    isPregnant && 'border-primaryOrange bg-orange01 text-primaryOrange',
+                  )}
                 >
-                  예
-                </button>
-                <button
-                  type="button"
-                  className={`flex-all-center h-[34px] w-[96px] rounded-md border px-4 py-2 
-                            ${!memberInfo.pregnancy ? 'border-primaryOrange bg-orange01 text-primaryOrange' : 'border-gray05 bg-gray01 text-gray08'}`}
-                  onClick={() => setMemberInfo({ ...memberInfo, pregnancy: false })}
+                  <input name="pregnancy" type="radio" checked={isPregnant} onChange={() => setIsPregnant(true)} />
+                  <span className="text-[14px] leading-6">예</span>
+                </label>
+
+                <label
+                  className={cn(
+                    'flex-all-center h-[34px] w-[96px] cursor-pointer rounded-md border border-gray05 bg-gray01 px-4 py-2 text-gray08',
+                    !isPregnant && 'border-primaryOrange bg-orange01 text-primaryOrange',
+                  )}
                 >
-                  아니요
-                </button>
+                  <input name="pregnancy" type="radio" checked={!isPregnant} onChange={() => setIsPregnant(false)} />
+                  <span className="text-[14px] leading-6">아니요</span>
+                </label>
               </div>
             </>
           )}
-          {memberInfo.gender === 'F' && memberInfo.pregnancy && (
-            <>
-              <p className="text-xs text-gray10">임신 개월 수</p>
-              <div className="mb-4 flex items-center space-x-2">
-                <input
-                  type="text"
-                  value={memberInfo.pregMonth}
-                  onChange={(e) => handleInputChange('pregMonth', e.target.value)}
-                  onFocus={() => setPregMonthFocused(true)}
-                  onBlur={() => setPregMonthFocused(false)}
-                  placeholder="임신 개월 수를 입력해주세요."
-                  className={`h-[50px] grow rounded-lg border bg-gray01 px-5 py-4 text-[14px] text-gray10
-                              outline-none ${pregMonthError ? 'border-primaryRed' : pregMonthFocused ? 'border-primaryOrange' : 'border-gray05'} placeholder:text-gray05`}
-                />
-                <span className="whitespace-nowrap text-sm text-gray08">개월</span>
-              </div>
-              {pregMonthError && <span className="text-xs text-primaryRed">{pregMonthError}</span>}
-            </>
+          {gender === 'F' && isPregnant && (
+            <Input
+              type="number"
+              id="pregnancy-month"
+              label="임신 개월 수"
+              value={pregnancyMonth}
+              onChange={handlePregnancyMonthChange}
+              placeholder="임신 개월 수를 입력해주세요."
+              error={
+                pregnancyMonthHasError &&
+                (pregnancyMonth.trim() === '' ? INPUT_MESSAGE.PREGNANT.EMPTY : INPUT_MESSAGE.PREGNANT.INVALID)
+              }
+            >
+              <span className="whitespace-nowrap text-sm text-gray08">개월</span>
+            </Input>
           )}
         </form>
 
-        <div className="mt-6 h-2 w-full bg-gray03 px-5" />
+        <div className="mt-6 h-2 w-full bg-gray03" />
         {/* 나의 추가 설정 */}
-        <div className="flex h-[200px] w-full flex-col text-gray10">
+        <div className="flex h-[200px] w-full flex-col px-5 text-gray10">
           <Link href="/mypage/memberinfo">
             <div className="my-4 flex w-full items-center justify-between py-1">
               <div className="flex flex-col">
@@ -287,16 +266,20 @@ export default function MyProfileContent() {
               로그아웃
             </p>
             <div className="mx-4 h-3 w-[1px] bg-gray05" />
-            <p onClick={handleExit} className="cursor-pointer hover:text-primaryOrange">
+            <p onClick={() => openExitModal()} className="cursor-pointer hover:text-primaryOrange">
               회원탈퇴
             </p>
           </div>
         </div>
-        <FooterGradientButton onClick={handleUpdateProfile} disabled={!(memberInfo.email && memberInfo.nickname)}>
+
+        <FooterGradientButton
+          onClick={handleUpdateProfile}
+          disabled={
+            nicknameHasError || emailHasError || (!!age && ageHasError) || (isPregnant && pregnancyMonthHasError)
+          }
+        >
           저장하기
         </FooterGradientButton>
-        {renderExitModal}
-        {renderExitConfirmModal}
       </section>
     </>
   );

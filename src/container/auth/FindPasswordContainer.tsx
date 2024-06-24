@@ -118,7 +118,7 @@ const FindPasswordContainer = () => {
         },
       });
 
-      setMbrNo(data);
+      setMbrNo(data.data);
 
       setVerification((prev) => ({
         ...prev,

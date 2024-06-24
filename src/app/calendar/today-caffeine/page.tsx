@@ -24,7 +24,7 @@ export default function TodayCaffeinePage() {
         },
       });
 
-      setTodayCaffeineData(data);
+      setTodayCaffeineData(data.data);
     };
 
     getTodayData();

@@ -15,6 +15,7 @@ const useInput = (defaultValue: string, validationFn: (value: string) => boolean
 
   return {
     value: enteredValue,
+    setValue: setEnteredValue,
     handleInputChange,
     isValid,
     hasError: isTouched && !isValid,

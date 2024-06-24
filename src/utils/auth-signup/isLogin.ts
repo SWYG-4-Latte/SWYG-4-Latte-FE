@@ -14,10 +14,10 @@ export interface LoginResponse {
 }
 
 export const login = async (username: string, password: string) => {
-  const response = (await apiInstance.post('/auth/login', {
+  const { data } = await apiInstance.post('/auth/login', {
     mbrId: username,
     password,
-  })) as LoginResponse;
+  });
 
-  return response;
+  return data;
 };

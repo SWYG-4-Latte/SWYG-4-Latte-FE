@@ -14,5 +14,5 @@ export interface SignupResponseData {
 export const signup = async (signupData: any) => {
   const { data } = await apiInstance.post('/auth/signup', signupData);
 
-  return data as SignupResponseData;
+  return data.data as SignupResponseData;
 };

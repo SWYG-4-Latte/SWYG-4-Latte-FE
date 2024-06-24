@@ -22,7 +22,7 @@ const PopularSearchContainer = () => {
       try {
         const { data } = await apiInstance.get('/menu/ranking/word');
 
-        setPopularSearchList(data);
+        setPopularSearchList(data.data);
       } catch (error) {
         console.error(error);
       }

@@ -20,7 +20,7 @@ const RecentlyViewedDrinksContainer = () => {
         },
       });
 
-      setRecentDrinks(data);
+      setRecentDrinks(data.data);
       setIsLoading(false);
     };
 

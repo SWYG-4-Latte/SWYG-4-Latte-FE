@@ -22,6 +22,7 @@ const Input = ({ label, error, success, type, value, id, className, children, ..
       {label && (
         <label htmlFor={id} className="mb-2 text-xs text-gray10">
           {label}
+          {props.required && <span className="ml-1 text-primaryOrange">*</span>}
         </label>
       )}
 

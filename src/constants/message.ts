@@ -14,11 +14,25 @@ export const INPUT_MESSAGE = {
     EMPTY: '이메일을 입력해주세요.',
     INVALID: '올바르지 않은 이메일 형식입니다.',
     NOT_FOUND: '존재하지 않는 이메일입니다.',
+    DUPLICATE: '이미 사용 중인 이메일입니다.',
   },
   VERIFICATION: {
     SENT: '인증번호가 전송되었습니다. 이메일을 확인해주세요.',
     COMPLETE: '인증이 완료되었습니다.',
     INVALID: '인증번호가 일치하지 않습니다.',
     TIME_OUT: '입력 시간이 초과되었습니다. 다시 인증해주세요.',
+  },
+  PREGNANT: {
+    EMPTY: '임신 개월 수를 입력해주세요.',
+    INVALID: '1~10까지의 숫자를 입력해주세요.',
+  },
+  AGE: {
+    EMPTY: '만 나이를 입력해주세요.',
+    RANGE: '만 19 ~ 98세까지 입력가능합니다.',
+  },
+  NICKNAME: {
+    EMPTY: '닉네임을 입력해주세요.',
+    INVALID: '3자 이상으로 입력해주세요.',
+    DUPLICATE: '이미 사용 중인 닉네임입니다.',
   },
 };

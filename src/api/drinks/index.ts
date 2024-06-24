@@ -19,7 +19,7 @@ export const getCompareInfo = async (menu1: MenuParamsType, menu2: MenuParamsTyp
     },
   });
 
-  const comparedDrinks = data;
+  const comparedDrinks = data.data;
   if (!comparedDrinks) return [null, null];
   else return comparedDrinks.length < 2 ? [comparedDrinks[0], null] : comparedDrinks;
 };
@@ -34,5 +34,5 @@ export const getMenuList = async (brand: string, filter: string, page: number) =
     },
   });
 
-  return data as MenuListData;
+  return data.data as MenuListData;
 };

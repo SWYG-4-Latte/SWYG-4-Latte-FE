@@ -49,7 +49,7 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
           menu_size: menuSize,
         },
       });
-      setActiveMenuDetail(data);
+      setActiveMenuDetail(data.data);
     },
     [menuDetail.menuNo],
   );

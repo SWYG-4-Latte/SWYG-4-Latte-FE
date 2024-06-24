@@ -54,7 +54,7 @@ const CaffeineCalendar = ({ selectedDate, onSelect }: CaffeineCalendarProps) => 
           datetime: dayjs(activeDate).format('YYYY-MM'),
         },
       });
-      setThisMonthData(data);
+      setThisMonthData(data.data);
     };
 
     getThisMonthData();

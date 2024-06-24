@@ -23,7 +23,7 @@ const HomeMainContainer = () => {
   const getUserData = async () => {
     const { data } = await apiInstance.get('/drink');
 
-    setUserData(data);
+    setUserData(data.data);
     setIsLoading(false);
   };
 

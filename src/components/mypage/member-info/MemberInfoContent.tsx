@@ -1,41 +1,34 @@
 'use client';
-//NEXT
+
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-//Zustand
+
 import useMemberStore from '@/store/memberStore';
-//utils
-import { fetchMemberInfo } from '@/utils/mypage/isMember';
 import FooterGradientButton from '@/components/common/button/FooterGradientButton';
+import apiInstance from '@/api/instance';
 
 export default function MemberInfoContent() {
-  const { memberInfo, setMemberInfo, updateMemberInfoTwo } = useMemberStore();
+  const { memberInfo, setMemberInfo } = useMemberStore();
 
   const [localMemberInfo, setLocalMemberInfo] = useState({
     cupDay: memberInfo.cupDay || '안 마심',
-    symptoms: memberInfo.symptoms || [],
-    allergies: memberInfo.allergies || [],
+    symptoms: memberInfo.symptom.split(', ') || [],
+    allergies: memberInfo.allergy.split(', ') || [],
   });
 
   useEffect(() => {
-    const loadMemberInfo = async () => {
-      const info = await fetchMemberInfo();
-      setMemberInfo(info.member);
-      setLocalMemberInfo({
-        cupDay: info.member.cupDay || '안 마심',
-        symptoms: info.member.symptom ? info.member.symptom.split(', ') : [],
-        allergies: info.member.allergy ? info.member.allergy.split(', ') : [],
-      });
-    };
+    setLocalMemberInfo({
+      cupDay: memberInfo.cupDay || '안 마심',
+      symptoms: memberInfo.symptom ? memberInfo.symptom.split(', ') : [],
+      allergies: memberInfo.allergy ? memberInfo.allergy.split(', ') : [],
+    });
+  }, [memberInfo]);
 
-    loadMemberInfo();
-  }, [setMemberInfo]);
-
-  const handleCupDayChange = (cupDay: any) => {
+  const handleCupDayChange = (cupDay: string) => {
     setLocalMemberInfo((prev) => ({ ...prev, cupDay }));
   };
 
-  const toggleSymptom = (symptom: any) => {
+  const toggleSymptom = (symptom: string) => {
     setLocalMemberInfo((prev) => {
       const updatedSymptoms =
         symptom === '별다른 증상이 없어요'
@@ -47,7 +40,8 @@ export default function MemberInfoContent() {
       return { ...prev, symptoms: updatedSymptoms };
     });
   };
-  const toggleAllergy = (allergy: any) => {
+
+  const toggleAllergy = (allergy: string) => {
     setLocalMemberInfo((prev) => {
       const updatedAllergies =
         allergy === '없어요'
@@ -62,24 +56,20 @@ export default function MemberInfoContent() {
 
   const handleUpdateProfileTwo = async () => {
     try {
-      // 프로필 정보 업데이트를 시도합니다.
-      await updateMemberInfoTwo({
+      const { data } = await apiInstance.post(`/auth/update/${memberInfo.mbrNo}`, {
         cupDay: localMemberInfo.cupDay,
-        symptoms: localMemberInfo.symptoms,
-        allergies: localMemberInfo.allergies,
+        symptom: localMemberInfo.symptoms.includes('별다른 증상이 없어요')
+          ? '별다른 증상이 없어요'
+          : localMemberInfo.symptoms.join(', '),
+        allergy: localMemberInfo.allergies.includes('없어요') ? '없어요' : localMemberInfo.allergies.join(', '),
       });
 
-      const info = await fetchMemberInfo();
-      setMemberInfo(info.member);
-      setLocalMemberInfo({
-        cupDay: info.member.cupDay || '안 마심',
-        symptoms: info.member.symptom ? info.member.symptom.split(', ') : [],
-        allergies: info.member.allergy ? info.member.allergy.split(', ') : [],
-      });
-
-      toast('내 프로필을 저장했어요', {
-        toastId: 'profile-update2',
-      });
+      if (data.message === '회원 수정에 성공했습니다.') {
+        setMemberInfo(data.data.result);
+        toast('내 프로필을 저장했어요', {
+          toastId: 'profile-update2',
+        });
+      }
     } catch (error) {
       console.error('프로필 업데이트 중 에러 발생:', error);
       toast('프로필 업데이트에 실패했습니다.', {
@@ -177,7 +167,16 @@ export default function MemberInfoContent() {
             </div>
           </div>
         </form>
-        <FooterGradientButton onClick={handleUpdateProfileTwo}>저장하기</FooterGradientButton>
+        <FooterGradientButton
+          onClick={handleUpdateProfileTwo}
+          disabled={
+            localMemberInfo.allergies.length === 0 ||
+            localMemberInfo.cupDay.length === 0 ||
+            localMemberInfo.symptoms.length === 0
+          }
+        >
+          저장하기
+        </FooterGradientButton>
       </section>
     </section>
   );
