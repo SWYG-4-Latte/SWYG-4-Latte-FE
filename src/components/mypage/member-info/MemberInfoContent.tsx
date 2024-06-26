@@ -11,14 +11,14 @@ export default function MemberInfoContent() {
   const { memberInfo, setMemberInfo } = useMemberStore();
 
   const [localMemberInfo, setLocalMemberInfo] = useState({
-    cupDay: memberInfo.cupDay || '안 마심',
+    cupDay: memberInfo.cupDay,
     symptoms: memberInfo.symptom.split(', ') || [],
     allergies: memberInfo.allergy.split(', ') || [],
   });
 
   useEffect(() => {
     setLocalMemberInfo({
-      cupDay: memberInfo.cupDay || '안 마심',
+      cupDay: memberInfo.cupDay,
       symptoms: memberInfo.symptom ? memberInfo.symptom.split(', ') : [],
       allergies: memberInfo.allergy ? memberInfo.allergy.split(', ') : [],
     });
@@ -171,7 +171,7 @@ export default function MemberInfoContent() {
           onClick={handleUpdateProfileTwo}
           disabled={
             localMemberInfo.allergies.length === 0 ||
-            localMemberInfo.cupDay.length === 0 ||
+            localMemberInfo.cupDay === '' ||
             localMemberInfo.symptoms.length === 0
           }
         >
