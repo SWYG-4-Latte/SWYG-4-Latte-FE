@@ -58,9 +58,9 @@ const FindPasswordContainer = () => {
 
   const handleSendEmail = async () => {
     setTimer();
-    /** API 수정 요청 예정 */
+
     try {
-      const { data } = await apiInstance.post('/auth/findPw', null, {
+      await apiInstance.post('/auth/findPw', null, {
         params: {
           mbrId: idValue,
           email: emailValue,
@@ -182,7 +182,6 @@ const FindPasswordContainer = () => {
         <Input
           type="number"
           inputMode="numeric"
-          maxLength={6}
           id="verification-number"
           label="인증번호"
           placeholder="인증번호 6자리 입력"
@@ -191,7 +190,7 @@ const FindPasswordContainer = () => {
           onChange={(e) =>
             setVerification((prev) => ({
               ...prev,
-              inputValue: e.target.value,
+              inputValue: e.target.value.slice(0, e.target.maxLength),
             }))
           }
           success={verification.isVerified && verification.inputMsg}
