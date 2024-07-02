@@ -183,16 +183,17 @@ const FindPasswordContainer = () => {
           type="number"
           inputMode="numeric"
           id="verification-number"
+          maxLength={6}
           label="인증번호"
           placeholder="인증번호 6자리 입력"
           disabled={!emailIsValid || verification.isVerified}
           value={verification.inputValue}
-          onChange={(e) =>
+          onChange={(e) => {
             setVerification((prev) => ({
               ...prev,
               inputValue: e.target.value.slice(0, e.target.maxLength),
-            }))
-          }
+            }));
+          }}
           success={verification.isVerified && verification.inputMsg}
           error={!verification.isVerified && verification.inputMsg}
           className={`${verification.isVerified && 'border-primaryOrange'}`}
