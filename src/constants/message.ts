@@ -9,6 +9,7 @@ export const INPUT_MESSAGE = {
     INVALID: '6~12자 이내의 숫자와 영문을 조합해주세요.',
     DUPLICATE: '이미 사용 중인 아이디입니다.',
     NOT_FOUND: '존재하지 않는 아이디입니다.',
+    SENT: '아이디가 전송되었습니다. 이메일을 확인해주세요.',
   },
   EMAIL: {
     EMPTY: '이메일을 입력해주세요.',
