@@ -26,7 +26,7 @@ const SelectedDateInfoContainer = ({ selectedDate }: { selectedDate: SelectedDat
         },
       });
 
-      setSelectedDateInfo(data);
+      setSelectedDateInfo(data.data);
     };
 
     getDateInfo();

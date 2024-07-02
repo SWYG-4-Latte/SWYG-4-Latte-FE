@@ -1,3 +1,4 @@
+import { SignupResponseData } from '@/utils/auth-signup/isSignup';
 import { IUserInfo } from './i-UserInfo';
 import { IUserInfoTwo } from './i-UserInfoTwo';
 
@@ -102,7 +103,7 @@ export interface ISignupState {
   toggleTerm2Agreed: () => void;
 
   // 가입양식제출
-  submitSignupForm: () => Promise<void>;
+  submitSignupForm: () => Promise<SignupResponseData>;
 
   // 상태초기화 함수
   resetSignupForm: () => void;

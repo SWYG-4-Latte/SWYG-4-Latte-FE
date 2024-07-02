@@ -1,56 +1,16 @@
 'use client';
 
-// NEXT && React
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { fetchMemberInfo } from '@/utils/mypage/isMember';
-//Zustand
 
-interface IMemberInfo {
-  mbrNo: number;
-  mbrId: string;
-  password: string;
-  nickname: string;
-  cellPhone: string;
-  email?: string;
-  gender?: string;
-  age?: string;
-  pregnancy?: boolean;
-  pregMonth?: number;
-  allergy?: string;
-  cupDay?: string;
-  symptom?: string;
-  regDate?: string;
-  updateDate?: string | null;
-  imgUrl?: string | null;
-  role?: string;
-  authorities?: Array<{ authority: string }>;
-  accountNonLocked?: boolean;
-  accountNonExpired?: boolean;
-  credentialsNonExpired?: boolean;
-  enabled?: boolean;
-}
-interface IMemberData {
-  caffeinIntake: string;
-  member: IMemberInfo;
-}
+import useMemberStore from '@/store/memberStore';
 
 export default function MypageUserInfo() {
-  const [memberData, setMemberData] = useState<IMemberData | null>(null);
-  const [memberInfo, setMemberInfo] = useState<IMemberInfo | null>(null);
+  const { memberInfo } = useMemberStore();
+
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(true);
-
-  useEffect(() => {
-    const loadMemberInfo = async () => {
-      const info = await fetchMemberInfo();
-      setMemberData(info);
-      setMemberInfo(info.member);
-    };
-
-    loadMemberInfo();
-  }, []);
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'));
@@ -62,14 +22,14 @@ export default function MypageUserInfo() {
 
   const nicknameText = memberInfo ? memberInfo.nickname : '사용자';
   const genderText = memberInfo ? (memberInfo.gender === 'M' ? '남성' : memberInfo.gender === 'F' ? '여성' : '-') : '-';
-  const pregnancyText = memberInfo
+  const pregnancyText = memberInfo.gender
     ? memberInfo.gender === 'M'
       ? '-'
       : memberInfo.pregnancy
         ? `예${memberInfo.pregMonth ? ' / ' + memberInfo.pregMonth + '개월' : ''}`
         : '아니요'
     : '-';
-  const caffeineText = memberData?.caffeinIntake ? memberData.caffeinIntake + 'mg' : '-';
+  const caffeineText = memberInfo.caffeineIntake ? memberInfo.caffeineIntake + 'mg' : '-';
 
   const formatAllergyText = (allergies: string) => {
     const allergyList = allergies.split(', ').filter(Boolean);
@@ -165,33 +125,43 @@ export default function MypageUserInfo() {
             <p className="mt-[7px] text-xs text-gray08">적정 카페인량</p>
             <div className="relative flex items-center justify-center gap-[2px] text-xs font-semibold">
               {caffeineText}
-              <Image
-                onClick={handelTooltipVisible}
-                className="mt-[2px] cursor-pointer"
-                src="/svgs/svg_mypage-tooltipbtn.svg"
-                alt="tooltip-btn"
-                width={12}
-                height={12}
-                priority
-                unoptimized
-              />
-              {isTooltipVisible && (
-                <aside className="absolute -right-[36px] top-[16px] z-10 h-[60px] w-[222px]">
-                  <p className="absolute z-10 px-4 py-4 text-xs leading-[18px] text-gray00">
-                    사용자의 연령, 성별, 카페인 부작용 <br />
-                    등을 고려하여 선정한 기준입니다.
-                  </p>
-                  <button
-                    className="absolute right-4 top-4 h-4 w-4"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsTooltipVisible(false);
-                    }}
-                  >
-                    <Image src="/svgs/close-white.svg" width={16} height={16} alt="닫기" />
-                  </button>
-                  <Image className="" src="/svgs/svg_mypage-tooltip.svg" width={222} height={60} alt="mypage-tooltip" />
-                </aside>
+              {memberInfo.mbrNo && (
+                <>
+                  <Image
+                    onClick={handelTooltipVisible}
+                    className="mt-[2px] cursor-pointer"
+                    src="/svgs/svg_mypage-tooltipbtn.svg"
+                    alt="tooltip-btn"
+                    width={12}
+                    height={12}
+                    priority
+                    unoptimized
+                  />
+                  {isTooltipVisible && (
+                    <aside className="absolute -right-[36px] top-[16px] z-10 h-[60px] w-[222px]">
+                      <p className="absolute z-10 px-4 py-4 text-xs font-normal leading-[18px] text-gray00">
+                        사용자의 연령, 성별, 카페인 부작용 <br />
+                        등을 고려하여 선정한 기준입니다.
+                      </p>
+                      <button
+                        className="absolute right-4 top-4 h-4 w-4"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsTooltipVisible(false);
+                        }}
+                      >
+                        <Image src="/svgs/close-white.svg" width={16} height={16} alt="닫기" />
+                      </button>
+                      <Image
+                        className=""
+                        src="/svgs/svg_mypage-tooltip.svg"
+                        width={222}
+                        height={60}
+                        alt="mypage-tooltip"
+                      />
+                    </aside>
+                  )}
+                </>
               )}
             </div>
           </div>

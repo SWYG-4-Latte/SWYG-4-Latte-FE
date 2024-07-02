@@ -5,7 +5,7 @@ export const useIntersect = (onIntersect: () => void) => {
 
   // 관찰 대상(target)이 등록되거나 가시성에 변화가 생기면 실행되는 callback 함수
   const observerCallback: IntersectionObserverCallback = useCallback(
-    ([entry, observer]) => {
+    ([entry]) => {
       if (entry.isIntersecting) {
         onIntersect();
       }

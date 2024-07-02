@@ -13,7 +13,7 @@ const RankingList = ({ selectedBrand }: { selectedBrand: string }) => {
     const getRankingData = async () => {
       const { data } = await apiInstance.get(`/menu/ranking/${selectedBrand}`);
 
-      setRankingData(data);
+      setRankingData(data.data);
       setIsLoading(false);
     };
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, useRef } from 'react';
+import { PropsWithChildren, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import useOutsideClick from '@/hooks/useOutsideClick';
@@ -37,6 +37,7 @@ export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   isRecommendationModal?: boolean;
+  disableOutsideClick?: boolean;
 }
 
 const Backdrop = ({ children }: PropsWithChildren) => {
@@ -53,10 +54,16 @@ const Backdrop = ({ children }: PropsWithChildren) => {
   );
 };
 
-const Modal = ({ isOpen, onClose, children, isRecommendationModal = false }: PropsWithChildren<ModalProps>) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  children,
+  isRecommendationModal = false,
+  disableOutsideClick = false,
+}: PropsWithChildren<ModalProps>) => {
   const modalRef = useRef(null);
 
-  useOutsideClick(modalRef, onClose);
+  useOutsideClick(modalRef, onClose, disableOutsideClick);
 
   return (
     <AnimatePresence>

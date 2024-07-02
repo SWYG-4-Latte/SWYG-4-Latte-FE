@@ -12,7 +12,7 @@ export const getDrinkSearchResult = async (query: string, filter: string | null 
     },
   });
 
-  return data;
+  return data.data;
 };
 
 export const getArticleSearchResult = async (query: string | null, page: number, size = 4) => {
@@ -24,5 +24,5 @@ export const getArticleSearchResult = async (query: string | null, page: number,
     },
   });
 
-  return data;
+  return data.data;
 };

@@ -12,7 +12,9 @@ interface MenuDetailPageProps {
 
 export async function generateMetadata({ params }: MenuDetailPageProps): Promise<Metadata> {
   const menuNo = Number(params.menuNo);
-  const { data: menuDetail } = await apiInstance.get(`/menu/detail/${menuNo}`);
+  const {
+    data: { data: menuDetail },
+  } = await apiInstance.get(`/menu/detail/${menuNo}`);
 
   return {
     title: menuDetail.menuName,
@@ -24,7 +26,9 @@ export async function generateMetadata({ params }: MenuDetailPageProps): Promise
 
 export default async function MenuDetailPage({ params }: MenuDetailPageProps) {
   const menuNo = Number(params.menuNo);
-  const { data: menuDetail } = await apiInstance.get(`/menu/detail/${menuNo}`);
+  const {
+    data: { data: menuDetail },
+  } = await apiInstance.get(`/menu/detail/${menuNo}`);
 
   return (
     <>

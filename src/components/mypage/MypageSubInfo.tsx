@@ -26,7 +26,7 @@ export default function MypageSubInfo() {
     if (!accessToken && link === '/mypage/my-reply') {
       openModal();
     } else if (link.startsWith('http')) {
-      window.location.href = link;
+      window.open(link);
     } else {
       router.push(link);
     }

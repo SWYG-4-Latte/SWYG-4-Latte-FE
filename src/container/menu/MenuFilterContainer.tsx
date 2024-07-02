@@ -3,7 +3,9 @@ import SearchFilter from '@/components/search/SearchFilter';
 import apiInstance from '@/api/instance';
 
 const MenuFilterContainer = async () => {
-  const { data: brandList } = await apiInstance.get('/menu/brand');
+  const {
+    data: { data: brandList },
+  } = await apiInstance.get('/menu/brand');
 
   return (
     <div className="pt-14">
