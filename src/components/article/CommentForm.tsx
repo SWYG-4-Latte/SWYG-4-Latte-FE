@@ -1,16 +1,21 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+
 import useCommentStore from '@/store/commentStore';
+import useModal from '@/hooks/useModal';
 
 interface CommentFormProps {
   articleNo: number;
 }
 
 const CommentForm: React.FC<CommentFormProps> = ({ articleNo }) => {
-  const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null; // 서버 사이드 렌더링 방지
-  const [content, setContent] = useState('');
+  const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+
+  const { openModal: openLoginModal } = useModal('login');
+
   const { addComment } = useCommentStore();
-  // const nickname = useSignupStore((state) => state.nickname)
+
+  const [content, setContent] = useState('');
   const [nickname, setNickname] = useState<string | null>(null);
 
   useEffect(() => {
@@ -20,6 +25,12 @@ const CommentForm: React.FC<CommentFormProps> = ({ articleNo }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!accessToken) {
+      openLoginModal();
+      return;
+    }
+
     if (content.trim() && nickname) {
       await addComment(articleNo, content, accessToken, nickname);
       setContent('');

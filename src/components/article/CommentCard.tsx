@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 
 import CommentModal from '../common/modal/CommentModal';
 import useCommentStore from '@/store/commentStore';
+import useModal from '@/hooks/useModal';
 
 interface CommentCardProps {
   comment: {
@@ -25,6 +26,8 @@ interface CommentCardProps {
 
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   const { deleteComment, reportComment, likeComment } = useCommentStore();
+  const { openModal: openLoginModal } = useModal('login');
+
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(comment.likeCnt);
   const [isOpen, setIsOpen] = useState(false); // 모달 상태 추가
@@ -57,7 +60,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
         console.error('Failed to like comment:', error);
       }
     } else {
-      console.error('Access token is missing');
+      openLoginModal();
     }
   };
 
