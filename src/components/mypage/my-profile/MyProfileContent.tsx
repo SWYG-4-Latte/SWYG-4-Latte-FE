@@ -124,8 +124,8 @@ export default function MyProfileContent() {
 
   useEffect(() => {
     setEmail(memberInfo.email);
-    setNickname(memberInfo.nickname);
-    setAge(memberInfo.age);
+    setNickname(memberInfo.nickname ?? '');
+    setAge(memberInfo.age ?? '');
     setGender(memberInfo.gender);
     setIsPregnant(memberInfo.pregnancy);
     setPregnancyMonth(memberInfo.pregMonth.toString());

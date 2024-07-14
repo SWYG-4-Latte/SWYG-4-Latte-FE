@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import NavigationHeader from '../common/header/NavigationHeader';
 
 export default function MypageHeader() {
   const pathname = usePathname();
+  const router = useRouter();
 
   let title = 'MY';
 
@@ -25,5 +26,15 @@ export default function MypageHeader() {
       break;
   }
 
-  return <NavigationHeader title={title} />;
+  const handleBackButton = () => {
+    if (pathname === '/mypage') {
+      router.push('/home');
+    } else if (pathname === '/mypage/memberinfo') {
+      router.push('/mypage/my-profile');
+    } else {
+      router.push('/mypage');
+    }
+  };
+
+  return <NavigationHeader title={title} onGoBack={handleBackButton} />;
 }

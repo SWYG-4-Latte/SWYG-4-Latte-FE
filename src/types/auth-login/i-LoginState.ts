@@ -1,6 +1,6 @@
 export interface ILoginState {
   accessToken: string;
-  refreshToken: string;
+  refreshToken: string | undefined;
   isLoggedIn: boolean;
   loginError: string | null;
 
@@ -11,7 +11,7 @@ export interface ILoginState {
   allergies: string[];
   caffeineIntake: number; // Backend지정값
 
-  setLogin: (accessToken: any, refreshToken: any) => void;
+  setLogin: (accessToken: string, refreshToken?: string) => void;
   setLogout: () => void;
   setUserInfo: (userInfo: any) => void;
 }

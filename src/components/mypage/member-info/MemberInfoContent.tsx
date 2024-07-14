@@ -11,16 +11,16 @@ export default function MemberInfoContent() {
   const { memberInfo, setMemberInfo } = useMemberStore();
 
   const [localMemberInfo, setLocalMemberInfo] = useState({
-    cupDay: memberInfo.cupDay,
-    symptoms: memberInfo.symptom.split(', ') || [],
-    allergies: memberInfo.allergy.split(', ') || [],
+    cupDay: memberInfo.cupDay ?? '',
+    symptoms: memberInfo.symptom?.split(', ') || [],
+    allergies: memberInfo.allergy?.split(', ') || [],
   });
 
   useEffect(() => {
     setLocalMemberInfo({
-      cupDay: memberInfo.cupDay,
-      symptoms: memberInfo.symptom ? memberInfo.symptom.split(', ') : [],
-      allergies: memberInfo.allergy ? memberInfo.allergy.split(', ') : [],
+      cupDay: memberInfo.cupDay ?? '',
+      symptoms: memberInfo.symptom?.split(', ') || [],
+      allergies: memberInfo.allergy?.split(', ') || [],
     });
   }, [memberInfo]);
 
