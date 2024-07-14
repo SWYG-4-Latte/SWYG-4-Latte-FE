@@ -174,7 +174,7 @@ const FindPasswordContainer = () => {
         disabled={verification.isVerified}
       >
         <InputCheckButton disabled={!emailIsValid || !idIsValid || verification.isVerified} onClick={handleSendEmail}>
-          인증하기
+          {verification.sent && remainingTime === 0 ? '재인증' : '인증하기'}
         </InputCheckButton>
       </Input>
 

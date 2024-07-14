@@ -18,7 +18,7 @@ const DrinkHistoryDetail = ({ drinkHistoryData, heading, description }: DrinkHis
       <div className="flex h-12 w-12 min-w-12 items-center justify-center overflow-hidden rounded-full">
         <Image
           priority
-          src={drinkHistoryData?.imageUrl || '/svgs/beverage-small.svg'}
+          src={drinkHistoryData?.imageUrl || '/svgs/beverage.svg'}
           alt={drinkHistoryData?.menuName || '기본 이미지'}
           width={0}
           height={0}
