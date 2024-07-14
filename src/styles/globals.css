@@ -49,6 +49,10 @@
   @apply w-5 rounded-[50px] bg-primaryOrange !important;
 }
 
+.swiper-brand .swiper-wrapper {
+  @apply justify-between;
+}
+
 :root {
   --toastify-font-family: var(--font-pretendard);
 }

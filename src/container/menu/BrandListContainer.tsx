@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import BrandList from '@/components/home/drinkRanking/BrandList';
 import { CafeBrand } from '@/types/home/brand';
+import BrandSwiper from '@/components/common/brand/BrandSwiper';
 
 const BrandListContainer = ({ brandList }: { brandList: CafeBrand[] }) => {
   const searchParams = useSearchParams();
@@ -24,7 +24,7 @@ const BrandListContainer = ({ brandList }: { brandList: CafeBrand[] }) => {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }, [selectedBrand, pathname, router, searchParams]);
 
-  return <BrandList brandList={brandList} selectedBrand={selectedBrand} setSelectedBrand={setSelectedBrand} />;
+  return <BrandSwiper brandList={brandList} selectedBrand={selectedBrand} setSelectedBrand={setSelectedBrand} />;
 };
 
 export default BrandListContainer;
