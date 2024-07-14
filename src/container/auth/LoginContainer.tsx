@@ -14,7 +14,11 @@ import { validateId, validatePassword } from '@/utils/validation';
 import { INPUT_MESSAGE } from '@/constants/message';
 import useInput from '@/hooks/useInput';
 import KakaoIcon from '/public/svgs/kakao.svg';
-import { KAKAO_LOGIN_URL } from '@/constants/auth/oauth';
+
+const kakaoLoginURL =
+  typeof window !== 'undefined'
+    ? `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&redirect_uri=${window.location.origin}/auth/login/kakao&response_type=code`
+    : '';
 
 export default function LoginContainer() {
   const router = useRouter();
@@ -135,7 +139,7 @@ export default function LoginContainer() {
           <div className="h-[1px] flex-1 bg-gray04" />
         </div>
         <button className="flex h-[52px] w-full items-center justify-center rounded-lg bg-[#FFE558] px-5 py-4">
-          <Link href={KAKAO_LOGIN_URL} className="flex items-center gap-4 font-semibold leading-[25px] text-gray10">
+          <Link href={kakaoLoginURL} className="flex items-center gap-4 font-semibold leading-[25px] text-gray10">
             <Image src={KakaoIcon} alt="카카오 아이콘" />
             카카오로 시작하기
           </Link>

@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
 import apiInstance from '@/api/instance';
-import { REDIRECT_URI } from '@/constants/auth/oauth';
 import useLoginStore from '@/store/loginStore';
 import Loading from '@/app/loading';
 
@@ -17,11 +16,11 @@ export default function KakaoRedirectPage() {
   const code = searchParams.get('code');
 
   const handleLogin = useCallback(async () => {
-    if (code) {
+    if (code && window) {
       const { data } = await apiInstance.get('/auth/login/oauth', {
         params: {
           code,
-          redirectUri: REDIRECT_URI,
+          redirectUri: window.location.origin + '/auth/login/kakao',
         },
       });
 
@@ -34,7 +33,7 @@ export default function KakaoRedirectPage() {
     } else {
       router.push('/not-found');
     }
-  }, [code]);
+  }, [code, router, setLogin]);
 
   useEffect(() => {
     handleLogin();
