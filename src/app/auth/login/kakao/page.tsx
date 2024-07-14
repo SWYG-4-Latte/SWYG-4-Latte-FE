@@ -6,6 +6,7 @@ import { useCallback, useEffect } from 'react';
 import apiInstance from '@/api/instance';
 import { REDIRECT_URI } from '@/constants/auth/oauth';
 import useLoginStore from '@/store/loginStore';
+import Loading from '@/app/loading';
 
 export default function KakaoRedirectPage() {
   const router = useRouter();
@@ -25,7 +26,11 @@ export default function KakaoRedirectPage() {
       });
 
       setLogin(data.data.jwtToken);
-      router.replace('/onboarding');
+      if (data.data.kakaoSignUp) {
+        router.replace('/onboarding');
+      } else {
+        router.replace('/home');
+      }
     } else {
       router.push('/not-found');
     }
@@ -35,9 +40,5 @@ export default function KakaoRedirectPage() {
     handleLogin();
   }, [handleLogin]);
 
-  return (
-    <>
-      <div className="loading loading-spinner loading-lg absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-primaryOrange"></div>
-    </>
-  );
+  return <Loading />;
 }
