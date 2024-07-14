@@ -22,7 +22,7 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   const isLoggedIn = !!useLocalStorage('accessToken');
 
   const searchParams = useSearchParams();
-  const size = searchParams.get('size');
+  const size = searchParams.get('size') ?? menuDetail.menuSize;
   const [activeMenuDetail, setActiveMenuDetail] = useState(menuDetail);
 
   const { menuNo, lowCaffeineMenus, menuName, imageUrl } = activeMenuDetail;
@@ -55,8 +55,6 @@ const MenuDetailContainer = ({ ...menuDetail }: MenuDetail) => {
   );
 
   useEffect(() => {
-    if (!size) return;
-
     getMenuDetailBySize(size);
   }, [size, getMenuDetailBySize]);
 

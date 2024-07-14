@@ -16,9 +16,12 @@ const useLoginStore = create<ILoginState>((set) => ({
   caffeineIntake: 0, // 적정 카페인량 추가
   allergies: [],
 
-  setLogin: (accessToken: any, refreshToken: any) => {
+  setLogin: (accessToken: string, refreshToken?: string) => {
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    if (refreshToken) {
+      localStorage.setItem('refreshToken', refreshToken);
+    }
+
     set({ accessToken, refreshToken, isLoggedIn: true });
     toast('로그인 되었습니다', {
       toastId: 'login-success',
