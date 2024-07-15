@@ -13,12 +13,7 @@ import Button from '@/components/common/button/Button';
 import { validateId, validatePassword } from '@/utils/validation';
 import { INPUT_MESSAGE } from '@/constants/message';
 import useInput from '@/hooks/useInput';
-import KakaoIcon from '/public/svgs/kakao.svg';
-
-const kakaoLoginURL =
-  typeof window !== 'undefined'
-    ? `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&redirect_uri=${window.location.origin}/auth/login/kakao&response_type=code`
-    : '';
+import OAuthLoginSection from './OAuthLoginSection';
 
 export default function LoginContainer() {
   const router = useRouter();
@@ -132,19 +127,7 @@ export default function LoginContainer() {
         <div className="mx-4 h-[12px] w-[1px] bg-gray06" />
         <Link href="/auth/signup">회원가입</Link>
       </section>
-      <section className="mt-6 flex w-full flex-col gap-6">
-        <div className="flex items-center gap-[7.5px]">
-          <div className="h-[1px] flex-1 bg-gray04" />
-          <span className="text-nowrap text-xs text-gray06">간편 로그인</span>
-          <div className="h-[1px] flex-1 bg-gray04" />
-        </div>
-        <button className="flex h-[52px] w-full items-center justify-center rounded-lg bg-[#FFE558] px-5 py-4">
-          <Link href={kakaoLoginURL} className="flex items-center gap-4 font-semibold leading-[25px] text-gray10">
-            <Image src={KakaoIcon} alt="카카오 아이콘" />
-            카카오로 시작하기
-          </Link>
-        </button>
-      </section>
+      <OAuthLoginSection />
     </div>
   );
 }
