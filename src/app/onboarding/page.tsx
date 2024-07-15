@@ -16,13 +16,7 @@ export default function OnboardingPage() {
     <>
       <meta name="theme-color" content="#FBDFBD" />
       <section className="bg-gradient-to-b from-orange02 to-[276px]">
-        <header className="z-10 flex h-14 w-full py-4 pl-5">
-          <Link href="/home">
-            <Image src="/svgs/arrow-left.svg" width={24} height={24} alt="뒤로 가기" />
-          </Link>
-        </header>
-
-        <section className="mt-4">
+        <section className="pt-[72px]">
           <div className="flex flex-col items-center">
             <OnboardingSwiper />
           </div>
