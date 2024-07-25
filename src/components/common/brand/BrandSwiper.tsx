@@ -48,21 +48,23 @@ const BrandSwiper = ({ brandList, selectedBrand, setSelectedBrand }: BrandSwiper
             }}
           >
             <div className="relative flex h-[41px] min-w-[76px] items-center justify-center">
-              <span
-                className={cn(
-                  'text-sm text-gray08',
-                  selectedBrand === BRAND_NAME[data.brandName] && 'font-semibold text-primaryOrange',
+              <div className="relative flex h-full items-center">
+                <span
+                  className={cn(
+                    'text-sm text-gray08',
+                    selectedBrand === BRAND_NAME[data.brandName] && 'font-semibold text-primaryOrange',
+                  )}
+                >
+                  {data.brandName}
+                </span>
+                {selectedBrand === BRAND_NAME[data.brandName] && (
+                  <motion.div
+                    layoutId={`${pathname}-brand-menu`}
+                    transition={{ duration: 0.2 }}
+                    className="absolute bottom-0 h-[2px] w-full bg-primaryOrange"
+                  />
                 )}
-              >
-                {data.brandName}
-              </span>
-              {selectedBrand === BRAND_NAME[data.brandName] && (
-                <motion.div
-                  layoutId={`${pathname}-brand-menu`}
-                  transition={{ duration: 0.2 }}
-                  className="absolute bottom-0 h-[2px] w-full bg-primaryOrange"
-                />
-              )}
+              </div>
             </div>
           </SwiperSlide>
         ))}
