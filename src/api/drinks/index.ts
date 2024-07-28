@@ -24,10 +24,12 @@ export const getCompareInfo = async (menu1: MenuParamsType, menu2: MenuParamsTyp
   else return comparedDrinks.length < 2 ? [comparedDrinks[0], null] : comparedDrinks;
 };
 
-export const getMenuList = async (brand: string, filter: string, page: number) => {
-  const { data } = await apiInstance.get(`/menu/${brand}`, {
+export const getMenuList = async (brand: string, category: string, filter: string, page: number) => {
+  const { data } = await apiInstance.get('/menu/category', {
     params: {
-      page: page,
+      page,
+      brandName: brand,
+      categoryName: category,
       size: MENU_PER_PAGE,
       sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
       cond: filter && filter === 'none' ? 'caffeine-' + filter : null,

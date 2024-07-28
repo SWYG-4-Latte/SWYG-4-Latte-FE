@@ -20,17 +20,19 @@ export default async function MenuListPage({
   searchParams: {
     brand: string;
     filter?: string;
+    category?: string;
   };
 }) {
   const brand = searchParams.brand ?? 'starbucks';
   const filter = searchParams.filter || '';
+  const category = searchParams.category || '';
 
   return (
     <>
       <CategoryHeader />
       <MenuFilterContainer />
       <Suspense fallback={<SearchListSkeleton />}>
-        <CategoryMainContainer brand={brand} filter={filter} />
+        <CategoryMainContainer brand={brand} filter={filter} category={category} />
       </Suspense>
       <BottomNavigation />
     </>

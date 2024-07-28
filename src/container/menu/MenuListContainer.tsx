@@ -12,10 +12,11 @@ import { useIntersect } from '@/hooks/useIntersect';
 interface MenuListContainerProps {
   brand: string;
   filter: string;
+  category: string;
   initialData: MenuListData;
 }
 
-const MenuListContainer = ({ brand, filter, initialData }: MenuListContainerProps) => {
+const MenuListContainer = ({ brand, filter, category, initialData }: MenuListContainerProps) => {
   const [menuList, setMenuList] = useState<Menu[]>(initialData.content);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +32,7 @@ const MenuListContainer = ({ brand, filter, initialData }: MenuListContainerProp
   const getMoreMenu = async () => {
     setIsLoading(true);
     try {
-      const data = await getMenuList(brand, filter, page);
+      const data = await getMenuList(brand, category, filter, page);
 
       setMenuList((prev) => {
         return [...prev, ...data.content];
