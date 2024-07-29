@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import SearchFilter from './SearchFilter';
+import CaffeineFilter from './CaffeineFilter';
 import Tooltip from '../common/Tooltip';
 
 const SearchResultHeader = ({ totalResults }: { totalResults: number }) => {
@@ -26,7 +26,7 @@ const SearchResultHeader = ({ totalResults }: { totalResults: number }) => {
           )}
         </div>
       </div>
-      <SearchFilter />
+      <CaffeineFilter />
     </div>
   );
 };

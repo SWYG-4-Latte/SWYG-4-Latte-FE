@@ -15,7 +15,7 @@ import DownArrowIcon from '../common/icons/DownArrowIcon';
 type FilterOption = 'desc' | 'asc' | 'none' | null;
 
 // 검색 결과 화면과 카테고리(menu) 페이지에서 사용
-const SearchFilter = () => {
+const CaffeineFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -96,4 +96,4 @@ const SearchFilter = () => {
   );
 };
 
-export default SearchFilter;
+export default CaffeineFilter;

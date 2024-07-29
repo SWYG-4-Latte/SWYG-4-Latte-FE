@@ -1,6 +1,8 @@
 import BrandListContainer from './BrandListContainer';
-import SearchFilter from '@/components/search/SearchFilter';
+
 import apiInstance from '@/api/instance';
+import CategoryFilter from '@/components/menu/CategoryFilter';
+import CaffeineFilter from '@/components/search/CaffeineFilter';
 
 const MenuFilterContainer = async () => {
   const {
@@ -8,10 +10,13 @@ const MenuFilterContainer = async () => {
   } = await apiInstance.get('/menu/brand');
 
   return (
-    <div className="pt-14">
+    <section className="pt-14">
       <BrandListContainer brandList={brandList} />
-      <SearchFilter />
-    </div>
+      <div className="border-b-[1px] border-b-gray04 bg-gray03">
+        <CategoryFilter />
+        <CaffeineFilter />
+      </div>
+    </section>
   );
 };
 

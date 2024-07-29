@@ -29,7 +29,7 @@ export const getMenuList = async (brand: string, category: string, filter: strin
     params: {
       page,
       brandName: brand,
-      categoryName: category,
+      categoryName: category === 'all' ? '' : category,
       size: MENU_PER_PAGE,
       sortBy: filter && filter !== 'none' ? 'caffeine-' + filter : null,
       cond: filter && filter === 'none' ? 'caffeine-' + filter : null,
